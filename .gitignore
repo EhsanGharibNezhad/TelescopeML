@@ -1,3 +1,9 @@
+# Not-To-Share info: Large size data / models
+datasets/
+outputs/
+ssh_key
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
