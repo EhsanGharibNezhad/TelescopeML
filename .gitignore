@@ -2,7 +2,7 @@
 datasets/
 outputs/
 ssh_key
-
+bohb_model_tuner/out*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
