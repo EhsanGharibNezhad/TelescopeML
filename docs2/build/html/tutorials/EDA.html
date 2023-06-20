@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exploring the Example Dataset &mdash; TelescopeML 0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Code" href="../models.html" />
+    <link rel="prev" title="Tuturials" href="../tutorials.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            TelescopeML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../tutorials.html#exploratory-data-analysis">Exploratory Data Analysis</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Exploring the Example Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Load-the-dataset">Step 1: Load the dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#data-processing-for-the-cnn-model">Data Processing for the CNN Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#faqs">FAQs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#model-storage-best-practices">Model Storage Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#code-help">Code Help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">The Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../knowledgebase.html">KnowledgeBase</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ehsangharibnezhad">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cite.html">What to Cite</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TelescopeML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../tutorials.html">Tuturials</a></li>
+      <li class="breadcrumb-item active">Exploring the Example Dataset</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/EDA.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Exploring-the-Example-Dataset">
+<h1>Exploring the Example Dataset<a class="headerlink" href="#Exploring-the-Example-Dataset" title="Permalink to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[229]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
+sys.path.insert(0, &#39;../../codes/&#39;)
+import seaborn as sns
+from predict_observational_dataset_v2 import ProcessObservationalDataset
+from train_cnn_regression_3 import *
+from bokeh.palettes import colorblind
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Step-1:-Load-the-dataset">
+<h1>Step 1: Load the dataset<a class="headerlink" href="#Step-1:-Load-the-dataset" title="Permalink to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[230]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># original dataset
+df=pd.read_csv(&#39;../../datasets/browndwarf_R100_v4_newWL_v4_augmented.csv.bz2&#39;, compression=&#39;bz2&#39;)
+df.head(5)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[230]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>temperature</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+      <th>2.512</th>
+      <th>2.487</th>
+      <th>2.462</th>
+      <th>2.438</th>
+      <th>2.413</th>
+      <th>2.389</th>
+      <th>...</th>
+      <th>0.971</th>
+      <th>0.962</th>
+      <th>0.952</th>
+      <th>0.943</th>
+      <th>0.933</th>
+      <th>0.924</th>
+      <th>0.915</th>
+      <th>0.906</th>
+      <th>0.897</th>
+      <th>is_augmented</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>0.0</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 109 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[231]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df[&#39;is_augmented&#39;].value_counts()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[231]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GuassErr_std0.05    61776
+GuassErr_std0.02    61776
+GuassErr_std0.1     61776
+no                  30888
+Gauss.02            30888
+Gauss.05            30888
+Gauss.1             30888
+Conv5               30888
+Conv10              30888
+Conv15              30888
+Name: is_augmented, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[233]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wl = pd.read_csv(&#39;../../datasets/wl.csv&#39;)
+wl.head(5)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[233]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>wl</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.511960</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.486966</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.462220</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.437720</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.413464</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[234]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label):
+    &quot;&quot;&quot;
+    Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.
+
+    Parameters:
+        - df (pd.DataFrame): DataFrame containing the data to be plotted.
+    &quot;&quot;&quot;
+
+
+    filtered_df = dataset.copy()
+    for feature, bounds in filter_bounds.items():
+        lower_bound, upper_bound = bounds
+        filtered_df = filtered_df[(filtered_df[feature] &gt;= lower_bound) &amp; (filtered_df[feature] &lt;= upper_bound)]
+
+    filtered_df2 = filtered_df.sort_values(feature_to_plot, ascending = False).iloc[::1,4:-1][::-1]
+    fig, ax = plt.subplots(figsize=(10, 3))
+
+    x = filtered_df2.columns
+    df_transposed = filtered_df2.T  # Transpose the DataFrame
+
+    # Define a color palette
+    num_colors = len(df_transposed.columns)   # Number of colors needed (excluding x-axis)
+    colors = sns.color_palette(&#39;magma&#39;, num_colors)
+
+    for i, col in enumerate(df_transposed.columns):
+        # print(col)
+        if col != &#39;x&#39;:  # Skip the x-axis column
+            ax.semilogy(wl.wl, df_transposed[col],
+                        # label=data[col][:4].values,
+                        color=colors[i], alpha = 0.7)
+    # print(filtered_data.T[col][:4].values[0])
+    ax.set_xlabel(&#39;Wavelength  [$\mu$m]&#39;)
+    ax.set_ylabel(r&#39;F$_{\nu}$  [erg/cm$^2$/s/Hz]&#39;)
+    dict_features = {&#39;temperature&#39;:&#39;Temperature&#39;, &#39;gravity&#39;:&#39;gravity&#39;, &#39;metallicity&#39;:&#39;metallicity&#39;, &#39;c_o_ratio&#39;:&#39;C/O ratio&#39;}
+    ax.set_title(&#39;Augmented &#39;+dict_features[feature_to_plot]+&quot; dataset &quot;+title_label)
+    # ax.legend()
+
+    # Get the minimum and maximum values from the data
+    # vmin = df_transposed.values.min()
+    # vmax = df_transposed.values.max()
+
+    # Add colorbar
+    cmap = sns.color_palette(&#39;magma&#39;, as_cmap=True)
+    cbar = plt.colorbar(plt.cm.ScalarMappable(cmap=cmap,
+            norm=plt.Normalize(vmin=filter_bounds[feature_to_plot][0], vmax=filter_bounds[feature_to_plot][1])), ax=ax)
+    dict_features2 = {&#39;temperature&#39;:&#39;T [K]&#39;, &#39;gravity&#39;:&#39;log$g$&#39;, &#39;metallicity&#39;:&#39;[M/H]&#39;, &#39;c_o_ratio&#39;:&#39;C/O ratio&#39;}
+    cbar.set_label(dict_features2[feature_to_plot])
+
+    plt.savefig(&#39;../../outputs/regression/figures/&#39;+&#39;Augmented_&#39;+feature_to_plot+&quot;_dataset.pdf&quot;, dpi=500, bbox_inches=&#39;tight&#39;)
+
+
+
+    plt.show()
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[235]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define the filter bounds
+filter_bounds = {&#39;gravity&#39;: (5.,5),
+                 &#39;c_o_ratio&#39; : (0.5,0.5),
+                 &#39;metallicity&#39; : (0.0,0.0),
+                 &#39;temperature&#39;: (600, 1200)}
+
+# Call the function to filter the dataset
+plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
+                                    [&#39;GuassErr_std0.01&#39;,
+                                     &#39;GuassErr_std0.02&#39;,
+                                     &#39;GuassErr_std0.1&#39;,
+                                     &#39;no&#39;])],
+                                       filter_bounds,
+                                       &#39;temperature&#39;,
+                                     title_label = &#39;[log$g$=&#39;+str(filter_bounds[&#39;gravity&#39;][0])+
+                                    &#39;, C/O =&#39;+str(filter_bounds[&#39;c_o_ratio&#39;][0])+
+                                    &#39;, [M/H]=&#39;+str(filter_bounds[&#39;metallicity&#39;][0])+
+                        &#39;]&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_EDA_7_0.png" src="../_images/tutorials_EDA_7_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[236]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define the filter bounds
+filter_bounds = {&#39;gravity&#39;: (3,5.5),
+                 &#39;c_o_ratio&#39; : (0.5,0.5),
+                 &#39;metallicity&#39; : (0.0,0.0),
+                 &#39;temperature&#39;: (900, 900)}
+
+# Call the function to filter the dataset
+plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
+                                    [&#39;GuassErr_std0.01&#39;,
+                                     &#39;GuassErr_std0.02&#39;,
+                                     &#39;GuassErr_std0.1&#39;,
+                                     &#39;no&#39;])],
+                                       filter_bounds,
+                                       &#39;gravity&#39;,
+                        title_label = &#39;[T=&#39;+str(filter_bounds[&#39;temperature&#39;][0])+
+                                    &#39;, C/O =&#39;+str(filter_bounds[&#39;c_o_ratio&#39;][0])+
+                                    &#39;, [M/H]=&#39;+str(filter_bounds[&#39;metallicity&#39;][0])+
+                        &#39;]&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_EDA_8_0.png" src="../_images/tutorials_EDA_8_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[237]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define the filter bounds
+filter_bounds = {&#39;gravity&#39;: (5.,5),
+                 &#39;c_o_ratio&#39; : (0.25,2.5),
+                 &#39;metallicity&#39; : (0.0,0.0),
+                 &#39;temperature&#39;: (900, 900)}
+
+# Call the function to filter the dataset
+plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
+                                    [&#39;GuassErr_std0.01&#39;,
+                                     &#39;GuassErr_std0.02&#39;,
+                                     &#39;GuassErr_std0.1&#39;,
+                                     &#39;no&#39;])],
+                                       filter_bounds,
+                                       &#39;c_o_ratio&#39;,
+                        title_label = &#39;[T=&#39;+str(filter_bounds[&#39;temperature&#39;][0])+
+                                    &#39;, log$g$=&#39;+str(filter_bounds[&#39;gravity&#39;][0])+
+                                    &#39;, [M/H]=&#39;+str(filter_bounds[&#39;metallicity&#39;][0])+
+                        &#39;]&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_EDA_9_0.png" src="../_images/tutorials_EDA_9_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[238]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define the filter bounds
+filter_bounds = {&#39;gravity&#39;: (3,5.5),
+                 &#39;c_o_ratio&#39; : (0.5,0.5),
+                 &#39;metallicity&#39; : (-1.,2.),
+                 &#39;temperature&#39;: (900, 900)}
+
+# Call the function to filter the dataset
+plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
+                                    [&#39;GuassErr_std0.01&#39;,
+                                     &#39;GuassErr_std0.02&#39;,
+                                     &#39;GuassErr_std0.1&#39;,
+                                     &#39;no&#39;])],
+                                       filter_bounds,
+                                       &#39;metallicity&#39;,
+                        title_label = &#39;[T=&#39;+str(filter_bounds[&#39;temperature&#39;][0])+
+                                    &#39;, log$g$=&#39;+str(filter_bounds[&#39;gravity&#39;][0])+
+                                    &#39;, C/O =&#39;+str(filter_bounds[&#39;c_o_ratio&#39;][0])+
+                        &#39;]&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_EDA_10_0.png" src="../_images/tutorials_EDA_10_0.png" />
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorials.html" class="btn btn-neutral float-left" title="Tuturials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../models.html" class="btn btn-neutral float-right" title="The Code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Ehsan (Sam) Gharib-Nezhad.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
