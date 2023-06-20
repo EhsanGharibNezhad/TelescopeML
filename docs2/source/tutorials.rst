@@ -10,43 +10,47 @@ Exploratory Data Analysis
 
 
 
+   
+
+
 
 Data Processing for the CNN Model 
 ----------------------------------
+Data Processing for the CNN Model  <tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.ipynb>
 
 
 
 
-FAQs
-----
+.. FAQs
+.. ----
 
-.. toctree::
-   :maxdepth: 2
-
-
-Model Storage Best Practices
-----------------------------
-
-.. toctree::
-   :maxdepth: 1
+.. .. toctree::
+..    :maxdepth: 2
 
 
-Code Help
----------
+.. Model Storage Best Practices
+.. ----------------------------
 
-How to Sphinx <sphinx>
-........................
-
-.. toctree::
-   :maxdepth: 1
+.. .. toctree::
+..    :maxdepth: 1
 
 
+.. Code Help
+.. ---------
 
-References
-----------
+.. How to Sphinx <sphinx>
+.. ........................
 
-.. toctree::
-   :maxdepth: 2
+.. .. toctree::
+..    :maxdepth: 1
+
+
+
+.. References
+.. ----------
+
+.. .. toctree::
+..    :maxdepth: 2
 
 
 
