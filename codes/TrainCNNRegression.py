@@ -1,24 +1,24 @@
-# # Import functions from other modules ============================
+# Import functions from other modules ============================
 # from io_funs import LoadSave
 
 # # Import python libraries ========================================
-# import pandas as pd
-# import numpy as np
+import pandas as pd
+import numpy as np
 # from scipy import stats
 
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
-# from sklearn.model_selection import train_test_split
-# from sklearn.decomposition import PCA
-# from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.model_selection import train_test_split
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-# import tensorflow as tf
-# from tensorflow import keras
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
 
-# from tensorflow.keras.models import save_model
-# import pickle as pk
+from tensorflow.keras.models import save_model
+import pickle as pk
 
 # # Import BOHB Package ========================================
 # import logging
@@ -32,28 +32,30 @@
 # from hpbandster.optimizers import BOHB as BOHB
 # from hpbandster.examples.commons import MyWorker
 
-# from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model
 
 
-# from bokeh.io import output_notebook
-# from bokeh.layouts import row, column
-# output_notebook()
-# from bokeh.plotting import show,figure
-# TOOLTIPS = [
-#     ("index", "$index"),
-#     ("(x,y)", "($x, $y)"),
-# ]
+from bokeh.io import output_notebook
+from bokeh.layouts import row, column
+output_notebook()
+from bokeh.plotting import show,figure
+TOOLTIPS = [
+    ("index", "$index"),
+    ("(x,y)", "($x, $y)"),
+]
 # ===============================================================================
 # ==================                                           ==================
 # ==================            Train CNN Regression           ==================
 # ==================                                           ==================
 # ===============================================================================  
 
-class TrainCNNRegression():
+class TrainCNNRegression:
+
     """
     Perform Convolutional Neural Network training
 
     Tasks:
+
     - Process dataset: Scale, split_train_val_test
     - Train CNN model
     - Optimize
@@ -61,6 +63,7 @@ class TrainCNNRegression():
     - Output: Save trained models, metrics
 
     Attributes:
+    ------------
     - trained_model: object
         Trained ML model (optional)
     - trained_model_history: dict
@@ -93,7 +96,9 @@ class TrainCNNRegression():
         Name of the ML model
 
     Outputs:
+    ------------
     - Trained ML models
+
     """
 
     def __init__(self,
@@ -131,48 +136,59 @@ class TrainCNNRegression():
         self.ml_model = ml_model
         self.ml_model_str = ml_model_str
 
-    def split_train_test(self, test_size=0.1):
-        """
-        Split the loaded set into train and test sets
 
-        Inputs:
-        - test_size: float
-            The proportion of the dataset to include in the test split
+
+    def split_train_test(self, test_size=0.1):
+
+        """ 
+
+        Split the loaded set into train and test sets 
+        
+        Inputs: 
+
+            - test_size (float): The proportion of the dataset to include in the test split Returns: 
+            - X_train (array): Training dataset for features 
+            - X_test (array): Test dataset for features 
 
         Returns:
-        - X_train, X_test, y_train, y_test: arrays
-            Train and test datasets for features and targets
 
-        References:
-        - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+            - y_train (array): Training dataset for targets 
+            - y_test (array): Test dataset for targets 
+
         """
+
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.feature_values,
                                                             self.target_values,
                                                             test_size=test_size,
                                                             shuffle=True,
                                                             random_state=42)
 
-        
+
         
     def split_train_validation_test(self, test_size=0.1, val_size=0.1):
+
         """
-        Split the loaded set into train, validation, and test sets
+        Split the loaded set into train, validation, and test sets.
 
         Inputs:
-        - test_size: float
-            Proportion of the dataset to include in the test split
-        - val_size: float
-            Proportion of the remaining train dataset to include in the validation split
+
+            - test_size (float): Proportion of the dataset to include in the test split.
+            - val_size (float): Proportion of the remaining train dataset to include in the validation split.
 
         Returns:
-        - self.X_train, self.X_val, self.X_test: arrays
-            Used to train, validate, and evaluate the machine learning model, respectively
-        - self.y_train, self.y_val, self.y_test: arrays
-            Targets used for training, validation, and testing the models
+
+            - self.X_train (array): Training dataset used to train the machine learning model.
+            - self.X_val (array): Validation dataset used to validate the machine learning model.
+            - self.X_test (array): Test dataset used to evaluate the machine learning model.
+            - self.y_train (array): Targets used for training the machine learning model.
+            - self.y_val (array): Targets used for validating the machine learning model.
+            - self.y_test (array): Targets used for testing the machine learning model.
 
         References:
-        - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+
+            - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
         """
+
         X_train, X_test, y_train, y_test = train_test_split(
             self.feature_values,
             self.target_values,
@@ -180,6 +196,7 @@ class TrainCNNRegression():
             shuffle=True,
             random_state=42
         )
+
         self.X_test, self.y_test = X_test, y_test
 
         self.X_train, self.X_val, self.y_train, self.y_val = train_test_split(
@@ -191,19 +208,22 @@ class TrainCNNRegression():
         )
 
 
-
     def normalize_X_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
         """
+
+        
         Normalize features/column variables to a specified range.
         Transform your data such that its values are within the specified range [0, 1].
 
         Inputs:
+        ---------
             - X_train (numpy array): Training feature matrix
             - X_val (numpy array): Validation feature matrix
             - X_test (numpy array): Test feature matrix
             - print_model (bool): Whether to print the trained normalizer model
 
         Assigns:
+        ---------        
             - self.X_train_normalized_columnwise (numpy array): Normalized training feature matrix
             - self.X_val_normalized_columnwise (numpy array): Normalized validation feature matrix
             - self.X_test_normalized_columnwise (numpy array): Normalized test feature matrix
@@ -234,12 +254,14 @@ class TrainCNNRegression():
         Transform your data such that its values are within the specified range [0, 1].
 
         Inputs:
+        --------        
             - X_train (numpy array): Training feature matrix
             - X_val (numpy array): Validation feature matrix
             - X_test (numpy array): Test feature matrix
             - print_model (bool): Whether to print the trained normalizer model
 
         Assigns:
+        --------        
             - self.X_train_normalized_rowwise (numpy array): Normalized training feature matrix
             - self.X_val_normalized_rowwise (numpy array): Normalized validation feature matrix
             - self.X_test_normalized_rowwise (numpy array): Normalized test feature matrix
@@ -427,7 +449,7 @@ class TrainCNNRegression():
 
     def standardize_X_row_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
         """
-        Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
+        Standardize feature variables (X) row-wise by removing the mean and scaling to unit variance.
         Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.
 
         Inputs:
@@ -657,110 +679,3 @@ class TrainCNNRegression():
 
         # Show the plot
         show(p)
-
-      
-
-
-    
-
-# # Import functions from other modules ============================
-# from io_funs import LoadSave
-
-# # Import python libraries ========================================
-
-# # Dataset manipulation libraries - - - - - -
-# import pandas as pd
-# import numpy as np
-# from scipy.interpolate import interp1d
-
-# from os.path import exists
-# from time import time
-# import os
-
-# # ML algorithm libraries - - - - - - - - - -
-# from sklearn.model_selection import train_test_split
-# from sklearn.decomposition import PCA
-# from sklearn.preprocessing import StandardScaler
-# from sklearn import preprocessing
-# from sklearn.preprocessing import MinMaxScaler
-# # from sklearn.preprocessing import MinMaxScaler, StandardScaler
-
-
-# # Data Visualization libraries - - - - - - -  
-# # import matplotlib.pyplot as plt
-# # import seaborn as sns
-
-# # from bokeh.io import output_notebook
-# # from bokeh.layouts import row, column
-# # output_notebook()
-# # from bokeh.plotting import show,figure
-# # TOOLTIPS = [
-# #     ("index", "$index"),
-# #     ("(x,y)", "($x, $y)"),
-# # ]
-
-
-# # from bokeh.palettes import Category20, colorblind
-# # from bokeh.models import Label
-
-# import stats
-# # Astropy libraries - - - - - - - - - - -
-# import astropy.units as u
-# from scipy.interpolate import InterpolatedUnivariateSpline
-# from scipy.interpolate import pchip
-# import numpy as np
-
-
-        
-# # TensorFlow libraries - - - - - - - - - -
-# from sklearn.datasets import load_diabetes
-# from keras.models import Sequential
-# from keras.layers import Dense, Conv1D, Flatten
-# from sklearn.model_selection import train_test_split
-# from sklearn.metrics import mean_squared_error
-
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.utils import to_categorical
-# from tensorflow.keras.layers import Dense, Dropout, BatchNormalization, Flatten, Activation, Embedding, GlobalAveragePooling1D
-# from tensorflow.keras.layers import Conv1D, MaxPooling1D, MaxPooling1D, AveragePooling1D, GlobalAveragePooling1D
-# from tensorflow.keras.regularizers import l1, l2, l1_l2
-# from tensorflow.keras.callbacks import EarlyStopping
-# import tensorflow as tf
-# from keras.layers import Dense
-
-# from tensorflow import keras 
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Dense, Flatten
-# from tensorflow.keras.layers import Conv1D, Reshape
-# from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
-
-
-
-# import os
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
-# # MLP for Pima Indians Dataset with grid search via sklearn
-# # from keras.models import Sequential
-# # from keras.layers import Dense
-# # from keras.wrappers.scikit_learn import KerasClassifier
-# # from sklearn.model_selection import GridSearchCV
-# from tensorflow.keras import activations
-# from tensorflow.keras.optimizers import Adam
-# # MLP for Pima Indians Dataset Serialize to JSON and HDF5
-# from tensorflow.keras.models import Sequential, model_from_json
-# # from tensorflow.keras.layers import Dense
-# # import joblib
-
-
-# # import warnings
-# # warnings.filterwarnings('ignore')
-
-# # BOHB optimizer - - - - - - - - - - - - - -
-# import ConfigSpace as CS
-# import ConfigSpace.hyperparameters as CSH
-
-# from hpbandster.core.worker import Worker
-
-# import logging
-# logging.basicConfig(level=logging.DEBUG)
-
