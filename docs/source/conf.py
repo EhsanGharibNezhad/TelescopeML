@@ -14,7 +14,9 @@ import os
 import sys
 # import sphinx_rtd_theme
 
-sys.path.insert(0, os.path.abspath('/Users/egn/ml/repos/telescopeML/telescopeML/'))
+# sys.path.insert(0, os.path.abspath('/Users/egn/ml/repos/telescopeML/telescopeML/'))
+# sys.path.insert(0, os.path.abspath('../../telescopeML/'))
+sys.path.insert(0, os.path.abspath('../..'))
 
 
 # -- Project information -----------------------------------------------------
@@ -32,15 +34,22 @@ release = '0.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-    'sphinx_copybutton',
-    'nbsphinx',
-    'sphinx.ext.mathjax',
-    'sphinxcontrib.rsvgconverter',
-    'sphinx_gallery.load_style',
-    'sphinx.ext.autodoc'
-    
-]
+# extensions = [
+#     'sphinx_copybutton',
+#     'nbsphinx',
+#     'sphinx.ext.mathjax',
+#     'sphinxcontrib.rsvgconverter',
+#     'sphinx_gallery.load_style',
+#     'sphinx.ext.autodoc'
+#     'sphinx.ext.coverage', 
+#     'sphinx.ext.napoleon',
+#     'sphinx.ext.autodocsphinx',
+#     'sphinx.ext.autodocsphinx.ext.coverage',
+#     'sphinx.ext.napoleon',
+
+# ]
+
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon']
 
 nbsphinx_custom_formats = {
     ".md": ["jupytext.reads", {"fmt": "mystnb"}],
@@ -52,7 +61,8 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['**.ipynb_checkpoints']
+exclude_patterns = []
+
 
 
 # The name of the Pygments (syntax highlighting) style to use.
@@ -68,7 +78,7 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static'] 
 
 
 # Output file base name for HTML help builder.

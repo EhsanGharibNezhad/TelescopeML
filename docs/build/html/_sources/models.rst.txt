@@ -1,11 +1,16 @@
 The Code
 ========
 
+.. Submodules
+.. ----------
 
-telescopeML\.TrainCNNRegression module
------------------------------------------
+.. telescopeML\.TrainCNNRegression module
+.. ---------------------------------------
 
-.. automodule:: telescopeML.TrainCNNRegression
+.. .. automodule:: TrainCNNRegression
+..     :members:
+..     :undoc-members:
+..     :show-inheritance:
+
+.. automodule:: telescopeML.telescopeML
     :members:
-    :undoc-members:
-    :show-inheritance:
