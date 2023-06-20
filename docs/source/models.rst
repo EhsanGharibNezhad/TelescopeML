@@ -2,10 +2,10 @@ The Code
 ========
 
 
-telescopeML_v2\.TrainCNNRegression module
+telescopeML\.TrainCNNRegression module
 -----------------------------------------
 
-.. automodule:: telescopeML_v2.TrainCNNRegression
+.. automodule:: telescopeML.TrainCNNRegression
     :members:
     :undoc-members:
     :show-inheritance:
