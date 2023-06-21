@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Modules &mdash; TelescopeML 0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Knowledge Base" href="knowledgebase.html" />
+    <link rel="prev" title="Train a regression ConvNN model using BOHB tuner" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            TelescopeML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-telescopeML.TrainCNNRegression">telescopeML.TrainCNNRegression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_column_wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.normalize_X_column_wise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_global_column_wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.normalize_X_global_column_wise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_row_column_Wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.normalize_X_row_column_Wise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_row_wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.normalize_X_row_wise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_y_column_wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.normalize_y_column_wise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.plot_boxplot_scaled_features"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.plot_boxplot_scaled_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.plot_histogram_scaled_features"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.plot_histogram_scaled_features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.plot_model_loss"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.plot_model_loss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.split_train_test"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.split_train_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.split_train_validation_test"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.split_train_validation_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_column_wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.standardize_X_column_wise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_row_column_wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.standardize_X_row_column_wise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_row_wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.standardize_X_row_wise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_y_column_wise"><code class="docutils literal notranslate"><span class="pre">TrainCNNRegression.standardize_y_column_wise()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-telescopeML.io_funs">telescopeML.io_funs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#telescopeML.io_funs.LoadSave"><code class="docutils literal notranslate"><span class="pre">LoadSave</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.io_funs.LoadSave.create_generic_path"><code class="docutils literal notranslate"><span class="pre">LoadSave.create_generic_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.io_funs.LoadSave.load_or_dump_trained_model_CNN"><code class="docutils literal notranslate"><span class="pre">LoadSave.load_or_dump_trained_model_CNN()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#telescopeML.io_funs.LoadSave.load_or_dump_trained_object"><code class="docutils literal notranslate"><span class="pre">LoadSave.load_or_dump_trained_object()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="knowledgebase.html">KnowledgeBase</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ehsangharibnezhad">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cite.html">What to Cite</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TelescopeML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">The Modules</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/code.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-modules">
+<h1>The Modules<a class="headerlink" href="#the-modules" title="Permalink to this heading"></a></h1>
+<section id="module-telescopeML.TrainCNNRegression">
+<span id="telescopeml-traincnnregression"></span><h2>telescopeML.TrainCNNRegression<a class="headerlink" href="#module-telescopeML.TrainCNNRegression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">telescopeML.TrainCNNRegression.</span></span><span class="sig-name descname"><span class="pre">TrainCNNRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trained_model_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_tuned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_feature_improved</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_augmented</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml_model_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Perform Convolutional Neural Network training</p>
+<p>Tasks:</p>
+<ul class="simple">
+<li><p>Process dataset: Scale, split_train_val_test</p></li>
+<li><p>Train CNN model</p></li>
+<li><p>Optimize</p></li>
+<li><p>Feature reduction: PCA, RFE</p></li>
+<li><p>Output: Save trained models, metrics</p></li>
+</ul>
+<section id="attributes">
+<h3>Attributes:<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><dl class="simple">
+<dt>trained_model: object</dt><dd><p>Trained ML model (optional)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>trained_model_history: dict</dt><dd><p>History dict from the trained model</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>feature_values: array</dt><dd><p>Flux arrays (input data)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>feature_names: list</dt><dd><p>Name of wavelength in micron</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>target_values: array</dt><dd><p>Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>target_name: str</dt><dd><p>Name of the target variable</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>is_tuned: str</dt><dd><p>Indicates whether hyperparameters are tuned or not (‘yes’ or ‘no’)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>param_grid: dict</dt><dd><p>ML hyperparameters to be tuned (used if is_tuned = ‘yes’)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>spectral_resolution: int</dt><dd><p>Resolution of the synthetic spectra used to generate the dataset</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>is_feature_improved: str</dt><dd><p>Indicates the method used for feature improvement (‘no’, ‘pca’, ‘RFE’)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>n_jobs: int</dt><dd><p>Number of processors for optimization step</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>cv: int</dt><dd><p>Cross-validation</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>is_augmented: str</dt><dd><p>Indicates if augmented dataset is used (‘no’ or method name)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>ml_model: object</dt><dd><p>ML model object from sklearn package</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>ml_model_str: str</dt><dd><p>Name of the ML model</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="outputs">
+<h3>Outputs:<a class="headerlink" href="#outputs" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Trained ML models</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_column_wise">
+<span class="sig-name descname"><span class="pre">normalize_X_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_column_wise" title="Permalink to this definition"></a></dt>
+<dd><p>Normalize features/column variables to a specified range.
+Transform your data such that its values are within the specified range [0, 1].</p>
+<section id="inputs">
+<h4>Inputs:<a class="headerlink" href="#inputs" title="Permalink to this heading"></a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>X_train (numpy array): Training feature matrix</p></li>
+<li><p>X_val (numpy array): Validation feature matrix</p></li>
+<li><p>X_test (numpy array): Test feature matrix</p></li>
+<li><p>print_model (bool): Whether to print the trained normalizer model</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="assigns">
+<h4>Assigns:<a class="headerlink" href="#assigns" title="Permalink to this heading"></a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>self.X_train_normalized_columnwise (numpy array): Normalized training feature matrix</p></li>
+<li><p>self.X_val_normalized_columnwise (numpy array): Normalized validation feature matrix</p></li>
+<li><p>self.X_test_normalized_columnwise (numpy array): Normalized test feature matrix</p></li>
+<li><p>self.normalize_X_ColumnWise (MinMaxScaler): Trained normalizer object</p></li>
+</ul>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_global_column_wise">
+<span class="sig-name descname"><span class="pre">normalize_X_global_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_global_column_wise" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_row_column_Wise">
+<span class="sig-name descname"><span class="pre">normalize_X_row_column_Wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_row_column_Wise" title="Permalink to this definition"></a></dt>
+<dd><p>Normalize feature variables (X) row-wise and column-wise using Min-Max normalization.
+Transform the data such that each row and column values are within the specified range [0, 1].</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>X_train (numpy array): Training feature matrix</p></li>
+<li><p>X_val (numpy array): Validation feature matrix</p></li>
+<li><p>X_test (numpy array): Test feature matrix</p></li>
+<li><p>print_model (bool): Whether to print the trained scaler model</p></li>
+</ul>
+</dd>
+<dt>Assigns:</dt><dd><ul class="simple">
+<li><p>self.X_train_normalized_rowcolumn (numpy array): Normalized training feature matrix</p></li>
+<li><p>self.X_val_normalized_rowcolumn (numpy array): Normalized validation feature matrix</p></li>
+<li><p>self.X_test_normalized_rowcolumn (numpy array): Normalized test feature matrix</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_row_wise">
+<span class="sig-name descname"><span class="pre">normalize_X_row_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_X_row_wise" title="Permalink to this definition"></a></dt>
+<dd><p>Normalize observations/instances/row variables to a specified range.
+Transform your data such that its values are within the specified range [0, 1].</p>
+<section id="id1">
+<h4>Inputs:<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>X_train (numpy array): Training feature matrix</p></li>
+<li><p>X_val (numpy array): Validation feature matrix</p></li>
+<li><p>X_test (numpy array): Test feature matrix</p></li>
+<li><p>print_model (bool): Whether to print the trained normalizer model</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id2">
+<h4>Assigns:<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>self.X_train_normalized_rowwise (numpy array): Normalized training feature matrix</p></li>
+<li><p>self.X_val_normalized_rowwise (numpy array): Normalized validation feature matrix</p></li>
+<li><p>self.X_test_normalized_rowwise (numpy array): Normalized test feature matrix</p></li>
+</ul>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_y_column_wise">
+<span class="sig-name descname"><span class="pre">normalize_y_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.normalize_y_column_wise" title="Permalink to this definition"></a></dt>
+<dd><p>Scale target variable (y) and column-wise feature variables to a specified range.
+Transform the data such that its values are within the specified range [0, 1].</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>y_train (numpy array): Training target variable array</p></li>
+<li><p>y_val (numpy array): Validation target variable array</p></li>
+<li><p>y_test (numpy array): Test target variable array</p></li>
+<li><p>print_model (bool): Whether to print the trained scaler model</p></li>
+</ul>
+</dd>
+<dt>Assigns:</dt><dd><ul class="simple">
+<li><p>self.y_train_normalized_columnwise (numpy array): Scaled training target variable array</p></li>
+<li><p>self.y_val_normalized_columnwise (numpy array): Scaled validation target variable array</p></li>
+<li><p>self.y_test_normalized_columnwise (numpy array): Scaled test target variable array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.plot_boxplot_scaled_features">
+<span class="sig-name descname"><span class="pre">plot_boxplot_scaled_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaled_feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.plot_boxplot_scaled_features" title="Permalink to this definition"></a></dt>
+<dd><p>Interpretation:
+- Median: middle quartile marks
+- Inter-quartile range: (The middle “box”): 50% of scores fall within the inter-quartile range
+- Upper quartile: 75% of the scores fall below the upper quartile.
+- Lower quartile: 25% of scores fall below the lower quartile.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.plot_histogram_scaled_features">
+<span class="sig-name descname"><span class="pre">plot_histogram_scaled_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaled_feature</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.plot_histogram_scaled_features" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.plot_model_loss">
+<span class="sig-name descname"><span class="pre">plot_model_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.plot_model_loss" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.split_train_test">
+<span class="sig-name descname"><span class="pre">split_train_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.split_train_test" title="Permalink to this definition"></a></dt>
+<dd><p>Split the loaded set into train and test sets</p>
+<p>Inputs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>test_size (float): The proportion of the dataset to include in the test split Returns:</p></li>
+<li><p>X_train (array): Training dataset for features</p></li>
+<li><p>X_test (array): Test dataset for features</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Training dataset for targets
+- y_test (array): Test dataset for targets</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>y_train (array)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.split_train_validation_test">
+<span class="sig-name descname"><span class="pre">split_train_validation_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.split_train_validation_test" title="Permalink to this definition"></a></dt>
+<dd><p>Split the loaded set into train, validation, and test sets.</p>
+<p>Inputs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>test_size (float): Proportion of the dataset to include in the test split.</p></li>
+<li><p>val_size (float): Proportion of the remaining train dataset to include in the validation split.</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Training dataset used to train the machine learning model.
+- self.X_val (array): Validation dataset used to validate the machine learning model.
+- self.X_test (array): Test dataset used to evaluate the machine learning model.
+- self.y_train (array): Targets used for training the machine learning model.
+- self.y_val (array): Targets used for validating the machine learning model.
+- self.y_test (array): Targets used for testing the machine learning model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>self.X_train (array)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>SciKit: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html</a></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_column_wise">
+<span class="sig-name descname"><span class="pre">standardize_X_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_column_wise" title="Permalink to this definition"></a></dt>
+<dd><p>Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
+Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>X_train (numpy array): Training feature matrix</p></li>
+<li><p>X_val (numpy array): Validation feature matrix</p></li>
+<li><p>X_test (numpy array): Test feature matrix</p></li>
+<li><p>print_model (bool): Whether to print the trained scaler model</p></li>
+</ul>
+</dd>
+<dt>Assigns:</dt><dd><ul class="simple">
+<li><p>self.X_train_standardized_columnwise (numpy array): Standardized training feature matrix</p></li>
+<li><p>self.X_val_standardized_columnwise (numpy array): Standardized validation feature matrix</p></li>
+<li><p>self.X_test_standardized_columnwise (numpy array): Standardized test feature matrix</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_row_column_wise">
+<span class="sig-name descname"><span class="pre">standardize_X_row_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_row_column_wise" title="Permalink to this definition"></a></dt>
+<dd><p>Standardize feature variables (X) row-wise and column-wise by removing the mean and scaling to unit variance.
+Transform the data such that each row and column will have a mean value of 0 and a standard deviation of 1.</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>X_train (numpy array): Training feature matrix</p></li>
+<li><p>X_val (numpy array): Validation feature matrix</p></li>
+<li><p>X_test (numpy array): Test feature matrix</p></li>
+<li><p>print_model (bool): Whether to print the trained scaler model</p></li>
+</ul>
+</dd>
+<dt>Assigns:</dt><dd><ul class="simple">
+<li><p>self.X_train_standardized_rowcolumn (numpy array): Standardized training feature matrix</p></li>
+<li><p>self.X_val_standardized_rowcolumn (numpy array): Standardized validation feature matrix</p></li>
+<li><p>self.X_test_standardized_rowcolumn (numpy array): Standardized test feature matrix</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_row_wise">
+<span class="sig-name descname"><span class="pre">standardize_X_row_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_X_row_wise" title="Permalink to this definition"></a></dt>
+<dd><p>Standardize feature variables (X) row-wise by removing the mean and scaling to unit variance.
+Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>X_train (numpy array): Training feature matrix</p></li>
+<li><p>X_val (numpy array): Validation feature matrix</p></li>
+<li><p>X_test (numpy array): Test feature matrix</p></li>
+<li><p>print_model (bool): Whether to print the trained scaler model</p></li>
+</ul>
+</dd>
+<dt>Assigns:</dt><dd><ul class="simple">
+<li><p>self.X_train_standardized_columnwise (numpy array): Standardized training feature matrix</p></li>
+<li><p>self.X_val_standardized_columnwise (numpy array): Standardized validation feature matrix</p></li>
+<li><p>self.X_test_standardized_columnwise (numpy array): Standardized test feature matrix</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_y_column_wise">
+<span class="sig-name descname"><span class="pre">standardize_y_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.TrainCNNRegression.TrainCNNRegression.standardize_y_column_wise" title="Permalink to this definition"></a></dt>
+<dd><p>Standardize target variable (y) column-wise by removing the mean and scaling to unit variance.
+Transform the data such that its distribution will have a mean value of 0 and a standard deviation of 1.</p>
+<dl class="simple">
+<dt>Inputs:</dt><dd><ul class="simple">
+<li><p>y_train (numpy array): Training target variable array</p></li>
+<li><p>y_val (numpy array): Validation target variable array</p></li>
+<li><p>y_test (numpy array): Test target variable array</p></li>
+<li><p>print_model (bool): Whether to print the trained scaler model</p></li>
+</ul>
+</dd>
+<dt>Assigns:</dt><dd><ul class="simple">
+<li><p>self.y_train_standardized_columnwise (numpy array): Standardized training target variable array</p></li>
+<li><p>self.y_val_standardized_columnwise (numpy array): Standardized validation target variable array</p></li>
+<li><p>self.y_test_standardized_columnwise (numpy array): Standardized test target variable array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<section id="module-telescopeML.io_funs">
+<span id="telescopeml-io-funs"></span><h2>telescopeML.io_funs<a class="headerlink" href="#module-telescopeML.io_funs" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="telescopeML.io_funs.LoadSave">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">telescopeML.io_funs.</span></span><span class="sig-name descname"><span class="pre">LoadSave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ml_model_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_feature_improved</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_augmented</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_tuned</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.io_funs.LoadSave" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Load and Save trained operators, models, and datasets</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.io_funs.LoadSave.create_generic_path">
+<span class="sig-name descname"><span class="pre">create_generic_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indicator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.io_funs.LoadSave.create_generic_path" title="Permalink to this definition"></a></dt>
+<dd><p>Create the generic path for saving or loading the trained model</p>
+<section id="id3">
+<h3>Inputs:<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>indicator (str): Indicator for the model type</p></li>
+</ul>
+</section>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>generic_path (str): The generic path for saving or loading the model</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.io_funs.LoadSave.load_or_dump_trained_model_CNN">
+<span class="sig-name descname"><span class="pre">load_or_dump_trained_model_CNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indicator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TrainedCNN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_or_dump</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dump'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.io_funs.LoadSave.load_or_dump_trained_model_CNN" title="Permalink to this definition"></a></dt>
+<dd><p>Load or save the trained CNN model</p>
+<section id="id4">
+<h3>Inputs:<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>trained_model : The trained CNN model</p></li>
+<li><p>indicator (str): Indicator for the type of trained model</p></li>
+<li><p>load_or_dump (str): ‘dump’ or ‘load’</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="telescopeML.io_funs.LoadSave.load_or_dump_trained_object">
+<span class="sig-name descname"><span class="pre">load_or_dump_trained_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indicator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_or_dump</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dump'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#telescopeML.io_funs.LoadSave.load_or_dump_trained_object" title="Permalink to this definition"></a></dt>
+<dd><p>Load or save the trained object</p>
+<section id="id5">
+<h3>Inputs:<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>trained_object : The object to be saved or loaded</p></li>
+<li><p>indicator (str): Indicator for the type of trained object</p></li>
+<li><p>load_or_dump (str): ‘dump’ or ‘load’</p></li>
+</ul>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html" class="btn btn-neutral float-left" title="Train a regression ConvNN model using BOHB tuner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="knowledgebase.html" class="btn btn-neutral float-right" title="Knowledge Base" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Ehsan (Sam) Gharib-Nezhad.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
