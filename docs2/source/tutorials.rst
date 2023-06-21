@@ -16,7 +16,10 @@ Exploratory Data Analysis
 
 Data Processing for the CNN Model 
 ----------------------------------
-Data Processing for the CNN Model  <tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.ipynb>
+.. toctree::
+   :maxdepth: 1
+
+   Data Processing for the CNN Model  <tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.ipynb>
 
 
 

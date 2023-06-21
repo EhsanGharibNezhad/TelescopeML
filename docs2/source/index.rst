@@ -35,7 +35,7 @@ Indices and tables
   
    Installation <installation>
    Tutorials <tutorials>
-   The Models <models>
+   The Code <code>
    KnowledgeBase <knowledgebase> 
    Github <https://github.com/ehsangharibnezhad>
    Publications <publications>
