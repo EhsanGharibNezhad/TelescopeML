@@ -37,6 +37,7 @@ extensions = [  'sphinx_copybutton',
  		'sphinx_gallery.load_style',
 		'nbsphinx',
 		'sphinx.ext.mathjax',
+		'sphinx.ext.githubpages'
 		]
 
 #extensions = [
