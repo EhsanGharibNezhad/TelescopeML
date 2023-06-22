@@ -97,12 +97,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[229]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sys
-sys.path.insert(0, &#39;../../codes/&#39;)
-import seaborn as sns
-from predict_observational_dataset_v2 import ProcessObservationalDataset
-from train_cnn_regression_3 import *
-from bokeh.palettes import colorblind
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;../../codes/&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">predict_observational_dataset_v2</span> <span class="kn">import</span> <span class="n">ProcessObservationalDataset</span>
+<span class="kn">from</span> <span class="nn">train_cnn_regression_3</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">bokeh.palettes</span> <span class="kn">import</span> <span class="n">colorblind</span>
 <br/></pre></div>
 </div>
 </div>
@@ -113,9 +113,9 @@ from bokeh.palettes import colorblind
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[230]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># original dataset
-df=pd.read_csv(&#39;../../datasets/browndwarf_R100_v4_newWL_v4_augmented.csv.bz2&#39;, compression=&#39;bz2&#39;)
-df.head(5)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># original dataset</span>
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../datasets/browndwarf_R100_v4_newWL_v4_augmented.csv.bz2&#39;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;bz2&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -295,7 +295,7 @@ df.head(5)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[231]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>df[&#39;is_augmented&#39;].value_counts()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -322,8 +322,8 @@ Name: is_augmented, dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[233]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wl = pd.read_csv(&#39;../../datasets/wl.csv&#39;)
-wl.head(5)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../datasets/wl.csv&#39;</span><span class="p">)</span>
+<span class="n">wl</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -382,63 +382,63 @@ wl.head(5)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[234]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label):
-    &quot;&quot;&quot;
-    Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.
+<span class="k">def</span> <span class="nf">plot_filtered_dataframe</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">filter_bounds</span><span class="p">,</span> <span class="n">feature_to_plot</span><span class="p">,</span> <span class="n">title_label</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.</span>
 
-    Parameters:
-        - df (pd.DataFrame): DataFrame containing the data to be plotted.
-    &quot;&quot;&quot;
-
-
-    filtered_df = dataset.copy()
-    for feature, bounds in filter_bounds.items():
-        lower_bound, upper_bound = bounds
-        filtered_df = filtered_df[(filtered_df[feature] &gt;= lower_bound) &amp; (filtered_df[feature] &lt;= upper_bound)]
-
-    filtered_df2 = filtered_df.sort_values(feature_to_plot, ascending = False).iloc[::1,4:-1][::-1]
-    fig, ax = plt.subplots(figsize=(10, 3))
-
-    x = filtered_df2.columns
-    df_transposed = filtered_df2.T  # Transpose the DataFrame
-
-    # Define a color palette
-    num_colors = len(df_transposed.columns)   # Number of colors needed (excluding x-axis)
-    colors = sns.color_palette(&#39;magma&#39;, num_colors)
-
-    for i, col in enumerate(df_transposed.columns):
-        # print(col)
-        if col != &#39;x&#39;:  # Skip the x-axis column
-            ax.semilogy(wl.wl, df_transposed[col],
-                        # label=data[col][:4].values,
-                        color=colors[i], alpha = 0.7)
-    # print(filtered_data.T[col][:4].values[0])
-    ax.set_xlabel(&#39;Wavelength  [$\mu$m]&#39;)
-    ax.set_ylabel(r&#39;F$_{\nu}$  [erg/cm$^2$/s/Hz]&#39;)
-    dict_features = {&#39;temperature&#39;:&#39;Temperature&#39;, &#39;gravity&#39;:&#39;gravity&#39;, &#39;metallicity&#39;:&#39;metallicity&#39;, &#39;c_o_ratio&#39;:&#39;C/O ratio&#39;}
-    ax.set_title(&#39;Augmented &#39;+dict_features[feature_to_plot]+&quot; dataset &quot;+title_label)
-    # ax.legend()
-
-    # Get the minimum and maximum values from the data
-    # vmin = df_transposed.values.min()
-    # vmax = df_transposed.values.max()
-
-    # Add colorbar
-    cmap = sns.color_palette(&#39;magma&#39;, as_cmap=True)
-    cbar = plt.colorbar(plt.cm.ScalarMappable(cmap=cmap,
-            norm=plt.Normalize(vmin=filter_bounds[feature_to_plot][0], vmax=filter_bounds[feature_to_plot][1])), ax=ax)
-    dict_features2 = {&#39;temperature&#39;:&#39;T [K]&#39;, &#39;gravity&#39;:&#39;log$g$&#39;, &#39;metallicity&#39;:&#39;[M/H]&#39;, &#39;c_o_ratio&#39;:&#39;C/O ratio&#39;}
-    cbar.set_label(dict_features2[feature_to_plot])
-
-    plt.savefig(&#39;../../outputs/regression/figures/&#39;+&#39;Augmented_&#39;+feature_to_plot+&quot;_dataset.pdf&quot;, dpi=500, bbox_inches=&#39;tight&#39;)
+<span class="sd">    Parameters:</span>
+<span class="sd">        - df (pd.DataFrame): DataFrame containing the data to be plotted.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 
+    <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">bounds</span> <span class="ow">in</span> <span class="n">filter_bounds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filtered_df</span><span class="p">[(</span><span class="n">filtered_df</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">lower_bound</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">filtered_df</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">upper_bound</span><span class="p">)]</span>
 
-    plt.show()
+    <span class="n">filtered_df2</span> <span class="o">=</span> <span class="n">filtered_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">feature_to_plot</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[::</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">filtered_df2</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">df_transposed</span> <span class="o">=</span> <span class="n">filtered_df2</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># Transpose the DataFrame</span>
+
+    <span class="c1"># Define a color palette</span>
+    <span class="n">num_colors</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_transposed</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>   <span class="c1"># Number of colors needed (excluding x-axis)</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;magma&#39;</span><span class="p">,</span> <span class="n">num_colors</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df_transposed</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="c1"># print(col)</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="o">!=</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>  <span class="c1"># Skip the x-axis column</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">wl</span><span class="o">.</span><span class="n">wl</span><span class="p">,</span> <span class="n">df_transposed</span><span class="p">[</span><span class="n">col</span><span class="p">],</span>
+                        <span class="c1"># label=data[col][:4].values,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+    <span class="c1"># print(filtered_data.T[col][:4].values[0])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavelength  [$\mu$m]&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;F$_{\nu}$  [erg/cm$^2$/s/Hz]&#39;</span><span class="p">)</span>
+    <span class="n">dict_features</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;temperature&#39;</span><span class="p">:</span><span class="s1">&#39;Temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;gravity&#39;</span><span class="p">:</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">:</span><span class="s1">&#39;metallicity&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">:</span><span class="s1">&#39;C/O ratio&#39;</span><span class="p">}</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Augmented &#39;</span><span class="o">+</span><span class="n">dict_features</span><span class="p">[</span><span class="n">feature_to_plot</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; dataset &quot;</span><span class="o">+</span><span class="n">title_label</span><span class="p">)</span>
+    <span class="c1"># ax.legend()</span>
+
+    <span class="c1"># Get the minimum and maximum values from the data</span>
+    <span class="c1"># vmin = df_transposed.values.min()</span>
+    <span class="c1"># vmax = df_transposed.values.max()</span>
+
+    <span class="c1"># Add colorbar</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;magma&#39;</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+            <span class="n">norm</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">filter_bounds</span><span class="p">[</span><span class="n">feature_to_plot</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">vmax</span><span class="o">=</span><span class="n">filter_bounds</span><span class="p">[</span><span class="n">feature_to_plot</span><span class="p">][</span><span class="mi">1</span><span class="p">])),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">dict_features2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;temperature&#39;</span><span class="p">:</span><span class="s1">&#39;T [K]&#39;</span><span class="p">,</span> <span class="s1">&#39;gravity&#39;</span><span class="p">:</span><span class="s1">&#39;log$g$&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">:</span><span class="s1">&#39;[M/H]&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">:</span><span class="s1">&#39;C/O ratio&#39;</span><span class="p">}</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">dict_features2</span><span class="p">[</span><span class="n">feature_to_plot</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../../outputs/regression/figures/&#39;</span><span class="o">+</span><span class="s1">&#39;Augmented_&#39;</span><span class="o">+</span><span class="n">feature_to_plot</span><span class="o">+</span><span class="s2">&quot;_dataset.pdf&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <br/></pre></div>
 </div>
 </div>
@@ -446,24 +446,24 @@ def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[235]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define the filter bounds
-filter_bounds = {&#39;gravity&#39;: (5.,5),
-                 &#39;c_o_ratio&#39; : (0.5,0.5),
-                 &#39;metallicity&#39; : (0.0,0.0),
-                 &#39;temperature&#39;: (600, 1200)}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the filter bounds</span>
+<span class="n">filter_bounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gravity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">5.</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+                 <span class="s1">&#39;c_o_ratio&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span>
+                 <span class="s1">&#39;metallicity&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span>
+                 <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">1200</span><span class="p">)}</span>
 
-# Call the function to filter the dataset
-plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
-                                    [&#39;GuassErr_std0.01&#39;,
-                                     &#39;GuassErr_std0.02&#39;,
-                                     &#39;GuassErr_std0.1&#39;,
-                                     &#39;no&#39;])],
-                                       filter_bounds,
-                                       &#39;temperature&#39;,
-                                     title_label = &#39;[log$g$=&#39;+str(filter_bounds[&#39;gravity&#39;][0])+
-                                    &#39;, C/O =&#39;+str(filter_bounds[&#39;c_o_ratio&#39;][0])+
-                                    &#39;, [M/H]=&#39;+str(filter_bounds[&#39;metallicity&#39;][0])+
-                        &#39;]&#39;)
+<span class="c1"># Call the function to filter the dataset</span>
+<span class="n">plot_filtered_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
+                                    <span class="p">[</span><span class="s1">&#39;GuassErr_std0.01&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;GuassErr_std0.02&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;GuassErr_std0.1&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;no&#39;</span><span class="p">])],</span>
+                                       <span class="n">filter_bounds</span><span class="p">,</span>
+                                       <span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+                                     <span class="n">title_label</span> <span class="o">=</span> <span class="s1">&#39;[log$g$=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, C/O =&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;c_o_ratio&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, [M/H]=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;metallicity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                        <span class="s1">&#39;]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -478,24 +478,24 @@ plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[236]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define the filter bounds
-filter_bounds = {&#39;gravity&#39;: (3,5.5),
-                 &#39;c_o_ratio&#39; : (0.5,0.5),
-                 &#39;metallicity&#39; : (0.0,0.0),
-                 &#39;temperature&#39;: (900, 900)}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the filter bounds</span>
+<span class="n">filter_bounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gravity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">5.5</span><span class="p">),</span>
+                 <span class="s1">&#39;c_o_ratio&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span>
+                 <span class="s1">&#39;metallicity&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span>
+                 <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="mi">900</span><span class="p">)}</span>
 
-# Call the function to filter the dataset
-plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
-                                    [&#39;GuassErr_std0.01&#39;,
-                                     &#39;GuassErr_std0.02&#39;,
-                                     &#39;GuassErr_std0.1&#39;,
-                                     &#39;no&#39;])],
-                                       filter_bounds,
-                                       &#39;gravity&#39;,
-                        title_label = &#39;[T=&#39;+str(filter_bounds[&#39;temperature&#39;][0])+
-                                    &#39;, C/O =&#39;+str(filter_bounds[&#39;c_o_ratio&#39;][0])+
-                                    &#39;, [M/H]=&#39;+str(filter_bounds[&#39;metallicity&#39;][0])+
-                        &#39;]&#39;)
+<span class="c1"># Call the function to filter the dataset</span>
+<span class="n">plot_filtered_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
+                                    <span class="p">[</span><span class="s1">&#39;GuassErr_std0.01&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;GuassErr_std0.02&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;GuassErr_std0.1&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;no&#39;</span><span class="p">])],</span>
+                                       <span class="n">filter_bounds</span><span class="p">,</span>
+                                       <span class="s1">&#39;gravity&#39;</span><span class="p">,</span>
+                        <span class="n">title_label</span> <span class="o">=</span> <span class="s1">&#39;[T=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, C/O =&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;c_o_ratio&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, [M/H]=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;metallicity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                        <span class="s1">&#39;]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -510,24 +510,24 @@ plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[237]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define the filter bounds
-filter_bounds = {&#39;gravity&#39;: (5.,5),
-                 &#39;c_o_ratio&#39; : (0.25,2.5),
-                 &#39;metallicity&#39; : (0.0,0.0),
-                 &#39;temperature&#39;: (900, 900)}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the filter bounds</span>
+<span class="n">filter_bounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gravity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">5.</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+                 <span class="s1">&#39;c_o_ratio&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">2.5</span><span class="p">),</span>
+                 <span class="s1">&#39;metallicity&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span>
+                 <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="mi">900</span><span class="p">)}</span>
 
-# Call the function to filter the dataset
-plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
-                                    [&#39;GuassErr_std0.01&#39;,
-                                     &#39;GuassErr_std0.02&#39;,
-                                     &#39;GuassErr_std0.1&#39;,
-                                     &#39;no&#39;])],
-                                       filter_bounds,
-                                       &#39;c_o_ratio&#39;,
-                        title_label = &#39;[T=&#39;+str(filter_bounds[&#39;temperature&#39;][0])+
-                                    &#39;, log$g$=&#39;+str(filter_bounds[&#39;gravity&#39;][0])+
-                                    &#39;, [M/H]=&#39;+str(filter_bounds[&#39;metallicity&#39;][0])+
-                        &#39;]&#39;)
+<span class="c1"># Call the function to filter the dataset</span>
+<span class="n">plot_filtered_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
+                                    <span class="p">[</span><span class="s1">&#39;GuassErr_std0.01&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;GuassErr_std0.02&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;GuassErr_std0.1&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;no&#39;</span><span class="p">])],</span>
+                                       <span class="n">filter_bounds</span><span class="p">,</span>
+                                       <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span>
+                        <span class="n">title_label</span> <span class="o">=</span> <span class="s1">&#39;[T=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, log$g$=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, [M/H]=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;metallicity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                        <span class="s1">&#39;]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -542,24 +542,24 @@ plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[238]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define the filter bounds
-filter_bounds = {&#39;gravity&#39;: (3,5.5),
-                 &#39;c_o_ratio&#39; : (0.5,0.5),
-                 &#39;metallicity&#39; : (-1.,2.),
-                 &#39;temperature&#39;: (900, 900)}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the filter bounds</span>
+<span class="n">filter_bounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gravity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">5.5</span><span class="p">),</span>
+                 <span class="s1">&#39;c_o_ratio&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span>
+                 <span class="s1">&#39;metallicity&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">),</span>
+                 <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="mi">900</span><span class="p">)}</span>
 
-# Call the function to filter the dataset
-plot_filtered_dataframe(df[df[&#39;is_augmented&#39;].isin(
-                                    [&#39;GuassErr_std0.01&#39;,
-                                     &#39;GuassErr_std0.02&#39;,
-                                     &#39;GuassErr_std0.1&#39;,
-                                     &#39;no&#39;])],
-                                       filter_bounds,
-                                       &#39;metallicity&#39;,
-                        title_label = &#39;[T=&#39;+str(filter_bounds[&#39;temperature&#39;][0])+
-                                    &#39;, log$g$=&#39;+str(filter_bounds[&#39;gravity&#39;][0])+
-                                    &#39;, C/O =&#39;+str(filter_bounds[&#39;c_o_ratio&#39;][0])+
-                        &#39;]&#39;)
+<span class="c1"># Call the function to filter the dataset</span>
+<span class="n">plot_filtered_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
+                                    <span class="p">[</span><span class="s1">&#39;GuassErr_std0.01&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;GuassErr_std0.02&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;GuassErr_std0.1&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;no&#39;</span><span class="p">])],</span>
+                                       <span class="n">filter_bounds</span><span class="p">,</span>
+                                       <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span>
+                        <span class="n">title_label</span> <span class="o">=</span> <span class="s1">&#39;[T=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, log$g$=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, C/O =&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;c_o_ratio&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                        <span class="s1">&#39;]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
