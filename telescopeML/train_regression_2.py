@@ -1,10 +1,10 @@
 # Import functions from other modules ============================
-# from io_funs import LoadSave
+from io_funs import LoadSave
 
-# # Import python libraries ========================================
+# Import python libraries ========================================
 import pandas as pd
 import numpy as np
-# from scipy import stats
+from scipy import stats
 
 import matplotlib.pyplot as plt
 
@@ -20,17 +20,34 @@ from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
 from tensorflow.keras.models import save_model
 import pickle as pk
 
-# # Import BOHB Package ========================================
-# import logging
-# logging.basicConfig(level=logging.WARNING)
+# Import BOHB Package ========================================
 
-# import argparse
+# Libraries for BOHB Package 
+import logging
+logging.basicConfig(level=logging.WARNING)
 
-# import hpbandster.core.nameserver as hpns
-# import hpbandster.core.result as hpres
+import argparse
 
-# from hpbandster.optimizers import BOHB as BOHB
-# from hpbandster.examples.commons import MyWorker
+import hpbandster.core.nameserver as hpns
+import hpbandster.core.result as hpres
+
+from hpbandster.optimizers import BOHB as BOHB
+from hpbandster.examples.commons import MyWorker
+
+from tensorflow.keras.models import load_model
+import ConfigSpace as CS
+from hpbandster.core.worker import Worker
+
+import logging
+logging.basicConfig(level=logging.WARNING)
+
+import argparse
+
+import hpbandster.core.nameserver as hpns
+import hpbandster.core.result as hpres
+
+from hpbandster.optimizers import BOHB as BOHB
+from hpbandster.examples.commons import MyWorker
 
 from tensorflow.keras.models import load_model
 
@@ -49,13 +66,15 @@ TOOLTIPS = [
 # ==================                                           ==================
 # ===============================================================================  
 
-class TrainCNNRegression:
+from typing import List, Union, Dict
+from sklearn.base import BaseEstimator
 
+
+class TrainRegression:
     """
     Perform Convolutional Neural Network training
 
     Tasks:
-
     - Process dataset: Scale, split_train_val_test
     - Train CNN model
     - Optimize
@@ -63,7 +82,6 @@ class TrainCNNRegression:
     - Output: Save trained models, metrics
 
     Attributes:
-    ------------
     - trained_model: object
         Trained ML model (optional)
     - trained_model_history: dict
@@ -76,19 +94,19 @@ class TrainCNNRegression:
         Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity)
     - target_name: str
         Name of the target variable
-    - is_tuned: str
+    - is_hyperparam_tuned: str
         Indicates whether hyperparameters are tuned or not ('yes' or 'no')
     - param_grid: dict
-        ML hyperparameters to be tuned (used if is_tuned = 'yes')
+        ML hyperparameters to be tuned (used if is_hyperparam_tuned = 'yes')
     - spectral_resolution: int
         Resolution of the synthetic spectra used to generate the dataset
-    - is_feature_improved: str
+    - feature_improvement_method: str
         Indicates the method used for feature improvement ('no', 'pca', 'RFE')
     - n_jobs: int
         Number of processors for optimization step
     - cv: int
         Cross-validation
-    - is_augmented: str
+    - augmentation_method: str
         Indicates if augmented dataset is used ('no' or method name)
     - ml_model: object
         ML model object from sklearn package
@@ -96,28 +114,27 @@ class TrainCNNRegression:
         Name of the ML model
 
     Outputs:
-    ------------
     - Trained ML models
-
     """
 
-    def __init__(self,
-                 trained_model=None,
-                 trained_model_history=None,
-                 feature_values=None,
-                 feature_names=None,
-                 target_values=None,
-                 target_name=None,
-                 is_tuned='no',
-                 param_grid=None,
-                 spectral_resolution=None,
-                 is_feature_improved='no',
-                 n_jobs=None,
-                 cv=None,
-                 is_augmented='no',
-                 ml_model=None,
-                 ml_model_str=None
-                ):
+    def __init__(
+        self,
+        trained_model: Union[None, BaseEstimator] = None,
+        trained_model_history: Union[None, Dict] = None,
+        feature_values: Union[None, np.ndarray] = None,
+        feature_names: Union[None, List[str]] = None,
+        target_values: Union[None, np.ndarray] = None,
+        target_name: Union[None, str] = None,
+        is_tuned: str = 'no',
+        param_grid: Union[None, Dict] = None,
+        spectral_resolution: Union[None, int] = None,
+        is_feature_improved: str = 'no',
+        n_jobs: Union[None, int] = None,
+        cv: Union[None, int] = None,
+        is_augmented: str = 'no',
+        ml_model: Union[None, BaseEstimator] = None,
+        ml_model_str: Union[None, str] = None,
+    ) -> None:
 
         self.trained_model = trained_model
         self.trained_model_history = trained_model_history
@@ -128,7 +145,6 @@ class TrainCNNRegression:
         self.is_tuned = is_tuned
         self.param_grid = param_grid
         self.spectral_resolution = spectral_resolution
-        self.feature_names = feature_names
         self.is_feature_improved = is_feature_improved
         self.n_jobs = n_jobs
         self.cv = cv
@@ -137,58 +153,48 @@ class TrainCNNRegression:
         self.ml_model_str = ml_model_str
 
 
-
     def split_train_test(self, test_size=0.1):
+        """
+        Split the loaded set into train and test sets
 
-        """ 
-
-        Split the loaded set into train and test sets 
-        
-        Inputs: 
-
-            - test_size (float): The proportion of the dataset to include in the test split Returns: 
-            - X_train (array): Training dataset for features 
-            - X_test (array): Test dataset for features 
+        Inputs:
+        - test_size: float
+            The proportion of the dataset to include in the test split
 
         Returns:
+        - X_train, X_test, y_train, y_test: arrays
+            Train and test datasets for features and targets
 
-            - y_train (array): Training dataset for targets 
-            - y_test (array): Test dataset for targets 
-
+        References:
+        - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
         """
-
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.feature_values,
                                                             self.target_values,
                                                             test_size=test_size,
                                                             shuffle=True,
                                                             random_state=42)
 
-
+        
         
     def split_train_validation_test(self, test_size=0.1, val_size=0.1):
-
         """
-        Split the loaded set into train, validation, and test sets.
+        Split the loaded set into train, validation, and test sets
 
         Inputs:
-
-            - test_size (float): Proportion of the dataset to include in the test split.
-            - val_size (float): Proportion of the remaining train dataset to include in the validation split.
+        - test_size: float
+            Proportion of the dataset to include in the test split
+        - val_size: float
+            Proportion of the remaining train dataset to include in the validation split
 
         Returns:
-
-            - self.X_train (array): Training dataset used to train the machine learning model.
-            - self.X_val (array): Validation dataset used to validate the machine learning model.
-            - self.X_test (array): Test dataset used to evaluate the machine learning model.
-            - self.y_train (array): Targets used for training the machine learning model.
-            - self.y_val (array): Targets used for validating the machine learning model.
-            - self.y_test (array): Targets used for testing the machine learning model.
+        - self.X_train, self.X_val, self.X_test: arrays
+            Used to train, validate, and evaluate the machine learning model, respectively
+        - self.y_train, self.y_val, self.y_test: arrays
+            Targets used for training, validation, and testing the models
 
         References:
-
-            - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+        - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
         """
-
         X_train, X_test, y_train, y_test = train_test_split(
             self.feature_values,
             self.target_values,
@@ -196,7 +202,6 @@ class TrainCNNRegression:
             shuffle=True,
             random_state=42
         )
-
         self.X_test, self.y_test = X_test, y_test
 
         self.X_train, self.X_val, self.y_train, self.y_val = train_test_split(
@@ -208,22 +213,19 @@ class TrainCNNRegression:
         )
 
 
+
     def normalize_X_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
         """
-
-        
         Normalize features/column variables to a specified range.
         Transform your data such that its values are within the specified range [0, 1].
 
         Inputs:
-        ---------
             - X_train (numpy array): Training feature matrix
             - X_val (numpy array): Validation feature matrix
             - X_test (numpy array): Test feature matrix
             - print_model (bool): Whether to print the trained normalizer model
 
         Assigns:
-        ---------        
             - self.X_train_normalized_columnwise (numpy array): Normalized training feature matrix
             - self.X_val_normalized_columnwise (numpy array): Normalized validation feature matrix
             - self.X_test_normalized_columnwise (numpy array): Normalized test feature matrix
@@ -254,14 +256,12 @@ class TrainCNNRegression:
         Transform your data such that its values are within the specified range [0, 1].
 
         Inputs:
-        --------        
             - X_train (numpy array): Training feature matrix
             - X_val (numpy array): Validation feature matrix
             - X_test (numpy array): Test feature matrix
             - print_model (bool): Whether to print the trained normalizer model
 
         Assigns:
-        --------        
             - self.X_train_normalized_rowwise (numpy array): Normalized training feature matrix
             - self.X_val_normalized_rowwise (numpy array): Normalized validation feature matrix
             - self.X_test_normalized_rowwise (numpy array): Normalized test feature matrix
@@ -444,12 +444,13 @@ class TrainCNNRegression:
 
         if print_model:
             print(scaler_X)
+            
 
 
 
     def standardize_X_row_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
         """
-        Standardize feature variables (X) row-wise by removing the mean and scaling to unit variance.
+        Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
         Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.
 
         Inputs:
@@ -590,7 +591,7 @@ class TrainCNNRegression:
             print(scaler_column)
   
 
-    def plot_boxplot_scaled_features(self, scaled_feature, title = None):
+    def plot_boxplot_scaled_features(self, scaled_feature, title = None, xticks_list = None):
         """
         Interpretation: 
         - Median: middle quartile marks
@@ -598,17 +599,22 @@ class TrainCNNRegression:
         - Upper quartile: 75% of the scores fall below the upper quartile.
         - Lower quartile: 25% of scores fall below the lower quartile.
         """
-        plt.figure(figsize=(12, 5))
+        plt.figure(figsize=(12, 3))
         plt.boxplot(scaled_feature, sym='')
         
         if len(scaled_feature) > 10:
-            plt.xticks(rotation=90)
+            plt.xticks(rotation=45)
 
         plt.xlabel('Features', fontsize=12)
         plt.ylabel('Scaled Value', fontsize=12)
         if title: 
             plt.title(title, fontsize=14)
             
+        # Add custom x-ticks
+        # custom_xticks = ['Label 1', 'Label 2', 'Label 3', 'Label 4']
+        if xticks_list:
+            plt.xticks(xticks_list)
+
         plt.tight_layout()
         plt.show()
 
@@ -624,8 +630,8 @@ class TrainCNNRegression:
         
     def plot_model_loss (self, history = None, title = None):
         
-        from bokeh.plotting import figure, show
-        from bokeh.models import Legend
+        # from bokeh.plotting import figure, show
+        # from bokeh.models import Legend
         
         history = self.trained_model_history if history is None else history
         # Define the epochs as a list
@@ -679,3 +685,109 @@ class TrainCNNRegression:
 
         # Show the plot
         show(p)
+
+      
+
+    def train_ml_regression_model(self,
+                               trained_model = None,
+                               X_train = None,
+                               X_val = None,
+                               X_test = None,
+
+                               y_train = None,
+                               y_val = None,
+                               y_test = None,
+
+                               is_tuned = 'no',
+                               n_iter = 3,  # number of iterations for Bayesian Optimization
+                               verbose = 1, # print output
+                               plot_results = True,
+                               print_results = True,
+                               ):
+        """
+        Train ML regression model using traditional ML algorithms using BayesSearchCV
+
+        Inputs
+        -------
+            -  self.is_tuned
+            -  self.ml_model
+            -  self.cv
+            -  self.param_grid
+            -  self.n_jobs
+            -  verbose = 1
+            -  scoring = mean_squared_error # Mean squared error regression loss.
+        Returns
+        --------
+            - Trained ML model
+        """
+        # Set default values if None is provided
+        trained_model = self.trained_model if trained_model is None else trained_model
+        is_tuned = self.is_tuned if is_tuned is None else is_tuned
+
+        X_train = self.X_train if X_train is None else X_train
+        X_val = self.X_val if X_val is None else X_val
+        X_test = self.X_test if X_test is None else X_test
+        
+        y_train = self.y_train if y_train is None else y_train
+        y_val = self.y_val if y_val is None else y_val
+        y_test = self.y_test if y_test is None else y_test
+        
+        
+        if self.is_tuned == 'yes':
+
+            model = BayesSearchCV(self.ml_model,
+                                  search_spaces = self.param_grid,
+                                  n_iter = n_iter,
+                                  cv = self.cv,
+                                  n_jobs = self.n_jobs,
+                                  verbose = 2,
+                                  )
+
+            model.fit( X_train, y_train)
+
+            self.optimized_params = {}
+            self.optimized_params = model.best_params_
+            self.trained_model = model
+
+
+            if plot_results:
+                assert isinstance( model.optimizer_results_, object)
+                plot_evaluations( model.optimizer_results_[0],
+                                 # bins=10,
+                                 dimensions=[xx.replace('estimator__', '') for xx in list(self.param_grid.keys())]
+                                 )
+
+            if print_results:
+                print(' ==============    Optimal HyperParameters    ============== ')
+                # display(self.optimized_params)
+                print("total_iterations", self.trained_model.total_iterations)
+                print("val. score: %s" % self.trained_model.best_score_)
+                print("test score: %s" % self.trained_model.score(self.X_test, self.y_test))
+                display("best params: %s" % str(self.trained_model.best_params_))
+                
+
+        if self.is_tuned == 'no':
+            # Instantiate the ML model using default parameters with NO evaluation set
+            model = self.ml_model
+            model.fit(X_train, y_train)
+            self.optimized_params = model.get_params(deep=True)
+            self.trained_model = model
+
+            if print_results:
+                print(' ==============    Optimal HyperParameters    ============== ')
+                # display(self.optimized_params)
+                print("val. score: %s" % self.trained_model.best_score_)
+                print("test score: %s" % self.trained_model.score(self.X_test, self.y_test))
+                display("best params: %s" % str(self.trained_model.best_params_))
+                
+
+        LoadSave(self.ml_model_str,
+                 self.is_feature_improved,
+                 self.is_augmented,
+                 self.is_tuned, ).load_or_dump_trained_object(trained_object=model,
+                                                              indicator='TrainedModel',
+                                                              load_or_dump='dump')
+    
+
+
+
