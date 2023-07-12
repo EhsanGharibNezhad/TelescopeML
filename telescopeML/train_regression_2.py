@@ -52,19 +52,23 @@ from hpbandster.examples.commons import MyWorker
 from tensorflow.keras.models import load_model
 
 
-# from bokeh.io import output_notebook
-# from bokeh.layouts import row, column
-# output_notebook()
-# from bokeh.plotting import show,figure
-# TOOLTIPS = [
-#     ("index", "$index"),
-#     ("(x,y)", "($x, $y)"),
-# ]
+from bokeh.io import output_notebook
+from bokeh.layouts import row, column
+output_notebook()
+from bokeh.plotting import show,figure
+TOOLTIPS = [
+    ("index", "$index"),
+    ("(x,y)", "($x, $y)"),
+]
 # ===============================================================================
 # ==================                                           ==================
 # ==================            Train CNN Regression           ==================
 # ==================                                           ==================
 # ===============================================================================  
+
+from typing import List, Union, Dict
+from sklearn.base import BaseEstimator
+
 
 class TrainRegression:
     """
@@ -90,19 +94,19 @@ class TrainRegression:
         Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity)
     - target_name: str
         Name of the target variable
-    - is_tuned: str
+    - is_hyperparam_tuned: str
         Indicates whether hyperparameters are tuned or not ('yes' or 'no')
     - param_grid: dict
-        ML hyperparameters to be tuned (used if is_tuned = 'yes')
+        ML hyperparameters to be tuned (used if is_hyperparam_tuned = 'yes')
     - spectral_resolution: int
         Resolution of the synthetic spectra used to generate the dataset
-    - is_feature_improved: str
+    - feature_improvement_method: str
         Indicates the method used for feature improvement ('no', 'pca', 'RFE')
     - n_jobs: int
         Number of processors for optimization step
     - cv: int
         Cross-validation
-    - is_augmented: str
+    - augmentation_method: str
         Indicates if augmented dataset is used ('no' or method name)
     - ml_model: object
         ML model object from sklearn package
@@ -113,23 +117,24 @@ class TrainRegression:
     - Trained ML models
     """
 
-    def __init__(self,
-                 trained_model=None,
-                 trained_model_history=None,
-                 feature_values=None,
-                 feature_names=None,
-                 target_values=None,
-                 target_name=None,
-                 is_tuned='no',
-                 param_grid=None,
-                 spectral_resolution=None,
-                 is_feature_improved='no',
-                 n_jobs=None,
-                 cv=None,
-                 is_augmented='no',
-                 ml_model=None,
-                 ml_model_str=None
-                ):
+    def __init__(
+        self,
+        trained_model: Union[None, BaseEstimator] = None,
+        trained_model_history: Union[None, Dict] = None,
+        feature_values: Union[None, np.ndarray] = None,
+        feature_names: Union[None, List[str]] = None,
+        target_values: Union[None, np.ndarray] = None,
+        target_name: Union[None, str] = None,
+        is_tuned: str = 'no',
+        param_grid: Union[None, Dict] = None,
+        spectral_resolution: Union[None, int] = None,
+        is_feature_improved: str = 'no',
+        n_jobs: Union[None, int] = None,
+        cv: Union[None, int] = None,
+        is_augmented: str = 'no',
+        ml_model: Union[None, BaseEstimator] = None,
+        ml_model_str: Union[None, str] = None,
+    ) -> None:
 
         self.trained_model = trained_model
         self.trained_model_history = trained_model_history
@@ -140,13 +145,13 @@ class TrainRegression:
         self.is_tuned = is_tuned
         self.param_grid = param_grid
         self.spectral_resolution = spectral_resolution
-        self.feature_names = feature_names
         self.is_feature_improved = is_feature_improved
         self.n_jobs = n_jobs
         self.cv = cv
         self.is_augmented = is_augmented
         self.ml_model = ml_model
         self.ml_model_str = ml_model_str
+
 
     def split_train_test(self, test_size=0.1):
         """
@@ -586,7 +591,7 @@ class TrainRegression:
             print(scaler_column)
   
 
-    def plot_boxplot_scaled_features(self, scaled_feature, title = None):
+    def plot_boxplot_scaled_features(self, scaled_feature, title = None, xticks_list = None):
         """
         Interpretation: 
         - Median: middle quartile marks
@@ -594,17 +599,22 @@ class TrainRegression:
         - Upper quartile: 75% of the scores fall below the upper quartile.
         - Lower quartile: 25% of scores fall below the lower quartile.
         """
-        plt.figure(figsize=(12, 5))
+        plt.figure(figsize=(12, 3))
         plt.boxplot(scaled_feature, sym='')
         
         if len(scaled_feature) > 10:
-            plt.xticks(rotation=90)
+            plt.xticks(rotation=45)
 
         plt.xlabel('Features', fontsize=12)
         plt.ylabel('Scaled Value', fontsize=12)
         if title: 
             plt.title(title, fontsize=14)
             
+        # Add custom x-ticks
+        # custom_xticks = ['Label 1', 'Label 2', 'Label 3', 'Label 4']
+        if xticks_list:
+            plt.xticks(xticks_list)
+
         plt.tight_layout()
         plt.show()
 
@@ -620,8 +630,8 @@ class TrainRegression:
         
     def plot_model_loss (self, history = None, title = None):
         
-        from bokeh.plotting import figure, show
-        from bokeh.models import Legend
+        # from bokeh.plotting import figure, show
+        # from bokeh.models import Legend
         
         history = self.trained_model_history if history is None else history
         # Define the epochs as a list

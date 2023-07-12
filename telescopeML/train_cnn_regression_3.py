@@ -21,23 +21,6 @@ from tensorflow.keras.models import save_model
 import pickle as pk
 
 # Import BOHB Package ========================================
-
-# Libraries for BOHB Package 
-import logging
-logging.basicConfig(level=logging.WARNING)
-
-import argparse
-
-import hpbandster.core.nameserver as hpns
-import hpbandster.core.result as hpres
-
-from hpbandster.optimizers import BOHB as BOHB
-from hpbandster.examples.commons import MyWorker
-
-from tensorflow.keras.models import load_model
-import ConfigSpace as CS
-from hpbandster.core.worker import Worker
-
 import logging
 logging.basicConfig(level=logging.WARNING)
 
@@ -52,21 +35,21 @@ from hpbandster.examples.commons import MyWorker
 from tensorflow.keras.models import load_model
 
 
-# from bokeh.io import output_notebook
-# from bokeh.layouts import row, column
-# output_notebook()
-# from bokeh.plotting import show,figure
-# TOOLTIPS = [
-#     ("index", "$index"),
-#     ("(x,y)", "($x, $y)"),
-# ]
+from bokeh.io import output_notebook
+from bokeh.layouts import row, column
+output_notebook()
+from bokeh.plotting import show,figure
+TOOLTIPS = [
+    ("index", "$index"),
+    ("(x,y)", "($x, $y)"),
+]
 # ===============================================================================
 # ==================                                           ==================
 # ==================            Train CNN Regression           ==================
 # ==================                                           ==================
 # ===============================================================================  
 
-class TrainRegression:
+class TrainCNNRegression:
     """
     Perform Convolutional Neural Network training
 
@@ -439,7 +422,6 @@ class TrainRegression:
 
         if print_model:
             print(scaler_X)
-            
 
 
 
@@ -678,106 +660,107 @@ class TrainRegression:
 
       
 
-    def train_ml_regression_model(self,
-                               trained_model = None,
-                               X_train = None,
-                               X_val = None,
-                               X_test = None,
 
-                               y_train = None,
-                               y_val = None,
-                               y_test = None,
-
-                               is_tuned = 'no',
-                               n_iter = 3,  # number of iterations for Bayesian Optimization
-                               verbose = 1, # print output
-                               plot_results = True,
-                               print_results = True,
-                               ):
-        """
-        Train ML regression model using traditional ML algorithms using BayesSearchCV
-
-        Inputs
-        -------
-            -  self.is_tuned
-            -  self.ml_model
-            -  self.cv
-            -  self.param_grid
-            -  self.n_jobs
-            -  verbose = 1
-            -  scoring = mean_squared_error # Mean squared error regression loss.
-        Returns
-        --------
-            - Trained ML model
-        """
-        # Set default values if None is provided
-        trained_model = self.trained_model if trained_model is None else trained_model
-        is_tuned = self.is_tuned if is_tuned is None else is_tuned
-
-        X_train = self.X_train if X_train is None else X_train
-        X_val = self.X_val if X_val is None else X_val
-        X_test = self.X_test if X_test is None else X_test
-        
-        y_train = self.y_train if y_train is None else y_train
-        y_val = self.y_val if y_val is None else y_val
-        y_test = self.y_test if y_test is None else y_test
-        
-        
-        if self.is_tuned == 'yes':
-
-            model = BayesSearchCV(self.ml_model,
-                                  search_spaces = self.param_grid,
-                                  n_iter = n_iter,
-                                  cv = self.cv,
-                                  n_jobs = self.n_jobs,
-                                  verbose = 2,
-                                  )
-
-            model.fit( X_train, y_train)
-
-            self.optimized_params = {}
-            self.optimized_params = model.best_params_
-            self.trained_model = model
-
-
-            if plot_results:
-                assert isinstance( model.optimizer_results_, object)
-                plot_evaluations( model.optimizer_results_[0],
-                                 # bins=10,
-                                 dimensions=[xx.replace('estimator__', '') for xx in list(self.param_grid.keys())]
-                                 )
-
-            if print_results:
-                print(' ==============    Optimal HyperParameters    ============== ')
-                # display(self.optimized_params)
-                print("total_iterations", self.trained_model.total_iterations)
-                print("val. score: %s" % self.trained_model.best_score_)
-                print("test score: %s" % self.trained_model.score(self.X_test, self.y_test))
-                display("best params: %s" % str(self.trained_model.best_params_))
-                
-
-        if self.is_tuned == 'no':
-            # Instantiate the ML model using default parameters with NO evaluation set
-            model = self.ml_model
-            model.fit(X_train, y_train)
-            self.optimized_params = model.get_params(deep=True)
-            self.trained_model = model
-
-            if print_results:
-                print(' ==============    Optimal HyperParameters    ============== ')
-                # display(self.optimized_params)
-                print("val. score: %s" % self.trained_model.best_score_)
-                print("test score: %s" % self.trained_model.score(self.X_test, self.y_test))
-                display("best params: %s" % str(self.trained_model.best_params_))
-                
-
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned, ).load_or_dump_trained_object(trained_object=model,
-                                                              indicator='TrainedModel',
-                                                              load_or_dump='dump')
     
 
+# # Import functions from other modules ============================
+# from io_funs import LoadSave
 
+# # Import python libraries ========================================
+
+# # Dataset manipulation libraries - - - - - -
+# import pandas as pd
+# import numpy as np
+# from scipy.interpolate import interp1d
+
+# from os.path import exists
+# from time import time
+# import os
+
+# # ML algorithm libraries - - - - - - - - - -
+# from sklearn.model_selection import train_test_split
+# from sklearn.decomposition import PCA
+# from sklearn.preprocessing import StandardScaler
+# from sklearn import preprocessing
+# from sklearn.preprocessing import MinMaxScaler
+# # from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+
+# # Data Visualization libraries - - - - - - -  
+# # import matplotlib.pyplot as plt
+# # import seaborn as sns
+
+# # from bokeh.io import output_notebook
+# # from bokeh.layouts import row, column
+# # output_notebook()
+# # from bokeh.plotting import show,figure
+# # TOOLTIPS = [
+# #     ("index", "$index"),
+# #     ("(x,y)", "($x, $y)"),
+# # ]
+
+
+# # from bokeh.palettes import Category20, colorblind
+# # from bokeh.models import Label
+
+# import stats
+# # Astropy libraries - - - - - - - - - - -
+# import astropy.units as u
+# from scipy.interpolate import InterpolatedUnivariateSpline
+# from scipy.interpolate import pchip
+# import numpy as np
+
+
+        
+# # TensorFlow libraries - - - - - - - - - -
+# from sklearn.datasets import load_diabetes
+# from keras.models import Sequential
+# from keras.layers import Dense, Conv1D, Flatten
+# from sklearn.model_selection import train_test_split
+# from sklearn.metrics import mean_squared_error
+
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.utils import to_categorical
+# from tensorflow.keras.layers import Dense, Dropout, BatchNormalization, Flatten, Activation, Embedding, GlobalAveragePooling1D
+# from tensorflow.keras.layers import Conv1D, MaxPooling1D, MaxPooling1D, AveragePooling1D, GlobalAveragePooling1D
+# from tensorflow.keras.regularizers import l1, l2, l1_l2
+# from tensorflow.keras.callbacks import EarlyStopping
+# import tensorflow as tf
+# from keras.layers import Dense
+
+# from tensorflow import keras 
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Flatten
+# from tensorflow.keras.layers import Conv1D, Reshape
+# from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+
+
+
+# import os
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+# # MLP for Pima Indians Dataset with grid search via sklearn
+# # from keras.models import Sequential
+# # from keras.layers import Dense
+# # from keras.wrappers.scikit_learn import KerasClassifier
+# # from sklearn.model_selection import GridSearchCV
+# from tensorflow.keras import activations
+# from tensorflow.keras.optimizers import Adam
+# # MLP for Pima Indians Dataset Serialize to JSON and HDF5
+# from tensorflow.keras.models import Sequential, model_from_json
+# # from tensorflow.keras.layers import Dense
+# # import joblib
+
+
+# # import warnings
+# # warnings.filterwarnings('ignore')
+
+# # BOHB optimizer - - - - - - - - - - - - - -
+# import ConfigSpace as CS
+# import ConfigSpace.hyperparameters as CSH
+
+# from hpbandster.core.worker import Worker
+
+# import logging
+# logging.basicConfig(level=logging.DEBUG)
 
