@@ -4,6 +4,7 @@ outputs/
 ssh_key
 not_pushed/
 bohb_model_tuner/out*
+store/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
