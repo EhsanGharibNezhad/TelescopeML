@@ -6,4 +6,6 @@
 - Website: https://ehsangharibnezhad.github.io/telescopeML/index.html
 - Installation: https://ehsangharibnezhad.github.io/telescopeML/installation.html
 - Tutorials: https://ehsangharibnezhad.github.io/telescopeML/tutorials.html
-- Source code: https://github.com/ehsangharibnezhad/telescopeML
+- The code: https://github.com/ehsangharibnezhad/telescopeML
+- Concepts: https://ehsangharibnezhad.github.io/telescopeML/knowledgebase.html
+
