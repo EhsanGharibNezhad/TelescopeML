@@ -9,6 +9,7 @@ bohb_model_tuner/out*
 __pycache__/
 *.py[cod]
 *$py.class
+store
 
 # C extensions
 *.so
