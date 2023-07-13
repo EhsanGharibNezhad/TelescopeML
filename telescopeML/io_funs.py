@@ -12,7 +12,7 @@ class LoadSave:
         self.is_feature_improved = is_feature_improved
         self.is_augmented = is_augmented
         self.is_tuned = is_tuned
-        self.base_path = '../../outputs/regression/trained_models/'
+        self.base_path = '../../outputs/trained_models/'
 
     def create_generic_path(self, indicator):
         """

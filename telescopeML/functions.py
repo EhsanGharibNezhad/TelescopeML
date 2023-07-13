@@ -1,6 +1,7 @@
 # Import functions/Classes from other modules ====================
 from io_funs import LoadSave
-from predict_observational_dataset_v2 import ProcessObservationalDataset
+# from predict_observational_dataset_v2 import ProcessObservationalDataset
+# from predict_observational_dataset_v3 import ProcessObservationalDataset
 from train_regression_2 import *
 
 
@@ -545,6 +546,238 @@ from bokeh.palettes import Magma, Inferno, Plasma, Viridis, Cividis
 from bokeh.palettes import  viridis, inferno
        
 
+            
+def plot_predicted_vs_observed(training_datasets, 
+                               wl,
+                               predicted_targets_dic,
+                               object_name,
+                               bd_object_class,
+                               print_results = True,
+                              ):
+    
+
+    
+    ypred = list( predicted_targets_dic.values() )
+    
+    filtered_df = interpolate_df(dataset=training_datasets, 
+                       predicted_targets_dic = predicted_targets_dic,
+                       print_results_ = False)
+
+    display(filtered_df)
+    
+    
+    p = figure(
+        # title=f'{object_name} [XStand, yStand] Predicted: '+', '.join([['logg= ','C/O= ', 'Met= ', 'T= '][i]+str(np.round(y_pred[0][i],2)) for i in  range(4)]), 
+               x_axis_label='Features (Wavelength [𝜇m])', 
+               y_axis_label='Flux (F𝜈)',
+               width=1000, height=300,
+               y_axis_type = 'log')
+
+    # Add the scatter plot
+
+    p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0], 
+           line_width = 1,
+           legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
+
+    if print_results:
+        display(bd_object_class.df_flux_object.iloc[:, ::-1])
+
+    p.line(x = wl['wl'] , y = bd_object_class.df_flux_object.iloc[:, ::-1].values[0],
+           line_color = 'orange', line_width = 2,
+           legend_label='Observational')
+    
+    p.circle(x = wl['wl'] , y = bd_object_class.df_flux_object.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
+           line_width = 2,
+           color='orange'
+            )
+
+    # Increase size of x and y ticks
+    p.title.text_font_size = '12pt'
+    p.xaxis.major_label_text_font_size = '12pt'
+    p.xaxis.axis_label_text_font_size = '12pt'
+    p.yaxis.major_label_text_font_size = '12pt'
+    p.yaxis.axis_label_text_font_size = '12pt'
+
+
+    p.legend.location = "top_right"
+    p.legend.background_fill_color = 'white'
+    p.legend.background_fill_alpha = 0.5
+
+
+    show(p)
+    
+    
+def filter_dataframe(training_datasets, predicted_targets_dic):
+    nearest_value_list = []
+    filtered_df = training_datasets.copy()
+
+    # Check if the values exist in the respective columns
+    for col, value in predicted_targets_dic.items():
+        if value not in filtered_df[col].values:
+            nearest_value = filtered_df[col].values[np.argmin(np.abs(filtered_df[col].values - value))]
+            nearest_value_list.append(nearest_value)
+            filtered_df = filtered_df[filtered_df[col] == nearest_value]
+
+    return nearest_value_list, filtered_df    
+
+
+
+import seaborn as sns
+def boxplot_hist(data, 
+                 x_label, 
+                 xy_loc):
+    
+    fig, (ax_box, ax_hist) = plt.subplots(2, sharex=True, gridspec_kw={"height_ratios": (.15, .85)})
+    
+    sns.histplot(data, ax=ax_hist, kde=True, stat='probability')
+    sns.boxplot(x = data, ax=ax_box, showmeans=True, meanline = True,
+                meanprops={"marker": "|",
+                           "markeredgecolor": "white",
+                           "markersize": "30", 
+                            }
+                       )
+    
+    fig.set_figheight(3)
+    fig.set_figwidth(3)
+
+    ax_box.set(xlabel='')
+    sns.despine(ax=ax_hist)
+    sns.despine(ax=ax_box, left=True)
+    ax_box.set_yticks([])
+
+    mean = np.round(np.mean(data),2)
+    std = np.round(np.std(data),2)
+    plt.annotate(f'{x_label}='+str(np.round(mean,2))+'$\pm$'+str(np.round(std,2)), fontsize=11, 
+                 xy=(xy_loc[0], xy_loc[1]), xycoords='axes fraction')
+                    
+    plt.xlabel(x_label, fontsize = 12)
+
+    plt.show()
+    
+    
+    
+from bokeh.plotting import figure, show
+from bokeh.models import ColumnDataSource
+from bokeh.io import output_notebook
+
+
+
+def plot_spectra_errorbar(object_name, 
+                          features, 
+                          feature_values, 
+                          error):
+    
+    # Calculate the error bar coordinates
+    upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
+    lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
+
+    # Create a ColumnDataSource to store the data
+    source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
+
+    # Create the figure
+    p = figure(title=f"{object_name}: Calibrated Observational Spectra",
+               x_axis_label="Features (Wavelength [𝜇m])",
+               y_axis_label="Flux (F𝜈)",
+               width=1000, height=300,
+               y_axis_type="log",
+               tools="pan,wheel_zoom,box_zoom,reset")
+
+    # Increase size of x and y ticks
+    p.title.text_font_size = '12pt'
+    p.xaxis.major_label_text_font_size = '12pt'
+    p.xaxis.axis_label_text_font_size = '12pt'
+    p.yaxis.major_label_text_font_size = '12pt'
+    p.yaxis.axis_label_text_font_size = '12pt'
+
+    # Add the scatter plot
+    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2, legend_label=f"{object_name}: Observational data")
+
+    # Add the error bars using segment
+    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
+
+    # Show the plot
+    output_notebook()
+    show(p)
+    
+
+                            
+def plot_predicted_vs_spectra_errorbar(
+                          object_name, 
+                          features, 
+                          feature_values, 
+                          error, 
+                          training_datasets, 
+                               wl,
+                               predicted_targets_dic,
+                               bd_object_class,
+                               print_results_ = True,
+                            ):
+    
+    # Calculate the error bar coordinates
+    upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
+    lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
+
+    # Create a ColumnDataSource to store the data
+    source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
+
+    # Create the Observational figure ***********************************
+    p = figure(title=f"{object_name}: Calibrated Observational Spectra",
+               x_axis_label="Features (Wavelength [𝜇m])",
+               y_axis_label="Flux (F𝜈)",
+               width=1000, height=300,
+               y_axis_type="log",
+               tools="pan,wheel_zoom,box_zoom,reset")
+
+
+
+    # Add the scatter plot
+    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2, legend_label=f"{object_name}: Observational data")
+
+    # Add the error bars using segment
+    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
+
+
+    
+    # Create the Predicted figure ***********************************
+    
+    ypred = list( predicted_targets_dic.values() )
+    
+    filtered_df = interpolate_df(dataset=training_datasets, 
+                       predicted_targets_dic = predicted_targets_dic,
+                       print_results_ = False)
+
+    display(filtered_df)
+    
+    # Add the scatter plot
+
+    p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0], 
+           line_width = 1,
+           legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
+
+    # Increase size of x and y ticks
+    p.title.text_font_size = '12pt'
+    p.xaxis.major_label_text_font_size = '12pt'
+    p.xaxis.axis_label_text_font_size = '12pt'
+    p.yaxis.major_label_text_font_size = '12pt'
+    p.yaxis.axis_label_text_font_size = '12pt'
+
+
+    p.legend.location = "bottom_left"
+    p.legend.background_fill_color = 'white'
+    p.legend.background_fill_alpha = 0.5
+
+
+    if print_results_:
+        display(bd_object_class.df_flux_object.iloc[:, ::-1])
+
+
+    # Show the plot
+    output_notebook()
+    show(p)    
+    
+    
+    
+"""
     
 def PredictObsParametersRegression3(object_name, # the name of star, brown dwarf 
                                     dataset, # modeled/synthetic dataset
@@ -844,235 +1077,4 @@ def PredictObsParametersRegression3(object_name, # the name of star, brown dwarf
     return df_random_pred, spectra_list
 
         
-
-            
-def plot_predicted_vs_observed(training_datasets, 
-                               wl,
-                               predicted_targets_dic,
-                               object_name,
-                               bd_object_class,
-                               print_results = True,
-                              ):
-    
-
-    
-    ypred = list( predicted_targets_dic.values() )
-    
-    filtered_df = interpolate_df(dataset=training_datasets, 
-                       predicted_targets_dic = predicted_targets_dic,
-                       print_results_ = False)
-
-    display(filtered_df)
-    
-    
-    p = figure(
-        # title=f'{object_name} [XStand, yStand] Predicted: '+', '.join([['logg= ','C/O= ', 'Met= ', 'T= '][i]+str(np.round(y_pred[0][i],2)) for i in  range(4)]), 
-               x_axis_label='Features (Wavelength [𝜇m])', 
-               y_axis_label='Flux (F𝜈)',
-               width=1000, height=300,
-               y_axis_type = 'log')
-
-    # Add the scatter plot
-
-    p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0], 
-           line_width = 1,
-           legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
-
-    if print_results:
-        display(bd_object_class.df_flux_object.iloc[:, ::-1])
-
-    p.line(x = wl['wl'] , y = bd_object_class.df_flux_object.iloc[:, ::-1].values[0],
-           line_color = 'orange', line_width = 2,
-           legend_label='Observational')
-    
-    p.circle(x = wl['wl'] , y = bd_object_class.df_flux_object.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
-           line_width = 2,
-           color='orange'
-            )
-
-    # Increase size of x and y ticks
-    p.title.text_font_size = '12pt'
-    p.xaxis.major_label_text_font_size = '12pt'
-    p.xaxis.axis_label_text_font_size = '12pt'
-    p.yaxis.major_label_text_font_size = '12pt'
-    p.yaxis.axis_label_text_font_size = '12pt'
-
-
-    p.legend.location = "top_right"
-    p.legend.background_fill_color = 'white'
-    p.legend.background_fill_alpha = 0.5
-
-
-    show(p)
-    
-    
-def filter_dataframe(training_datasets, predicted_targets_dic):
-    nearest_value_list = []
-    filtered_df = training_datasets.copy()
-
-    # Check if the values exist in the respective columns
-    for col, value in predicted_targets_dic.items():
-        if value not in filtered_df[col].values:
-            nearest_value = filtered_df[col].values[np.argmin(np.abs(filtered_df[col].values - value))]
-            nearest_value_list.append(nearest_value)
-            filtered_df = filtered_df[filtered_df[col] == nearest_value]
-
-    return nearest_value_list, filtered_df    
-
-
-
-import seaborn as sns
-def boxplot_hist(data, 
-                 x_label, 
-                 xy_loc):
-    
-    fig, (ax_box, ax_hist) = plt.subplots(2, sharex=True, gridspec_kw={"height_ratios": (.15, .85)})
-    
-    sns.histplot(data, ax=ax_hist, kde=True, stat='probability')
-    sns.boxplot(x = data, ax=ax_box, showmeans=True, meanline = True,
-                meanprops={"marker": "|",
-                           "markeredgecolor": "white",
-                           "markersize": "30", 
-                            }
-                       )
-    
-    fig.set_figheight(3)
-    fig.set_figwidth(3)
-
-    ax_box.set(xlabel='')
-    sns.despine(ax=ax_hist)
-    sns.despine(ax=ax_box, left=True)
-    ax_box.set_yticks([])
-
-    mean = np.round(np.mean(data),2)
-    std = np.round(np.std(data),2)
-    plt.annotate(f'{x_label}='+str(np.round(mean,2))+'$\pm$'+str(np.round(std,2)), fontsize=11, 
-                 xy=(xy_loc[0], xy_loc[1]), xycoords='axes fraction')
-                    
-    plt.xlabel(x_label, fontsize = 12)
-
-    plt.show()
-    
-    
-    
-from bokeh.plotting import figure, show
-from bokeh.models import ColumnDataSource
-from bokeh.io import output_notebook
-
-from bokeh.plotting import figure, show
-from bokeh.models import ColumnDataSource
-from bokeh.io import output_notebook
-
-def plot_spectra_errorbar(object_name, 
-                          features, 
-                          feature_values, 
-                          error):
-    
-    # Calculate the error bar coordinates
-    upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
-    lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
-
-    # Create a ColumnDataSource to store the data
-    source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
-
-    # Create the figure
-    p = figure(title=f"{object_name}: Calibrated Observational Spectra",
-               x_axis_label="Features (Wavelength [𝜇m])",
-               y_axis_label="Flux (F𝜈)",
-               width=1000, height=300,
-               y_axis_type="log",
-               tools="pan,wheel_zoom,box_zoom,reset")
-
-    # Increase size of x and y ticks
-    p.title.text_font_size = '12pt'
-    p.xaxis.major_label_text_font_size = '12pt'
-    p.xaxis.axis_label_text_font_size = '12pt'
-    p.yaxis.major_label_text_font_size = '12pt'
-    p.yaxis.axis_label_text_font_size = '12pt'
-
-    # Add the scatter plot
-    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2, legend_label=f"{object_name}: Observational data")
-
-    # Add the error bars using segment
-    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
-
-    # Show the plot
-    output_notebook()
-    show(p)
-    
-
-                            
-def plot_predicted_vs_spectra_errorbar(
-                          object_name, 
-                          features, 
-                          feature_values, 
-                          error, 
-                          training_datasets, 
-                               wl,
-                               predicted_targets_dic,
-                               bd_object_class,
-                               print_results_ = True,
-                            ):
-    
-    # Calculate the error bar coordinates
-    upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
-    lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
-
-    # Create a ColumnDataSource to store the data
-    source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
-
-    # Create the Observational figure ***********************************
-    p = figure(title=f"{object_name}: Calibrated Observational Spectra",
-               x_axis_label="Features (Wavelength [𝜇m])",
-               y_axis_label="Flux (F𝜈)",
-               width=1000, height=300,
-               y_axis_type="log",
-               tools="pan,wheel_zoom,box_zoom,reset")
-
-
-
-    # Add the scatter plot
-    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2, legend_label=f"{object_name}: Observational data")
-
-    # Add the error bars using segment
-    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
-
-
-    
-    # Create the Predicted figure ***********************************
-    
-    ypred = list( predicted_targets_dic.values() )
-    
-    filtered_df = interpolate_df(dataset=training_datasets, 
-                       predicted_targets_dic = predicted_targets_dic,
-                       print_results_ = False)
-
-    display(filtered_df)
-    
-    # Add the scatter plot
-
-    p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0], 
-           line_width = 1,
-           legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
-
-    # Increase size of x and y ticks
-    p.title.text_font_size = '12pt'
-    p.xaxis.major_label_text_font_size = '12pt'
-    p.xaxis.axis_label_text_font_size = '12pt'
-    p.yaxis.major_label_text_font_size = '12pt'
-    p.yaxis.axis_label_text_font_size = '12pt'
-
-
-    p.legend.location = "bottom_left"
-    p.legend.background_fill_color = 'white'
-    p.legend.background_fill_alpha = 0.5
-
-
-    if print_results_:
-        display(bd_object_class.df_flux_object.iloc[:, ::-1])
-
-
-    # Show the plot
-    output_notebook()
-    show(p)    
-    
+"""    

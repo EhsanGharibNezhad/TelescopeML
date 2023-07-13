@@ -1,7 +1,10 @@
 # Import functions from other modules ============================
 
 from io_funs import LoadSave
-from functions import *
+# from functions import * #JUST CHANGED
+from functions import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, plot_predicted_vs_spectra_errorbar
+from functions import filter_dataframe, interpolate_df, find_nearest_top_bottom, filter_dataset_range, regression_report, print_results_fun
+
 # from train_ml_regression_2 import TrainMlRegression
 
 # Import python libraries ========================================
@@ -10,7 +13,12 @@ from functions import *
 import pandas as pd
 import numpy as np
 import pickle as pk
+from scipy import stats
+
 import os
+from bokeh.plotting import figure, show
+from bokeh.models import ColumnDataSource
+from bokeh.io import output_notebook
 
 # ML algorithm libraries
 from sklearn.model_selection import train_test_split
