@@ -3,7 +3,7 @@ os.environ['NUMEXPR_MAX_THREADS'] = '42'
 os.environ['NUMEXPR_NUM_THREADS'] = '40'
 import numexpr as ne
 
-ip_address = '127.0.0.4'
+ip_address = '127.0.0.1'
 
 
 import logging
