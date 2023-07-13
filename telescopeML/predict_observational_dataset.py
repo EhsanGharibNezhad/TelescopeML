@@ -2,8 +2,8 @@
 
 from io_funs import LoadSave
 # from functions import * #JUST CHANGED
-from functions import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, plot_predicted_vs_spectra_errorbar
-from functions import filter_dataframe, interpolate_df, find_nearest_top_bottom, filter_dataset_range, regression_report, print_results_fun
+from StatVisReportAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, plot_predicted_vs_spectra_errorbar
+from StatVisReportAnalyzer import filter_dataframe, interpolate_df, find_nearest_top_bottom, filter_dataset_range, regression_report, print_results_fun
 
 # from train_ml_regression_2 import TrainMlRegression
 
