@@ -14,7 +14,7 @@ sleep 10  # Add a 10-second delay
 
 # Run the subsequent instances with different arguments
 for i in {2..41}; do
-    python3 cnn_bohb_tuning9.py --worker &> "$directory/out$i" &
+    python3 Tune_CNN_hyperparameters_BOHB.py --worker &> "$directory/out$i" &
     sleep 3  # Add a 3-second delay
 done
 
