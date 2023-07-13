@@ -2,7 +2,7 @@
 from io_funs import LoadSave
 # from predict_observational_dataset_v2 import ProcessObservationalDataset
 # from predict_observational_dataset_v3 import ProcessObservationalDataset
-from train_regression import *
+from DeepRegTrainer import *
 
 
 # Import python libraries ========================================
