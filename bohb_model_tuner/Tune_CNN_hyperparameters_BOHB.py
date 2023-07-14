@@ -151,21 +151,22 @@ class KerasWorker(Worker):
         Convolution Neural Networks to be optimized by BOHB package.
         The input parameter "config" (dictionary) contains the sampled configurations passed by the bohb optimizer
         """
+                        
         Conv__filters = config['Conv__filters']
         Conv__kernel_size = config['Conv__kernel_size']
         Conv__MaxPooling1D = config['Conv__MaxPooling1D']
         Conv__NumberLayers = config['Conv__NumberLayers']
-        Conv__NumberBlocks = 2 #config['Conv__NumberBlocks']
+        Conv__NumberBlocks = config['Conv__NumberBlocks']
 
         FC__units = config['FC__units']
         FC__units_temperature = config['FC__units_temperature']
         FC__units_c_o_ratio = config['FC__units_c_o_ratio']
         FC__units_gravity = config['FC__units_gravity']
         FC__units_metallicity = config['FC__units_metallicity']
+        
+        
         FC__NumberLayers = config['FC__NumberLayers']
-        
         FC__dropout = config['FC__dropout']
-        
         FC_out_dropout = config['FC_out_dropout']
 
         FC_in_Conv__units = config['FC_in_Conv__units']
@@ -186,7 +187,7 @@ class KerasWorker(Worker):
         model = input_1
         for b in range(0, Conv__NumberBlocks):
             for l in range(0, Conv__NumberLayers):
-                model = Conv1D(filters = Conv__filters*(2)**b, 
+                model = Conv1D(filters = Conv__filters*(2)**(b+l), 
                                   kernel_size = Conv__kernel_size, 
                                   strides = 1, 
                                   padding ='same', 
@@ -211,7 +212,7 @@ class KerasWorker(Worker):
                             name = 'FC_in_Conv__B'+str(1)+'_L'+str(1))(model)
 
         model= Dropout(FC_in_Conv__dropout, #### Have different Drop out here!!! 
-                         name = 'FC_in_Conv__Dropout__B'+str(b+1)+'_L'+str(l+1))(model)
+                         name = 'FC_in_Conv__Dropout__B'+str(1)+'_L'+str(1))(model)
                 
                 
         ######### Concatenation Layer  ###############################
@@ -222,7 +223,7 @@ class KerasWorker(Worker):
         ######### FC Block  ####################################
         for b in range(1): # We need 1 Blocks
             for l in range(FC__NumberLayers): # We can have multiple layers
-                model = Dense(FC__units, 
+                model = Dense(FC__units*(l+1)*2, 
                                   activation = 'relu', 
                            kernel_initializer = 'he_normal',
                            # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
@@ -234,7 +235,6 @@ class KerasWorker(Worker):
         
 
         ######### 3rd FC Block: gravity  ##############################
-    #         FC2 = FC__Drop
 
         model2 = Dense(FC__units_gravity, 
                                   activation = 'relu', 
@@ -376,9 +376,9 @@ class KerasWorker(Worker):
         # Conv hyperparameters
         Conv__filters = CategoricalHyperparameter(name='Conv__filters', choices=[4 , 8, 16, 32]) # NOTE: Apply the same categorical method for other unit and 
         Conv__kernel_size = UniformIntegerHyperparameter(name='Conv__kernel_size', lower=1, upper=8, default_value=1,  log=False) # ok
-        Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=8, default_value=1, log=False) # ok
-        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=6, default_value=1,  log=False) # ok
-        Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=1, upper=4, default_value=1,  log=False) # ok
+        Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=8, default_value=2, log=False) # ok
+        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=4, default_value=2,  log=False) # ok
+        Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=1, upper=4, default_value=2,  log=False) # ok
 
         # FC hyperparameters
         FC__units = CategoricalHyperparameter(name='FC__units', choices=[8, 16, 32 , 64, 128, 256]) # NOTE: Apply the same categorical method for other unit and 
@@ -388,14 +388,11 @@ class KerasWorker(Worker):
         FC__units_c_o_ratio = CategoricalHyperparameter(name='FC__units_c_o_ratio', choices=[8, 16, 32 , 64, 128, 256]) # the same
         FC__units_gravity = CategoricalHyperparameter(name='FC__units_gravity', choices=[8, 16, 32 , 64, 128, 256]) # same
 
-        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=5, default_value=1,  log=False) 
-        # FC__NumberBlocks = UniformIntegerHyperparameter(name='FC__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) # DELETE - No blocks for FC
+        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=2, default_value=1,  log=False) 
         FC__dropout = UniformFloatHyperparameter(name='FC__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         FC_out_dropout = UniformFloatHyperparameter(name='FC_out_dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         
         FC_in_Conv__units = CategoricalHyperparameter(name='FC_in_Conv__units', choices=[8, 16, 32 , 64, 128, 256]) # same
-        #FC_in_Conv__NumberBlocks = UniformIntegerHyperparameter(name='FC_in_Conv__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) ## DELETE, 
-        FC_in_Conv__NumberLayers = UniformIntegerHyperparameter(name='FC_in_Conv__NumberLayers', lower=1, upper=5, default_value=1,  log=False) ### DELETE
         FC_in_Conv__dropout = UniformFloatHyperparameter(name='FC_in_Conv__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         
         # Other hyperparameters
@@ -414,13 +411,14 @@ class KerasWorker(Worker):
                                 Conv__kernel_size,
                                 Conv__MaxPooling1D,
                                 Conv__NumberLayers,
-                                # Conv__NumberBlocks,
+                                Conv__NumberBlocks,
             
                                 FC__units,
                                 FC__units_temperature,
                                 FC__units_c_o_ratio,
                                 FC__units_gravity,
                                 FC__units_metallicity,
+            
                                 FC__NumberLayers,
                                 FC__dropout,
                                 FC_out_dropout,
@@ -530,7 +528,7 @@ from hpbandster.optimizers import BOHB as BOHB
 parser = argparse.ArgumentParser(description='Example 3 - Local and Parallel Execution.')
 parser.add_argument('--min_budget',   type=float, help='Minimum budget used during the optimization.',    default=10)
 parser.add_argument('--max_budget',   type=float, help='Maximum budget used during the optimization.',    default=50)
-parser.add_argument('--n_iterations', type=int,   help='Number of iterations performed by the optimizer', default=1000)
+parser.add_argument('--n_iterations', type=int,   help='Number of iterations performed by the optimizer', default=50)
 parser.add_argument('--n_workers', type=int,   help='Number of workers to run in parallel.', default = 40 )
 parser.add_argument('--worker', help='Flag to turn this into a worker process', action='store_true')
 

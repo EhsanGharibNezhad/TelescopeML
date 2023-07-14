@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# How to Run:
+# 1. check the name of the *.py bohb codes
+# 2. make sure to have the dir ready for the output
+# 3. run: ./submit.sh <DIR_PATH>
+# 4. wait until all workers get submitted (~about 3 mins)
+# %. go grap a coffee :)
+
 # Check if the directory parameter is provided
 if [ -z "$1" ]; then
     echo "Please provide the directory parameter."
