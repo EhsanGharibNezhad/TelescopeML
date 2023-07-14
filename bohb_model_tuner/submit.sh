@@ -3,11 +3,15 @@
 # How to Run:
 # 1. check the name of the *.py bohb codes
 # 2. make sure to have the dir ready for the output
-# 3. run: ./submit.sh <DIR_PATH>
-# 4. wait until all workers get submitted (~about 3 mins)
-# %. go grap a coffee :)
+# 3. import the bohb enviroemnt: conda activate bohb
+# 4. run: ./submit.sh <DIR_PATH>
+# 5. wait until all workers get submitted (~about 3 mins)
+# 6. go grap a coffee :)
 
 # Check if the directory parameter is provided
+
+# conda activate bohb
+
 if [ -z "$1" ]; then
     echo "Please provide the directory parameter."
     exit 1
