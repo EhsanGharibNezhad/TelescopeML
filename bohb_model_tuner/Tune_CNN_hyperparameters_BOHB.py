@@ -9,28 +9,15 @@ ip_address = '127.0.0.1'
 import logging
 logging.basicConfig(level=logging.INFO)
 
-#import logging
-#logging.basicConfig(level=logging.INFO)
 import sys  
-sys.path.insert(0, '../../codes/')
+sys.path.insert(0, '../telescopeML/')
 
-from predict_observational_dataset_v2 import ProcessObservationalDataset
-from train_regression import *
-
-# import sys
-# sys.path.insert(0, '../../codes/')
+from DeepRegTrainer import TrainRegression
+from StatVisAnalyzer import *
 
 
-import sys
-sys.path.insert(0, '../../codes/')
-
-from predict_observational_dataset_v2 import ProcessObservationalDataset
-from check_results_regression_2 import *
 from bohb_optimizer_2 import *
-# from train_ml_regression_2 import *
-from train_cnn_regression_3 import *
 from search_space import *
-# from bohb_worker import *
 
 # Libraries for BOHB Package
 import argparse
@@ -164,25 +151,26 @@ class KerasWorker(Worker):
         Convolution Neural Networks to be optimized by BOHB package.
         The input parameter "config" (dictionary) contains the sampled configurations passed by the bohb optimizer
         """
+                        
         Conv__filters = config['Conv__filters']
         Conv__kernel_size = config['Conv__kernel_size']
         Conv__MaxPooling1D = config['Conv__MaxPooling1D']
         Conv__NumberLayers = config['Conv__NumberLayers']
-        Conv__NumberBlocks = 2 #config['Conv__NumberBlocks']
+        Conv__NumberBlocks = config['Conv__NumberBlocks']
 
         FC__units = config['FC__units']
         FC__units_temperature = config['FC__units_temperature']
         FC__units_c_o_ratio = config['FC__units_c_o_ratio']
         FC__units_gravity = config['FC__units_gravity']
         FC__units_metallicity = config['FC__units_metallicity']
+        
+        
         FC__NumberLayers = config['FC__NumberLayers']
-        
         FC__dropout = config['FC__dropout']
-        
         FC_out_dropout = config['FC_out_dropout']
 
-        #FC_in_Conv__units = config['FC_in_Conv__units']
-        #FC_in_Conv__dropout = config['FC_in_Conv__dropout']
+        FC_in_Conv__units = config['FC_in_Conv__units']
+        FC_in_Conv__dropout = config['FC_in_Conv__dropout']
         
 
         lr = config['lr']
@@ -199,7 +187,7 @@ class KerasWorker(Worker):
         model = input_1
         for b in range(0, Conv__NumberBlocks):
             for l in range(0, Conv__NumberLayers):
-                model = Conv1D(filters = Conv__filters*(2)**b, 
+                model = Conv1D(filters = Conv__filters*(2)**(b+l), 
                                   kernel_size = Conv__kernel_size, 
                                   strides = 1, 
                                   padding ='same', 
@@ -217,14 +205,14 @@ class KerasWorker(Worker):
 
 
         ######### FC Layer before the Concatenation   ################
-#         model = Dense(FC_in_Conv__units, 
-#                                   activation = 'relu', 
-#                            kernel_initializer = 'he_normal',
-#                            # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
-#                            name = 'FC_in_Conv__B'+str(1)+'_L'+str(1))(model)
+        model = Dense(FC_in_Conv__units, 
+                                   activation = 'relu', 
+                            kernel_initializer = 'he_normal',
+                            # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
+                            name = 'FC_in_Conv__B'+str(1)+'_L'+str(1))(model)
 
-#         model= Dropout(FC_in_Conv__dropout, #### Have different Drop out here!!! 
-#                         name = 'FC_in_Conv__Dropout__B'+str(b+1)+'_L'+str(l+1))(model)
+        model= Dropout(FC_in_Conv__dropout, #### Have different Drop out here!!! 
+                         name = 'FC_in_Conv__Dropout__B'+str(1)+'_L'+str(1))(model)
                 
                 
         ######### Concatenation Layer  ###############################
@@ -235,7 +223,7 @@ class KerasWorker(Worker):
         ######### FC Block  ####################################
         for b in range(1): # We need 1 Blocks
             for l in range(FC__NumberLayers): # We can have multiple layers
-                model = Dense(FC__units, 
+                model = Dense(FC__units*(l+1)*2, 
                                   activation = 'relu', 
                            kernel_initializer = 'he_normal',
                            # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
@@ -247,7 +235,6 @@ class KerasWorker(Worker):
         
 
         ######### 3rd FC Block: gravity  ##############################
-    #         FC2 = FC__Drop
 
         model2 = Dense(FC__units_gravity, 
                                   activation = 'relu', 
@@ -389,9 +376,9 @@ class KerasWorker(Worker):
         # Conv hyperparameters
         Conv__filters = CategoricalHyperparameter(name='Conv__filters', choices=[4 , 8, 16, 32]) # NOTE: Apply the same categorical method for other unit and 
         Conv__kernel_size = UniformIntegerHyperparameter(name='Conv__kernel_size', lower=1, upper=8, default_value=1,  log=False) # ok
-        Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=8, default_value=1, log=False) # ok
-        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=6, default_value=1,  log=False) # ok
-        Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=1, upper=4, default_value=1,  log=False) # ok
+        Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=8, default_value=2, log=False) # ok
+        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=4, default_value=2,  log=False) # ok
+        Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=1, upper=4, default_value=2,  log=False) # ok
 
         # FC hyperparameters
         FC__units = CategoricalHyperparameter(name='FC__units', choices=[8, 16, 32 , 64, 128, 256]) # NOTE: Apply the same categorical method for other unit and 
@@ -401,14 +388,11 @@ class KerasWorker(Worker):
         FC__units_c_o_ratio = CategoricalHyperparameter(name='FC__units_c_o_ratio', choices=[8, 16, 32 , 64, 128, 256]) # the same
         FC__units_gravity = CategoricalHyperparameter(name='FC__units_gravity', choices=[8, 16, 32 , 64, 128, 256]) # same
 
-        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=5, default_value=1,  log=False) 
-        # FC__NumberBlocks = UniformIntegerHyperparameter(name='FC__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) # DELETE - No blocks for FC
+        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=2, default_value=1,  log=False) 
         FC__dropout = UniformFloatHyperparameter(name='FC__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         FC_out_dropout = UniformFloatHyperparameter(name='FC_out_dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         
         FC_in_Conv__units = CategoricalHyperparameter(name='FC_in_Conv__units', choices=[8, 16, 32 , 64, 128, 256]) # same
-        #FC_in_Conv__NumberBlocks = UniformIntegerHyperparameter(name='FC_in_Conv__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) ## DELETE, 
-        #FC_in_Conv__NumberLayers = UniformIntegerHyperparameter(name='FC_in_Conv__NumberLayers', lower=1, upper=5, default_value=1,  log=False) ### DELETE
         FC_in_Conv__dropout = UniformFloatHyperparameter(name='FC_in_Conv__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         
         # Other hyperparameters
@@ -427,19 +411,20 @@ class KerasWorker(Worker):
                                 Conv__kernel_size,
                                 Conv__MaxPooling1D,
                                 Conv__NumberLayers,
-                                # Conv__NumberBlocks,
+                                Conv__NumberBlocks,
             
                                 FC__units,
                                 FC__units_temperature,
                                 FC__units_c_o_ratio,
                                 FC__units_gravity,
                                 FC__units_metallicity,
+            
                                 FC__NumberLayers,
                                 FC__dropout,
                                 FC_out_dropout,
             
-                                # FC_in_Conv__units,
-                                # FC_in_Conv__dropout,
+                                FC_in_Conv__units,
+                                FC_in_Conv__dropout,
             
                                 lr,
                                ]) 
@@ -450,15 +435,13 @@ class KerasWorker(Worker):
 
 
 # Step 1: Load the dataset
+# original dataset
 df=pd.read_csv('../../datasets/browndwarf_R100_v4_newWL_v2.csv.bz2', compression='bz2')
 wl = pd.read_csv('../../datasets/wl.csv')
 
 
 ## Prepare feature variables (X) and targets (y)
 df = df[df['is_augmented'].isin(['no'])]
-
-#df = df.iloc[::10] # Should be deleted for the main run
-
 X = df.drop(
     columns=['gravity', 
              'temperature', 
@@ -468,10 +451,11 @@ X = df.drop(
 
 y = df[['gravity', 'c_o_ratio', 'metallicity', 'temperature', ]]#.astype(np.float32)
 
+
+
 # Log-Transform
-df['temperature'] = df['temperature'].apply(lambda x: np.log10(x))
-#y.loc[:, 'temperature'] = np.log10(y['temperature'])
-##y['temperature'] = np.log10(y['temperature'])
+y['temperature'] = np.log10(y['temperature'])
+
 
 # Create an instance of TrainCNNRegression
 train_cnn_regression = TrainRegression(feature_values=X,
@@ -493,14 +477,11 @@ train_cnn_regression = TrainRegression(feature_values=X,
 # Split the dataset into train and test sets
 train_cnn_regression.split_train_validation_test(test_size=0.1, val_size=0.1)
 
-
 # normalize the X features using MinMax Scaler
-train_cnn_regression.normalize_X_row_wise()
-
+train_cnn_regression.standardize_X_row_wise()
 
 # Standardize the y features using Standard Scaler
 train_cnn_regression.standardize_y_column_wise()
-
 
 # Create Xmin and Xmax
 train_cnn_regression.X_train_min = train_cnn_regression.X_train.min(axis=1)
@@ -516,14 +497,14 @@ df_MinMax_train = pd.DataFrame((train_cnn_regression.X_train_min, train_cnn_regr
 df_MinMax_val = pd.DataFrame((train_cnn_regression.X_val_min, train_cnn_regression.X_val_max)).T
 df_MinMax_test = pd.DataFrame((train_cnn_regression.X_test_min, train_cnn_regression.X_test_max)).T
 
+
 df_MinMax_train.rename(columns={0:'min', 1:'max'}, inplace=True)
 
 
-
 train_cnn_regression.standardize_X_column_wise(
-                                            X_train = df_MinMax_train.values,
-                                            X_val   = df_MinMax_val.values,
-                                            X_test  = df_MinMax_test.values,
+                                                X_train = df_MinMax_train.values,
+                                                X_val   = df_MinMax_val.values,
+                                                X_test  = df_MinMax_test.values,
                                                 )
 
 
@@ -547,7 +528,7 @@ from hpbandster.optimizers import BOHB as BOHB
 parser = argparse.ArgumentParser(description='Example 3 - Local and Parallel Execution.')
 parser.add_argument('--min_budget',   type=float, help='Minimum budget used during the optimization.',    default=10)
 parser.add_argument('--max_budget',   type=float, help='Maximum budget used during the optimization.',    default=50)
-parser.add_argument('--n_iterations', type=int,   help='Number of iterations performed by the optimizer', default=1000)
+parser.add_argument('--n_iterations', type=int,   help='Number of iterations performed by the optimizer', default=50)
 parser.add_argument('--n_workers', type=int,   help='Number of workers to run in parallel.', default = 40 )
 parser.add_argument('--worker', help='Flag to turn this into a worker process', action='store_true')
 
@@ -559,9 +540,9 @@ args=parser.parse_args()
 if args.worker:
     w = KerasWorker(
                 # input dataset: StandardScaled instances  
-                X1_train = train_cnn_regression.X_train_normalized_rowwise,
-                X1_val   = train_cnn_regression.X_val_normalized_rowwise,
-                X1_test  = train_cnn_regression.X_test_normalized_rowwise,
+                X1_train = train_cnn_regression.X_train_standardized_columnwise,
+                X1_val   = train_cnn_regression.X_val_standardized_rowwise,
+                X1_test  = train_cnn_regression.X_test_standardized_rowwise,
 
                 # input dataset: Min Max of each instance  
                 X2_train = train_cnn_regression.X_train_standardized_columnwise,
@@ -590,22 +571,22 @@ if args.worker:
         
 
         
-                sleep_interval = 0.5, nameserver=ip_address,run_id='example3')
+                sleep_interval = 0.5, nameserver=ip_address,run_id='CNNtrain')
     
     w.run(background=False)
     exit(0)
 
 # Start a nameserver (see example_1)
-NS = hpns.NameServer(run_id='example3', host=ip_address, port=None)
+NS = hpns.NameServer(run_id='CNNtrain', host=ip_address, port=None)
 NS.start()
 
 
 # Run an optimizer (see example_2)
 
-result_logger = hpres.json_result_logger(directory='/data2/ehsan_storage/telescopeML/core_codes/bohb_tuning/out23/', overwrite=True)
+result_logger = hpres.json_result_logger(directory='/data2/ehsan_storage/telescopeML_project/outputs/bohb_outputs/out1', overwrite=True)
 
 bohb = BOHB(  configspace = KerasWorker.get_configspace(),
-                      run_id = 'example3',
+                      run_id = 'CNNtrain',
                       min_budget=args.min_budget, 
                       max_budget=args.max_budget,
                       result_logger = result_logger,
@@ -614,17 +595,6 @@ bohb = BOHB(  configspace = KerasWorker.get_configspace(),
 
 
 res = bohb.run(n_iterations=args.n_iterations, min_n_workers=args.n_workers)
-
-
-#scores = res.get_all_runs(only_largest_budget=False)
-#df = res.get_pandas_dataframe()[0]
-
-#df['config_id']= [ scores[i].config_id for i in range(len(scores)) ]
-#df['loss']= [ scores[i].loss for i in range(len(scores))  ]
-#df[['test_accuracy', 'train_accuracy', 'validation_accuracy', 'number_parameters']] = [ list(scores[i].info.values()) for i in range(len(scores)) ]
-#df['time_stamps']= [ scores[i].time_stamps['finished'] - scores[i].time_stamps['started'] for i in range(len(scores)) ]
-#df.sort_values(by='loss', ascending=False)
-#df.to_csv('df_output.csv', columns=df.columns.tolist(), index=False)
 
 
 
