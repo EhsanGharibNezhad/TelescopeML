@@ -1,6 +1,6 @@
 import os
-os.environ['NUMEXPR_MAX_THREADS'] = '42'
-os.environ['NUMEXPR_NUM_THREADS'] = '40'
+os.environ['NUMEXPR_MAX_THREADS'] = '12'
+os.environ['NUMEXPR_NUM_THREADS'] = '10'
 import numexpr as ne
 
 ip_address = '127.0.0.1'
@@ -153,28 +153,25 @@ class KerasWorker(Worker):
         Conv__kernel_size = config['Conv__kernel_size']
         Conv__MaxPooling1D = config['Conv__MaxPooling1D']
         Conv__NumberLayers = config['Conv__NumberLayers']
-        Conv__NumberBlocks = config['Conv__NumberBlocks']
+        Conv__NumberBlocks = 2 #config['Conv__NumberBlocks']
 
         FC__units = config['FC__units']
         FC__units_temperature = config['FC__units_temperature']
         FC__units_c_o_ratio = config['FC__units_c_o_ratio']
         FC__units_gravity = config['FC__units_gravity']
         FC__units_metallicity = config['FC__units_metallicity']
-        FC__NumberBlocks = config['FC__NumberBlocks']
         FC__NumberLayers = config['FC__NumberLayers']
-
-        FC_in_Conv__units = config['FC_in_Conv__units']
-        FC_in_Conv__NumberLayers = config['FC_in_Conv__NumberLayers']
-        FC_in_Conv__NumberBlocks = config['FC_in_Conv__NumberBlocks']
-
-
+        
         FC__dropout = config['FC__dropout']
+        
         FC_out_dropout = config['FC_out_dropout']
 
+        FC_in_Conv__units = config['FC_in_Conv__units']
+        FC_in_Conv__dropout = config['FC_in_Conv__dropout']
+        FC_in_Conv__NumberLayers = config['FC_in_Conv__NumberLayers']
+        
 
         lr = config['lr']
-        LeakyReLU_alpha = config['LeakyReLU_alpha']
-        kernel_initializer_list = config['kernel_initializer_list']
 
         
 
@@ -191,7 +188,7 @@ class KerasWorker(Worker):
                                   kernel_size = Conv__kernel_size, 
                                   strides = 1, 
                                   padding ='same', 
-                                  activation = LeakyReLU(alpha=LeakyReLU_alpha), 
+                                   activation = 'relu',
                                   kernel_initializer = 'he_normal',
                                   # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
                                   name = 'Conv__B'+str(b+1)+'_L'+str(l+1))(model) #(model if l != 0 and b != 0 else input_1)
@@ -204,16 +201,15 @@ class KerasWorker(Worker):
 
 
         ######### FC Layer before the Concatenation   ################
-        for b in range(FC_in_Conv__NumberBlocks):
-            for l in range(FC_in_Conv__NumberLayers):
-                model = Dense(FC_in_Conv__units*(b+l+1)*4,
-                                   activation = LeakyReLU(alpha=LeakyReLU_alpha),
-                                   kernel_initializer = 'he_normal',
-                                   # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
-                                   name = 'FC_in_Conv__B'+str(b+1)+'_L'+str(l+1))(model)
+        for l in range(FC_in_Conv__NumberLayers):
+            model = Dense(FC_in_Conv__units*(b+l+1)*4,
+                               activation = 'relu',
+                               kernel_initializer = 'he_normal',
+                               # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
+                               name = 'FC_in_Conv__B'+str(b+1)+'_L'+str(l+1))(model)
 
-                model= Dropout(FC__dropout,
-                                name = 'FC_in_Conv__Dropout__B'+str(b+1)+'_L'+str(l+1))(model)
+            model= Dropout(FC__dropout,
+                            name = 'FC_in_Conv__Dropout__B'+str(1)+'_L'+str(l+1))(model)
 
 
         ######### Concatenation Layer  ###############################
@@ -222,16 +218,15 @@ class KerasWorker(Worker):
                                                            name='Concatenated_Layer')
 
         ######### FC Block  ####################################
-        for b in range(FC__NumberBlocks):
-            for l in range(FC__NumberLayers):
-                model = Dense(FC__units*(b+l+1)*4,
-                           activation = LeakyReLU(alpha=LeakyReLU_alpha),
-                           kernel_initializer = 'he_normal',
-                           # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
-                           name = 'FC__B'+str(b+1)+'_L'+str(l+1))(model)
+        for l in range(FC__NumberLayers):
+            model = Dense(FC__units*(b+l+1)*4,
+                               activation = 'relu',
+                       kernel_initializer = 'he_normal',
+                       # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
+                       name = 'FC__B'+str(b+1)+'_L'+str(l+1))(model)
 
-                model= Dropout(FC__dropout,
-                                       name = 'FC__Dropout__B'+str(b+1)+'_L'+str(l+1))(model)
+            model= Dropout(FC__dropout,
+                                   name = 'FC__Dropout__B'+str(1)+'_L'+str(l+1))(model)
 
         ######### 3rd FC Block: gravity  ##############################
 
@@ -348,7 +343,7 @@ class KerasWorker(Worker):
         #print(train_score, val_score, test_score)
 #             #import IPython; IPython.embed()
         return ({
-                'loss': val_score[1], # remember: HpBandSter always minimizes!
+                'loss': val_score[0], # remember: HpBandSter always minimizes!
                 'info': {       'test accuracy': test_score,
                                         'train accuracy': train_score,
                                         'validation accuracy': val_score,
@@ -369,64 +364,59 @@ class KerasWorker(Worker):
         """
         cs = CS.ConfigurationSpace()
 
-
-
         # Conv hyperparameters
-        Conv__filters = UniformIntegerHyperparameter(name='Conv__filters', lower=4, upper=64, default_value=16,  log=False)
-        Conv__kernel_size = UniformIntegerHyperparameter(name='Conv__kernel_size', lower=1, upper=6, default_value=1,  log=False)
-        Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=4, default_value=1, log=False)
-        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=2, upper=4, default_value=2,  log=False)
-        Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=2, upper=4, default_value=2,  log=False)
+        Conv__filters = CategoricalHyperparameter(name='Conv__filters', choices=[4 , 8, 16, 32]) # NOTE: Apply the same categorical method for other unit and 
+        Conv__kernel_size = UniformIntegerHyperparameter(name='Conv__kernel_size', lower=1, upper=8, default_value=1,  log=False) # ok
+        Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=8, default_value=1, log=False) # ok
+        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=6, default_value=1,  log=False) # ok
+        Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=1, upper=4, default_value=1,  log=False) # ok
 
         # FC hyperparameters
-        FC__units = UniformIntegerHyperparameter(name='FC__units', lower=32, upper=256, default_value=32, log=False)
-        FC__units_temperature = UniformIntegerHyperparameter(name='FC__units_temperature', lower=32, upper=256, default_value=32, log=False)
-        FC__units_metallicity = UniformIntegerHyperparameter(name='FC__units_metallicity', lower=32, upper=256, default_value=32, log=False)
-        FC__units_c_o_ratio = UniformIntegerHyperparameter(name='FC__units_c_o_ratio', lower=32, upper=256, default_value=32, log=False)
-        FC__units_gravity = UniformIntegerHyperparameter(name='FC__units_gravity', lower=32, upper=256, default_value=32, log=False)
+        FC__units = CategoricalHyperparameter(name='FC__units', choices=[8, 16, 32 , 64, 128, 256]) # NOTE: Apply the same categorical method for other unit and 
 
-        FC_in_Conv__units = UniformIntegerHyperparameter(name='FC_in_Conv__units', lower=32, upper=256, default_value=32,  log=False)
-        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=2, upper=4, default_value=2,  log=False)
-        FC__NumberBlocks = UniformIntegerHyperparameter(name='FC__NumberBlocks', lower=2, upper=4, default_value=2,  log=False)
+        FC__units_temperature = CategoricalHyperparameter(name='FC__units_temperature', choices=[8, 16, 32 , 64, 128, 256]) # the same
+        FC__units_metallicity = CategoricalHyperparameter(name='FC__units_metallicity', choices=[8, 16, 32 , 64, 128, 256]) # the same
+        FC__units_c_o_ratio = CategoricalHyperparameter(name='FC__units_c_o_ratio', choices=[8, 16, 32 , 64, 128, 256]) # the same
+        FC__units_gravity = CategoricalHyperparameter(name='FC__units_gravity', choices=[8, 16, 32 , 64, 128, 256]) # same
+
+        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=5, default_value=1,  log=False) 
+        # FC__NumberBlocks = UniformIntegerHyperparameter(name='FC__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) # DELETE - No blocks for FC
         FC__dropout = UniformFloatHyperparameter(name='FC__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         FC_out_dropout = UniformFloatHyperparameter(name='FC_out_dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
-
-        FC_in_Conv__NumberBlocks = UniformIntegerHyperparameter(name='FC_in_Conv__NumberBlocks', lower=2, upper=4, default_value=2,  log=False)
-        FC_in_Conv__NumberLayers = UniformIntegerHyperparameter(name='FC_in_Conv__NumberLayers', lower=2, upper=4, default_value=2,  log=False)
-
+        
+        FC_in_Conv__units = CategoricalHyperparameter(name='FC_in_Conv__units', choices=[8, 16, 32 , 64, 128, 256]) # same
+        #FC_in_Conv__NumberBlocks = UniformIntegerHyperparameter(name='FC_in_Conv__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) ## DELETE, 
+        FC_in_Conv__NumberLayers = UniformIntegerHyperparameter(name='FC_in_Conv__NumberLayers', lower=1, upper=5, default_value=1,  log=False) ### DELETE
+        FC_in_Conv__dropout = UniformFloatHyperparameter(name='FC_in_Conv__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
+        
         # Other hyperparameters
         lr = UniformFloatHyperparameter(name='lr', lower=1e-5, upper=1e-2, default_value=1e-4, log=True)
-        LeakyReLU_alpha = UniformFloatHyperparameter(name='LeakyReLU_alpha', lower=0.01, upper=0.3, default_value=0.01, log=True)
-        kernel_initializer_list = CategoricalHyperparameter(name='kernel_initializer_list', choices=['he_normal', 'glorot_uniform'])
 
    
         
 
         cs.add_hyperparameters([
-                                Conv__filters,
+                               Conv__filters,
                                 Conv__kernel_size,
                                 Conv__MaxPooling1D,
                                 Conv__NumberLayers,
                                 Conv__NumberBlocks,
-
+                                #
                                 FC__units,
                                 FC__units_temperature,
                                 FC__units_c_o_ratio,
                                 FC__units_gravity,
                                 FC__units_metallicity,
                                 FC__NumberLayers,
-                                FC__NumberBlocks,
                                 FC__dropout,
                                 FC_out_dropout,
-
-                                FC_in_Conv__units,
-                                FC_in_Conv__NumberBlocks,
+            
                                 FC_in_Conv__NumberLayers,
+                                FC_in_Conv__units,
+                                FC_in_Conv__dropout,
 
 
                                 lr,
-                                LeakyReLU_alpha,
-                                kernel_initializer_list
                                ])
         
         
@@ -531,8 +521,8 @@ from hpbandster.optimizers import BOHB as BOHB
 parser = argparse.ArgumentParser(description='Example 3 - Local and Parallel Execution.')
 parser.add_argument('--min_budget',   type=float, help='Minimum budget used during the optimization.',    default=2)
 parser.add_argument('--max_budget',   type=float, help='Maximum budget used during the optimization.',    default=5)
-parser.add_argument('--n_iterations', type=int,   help='Number of iterations performed by the optimizer', default=100)
-parser.add_argument('--n_workers', type=int,   help='Number of workers to run in parallel.', default = 40 )
+parser.add_argument('--n_iterations', type=int,   help='Number of iterations performed by the optimizer', default=15)
+parser.add_argument('--n_workers', type=int,   help='Number of workers to run in parallel.', default = 10 )
 parser.add_argument('--worker', help='Flag to turn this into a worker process', action='store_true')
 
 args=parser.parse_args()
