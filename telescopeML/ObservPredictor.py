@@ -22,8 +22,6 @@ from bokeh.io import output_notebook
 
 # ML algorithm libraries
 from sklearn.model_selection import train_test_split
-# from sklearn.metrics import confusion_matrix, classification_report
-# from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 
@@ -42,17 +40,10 @@ from uncertainties import ufloat
 # ]
 from skopt.plots import plot_evaluations
 
-# check later if you need this
-# from bokeh.palettes import Category20, colorblind
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-# import warnings
-# warnings.filterwarnings('ignore')
 
 # from bokeh.palettes import Category20, colorblind
 from tensorflow.keras.models import Sequential, model_from_json
 #
-# color_list = sns.color_palette("colorblind", 30)
-# palette_list = sns.color_palette("colorblind", 30)
 
 
 
@@ -107,10 +98,17 @@ class ProcessObservationalDataset:
     Attribute
     ---------
     - feature_values_obs: Fluxes for each feature (wavelength) from observational data
+    - feature_values_obs_err: 
     - feature_names_obs: Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron
-    - feature_names_synthetic: Name of features (wavelength) from synthetic data
+    - feature_names_synthetic: Name of features (wavelengths) from synthetic data
     """
-    def __init__(self, feature_values_obs, feature_values_obs_err, feature_names_obs, feature_names_synthetic):
+    def __init__(self, 
+                 feature_values_obs, 
+                 feature_values_obs_err, 
+                 feature_names_obs, 
+                 feature_names_synthetic
+                ):
+        
         self.feature_values_obs = feature_values_obs
         self.feature_values_obs_err = feature_values_obs_err
         self.feature_names_obs = feature_names_obs
@@ -196,13 +194,13 @@ class ProcessObservationalDataset:
         self.bd['bd_logg'] = bd_logg
         self.bd['bd_met'] = bd_met
         self.bd['bd_distance_pc'] = bd_distance_pc
-        self.bd['bd_radius_Rjup'] = bd_radius_Rjup
+        self.bd['bd_radius_Rjup'] = bd_radius_Rjup ; print(self.bd['bd_radius_Rjup'])
         self.Fnu_obs_absolute = self.Fnu_obs * (
                 self.bd['bd_distance_pc'] * ((u.pc).to(u.jupiterRad)) / (self.bd['bd_radius_Rjup'])) ** 2
         self.Fnu_obs_absolute_err = self.Fnu_obs_err * (
                 self.bd['bd_distance_pc'] * ((u.pc).to(u.jupiterRad)) / (self.bd['bd_radius_Rjup'])) ** 2
         
-    def flux_interpolated(self, print_results=False, plot_results=True, use_spectres=False):
+    def flux_interpolated(self, print_results=False, plot_results=True, use_spectres=True):
         if use_spectres:
             self.Fnu_obs_absolute_intd = spectres.spectres(self.feature_names_model,
                                                            np.float128(self.feature_names_obs),
@@ -259,11 +257,13 @@ class ObsParameterPredictor:
                  dataset, 
                  wl, 
                  train_cnn_regression_class,
+                 object_radius,
                 ):
         self.object_name = object_name
         self.dataset = dataset
         self.wl = wl
         self.train_cnn_regression_class = train_cnn_regression_class
+        self.object_radius = object_radius # float, in Rjup
  
 
 
@@ -278,9 +278,11 @@ class ObsParameterPredictor:
                            delim_whitespace=True, comment='#', names=('wl','F_lambda','F_lambda_error'), 
                            usecols=(0,1,2))#.dropna(inplace=True)
 
-        # Clean the observational spectra: Replace negative fluxes with ZEROs and NAN to zeros
-        obs_data['F_lambda']=obs_data['F_lambda'].mask(obs_data['F_lambda'].lt(0),0)
+        # Process the dataset
+        obs_data['F_lambda'] = obs_data['F_lambda'].mask(obs_data['F_lambda'].lt(0),0)
         obs_data['F_lambda'].replace(0, np.nan, inplace=True)
+        obs_data['F_lambda'].interpolate(inplace=True)
+
 
         
         # if _replace_zeros_with_mean_:
@@ -322,11 +324,11 @@ class ObsParameterPredictor:
 
         # Add the BD derived values: name, Teff, logg, met, distance_pc, radius_Rjup
         if self.object_name == 'Ross458C':
-            bd_object.bd_info('Ross458C','804','4.09','0.23', 11.509, 0.68 )
+            bd_object.bd_info('Ross458C','804','4.09','0.23', 11.509, self.object_radius )#, 0.68 )
         if self.object_name == 'HD3651B':
-            bd_object.bd_info('HD3651B','818','3.94','-0.22', 11.134, 0.81 )
+            bd_object.bd_info('HD3651B','818','3.94','-0.22', 11.134, self.object_radius )#, 0.81 )
         if self.object_name == 'GJ570D':
-            bd_object.bd_info('GJ570D','818','3.94','-0.22', 5.884, 0.79 )    
+            bd_object.bd_info('GJ570D','818','3.94','-0.22', 5.884, self.object_radius )#0.79 )    
 
 
 
@@ -430,14 +432,13 @@ class ObsParameterPredictor:
 
 
 
-
             # Add the BD derived values: name, Teff, logg, met, distance_pc, radius_Rjup
             if self.object_name == 'Ross458C':
-                bd_object_generated.bd_info('Ross458C','804','4.09','0.23', 11.509, 0.68 )
+                bd_object_generated.bd_info('Ross458C','804','4.09','0.23', 11.509, self.object_radius )#, 0.68 )
             if self.object_name == 'HD3651B':
-                bd_object_generated.bd_info('HD3651B','818','3.94','-0.22', 11.134, 0.81 )
+                bd_object_generated.bd_info('HD3651B','818','3.94','-0.22', 11.134, self.object_radius )#, 0.81 )
             if self.object_name == 'GJ570D':
-                bd_object_generated.bd_info('GJ570D','818','3.94','-0.22', 5.884, 0.79 )    
+                bd_object_generated.bd_info('GJ570D','818','3.94','-0.22', 5.884, self.object_radius )#0.79 )    
 
 
 
@@ -1088,23 +1089,4 @@ def replace_zeros_with_mean(df_col):
     else:
         print("No zero values found in the column.")
         
-        
-# def replace_negative_with_mean(df_col):
-#     # Ref: ChatGPT
-#     # Replace zero values with the mean of their non-zero neighbors
-#     zero_indices = np.where(df_col.values < 0)
-
-#     if zero_indices[0].size > 0:
-#         for row in zero_indices[0]:
-#             neighbors = df_col.iloc[max(0, row-1):row+2]
-#             neighbors = neighbors[neighbors != 0]
-#             while len(neighbors) == 0:
-#                 row -= 1
-#                 neighbors = df_col.iloc[max(0, row-1):row+2]
-#                 neighbors = neighbors[neighbors != 0]
-#             df_col.iloc[row] = np.mean(neighbors)
-            
-#         return df_col
-    
-#     else:
-#         print("No zero values found in the column.")        
+  
