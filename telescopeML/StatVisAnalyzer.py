@@ -662,14 +662,53 @@ from bokeh.io import output_notebook
 
 
 
+def plot_spectra_errorbar_old(object_name, 
+                          features, 
+                          feature_values, 
+                          error):
+    
+    display(error)
+    # Calculate the error bar coordinates
+    upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
+    lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
+
+    # Create a ColumnDataSource to store the data
+    source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
+
+    # Create the figure
+    p = figure(title=f"{object_name}: Calibrated Observational Spectra",
+               x_axis_label="Features (Wavelength [𝜇m])",
+               y_axis_label="Flux (F𝜈)",
+               width=1000, height=300,
+               y_axis_type="log",
+               tools="pan,wheel_zoom,box_zoom,reset")
+
+    # Increase size of x and y ticks
+    p.title.text_font_size = '12pt'
+    p.xaxis.major_label_text_font_size = '12pt'
+    p.xaxis.axis_label_text_font_size = '12pt'
+    p.yaxis.major_label_text_font_size = '12pt'
+    p.yaxis.axis_label_text_font_size = '12pt'
+
+    # Add the scatter plot
+    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2, legend_label=f"{object_name}: Observational data")
+
+    # Add the error bars using segment
+    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
+
+    # Show the plot
+    output_notebook()
+    show(p)
+
+    
 def plot_spectra_errorbar(object_name, 
                           features, 
                           feature_values, 
                           error):
     
     # Calculate the error bar coordinates
-    upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
-    lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
+    upper = [y_val + err_val if not np.isnan(err_val) else y_val for y_val, err_val in zip(feature_values, error)]
+    lower = [y_val - err_val if not np.isnan(err_val) else y_val for y_val, err_val in zip(feature_values, error)]
 
     # Create a ColumnDataSource to store the data
     source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))

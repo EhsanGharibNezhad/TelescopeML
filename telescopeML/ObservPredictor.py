@@ -268,7 +268,9 @@ class ObsParameterPredictor:
 
 
     def load_observational_spectra(self,
-                                  plot_observational_spectra_errorbar_ = True):
+                                  plot_observational_spectra_errorbar_ = True,
+                                  _replace_zeros_with_mean_ = True,
+                                  ):
 
 
         # load the observational spectra 
@@ -280,10 +282,19 @@ class ObsParameterPredictor:
         obs_data['F_lambda']=obs_data['F_lambda'].mask(obs_data['F_lambda'].lt(0),0)
         obs_data['F_lambda'].replace(0, np.nan, inplace=True)
 
-        # Interpolate the observational spectra 
-        obs_data['F_lambda'].interpolate(inplace=True)
+        
+        # if _replace_zeros_with_mean_:
+        obs_data['F_lambda_error'] = replace_zeros_with_mean(obs_data['F_lambda_error'])
+
+        # if _replace_zeros_with_mean_:
+        #     obs_data['F_lambda'] = replace_zeros_with_mean(obs_data['F_lambda'])
+
+        
+
+
         
         self.obs_data = obs_data
+        display(self.obs_data)
 
     
         if plot_observational_spectra_errorbar_:
@@ -1057,3 +1068,43 @@ class PredictObsParametersRegression:
         show(p)      
         
         
+def replace_zeros_with_mean(df_col):
+    # Ref: ChatGPT
+    # Replace zero values with the mean of their non-zero neighbors
+    zero_indices = np.where(df_col.values <= 0)
+
+    if zero_indices[0].size > 0:
+        for row in zero_indices[0]:
+            neighbors = df_col.iloc[max(0, row-1):row+2]
+            neighbors = neighbors[neighbors != 0]
+            while len(neighbors) == 0:
+                row -= 1
+                neighbors = df_col.iloc[max(0, row-1):row+2]
+                neighbors = neighbors[neighbors != 0]
+            df_col.iloc[row] = np.mean(neighbors)
+
+        return df_col
+
+    else:
+        print("No zero values found in the column.")
+        
+        
+# def replace_negative_with_mean(df_col):
+#     # Ref: ChatGPT
+#     # Replace zero values with the mean of their non-zero neighbors
+#     zero_indices = np.where(df_col.values < 0)
+
+#     if zero_indices[0].size > 0:
+#         for row in zero_indices[0]:
+#             neighbors = df_col.iloc[max(0, row-1):row+2]
+#             neighbors = neighbors[neighbors != 0]
+#             while len(neighbors) == 0:
+#                 row -= 1
+#                 neighbors = df_col.iloc[max(0, row-1):row+2]
+#                 neighbors = neighbors[neighbors != 0]
+#             df_col.iloc[row] = np.mean(neighbors)
+            
+#         return df_col
+    
+#     else:
+#         print("No zero values found in the column.")        
