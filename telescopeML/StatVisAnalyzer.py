@@ -311,10 +311,13 @@ def interpolate_df(dataset,
                     df_interpolated_all.append(df_interpolated_)
 
 
-    df_interpolated_all = df_interpolated_.append(df_interpolated_all, ignore_index=True)       
+    # df_interpolated_all = df_interpolated_.append(df_interpolated_all, ignore_index=True)       
+    # df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
+    df_interpolated_all = pd.concat([df_interpolated_] + df_interpolated_all, ignore_index=True)
 
 
     df_interpolated_.append(df_interpolated_all, ignore_index=True)         
+    # df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
 
     # ***************************************************************************************
@@ -551,7 +554,7 @@ def plot_predicted_vs_observed(training_datasets,
                                wl,
                                predicted_targets_dic,
                                object_name,
-                               bd_object_class,
+                               df_flux_object,
                                print_results = True,
                               ):
     
@@ -580,13 +583,13 @@ def plot_predicted_vs_observed(training_datasets,
            legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
 
     if print_results:
-        display(bd_object_class.df_flux_object.iloc[:, ::-1])
+        display(df_flux_object.iloc[:, ::-1])
 
-    p.line(x = wl['wl'] , y = bd_object_class.df_flux_object.iloc[:, ::-1].values[0],
+    p.line(x = wl['wl'] , y = df_flux_object.iloc[:, ::-1].values[0],
            line_color = 'orange', line_width = 2,
            legend_label='Observational')
     
-    p.circle(x = wl['wl'] , y = bd_object_class.df_flux_object.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
+    p.circle(x = wl['wl'] , y = df_flux_object.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
            line_width = 2,
            color='orange'
             )
@@ -662,62 +665,69 @@ from bokeh.io import output_notebook
 
 
 
+# def plot_spectra_errorbar_old(object_name, 
+#                           features, 
+#                           feature_values, 
+#                           error):
+    
+#     display(error)
+#     # Calculate the error bar coordinates
+#     upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
+#     lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
+
+#     # Create a ColumnDataSource to store the data
+#     source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
+
+#     # Create the figure
+#     p = figure(title=f"{object_name}: Calibrated Observational Spectra",
+#                x_axis_label="Features (Wavelength [𝜇m])",
+#                y_axis_label="Flux (F𝜈)",
+#                width=1000, height=300,
+#                y_axis_type="log",
+#                tools="pan,wheel_zoom,box_zoom,reset")
+
+#     # Increase size of x and y ticks
+#     p.title.text_font_size = '12pt'
+#     p.xaxis.major_label_text_font_size = '12pt'
+#     p.xaxis.axis_label_text_font_size = '12pt'
+#     p.yaxis.major_label_text_font_size = '12pt'
+#     p.yaxis.axis_label_text_font_size = '12pt'
+
+#     # Add the scatter plot
+#     p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2, legend_label=f"{object_name}: Observational data")
+
+#     # Add the error bars using segment
+#     p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
+
+#     # Show the plot
+#     output_notebook()
+#     show(p)
+
+    
 def plot_spectra_errorbar_old(object_name, 
                           features, 
                           feature_values, 
                           error):
     
-    display(error)
-    # Calculate the error bar coordinates
-    upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
-    lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
+    # Define maximum error threshold as a percentage of y-value
+    max_error_threshold = 0.8
+    y = feature_values
+    error = error
+    
+    # Calculate adjusted error bar coordinates
+    upper = np.minimum(y + error, y + y * max_error_threshold)
+    lower = np.maximum(y - error, y - y * max_error_threshold)# Sample data
+
 
     # Create a ColumnDataSource to store the data
     source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
+
 
     # Create the figure
     p = figure(title=f"{object_name}: Calibrated Observational Spectra",
                x_axis_label="Features (Wavelength [𝜇m])",
                y_axis_label="Flux (F𝜈)",
-               width=1000, height=300,
-               y_axis_type="log",
-               tools="pan,wheel_zoom,box_zoom,reset")
-
-    # Increase size of x and y ticks
-    p.title.text_font_size = '12pt'
-    p.xaxis.major_label_text_font_size = '12pt'
-    p.xaxis.axis_label_text_font_size = '12pt'
-    p.yaxis.major_label_text_font_size = '12pt'
-    p.yaxis.axis_label_text_font_size = '12pt'
-
-    # Add the scatter plot
-    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2, legend_label=f"{object_name}: Observational data")
-
-    # Add the error bars using segment
-    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
-
-    # Show the plot
-    output_notebook()
-    show(p)
-
-    
-def plot_spectra_errorbar(object_name, 
-                          features, 
-                          feature_values, 
-                          error):
-    
-    # Calculate the error bar coordinates
-    upper = [y_val + err_val if not np.isnan(err_val) else y_val for y_val, err_val in zip(feature_values, error)]
-    lower = [y_val - err_val if not np.isnan(err_val) else y_val for y_val, err_val in zip(feature_values, error)]
-
-    # Create a ColumnDataSource to store the data
-    source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
-
-    # Create the figure
-    p = figure(title=f"{object_name}: Calibrated Observational Spectra",
-               x_axis_label="Features (Wavelength [𝜇m])",
-               y_axis_label="Flux (F𝜈)",
-               width=1000, height=300,
+               width=800, height=400,
                y_axis_type="log",
                tools="pan,wheel_zoom,box_zoom,reset")
 
@@ -740,7 +750,7 @@ def plot_spectra_errorbar(object_name,
     
 
                             
-def plot_predicted_vs_spectra_errorbar(
+def plot_predicted_vs_spectra_errorbar_old(
                           object_name, 
                           features, 
                           feature_values, 
@@ -752,12 +762,19 @@ def plot_predicted_vs_spectra_errorbar(
                                print_results_ = True,
                             ):
     
-    # Calculate the error bar coordinates
-    upper = [y_val + err_val for y_val, err_val in zip(feature_values, error)]
-    lower = [y_val - err_val for y_val, err_val in zip(feature_values, error)]
+    # Define maximum error threshold as a percentage of y-value
+    max_error_threshold = 0.8
+    y = feature_values
+    error = error
+    
+    # Calculate adjusted error bar coordinates
+    upper = np.minimum(y + error, y + y * max_error_threshold)
+    lower = np.maximum(y - error, y - y * max_error_threshold)# Sample data
+
 
     # Create a ColumnDataSource to store the data
     source = ColumnDataSource(data=dict(x=features, y=feature_values, upper=upper, lower=lower))
+
 
     # Create the Observational figure ***********************************
     p = figure(title=f"{object_name}: Calibrated Observational Spectra",
