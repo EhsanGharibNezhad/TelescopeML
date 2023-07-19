@@ -1,6 +1,6 @@
 import os
-os.environ['NUMEXPR_MAX_THREADS'] = '12'
-os.environ['NUMEXPR_NUM_THREADS'] = '10'
+os.environ['NUMEXPR_MAX_THREADS'] = '42'
+os.environ['NUMEXPR_NUM_THREADS'] = '40'
 import numexpr as ne
 
 ip_address = '127.0.0.1'
@@ -153,7 +153,7 @@ class KerasWorker(Worker):
         Conv__kernel_size = config['Conv__kernel_size']
         Conv__MaxPooling1D = config['Conv__MaxPooling1D']
         Conv__NumberLayers = config['Conv__NumberLayers']
-        Conv__NumberBlocks = 2 #config['Conv__NumberBlocks']
+        Conv__NumberBlocks = config['Conv__NumberBlocks']
 
         FC__units = config['FC__units']
         FC__units_temperature = config['FC__units_temperature']
@@ -184,7 +184,7 @@ class KerasWorker(Worker):
         model = input_1
         for b in range(0, Conv__NumberBlocks):
             for l in range(0, Conv__NumberLayers):
-                model = Conv1D(filters = Conv__filters*(b+l+1)*2, 
+                model = Conv1D(filters = Conv__filters*(b+l+1)**2, 
                                   kernel_size = Conv__kernel_size, 
                                   strides = 1, 
                                   padding ='same', 
@@ -202,7 +202,7 @@ class KerasWorker(Worker):
 
         ######### FC Layer before the Concatenation   ################
         for l in range(FC_in_Conv__NumberLayers):
-            model = Dense(FC_in_Conv__units*(b+l+1)*4,
+            model = Dense(FC_in_Conv__units*(l+1)**2,
                                activation = 'relu',
                                kernel_initializer = 'he_normal',
                                # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
@@ -219,7 +219,7 @@ class KerasWorker(Worker):
 
         ######### FC Block  ####################################
         for l in range(FC__NumberLayers):
-            model = Dense(FC__units*(b+l+1)*4,
+            model = Dense(FC__units*(l+1)**2,
                                activation = 'relu',
                        kernel_initializer = 'he_normal',
                        # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
@@ -368,7 +368,7 @@ class KerasWorker(Worker):
         Conv__filters = CategoricalHyperparameter(name='Conv__filters', choices=[4 , 8, 16, 32]) # NOTE: Apply the same categorical method for other unit and 
         Conv__kernel_size = UniformIntegerHyperparameter(name='Conv__kernel_size', lower=1, upper=8, default_value=1,  log=False) # ok
         Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=8, default_value=1, log=False) # ok
-        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=6, default_value=1,  log=False) # ok
+        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=4, default_value=1,  log=False) # ok
         Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=1, upper=4, default_value=1,  log=False) # ok
 
         # FC hyperparameters
@@ -379,14 +379,14 @@ class KerasWorker(Worker):
         FC__units_c_o_ratio = CategoricalHyperparameter(name='FC__units_c_o_ratio', choices=[8, 16, 32 , 64, 128, 256]) # the same
         FC__units_gravity = CategoricalHyperparameter(name='FC__units_gravity', choices=[8, 16, 32 , 64, 128, 256]) # same
 
-        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=5, default_value=1,  log=False) 
+        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=4, default_value=1,  log=False) 
         # FC__NumberBlocks = UniformIntegerHyperparameter(name='FC__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) # DELETE - No blocks for FC
         FC__dropout = UniformFloatHyperparameter(name='FC__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         FC_out_dropout = UniformFloatHyperparameter(name='FC_out_dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         
         FC_in_Conv__units = CategoricalHyperparameter(name='FC_in_Conv__units', choices=[8, 16, 32 , 64, 128, 256]) # same
         #FC_in_Conv__NumberBlocks = UniformIntegerHyperparameter(name='FC_in_Conv__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) ## DELETE, 
-        FC_in_Conv__NumberLayers = UniformIntegerHyperparameter(name='FC_in_Conv__NumberLayers', lower=1, upper=5, default_value=1,  log=False) ### DELETE
+        FC_in_Conv__NumberLayers = UniformIntegerHyperparameter(name='FC_in_Conv__NumberLayers', lower=1, upper=4, default_value=1,  log=False) ### DELETE
         FC_in_Conv__dropout = UniformFloatHyperparameter(name='FC_in_Conv__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         
         # Other hyperparameters
@@ -519,10 +519,10 @@ from hpbandster.optimizers import BOHB as BOHB
 
 
 parser = argparse.ArgumentParser(description='Example 3 - Local and Parallel Execution.')
-parser.add_argument('--min_budget',   type=float, help='Minimum budget used during the optimization.',    default=2)
-parser.add_argument('--max_budget',   type=float, help='Maximum budget used during the optimization.',    default=5)
-parser.add_argument('--n_iterations', type=int,   help='Number of iterations performed by the optimizer', default=15)
-parser.add_argument('--n_workers', type=int,   help='Number of workers to run in parallel.', default = 10 )
+parser.add_argument('--min_budget',   type=float, help='Minimum budget used during the optimization.',    default=10)
+parser.add_argument('--max_budget',   type=float, help='Maximum budget used during the optimization.',    default=30)
+parser.add_argument('--n_iterations', type=int,   help='Number of iterations performed by the optimizer', default=10000)
+parser.add_argument('--n_workers', type=int,   help='Number of workers to run in parallel.', default = 40 )
 parser.add_argument('--worker', help='Flag to turn this into a worker process', action='store_true')
 
 args=parser.parse_args()
@@ -576,7 +576,7 @@ NS.start()
 
 # Run an optimizer (see example_2)
 
-result_logger = hpres.json_result_logger(directory='/data2/ehsan_storage/telescopeML_project/outputs/bohb_outputs/out1', overwrite=True)
+result_logger = hpres.json_result_logger(directory='/data2/ehsan_storage/telescopeML_project/outputs/bohb_outputs/out2', overwrite=True)
 
 bohb = BOHB(  configspace = KerasWorker.get_configspace(),
                       run_id = 'CNNtrain',
