@@ -10,6 +10,12 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 
+import numpy as np
+from scipy.stats import chi2
+from scipy.interpolate import interp1d
+from scipy.stats import chisquare
+
+
 import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
@@ -1171,3 +1177,236 @@ def calculate_confidence_intervals_std_df(dataset_df,
         show(p)
 
     return stat_df
+
+
+from bokeh.plotting import figure, show, output_notebook
+from bokeh.models import ColumnDataSource
+
+def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Data with Error Bars"):
+    """
+    Create a Bokeh plot with custom error bars for two datasets.
+
+    Args:
+        x_obs (array-like): X-axis values for observed dataset.
+        y_obs (array-like): Y-axis values for observed dataset.
+        err_obs (array-like): Error bars for observed dataset (positive values).
+        x_pre (array-like): X-axis values for predicted dataset.
+        y_pre (array-like): Y-axis values for predicted dataset.
+        err_pre (array-like): Error bars for predicted dataset (positive values).
+        title (str): Title of the plot (default is "Data with Error Bars").
+
+    Returns:
+        None (Displays the plot).
+
+    """
+    # Calculate upper and lower error bars for observed dataset
+    upper_err_obs = [y_i + err for y_i, err in zip(y_obs, err_obs)]
+    lower_err_obs = [y_i - err for y_i, err in zip(y_obs, err_obs)]
+
+    # Calculate upper and lower error bars for predicted dataset
+    upper_err_pre = [y_i + err for y_i, err in zip(y_pre, err_pre)]
+    lower_err_pre = [y_i - err for y_i, err in zip(y_pre, err_pre)]
+
+    # Create Bokeh ColumnDataSources for both datasets
+    source_obs = ColumnDataSource(data=dict(x_obs=x_obs, y_obs=y_obs, upper_err_obs=upper_err_obs, lower_err_obs=lower_err_obs))
+    source_pre = ColumnDataSource(data=dict(x_pre=x_pre, y_pre=y_pre, upper_err_pre=upper_err_pre, lower_err_pre=lower_err_pre))
+
+    p = figure(
+        x_axis_label='Features (Wavelength [𝜇m])', 
+        y_axis_label='Flux (F𝜈)',
+        width=800, height=300,
+        y_axis_type='log',
+        title=title
+    )
+    
+    # Plot data points for observed dataset
+    p.circle(x='x_obs', y='y_obs', source=source_obs, size=3, color="blue", legend_label="Observed")
+
+    # Plot custom error bars for observed dataset using the segment glyph
+    p.segment(x0='x_obs', y0='lower_err_obs', x1='x_obs', y1='upper_err_obs', line_color="grey", source=source_obs)
+
+    # Plot data points for predicted dataset
+    p.square(x='x_pre', y='y_pre', source=source_pre, size=3, color="red", legend_label="Predicted")
+
+    # Plot custom error bars for predicted dataset using the segment glyph
+    p.segment(x0='x_pre', y0='lower_err_pre', x1='x_pre', y1='upper_err_pre', line_color="grey", source=source_pre)
+
+    # Add legend
+    p.legend.location = "top_left"
+    p.legend.click_policy = "hide"
+
+    # Increase size of x and y ticks
+    p.title.text_font_size = '12pt'
+    p.xaxis.major_label_text_font_size = '12pt'
+    p.xaxis.axis_label_text_font_size = '12pt'
+    p.yaxis.major_label_text_font_size = '12pt'
+    p.yaxis.axis_label_text_font_size = '12pt'
+
+
+    p.legend.location = "top_right"
+    p.legend.background_fill_color = 'white'
+    p.legend.background_fill_alpha = 0.5
+    
+    # Show the plot
+    output_notebook()
+    show(p)
+
+    
+
+
+def chi_square_test(x_obs, y_obs, yerr_obs, 
+                    x_pre, y_pre, yerr_pre,
+                    radius,
+                    __plot_results__ = False,
+                    __print_results__ = True):
+    """
+    Perform the chi-square test to evaluate the similarity between two datasets with error bars.
+    
+    Args:
+        data1 (array-like): The first dataset.
+        data2 (array-like): The second dataset.
+        error1 (array-like): The error bars associated with the first dataset.
+        error2 (array-like): The error bars associated with the second dataset.
+        num_points (int): The number of points to interpolate for datasets with different lengths.
+    
+    Returns:
+        float: The chi-square test statistic.
+        float: The p-value.
+    
+    Raises:
+        ValueError: If the lengths of the datasets or error bars are not equal.
+    
+    """
+    # Convert input to NumPy arrays for easier calculations
+    data1 = np.asarray(y_obs)
+    data2 = np.asarray(y_pre)
+    error1 = np.asarray(yerr_obs)
+    error2 = np.asarray(yerr_pre)
+    
+    num_points = len(x_pre)
+    
+    # Interpolate datasets if they have different lengths
+    if len(data1) != len(data2):
+        f1 = interp1d(x_obs, data1, kind='quadratic', fill_value='extrapolate') #interp1d(x1, data1, kind='quadratic')
+        f2 = interp1d(x_pre, data2, kind='quadratic', fill_value='extrapolate')
+        data1 = f1(x_pre)
+        data2 = f2(x_pre)
+
+        f_error1 = interp1d(x_obs, error1, kind='quadratic', fill_value='extrapolate')
+        f_error2 = interp1d(x_pre, error2, kind='quadratic', fill_value='extrapolate')
+        error1 = f_error1(x_pre)
+        error2 = f_error2(x_pre)
+        
+        # print(error1)
+    
+    # Calculate the chi-square test statistic
+    chi2_stat = np.round( np.sum(((data1 - data2) / np.sqrt(error1**2 + error2**2))**2), 2)
+    
+    # Calculate the degrees of freedom
+    degrees_of_freedom = len(data1) - 1
+    
+    # Calculate the p-value using the chi-square distribution
+    p_value = "{:.2e}".format( 1.0 - chi2.cdf(chi2_stat, degrees_of_freedom) )
+    # p_value = '{:.2e}'.p_value
+    
+    if __plot_results__:
+        plot_with_errorbars(x_pre, data1, error1, 
+                            x_pre, data2, error2, 
+                            title=f"Radius={'{:.2f}'.format(radius)} R_Jup:  𝛘2={chi2_stat}, p-value={p_value}")
+        
+    if __print_results__:
+        print( f"Radius = {'{:.2f}'.format(radius)} R_Jup:  𝛘2 = {chi2_stat}, p-value = {p_value}")
+        
+    
+    return chi2_stat, p_value
+    
+    
+import matplotlib.pyplot as plt
+
+
+
+
+def plot_two_lines_with_twin_y(radius, chi_square_list, p_value_list, 
+                               ):
+    """
+    Plot two lines on the same plot with twin y-axis.
+    
+    Args:
+        x (array-like): The x-axis values.
+        y1 (array-like): The y-axis values for the first line.
+        y2 (array-like): The y-axis values for the second line.
+        label1 (str): Label for the first line (default is 'Line 1').
+        label2 (str): Label for the second line (default is 'Line 2').
+        xlabel (str): Label for the x-axis (default is 'X-axis').
+        ylabel1 (str): Label for the first y-axis (default is 'Y-axis 1').
+        ylabel2 (str): Label for the second y-axis (default is 'Y-axis 2').
+        title (str): Title for the plot (default is 'Two Lines Plot with Twin Y').
+    
+    Returns:
+        None (displays the plot).
+    """
+    fig, ax1 = plt.subplots(figsize=(4, 4))
+
+    # Plot the first line
+    ax1.semilogy(radius, chi_square_list, 'b*', label = '$\chi^2$ value')
+    ax1.semilogy(radius, p_value_list, 'ro', label = 'p-value')
+    ax1.set_xlabel(r'Radius [R$_{Jup}$]')
+    ax1.set_ylabel('Statistic Test Metric')
+
+
+    # Set plot title and show legend
+    # plt.title(title)
+    plt.legend()
+
+    plt.grid(True)
+    plt.show()
+    
+    
+    
+from scipy.stats import chi2
+
+def find_closest_chi_square(df, chi_square_statistic_list):
+    """
+    Find the closest chi-square test and p-value for a given degrees of freedom (df).
+
+    Args:
+        df (int): Degrees of freedom for the chi-square test.
+        chi_square_statistic_list (list): List of chi-square test statistics.
+
+    Returns:
+        float: The closest chi-square test statistic.
+        float: The p-value corresponding to the closest chi-square test.
+
+    """
+    # Significance level (alpha)
+    alpha = 0.05
+
+    # Calculate the critical value for the given significance level and df
+    critical_value = chi2.ppf(1 - alpha, df)
+
+    closest_chi_square = None
+    closest_p_value = None
+    closest_difference = float('inf')
+
+    for chi_square in chi_square_statistic_list:
+        # Calculate the p-value
+        p_value = 1.0 - chi2.cdf(chi_square, df)
+
+        # Calculate the absolute difference between the chi-square statistic and the critical value
+        difference = abs(chi_square - critical_value)
+
+        # Update closest_chi_square and closest_p_value if the current test has a smaller difference
+        if difference < closest_difference:
+            closest_chi_square = chi_square
+            closest_p_value = p_value
+            closest_difference = difference
+
+    return closest_chi_square, closest_p_value
+
+# Example usage with df = 103 and chi_square_list containing chi-square statistics
+df_value = 103
+# chi_square_list = [93, 32,  150.456789123, 120.789123456]  # Replace with actual chi-square statistics
+
+
+
+# check_chi_square(103, chi_square_list)
