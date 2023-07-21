@@ -82,7 +82,7 @@ def print_results_fun(targets, print_title = None):
     
 
 def regression_report(trained_model, Xtrain, Xtest, ytrain, ytest, target_i,
-                      xy_top=[0.55, 0.85], xy_bottom=[0.05, 0.8], print_results=True):
+                      xy_top=[0.55, 0.85], xy_bottom=[0.05, 0.8], print_results= False):
     """
     Generate a regression report for a trained model.
 
@@ -558,7 +558,7 @@ def plot_predicted_vs_observed(training_datasets,
                                predicted_targets_dic,
                                object_name,
                                df_flux_object,
-                               print_results = True,
+                               print_results = False,
                               ):
     
 
@@ -666,7 +666,7 @@ def plot_predicted_vs_observed(training_datasets,
                                predicted_targets_dic,
                                object_name,
                                df_Fnu_obs_absolute_intd,
-                               __print_results__ = True,
+                               __print_results__ = False,
                               ):
     
 
@@ -772,7 +772,7 @@ def plot_predicted_vs_observed(training_datasets,
                                predicted_targets_dic,
                                object_name,
                                df_Fnu_obs_absolute_intd,
-                               __print_results__ = True,
+                               __print_results__ = False,
                               ):
     
 
@@ -870,7 +870,7 @@ def plot_predicted_vs_spectra_errorbar(object_name,
                                        training_dataset, 
                                        x_pred, 
                                        predicted_targets_dic, 
-                                       __print_results__=True):
+                                       __print_results__= False):
     """
     Plot predicted spectra along with observed spectra and error bars.
     

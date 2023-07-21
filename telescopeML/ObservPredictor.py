@@ -222,9 +222,9 @@ class ObsParameterPredictor:
         
 
     def load_observational_spectra(self, 
-                                   __plot_observational_spectra_errorbar__=True, 
+                                   __plot_observational_spectra_errorbar__= False, 
                                    _replace_zeros_with_mean_=True,
-                                   __print_results__ = True,
+                                   __print_results__ = False,
                                   ):
         """
         Load the observational spectra, process the dataset, and optionally plot the observational spectra with error bars.
@@ -290,7 +290,7 @@ class ObsParameterPredictor:
         # Extract the original ML features from the observational spectrum
         self.flux_interpolated(__print_results__ = False, 
                                __plot_spectra_errorbar__  = False, 
-                               use_spectres = True)
+                               use_spectres = False)
 
         if __print_results__:
             print('------------ df_Fnu_obs_absolute_intd ------------')
@@ -347,13 +347,13 @@ class ObsParameterPredictor:
     def predict_from_random_spectra(
             self,
             random_spectra_num=10,
-            __print_results__=True,
-            __plot_randomly_generated_spectra__=True,
-            __plot_histogram__=True,
-            __plot_boxplot_hist__=True,
-            __plot_predicted_vs_observed__=True,
-            __plot_predicted_vs_spectra_errorbar__=True,
-            __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__=True,
+            __print_results__= False,
+            __plot_randomly_generated_spectra__= False,
+            __plot_histogram__= False,
+            __plot_boxplot_hist__= False,
+            __plot_predicted_vs_observed__= False,
+            __plot_predicted_vs_spectra_errorbar__= False,
+            __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__= False,
             __calculate_confidence_intervals_std_df__=False,
         ):
         """
@@ -531,7 +531,7 @@ class ObsParameterPredictor:
                 predicted_targets_dic = self.dic_random_pred_mean,
                 object_name=self.object_name,
                 df_Fnu_obs_absolute_intd=self.df_Fnu_obs_absolute_intd,
-                __print_results__=True,
+                __print_results__= False,
             )
 
         if __plot_predicted_vs_spectra_errorbar__:
@@ -544,7 +544,7 @@ class ObsParameterPredictor:
                         training_dataset = self.training_dataset_df,
                         x_pred = self.wl,
                         predicted_targets_dic = self.dic_random_pred_mean,
-                        __print_results__ = True,
+                        __print_results__ = False,
             )
 
             
@@ -552,7 +552,7 @@ class ObsParameterPredictor:
             
             self.confidence_intervals_std_df = calculate_confidence_intervals_std_df(
                 dataset_df = self.df_spectra_list_pre,
-                __print_results__ = True,
+                __print_results__ = False,
                 __plot_calculate_confidence_intervals_std_df__ = False,
             )
 
@@ -569,7 +569,7 @@ class ObsParameterPredictor:
                 training_datasets = self.training_dataset_df,
                 x_pred = self.wl,
                 predicted_targets_dic = self.dic_random_pred_mean, #self.dic_random_pred_mean,
-                __print_results__ = True,
+                __print_results__ = False,
             )
 
             
