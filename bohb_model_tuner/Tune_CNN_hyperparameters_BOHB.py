@@ -156,19 +156,19 @@ class KerasWorker(Worker):
         Conv__NumberBlocks = config['Conv__NumberBlocks']
 
         FC__units = config['FC__units']
-        FC__units_temperature = config['FC__units_temperature']
-        FC__units_c_o_ratio = config['FC__units_c_o_ratio']
-        FC__units_gravity = config['FC__units_gravity']
-        FC__units_metallicity = config['FC__units_metallicity']
+        # FC__units_temperature = config['FC__units_temperature']
+        # FC__units_c_o_ratio = config['FC__units_c_o_ratio']
+        # FC__units_gravity = config['FC__units_gravity']
+        # FC__units_metallicity = config['FC__units_metallicity']
         FC__NumberLayers = config['FC__NumberLayers']
         
-        FC__dropout = config['FC__dropout']
+#         FC__dropout = config['FC__dropout']
         
-        FC_out_dropout = config['FC_out_dropout']
+#         FC_out_dropout = config['FC_out_dropout']
 
-        FC_in_Conv__units = config['FC_in_Conv__units']
-        FC_in_Conv__dropout = config['FC_in_Conv__dropout']
-        FC_in_Conv__NumberLayers = config['FC_in_Conv__NumberLayers']
+#         FC_in_Conv__units = config['FC_in_Conv__units']
+#         FC_in_Conv__dropout = config['FC_in_Conv__dropout']
+#         FC_in_Conv__NumberLayers = config['FC_in_Conv__NumberLayers']
         
 
         lr = config['lr']
@@ -181,17 +181,17 @@ class KerasWorker(Worker):
 
         
         ######### Conv Blocks  ####################################
-        model = input_1
+        # model = input_1
         for b in range(0, Conv__NumberBlocks):
             for l in range(0, Conv__NumberLayers):
                 model = Conv1D(filters = Conv__filters*(b+l+1)**2, 
                                   kernel_size = Conv__kernel_size, 
-                                  strides = 1, 
-                                  padding ='same', 
+                                  # strides = 1, 
+                                  # padding ='same', 
                                    activation = 'relu',
                                   kernel_initializer = 'he_normal',
                                   # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
-                                  name = 'Conv__B'+str(b+1)+'_L'+str(l+1))(model) #(model if l != 0 and b != 0 else input_1)
+                                  name = 'Conv__B'+str(b+1)+'_L'+str(l+1))(model if l!= 0 and b!= 0 else input_1)
 
             model = MaxPooling1D(pool_size=(Conv__MaxPooling1D),
                                 name = 'MaxPooling1D__B'+str(b+1)+'_L'+str(l+1))(model)
@@ -200,16 +200,16 @@ class KerasWorker(Worker):
         model = Flatten()(model)
 
 
-        ######### FC Layer before the Concatenation   ################
-        for l in range(FC_in_Conv__NumberLayers):
-            model = Dense(FC_in_Conv__units*(l+1)**2,
-                               activation = 'relu',
-                               kernel_initializer = 'he_normal',
-                               # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
-                               name = 'FC_in_Conv__B'+str(b+1)+'_L'+str(l+1))(model)
+#         ######### FC Layer before the Concatenation   ################
+#         for l in range(FC_in_Conv__NumberLayers):
+#             model = Dense(FC_in_Conv__units*(l+1)**2,
+#                                activation = 'relu',
+#                                kernel_initializer = 'he_normal',
+#                                # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
+#                                name = 'FC_in_Conv__B'+str(b+1)+'_L'+str(l+1))(model)
 
-            model= Dropout(FC__dropout,
-                            name = 'FC_in_Conv__Dropout__B'+str(1)+'_L'+str(l+1))(model)
+#             model= Dropout(FC__dropout,
+#                             name = 'FC_in_Conv__Dropout__B'+str(1)+'_L'+str(l+1))(model)
 
 
         ######### Concatenation Layer  ###############################
@@ -218,84 +218,84 @@ class KerasWorker(Worker):
                                                            name='Concatenated_Layer')
 
         ######### FC Block  ####################################
-        for l in range(FC__NumberLayers):
+        for l in range(0, FC__NumberLayers):
             model = Dense(FC__units*(l+1)**2,
                                activation = 'relu',
                        kernel_initializer = 'he_normal',
                        # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
-                       name = 'FC__B'+str(b+1)+'_L'+str(l+1))(model)
+                       name = 'FC__B'+str(1)+'_L'+str(l+1))(model)
 
-            model= Dropout(FC__dropout,
-                                   name = 'FC__Dropout__B'+str(1)+'_L'+str(l+1))(model)
+            # model= Dropout(FC__dropout,
+            #                        name = 'FC__Dropout__B'+str(1)+'_L'+str(l+1))(model)
 
         ######### 3rd FC Block: gravity  ##############################
 
-        model2 = Dense(FC__units_gravity, 
-                                  activation = 'relu', 
-                        kernel_initializer = 'he_normal',
-                        # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
-                        name = 'FC_block3_gravity')(model)
+#         model2 = Dense(FC__units_gravity, 
+#                                   activation = 'relu', 
+#                         kernel_initializer = 'he_normal',
+#                         # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
+#                         name = 'FC_block3_gravity')(model)
         
-        model2= Dropout(FC_out_dropout, 
-                               name = 'FC_block3_gravity__Dropout')(model2)
+#         model2= Dropout(FC_out_dropout, 
+#                                name = 'FC_block3_gravity__Dropout')(model2)
         
         out__gravity = Dense(1, 
                              activation = 'linear',
-                             kernel_initializer = 'he_normal',
-                             name = 'gravity')(model2)
+                             # kernel_initializer = 'he_normal',
+                             name = 'gravity')(model)
         
 
         
         ######### 3rd FC Block: c_o_ratio  ##############################
-        model2 = Dense(FC__units_c_o_ratio, 
-                                  activation = 'relu', 
-                        kernel_initializer = 'he_normal',
-                        # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
-                        name = 'FC_block3_c_o_ratio')(model)
+#         model2 = Dense(FC__units_c_o_ratio, 
+#                                   activation = 'relu', 
+#                         kernel_initializer = 'he_normal',
+#                         # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
+#                         name = 'FC_block3_c_o_ratio')(model)
         
-        model2= Dropout(FC_out_dropout, 
-                               name = 'FC_block3_c_o_ratio__Dropout')(model2)
+#         model2= Dropout(FC_out_dropout, 
+#                                name = 'FC_block3_c_o_ratio__Dropout')(model2)
 
 
         out__c_o_ratio = Dense(1, 
                                activation = 'linear',
                                # kernel_initializer = 'he_normal',
                                # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
-                               name='c_o_ratio')(model2)
+                               name='c_o_ratio')(model)
 
         
         ######### 3rd FC Block: metallicity  ##############################
-        model2 = Dense(FC__units_metallicity, 
-                                  activation = 'relu', 
-                        kernel_initializer = 'he_normal',
-                        # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
-                        name = 'FC_block3_metallicity')(model)
+#         model2 = Dense(FC__units_metallicity, 
+#                                   activation = 'relu', 
+#                         kernel_initializer = 'he_normal',
+#                         # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
+#                         name = 'FC_block3_metallicity')(model)
         
-        model2= Dropout(FC_out_dropout, 
-                               name = 'FC_block3_metallicity__Dropout')(model2)
+#         model2= Dropout(FC_out_dropout, 
+#                                name = 'FC_block3_metallicity__Dropout')(model2)
 
         
         out__metallicity = Dense(1, 
                                  activation = 'linear',
                                  # kernel_initializer = 'he_normal',
-                                 name='metallicity')(model2)
+                                 name='metallicity')(model)
         
         
         
         ######### 3rd FC Block: temperature  ##############################
-        model2 = Dense(FC__units_temperature, 
-                                  activation = 'relu', 
-                        kernel_initializer = 'he_normal',
-                        # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
-                        name = 'FC_block3_temperature')(model)
+#         model2 = Dense(FC__units_temperature, 
+#                                   activation = 'relu', 
+#                         kernel_initializer = 'he_normal',
+#                         # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
+#                         name = 'FC_block3_temperature')(model)
         
-        model2= Dropout(FC_out_dropout, 
-                               name = 'FC_block3_temperature__Dropout')(model2)
+#         model2= Dropout(FC_out_dropout, 
+#                                name = 'FC_block3_temperature__Dropout')(model2)
         
 
         out__temperature = Dense(1, 
                                  activation = 'linear',
-                                 name='temperature')(model2)
+                                 name='temperature')(model)
 
 
         ######### OUTPUT   ################################################
@@ -305,16 +305,11 @@ class KerasWorker(Worker):
 
         # Compile the model with an optimizer, loss function, and metrics
         model.compile(loss='huber_loss', 
-                      optimizer=keras.optimizers.Adam(lr = lr),  
+                      optimizer=keras.optimizers.Adam(learning_rate = lr),  
                       metrics=['mae'])
-        
-        
-        
- 
 
-  
         early_stop = EarlyStopping(monitor='loss', min_delta=4e-4, patience=50, mode='auto', \
-                                       restore_best_weights=True)
+                                        restore_best_weights=True)
 
 
 
@@ -365,29 +360,29 @@ class KerasWorker(Worker):
         cs = CS.ConfigurationSpace()
 
         # Conv hyperparameters
-        Conv__filters = CategoricalHyperparameter(name='Conv__filters', choices=[4 , 8, 16, 32]) # NOTE: Apply the same categorical method for other unit and 
-        Conv__kernel_size = UniformIntegerHyperparameter(name='Conv__kernel_size', lower=1, upper=8, default_value=1,  log=False) # ok
-        Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=8, default_value=1, log=False) # ok
-        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=4, default_value=1,  log=False) # ok
-        Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=1, upper=4, default_value=1,  log=False) # ok
+        Conv__filters = CategoricalHyperparameter(name='Conv__filters', choices=[16, 32, 64]) # NOTE: Apply the same categorical method for other unit and 
+        Conv__kernel_size = UniformIntegerHyperparameter(name='Conv__kernel_size', lower=1, upper=8, default_value=3,  log=False) # ok
+        Conv__MaxPooling1D = UniformIntegerHyperparameter(name='Conv__MaxPooling1D', lower=1, upper=8, default_value=2, log=False) # ok
+        Conv__NumberLayers = UniformIntegerHyperparameter(name='Conv__NumberLayers', lower=1, upper=4, default_value=2,  log=False) # ok
+        Conv__NumberBlocks =  UniformIntegerHyperparameter(name='Conv__NumberBlocks', lower=1, upper=4, default_value=2,  log=False) # ok
 
         # FC hyperparameters
-        FC__units = CategoricalHyperparameter(name='FC__units', choices=[8, 16, 32 , 64, 128, 256]) # NOTE: Apply the same categorical method for other unit and 
+        FC__units = CategoricalHyperparameter(name='FC__units', choices=[16, 32 , 64, 128, 256]) # NOTE: Apply the same categorical method for other unit and 
 
-        FC__units_temperature = CategoricalHyperparameter(name='FC__units_temperature', choices=[8, 16, 32 , 64, 128, 256]) # the same
-        FC__units_metallicity = CategoricalHyperparameter(name='FC__units_metallicity', choices=[8, 16, 32 , 64, 128, 256]) # the same
-        FC__units_c_o_ratio = CategoricalHyperparameter(name='FC__units_c_o_ratio', choices=[8, 16, 32 , 64, 128, 256]) # the same
-        FC__units_gravity = CategoricalHyperparameter(name='FC__units_gravity', choices=[8, 16, 32 , 64, 128, 256]) # same
+        # FC__units_temperature = CategoricalHyperparameter(name='FC__units_temperature', choices=[8, 16, 32 , 64, 128, 256]) # the same
+        # FC__units_metallicity = CategoricalHyperparameter(name='FC__units_metallicity', choices=[8, 16, 32 , 64, 128, 256]) # the same
+        # FC__units_c_o_ratio = CategoricalHyperparameter(name='FC__units_c_o_ratio', choices=[8, 16, 32 , 64, 128, 256]) # the same
+        # FC__units_gravity = CategoricalHyperparameter(name='FC__units_gravity', choices=[8, 16, 32 , 64, 128, 256]) # same
 
-        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=4, default_value=1,  log=False) 
+        FC__NumberLayers = UniformIntegerHyperparameter(name='FC__NumberLayers', lower=1, upper=4, default_value=2,  log=False) 
         # FC__NumberBlocks = UniformIntegerHyperparameter(name='FC__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) # DELETE - No blocks for FC
-        FC__dropout = UniformFloatHyperparameter(name='FC__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
-        FC_out_dropout = UniformFloatHyperparameter(name='FC_out_dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
+#         FC__dropout = UniformFloatHyperparameter(name='FC__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
+#         FC_out_dropout = UniformFloatHyperparameter(name='FC_out_dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         
-        FC_in_Conv__units = CategoricalHyperparameter(name='FC_in_Conv__units', choices=[8, 16, 32 , 64, 128, 256]) # same
-        #FC_in_Conv__NumberBlocks = UniformIntegerHyperparameter(name='FC_in_Conv__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) ## DELETE, 
-        FC_in_Conv__NumberLayers = UniformIntegerHyperparameter(name='FC_in_Conv__NumberLayers', lower=1, upper=4, default_value=1,  log=False) ### DELETE
-        FC_in_Conv__dropout = UniformFloatHyperparameter(name='FC_in_Conv__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
+#         FC_in_Conv__units = CategoricalHyperparameter(name='FC_in_Conv__units', choices=[8, 16, 32 , 64, 128, 256]) # same
+#         #FC_in_Conv__NumberBlocks = UniformIntegerHyperparameter(name='FC_in_Conv__NumberBlocks', lower=1, upper=5, default_value=1,  log=False) ## DELETE, 
+#         FC_in_Conv__NumberLayers = UniformIntegerHyperparameter(name='FC_in_Conv__NumberLayers', lower=1, upper=4, default_value=1,  log=False) ### DELETE
+#         FC_in_Conv__dropout = UniformFloatHyperparameter(name='FC_in_Conv__dropout', lower=0.001, upper=0.4, default_value=0.02, log=True)
         
         # Other hyperparameters
         lr = UniformFloatHyperparameter(name='lr', lower=1e-5, upper=1e-2, default_value=1e-4, log=True)
@@ -396,24 +391,24 @@ class KerasWorker(Worker):
         
 
         cs.add_hyperparameters([
-                               Conv__filters,
+                                Conv__filters,
                                 Conv__kernel_size,
                                 Conv__MaxPooling1D,
                                 Conv__NumberLayers,
                                 Conv__NumberBlocks,
                                 #
                                 FC__units,
-                                FC__units_temperature,
-                                FC__units_c_o_ratio,
-                                FC__units_gravity,
-                                FC__units_metallicity,
+                                # FC__units_temperature,
+                                # FC__units_c_o_ratio,
+                                # FC__units_gravity,
+                                # FC__units_metallicity,
                                 FC__NumberLayers,
-                                FC__dropout,
-                                FC_out_dropout,
+                                # FC__dropout,
+                                # FC_out_dropout,
             
-                                FC_in_Conv__NumberLayers,
-                                FC_in_Conv__units,
-                                FC_in_Conv__dropout,
+                                # FC_in_Conv__NumberLayers,
+                                # FC_in_Conv__units,
+                                # FC_in_Conv__dropout,
 
 
                                 lr,
@@ -447,8 +442,8 @@ y = df[['gravity', 'c_o_ratio', 'metallicity', 'temperature', ]]#.astype(np.floa
 
 
 # Log-Transform
-#y['temperature'] = np.log10(y['temperature'])
-df['temperature'] = df['temperature'].apply(lambda x: np.log10(x))
+y['temperature'] = np.log10(y['temperature'])
+# df['temperature'] = df['temperature'].apply(lambda x: np.log10(x))
 
 # Create an instance of TrainCNNRegression
 train_cnn_regression = TrainRegression(feature_values=X,
@@ -576,7 +571,7 @@ NS.start()
 
 # Run an optimizer (see example_2)
 
-result_logger = hpres.json_result_logger(directory='/data2/ehsan_storage/telescopeML_project/outputs/bohb_outputs/out2', overwrite=True)
+result_logger = hpres.json_result_logger(directory='/data2/ehsan_storage/telescopeML_project/outputs/bohb_outputs/out4', overwrite=True)
 
 bohb = BOHB(  configspace = KerasWorker.get_configspace(),
                       run_id = 'CNNtrain',
