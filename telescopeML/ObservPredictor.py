@@ -31,7 +31,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from uncertainties import ufloat
 
-from skopt.plots import plot_evaluations
 
 
 # from bokeh.palettes import Category20, colorblind
@@ -179,8 +178,8 @@ class ObsParameterPredictor:
         """
         if use_spectres:
             self.Fnu_obs_absolute_intd = spectres.spectres(self.feature_names_model,
-                                                           np.float128(self.feature_names_obs),
-                                                           np.float128(self.Fnu_obs_absolute))
+                                                           np.float64(self.feature_names_obs),
+                                                           np.float64(self.Fnu_obs_absolute))
         else:
             flux_intd = pchip(self.feature_names_obs, self.Fnu_obs_absolute)
             self.Fnu_obs_absolute_intd = flux_intd(self.feature_names_model)
