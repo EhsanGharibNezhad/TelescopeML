@@ -4,6 +4,8 @@ from io_funs import LoadSave
 # from predict_observational_dataset_v3 import ProcessObservationalDataset
 from DeepRegTrainer import *
 
+from bokeh.palettes import colorblind
+
 
 # Import python libraries ========================================
 import pandas as pd
@@ -1252,8 +1254,6 @@ def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Dat
     show(p)
 
     
-
-
 def chi_square_test(x_obs, y_obs, yerr_obs, 
                     x_pre, y_pre, yerr_pre,
                     radius,
@@ -1277,6 +1277,16 @@ def chi_square_test(x_obs, y_obs, yerr_obs,
         ValueError: If the lengths of the datasets or error bars are not equal.
     
     """
+    
+    indices_to_remove = np.where(np.isnan(y_obs))[0]
+
+    # Create a boolean mask with True for elements to keep, and False for elements to remove
+    mask = np.ones(len(y_obs), dtype=bool)
+    mask[indices_to_remove] = False
+    y_obs = y_obs[mask]
+    yerr_obs = yerr_obs[mask]
+    x_obs = x_obs[mask]
+
     # Convert input to NumPy arrays for easier calculations
     data1 = np.asarray(y_obs)
     data2 = np.asarray(y_pre)
@@ -1284,23 +1294,24 @@ def chi_square_test(x_obs, y_obs, yerr_obs,
     error2 = np.asarray(yerr_pre)
     
     num_points = len(x_pre)
+    # print(y_obs)
     
     # Interpolate datasets if they have different lengths
     if len(data1) != len(data2):
-        f1 = interp1d(x_obs, data1, kind='quadratic', fill_value='extrapolate') #interp1d(x1, data1, kind='quadratic')
-        f2 = interp1d(x_pre, data2, kind='quadratic', fill_value='extrapolate')
+        f1 = interp1d(x_obs, data1, kind='cubic', fill_value='extrapolate') #interp1d(x1, data1, kind='quadratic')
+        f2 = interp1d(x_pre, data2, kind='cubic', fill_value='extrapolate')
         data1 = f1(x_pre)
         data2 = f2(x_pre)
 
-        f_error1 = interp1d(x_obs, error1, kind='quadratic', fill_value='extrapolate')
-        f_error2 = interp1d(x_pre, error2, kind='quadratic', fill_value='extrapolate')
+        f_error1 = interp1d(x_obs, error1, kind='cubic', fill_value='extrapolate')
+        f_error2 = interp1d(x_pre, error2, kind='cubic', fill_value='extrapolate')
         error1 = f_error1(x_pre)
         error2 = f_error2(x_pre)
         
-        # print(error1)
     
     # Calculate the chi-square test statistic
     chi2_stat = np.round( np.sum(((data1 - data2) / np.sqrt(error1**2 + error2**2))**2), 2)
+    # print(data1,data2)
     
     # Calculate the degrees of freedom
     degrees_of_freedom = len(data1) - 1
@@ -1319,9 +1330,6 @@ def chi_square_test(x_obs, y_obs, yerr_obs,
         
     
     return chi2_stat, p_value
-    
-    
-import matplotlib.pyplot as plt
 
 
 
@@ -1404,7 +1412,7 @@ def find_closest_chi_square(df, chi_square_statistic_list):
     return closest_chi_square, closest_p_value
 
 # Example usage with df = 103 and chi_square_list containing chi-square statistics
-df_value = 103
+# df_value = 103
 # chi_square_list = [93, 32,  150.456789123, 120.789123456]  # Replace with actual chi-square statistics
 
 
