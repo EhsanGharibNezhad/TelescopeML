@@ -1123,7 +1123,7 @@ def calculate_confidence_intervals_std_df(dataset_df,
 
     # Calculate the confidence interval for each column
     stat_df = pd.DataFrame(columns=['confidence_level_lower', 'confidence_level_upper'], index=None)
-    stat_df = stat_df.astype(np.float128)
+    stat_df = stat_df.astype(np.float64)
 
     for column in df3.columns:
         lower_bound = mean_values[column] - t_value * se_values[column]
