@@ -11,14 +11,14 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
-
-from tensorflow.keras.models import save_model
-import pickle as pk
-from tensorflow.keras.models import load_model
+# import tensorflow as tf
+# from tensorflow import keras
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
+#
+# from tensorflow.keras.models import save_model
+# import pickle as pk
+# from tensorflow.keras.models import load_model
 
 # Import BOHB Package ========================================
 
@@ -26,17 +26,17 @@ from tensorflow.keras.models import load_model
 import logging
 logging.basicConfig(level=logging.WARNING)
 
-import argparse
-
-import hpbandster.core.nameserver as hpns
-import hpbandster.core.result as hpres
-
-from hpbandster.optimizers import BOHB as BOHB
-from hpbandster.examples.commons import MyWorker
-
-from tensorflow.keras.models import load_model
-import ConfigSpace as CS
-from hpbandster.core.worker import Worker
+# import argparse
+#
+# import hpbandster.core.nameserver as hpns
+# import hpbandster.core.result as hpres
+#
+# from hpbandster.optimizers import BOHB as BOHB
+# from hpbandster.examples.commons import MyWorker
+#
+# from tensorflow.keras.models import load_model
+# import ConfigSpace as CS
+# from hpbandster.core.worker import Worker
 
 import logging
 logging.basicConfig(level=logging.WARNING)
@@ -289,22 +289,22 @@ class TrainRegression:
             print(normalizer)
 
 
-    def normalize_X_global_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
+
+        # Apply scaling using the global mean and standard deviation to the train dataset
+        self.X_train_norm    def normalize_X_global_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
 
         # Set default values if None is provided
         X_train = self.X_train if X_train is None else X_train
         X_val = self.X_val if X_val is None else X_val
         X_test = self.X_test if X_test is None else X_test
-        
+
         # Concatenate the train, validation, and test datasets
         all_data = pd.concat([X_train, X_val, X_test], axis=0)
 
         # Calculate the global mean and standard deviation of X
         global_min = all_data.min()
         global_max = all_data.max()
-
-        # Apply scaling using the global mean and standard deviation to the train dataset
-        self.X_train_normalized_columnwise_global = (train_df - global_min) / (global_max - global_min)
+alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
 
         # Apply scaling using the global mean and standard deviation to the validation dataset
         self.X_val_normalized_columnwise_global = (val_df - global_min) / (global_max - global_min)

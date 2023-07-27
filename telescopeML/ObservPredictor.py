@@ -1,9 +1,9 @@
 # Import functions from other modules ============================
 
 from io_funs import LoadSave
-# from functions import * #JUST CHANGED
+
 from StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, plot_predicted_vs_spectra_errorbar
-from StatVisAnalyzer import filter_dataframe, interpolate_df, find_nearest_top_bottom, filter_dataset_range, regression_report, print_results_fun
+from StatVisAnalyzer import interpolate_df, print_results_fun
 from StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar
 
 # from train_ml_regression_2 import TrainMlRegression
@@ -35,7 +35,7 @@ from uncertainties import ufloat
 
 # from bokeh.palettes import Category20, colorblind
 from tensorflow.keras.models import Sequential, model_from_json
-#
+
 
 
 
