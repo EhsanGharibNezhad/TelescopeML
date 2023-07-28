@@ -41,16 +41,6 @@ logging.basicConfig(level=logging.WARNING)
 import logging
 logging.basicConfig(level=logging.WARNING)
 
-# import argparse
-#
-# import hpbandster.core.nameserver as hpns
-# import hpbandster.core.result as hpres
-#
-# from hpbandster.optimizers import BOHB as BOHB
-# from hpbandster.examples.commons import MyWorker
-#
-# from tensorflow.keras.models import load_model
-
 
 from bokeh.io import output_notebook
 from bokeh.layouts import row, column
@@ -60,14 +50,16 @@ TOOLTIPS = [
     ("index", "$index"),
     ("(x,y)", "($x, $y)"),
 ]
+
+from typing import List, Union, Dict
+from sklearn.base import BaseEstimator
+
 # ===============================================================================
 # ==================                                           ==================
 # ==================            Train CNN Regression           ==================
 # ==================                                           ==================
 # ===============================================================================  
 
-from typing import List, Union, Dict
-from sklearn.base import BaseEstimator
 
 
 class TrainRegression:

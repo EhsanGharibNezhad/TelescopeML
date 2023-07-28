@@ -1,4 +1,4 @@
-# Import functions from other modules ============================
+# Import functions/Classes from other modules ====================
 
 from io_funs import LoadSave
 
@@ -6,11 +6,10 @@ from StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spect
 from StatVisAnalyzer import interpolate_df, print_results_fun
 from StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar
 
-# from train_ml_regression_2 import TrainMlRegression
 
-# Import python libraries ========================================
+# Import Python libraries ========================================
 
-# Dataset manipulation libraries
+# Standard Data Manipulation / Statistical Libraries ******
 import pandas as pd
 import numpy as np
 import pickle as pk
@@ -21,18 +20,15 @@ from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
 from bokeh.io import output_notebook
 
-# ML algorithm libraries
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-
-
-# Data Visualization libraries
+# Data Visulaization Libraries ****************************
 import matplotlib.pyplot as plt
 import seaborn as sns
 from uncertainties import ufloat
 
 
-
+# Data science / Machine learning Libraries ***************
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 # from bokeh.palettes import Category20, colorblind
 from tensorflow.keras.models import Sequential, model_from_json
 
