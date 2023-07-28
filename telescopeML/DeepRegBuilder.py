@@ -15,10 +15,10 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
-
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.models import load_model
 from tensorflow.keras.models import save_model
 import pickle as pk
-from tensorflow.keras.models import load_model
 
 # Import BOHB Package ========================================
 
