@@ -1,16 +1,15 @@
-# Import functions from other modules ============================
+# Import functions/Classes from other modules ====================
 
 from io_funs import LoadSave
-# from functions import * #JUST CHANGED
+
 from StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, plot_predicted_vs_spectra_errorbar
-from StatVisAnalyzer import filter_dataframe, interpolate_df, find_nearest_top_bottom, filter_dataset_range, regression_report, print_results_fun
+from StatVisAnalyzer import interpolate_df, print_results_fun
 from StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar
 
-# from train_ml_regression_2 import TrainMlRegression
 
-# Import python libraries ========================================
+# Import Python libraries ========================================
 
-# Dataset manipulation libraries
+# Standard Data Manipulation / Statistical Libraries ******
 import pandas as pd
 import numpy as np
 import pickle as pk
@@ -21,21 +20,18 @@ from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
 from bokeh.io import output_notebook
 
-# ML algorithm libraries
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-
-
-# Data Visualization libraries
+# Data Visulaization Libraries ****************************
 import matplotlib.pyplot as plt
 import seaborn as sns
 from uncertainties import ufloat
 
 
-
+# Data science / Machine learning Libraries ***************
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 # from bokeh.palettes import Category20, colorblind
 from tensorflow.keras.models import Sequential, model_from_json
-#
+
 
 
 
@@ -189,9 +185,9 @@ class ObsParameterPredictor:
 
         if __print_results__:
             print('---    Object Flux     ----')
-            display(self.df_Fnu_obs_absolute_intd)
+            print(self.df_Fnu_obs_absolute_intd)
             print('---    Object Flux Interpolate     ----')
-            display(pd.DataFrame(self.Fnu_obs_absolute_intd))
+            print(pd.DataFrame(self.Fnu_obs_absolute_intd))
 
         if __plot_spectra_errorbar__:
             plot_spectra_errorbar(
@@ -249,7 +245,7 @@ class ObsParameterPredictor:
         self.obs_data_df = obs_data_df
         
         if __print_results__:
-            display(self.obs_data_df.head(5))
+            print(self.obs_data_df.head(5))
 
         if __plot_observational_spectra_errorbar__:
             plot_spectra_errorbar(
@@ -293,7 +289,7 @@ class ObsParameterPredictor:
 
         if __print_results__:
             print('------------ df_Fnu_obs_absolute_intd ------------')
-            display(self.df_Fnu_obs_absolute_intd)
+            print(self.df_Fnu_obs_absolute_intd)
 
         # Extract the engineered ML features from the observational spectrum
         df_Fnu_obs_absolute_intd_min = self.df_Fnu_obs_absolute_intd.min(axis=1)
@@ -303,7 +299,7 @@ class ObsParameterPredictor:
 
         if __print_results__:
             print('------------ df_MinMax Single Observational Spectrum ------------')
-            display(self.df_MinMax_obs)
+            print(self.df_MinMax_obs)
 
         XminXmax_Stand = self.train_cnn_regression_class.standardize_X_ColumnWise.transform(self.df_MinMax_obs.values)
 
@@ -467,15 +463,15 @@ class ObsParameterPredictor:
         
         # self.df_spectra_list_obs = pd.DataFrame(data=np.array(self.spectra_list_obs).reshape(-1, 104), columns=self.wl.wl)
         self.df_spectra_list_pre = pd.DataFrame(data=self.spectra_list_pre, columns=self.wl.wl[::-1])
-        # display(self.spectra_list_pre)
-        # display(self.df_spectra_list_obs)
+        # print(self.spectra_list_pre)
+        # print(self.df_spectra_list_obs)
         
         if __print_results__:
             print_results_fun(targets=self.dic_random_pred_mean, 
                               print_title='Predicted Targets from Randomly Generated Spectra:')
 
         if __print_results__:
-            display(self.df_random_pred.describe())
+            print(self.df_random_pred.describe())
 
         if __plot_randomly_generated_spectra__:
             p = figure(
