@@ -2,7 +2,7 @@
 from io_funs import LoadSave
 # from predict_observational_dataset_v2 import ProcessObservationalDataset
 # from predict_observational_dataset_v3 import ProcessObservationalDataset
-from DeepRegTrainer import *
+from DeepRegBuilder import *
 
 from bokeh.palettes import colorblind
 
