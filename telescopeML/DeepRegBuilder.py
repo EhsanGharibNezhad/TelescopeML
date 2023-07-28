@@ -11,14 +11,14 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-# import tensorflow as tf
-# from tensorflow import keras
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
-#
-# from tensorflow.keras.models import save_model
-# import pickle as pk
-# from tensorflow.keras.models import load_model
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
+
+from tensorflow.keras.models import save_model
+import pickle as pk
+from tensorflow.keras.models import load_model
 
 # Import BOHB Package ========================================
 
@@ -41,15 +41,15 @@ logging.basicConfig(level=logging.WARNING)
 import logging
 logging.basicConfig(level=logging.WARNING)
 
-import argparse
-
-import hpbandster.core.nameserver as hpns
-import hpbandster.core.result as hpres
-
-from hpbandster.optimizers import BOHB as BOHB
-from hpbandster.examples.commons import MyWorker
-
-from tensorflow.keras.models import load_model
+# import argparse
+#
+# import hpbandster.core.nameserver as hpns
+# import hpbandster.core.result as hpres
+#
+# from hpbandster.optimizers import BOHB as BOHB
+# from hpbandster.examples.commons import MyWorker
+#
+# from tensorflow.keras.models import load_model
 
 
 from bokeh.io import output_notebook
@@ -289,31 +289,6 @@ class TrainRegression:
             print(normalizer)
 
 
-
-        # Apply scaling using the global mean and standard deviation to the train dataset
-        self.X_train_norm    def normalize_X_global_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
-
-        # Set default values if None is provided
-        X_train = self.X_train if X_train is None else X_train
-        X_val = self.X_val if X_val is None else X_val
-        X_test = self.X_test if X_test is None else X_test
-
-        # Concatenate the train, validation, and test datasets
-        all_data = pd.concat([X_train, X_val, X_test], axis=0)
-
-        # Calculate the global mean and standard deviation of X
-        global_min = all_data.min()
-        global_max = all_data.max()
-alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
-
-        # Apply scaling using the global mean and standard deviation to the validation dataset
-        self.X_val_normalized_columnwise_global = (val_df - global_min) / (global_max - global_min)
-
-        # Apply scaling using the global mean and standard deviation to the test dataset
-        self.X_test_normalized_columnwise_global = (test_df - global_min) / (global_max - global_min)
-
-        if print_model:
-            print("global_min, global_max: ", global_min, global_max)    
     
 
     def normalize_y_column_wise(self, y_train=None, y_val=None, y_test=None, print_model=False):
@@ -486,112 +461,9 @@ alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
         if print_model:
             print(scaler_X)
             
-            
-            
 
-    def standardize_X_row_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
-        """
-        Standardize feature variables (X) row-wise and column-wise by removing the mean and scaling to unit variance.
-        Transform the data such that each row and column will have a mean value of 0 and a standard deviation of 1.
 
-        Inputs:
-            - X_train (numpy array): Training feature matrix
-            - X_val (numpy array): Validation feature matrix
-            - X_test (numpy array): Test feature matrix
-            - print_model (bool): Whether to print the trained scaler model
-
-        Assigns:
-            - self.X_train_standardized_rowcolumn (numpy array): Standardized training feature matrix
-            - self.X_val_standardized_rowcolumn (numpy array): Standardized validation feature matrix
-            - self.X_test_standardized_rowcolumn (numpy array): Standardized test feature matrix
-        """
-        # Set default values if None is provided
-        X_train = self.X_train if X_train is None else X_train
-        X_val = self.X_val if X_val is None else X_val
-        X_test = self.X_test if X_test is None else X_test
-        
-        scaler_row = StandardScaler()
-        X_train_standardized_rowwise = scaler_row.fit_transform(X_train.T).T
-        X_val_standardized_rowwise = scaler_row.fit_transform(X_val.T).T
-        X_test_standardized_rowwise = scaler_row.fit_transform(X_test.T).T
-
-        scaler_column = StandardScaler()
-        # X_train_standardized_rowcolumn = scaler_column.fit_transform(X_train_standardized_rowwise)
-        # X_val_standardized_rowcolumn = scaler_column.transform(X_val_standardized_rowwise)
-        # X_test_standardized_rowcolumn = scaler_column.transform(X_test_standardized_rowwise)
-
-        self.X_train_standardized_rowcolumn = X_train_standardized_rowcolumn
-        self.X_val_standardized_rowcolumn = X_val_standardized_rowcolumn
-        self.X_test_standardized_rowcolumn = X_test_standardized_rowcolumn
-
-        self.standardize_X_RowColumnWise = (scaler_row, scaler_column)
-
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned).load_or_dump_trained_object(
-                     trained_object=self.standardize_X_RowColumnWise,
-                     indicator='standardize_X_RowColumnWise',
-                     load_or_dump='dump')
-
-        if print_model:
-            print(scaler_row)
-            print(scaler_column)
-
-            
-            
-
-    def normalize_X_row_column_Wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
-        """
-        Normalize feature variables (X) row-wise and column-wise using Min-Max normalization.
-        Transform the data such that each row and column values are within the specified range [0, 1].
-
-        Inputs:
-            - X_train (numpy array): Training feature matrix
-            - X_val (numpy array): Validation feature matrix
-            - X_test (numpy array): Test feature matrix
-            - print_model (bool): Whether to print the trained scaler model
-
-        Assigns:
-            - self.X_train_normalized_rowcolumn (numpy array): Normalized training feature matrix
-            - self.X_val_normalized_rowcolumn (numpy array): Normalized validation feature matrix
-            - self.X_test_normalized_rowcolumn (numpy array): Normalized test feature matrix
-        """
-        # Set default values if None is provided
-        X_train = self.X_train if X_train is None else X_train
-        X_val = self.X_val if X_val is None else X_val
-        X_test = self.X_test if X_test is None else X_test
-        
-        scaler_row = MinMaxScaler(feature_range=(0, 1))
-        X_train_normalized_rowwise = scaler_row.fit_transform(X_train.T).T
-        X_val_normalized_rowwise = scaler_row.transform(X_val.T).T
-        X_test_normalized_rowwise = scaler_row.transform(X_test.T).T
-
-        scaler_column = MinMaxScaler(feature_range=(0, 1))
-        X_train_normalized_rowcolumn = scaler_column.fit_transform(X_train_normalized_rowwise)
-        X_val_normalized_rowcolumn = scaler_column.transform(X_val_normalized_rowwise)
-        X_test_normalized_rowcolumn = scaler_column.transform(X_test_normalized_rowwise)
-
-        self.X_train_normalized_rowcolumn = X_train_normalized_rowcolumn
-        self.X_val_normalized_rowcolumn = X_val_normalized_rowcolumn
-        self.X_test_normalized_rowcolumn = X_test_normalized_rowcolumn
-
-        self.MinMaxScaler_X_RowColumnWise = (scaler_row, scaler_column)
-
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned).load_or_dump_trained_object(
-                     trained_object=self.MinMaxScaler_X_RowColumnWise,
-                     indicator='MinMaxScaler_X_RowColumnWise',
-                     load_or_dump='dump')
-
-        if print_model:
-            print(scaler_row)
-            print(scaler_column)
-  
-
-    def plot_boxplot_scaled_features(self, scaled_feature, title = None, xticks_list = None):
+    def plot_boxplot_scaled_features(self, scaled_feature, title = None, xticks_list = None, fig_size=(14, 3)):
         """
         Interpretation: 
         - Median: middle quartile marks
@@ -599,7 +471,7 @@ alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
         - Upper quartile: 75% of the scores fall below the upper quartile.
         - Lower quartile: 25% of scores fall below the lower quartile.
         """
-        plt.figure(figsize=(12, 3))
+        plt.figure(figsize=fig_size)
         plt.boxplot(scaled_feature, sym='')
         
         if len(scaled_feature) > 10:
@@ -613,7 +485,8 @@ alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
         # Add custom x-ticks
         # custom_xticks = ['Label 1', 'Label 2', 'Label 3', 'Label 4']
         if xticks_list:
-            plt.xticks(xticks_list)
+            xtick_positions = range(len(xticks_list))
+            plt.xticks(xtick_positions, xticks_list)
 
         plt.tight_layout()
         plt.show()
@@ -635,7 +508,7 @@ alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
         
         history = self.trained_model_history if history is None else history
         # Define the epochs as a list
-        epochs = list(range(len(history.history['loss'])))
+        epochs = list(range(len(history['loss'])))
 
         # Define colorblind-friendly colors
         colors = ['#d62728',  '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
@@ -644,20 +517,20 @@ alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
         p = figure(title=title , width=1000, height=300, y_axis_type='log', x_axis_label='Epochs', y_axis_label='Loss')
 
         # Add the data lines to the figure with colorblind-friendly colors and increased line width
-        p.line(epochs, history.history['loss'], line_color=colors[0], line_dash='solid', line_width=2, legend_label='Total loss')
-        p.line(epochs, history.history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
+        p.line(epochs, history['loss'], line_color=colors[0], line_dash='solid', line_width=2, legend_label='Total loss')
+        p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
 
-        p.line(epochs, history.history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2, legend_label='gravity')
-        p.line(epochs, history.history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
+        p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2, legend_label='gravity')
+        p.line(epochs, history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
 
-        p.line(epochs, history.history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2, legend_label='c_o_ratio')
-        p.line(epochs, history.history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
+        p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2, legend_label='c_o_ratio')
+        p.line(epochs, history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
 
-        p.line(epochs, history.history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2, legend_label='metallicity')
-        p.line(epochs, history.history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
+        p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2, legend_label='metallicity')
+        p.line(epochs, history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
 
-        p.line(epochs, history.history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2, legend_label='temperature')
-        p.line(epochs, history.history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
+        p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2, legend_label='temperature')
+        p.line(epochs, history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
 
         # Increase size of x and y ticks
         p.title.text_font_size = '14pt'
@@ -759,11 +632,11 @@ alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
 
             if print_results:
                 print(' ==============    Optimal HyperParameters    ============== ')
-                # display(self.optimized_params)
+                # print(self.optimized_params)
                 print("total_iterations", self.trained_model.total_iterations)
                 print("val. score: %s" % self.trained_model.best_score_)
                 print("test score: %s" % self.trained_model.score(self.X_test, self.y_test))
-                display("best params: %s" % str(self.trained_model.best_params_))
+                print("best params: %s" % str(self.trained_model.best_params_))
                 
 
         if self.is_tuned == 'no':
@@ -775,10 +648,10 @@ alized_columnwise_global = (train_df - global_min) / (global_max - global_min)
 
             if print_results:
                 print(' ==============    Optimal HyperParameters    ============== ')
-                # display(self.optimized_params)
+                # print(self.optimized_params)
                 print("val. score: %s" % self.trained_model.best_score_)
                 print("test score: %s" % self.trained_model.score(self.X_test, self.y_test))
-                display("best params: %s" % str(self.trained_model.best_params_))
+                print("best params: %s" % str(self.trained_model.best_params_))
                 
 
         LoadSave(self.ml_model_str,
