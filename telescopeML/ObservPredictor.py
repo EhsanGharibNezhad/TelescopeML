@@ -189,9 +189,9 @@ class ObsParameterPredictor:
 
         if __print_results__:
             print('---    Object Flux     ----')
-            display(self.df_Fnu_obs_absolute_intd)
+            print(self.df_Fnu_obs_absolute_intd)
             print('---    Object Flux Interpolate     ----')
-            display(pd.DataFrame(self.Fnu_obs_absolute_intd))
+            print(pd.DataFrame(self.Fnu_obs_absolute_intd))
 
         if __plot_spectra_errorbar__:
             plot_spectra_errorbar(
@@ -249,7 +249,7 @@ class ObsParameterPredictor:
         self.obs_data_df = obs_data_df
         
         if __print_results__:
-            display(self.obs_data_df.head(5))
+            print(self.obs_data_df.head(5))
 
         if __plot_observational_spectra_errorbar__:
             plot_spectra_errorbar(
@@ -293,7 +293,7 @@ class ObsParameterPredictor:
 
         if __print_results__:
             print('------------ df_Fnu_obs_absolute_intd ------------')
-            display(self.df_Fnu_obs_absolute_intd)
+            print(self.df_Fnu_obs_absolute_intd)
 
         # Extract the engineered ML features from the observational spectrum
         df_Fnu_obs_absolute_intd_min = self.df_Fnu_obs_absolute_intd.min(axis=1)
@@ -303,7 +303,7 @@ class ObsParameterPredictor:
 
         if __print_results__:
             print('------------ df_MinMax Single Observational Spectrum ------------')
-            display(self.df_MinMax_obs)
+            print(self.df_MinMax_obs)
 
         XminXmax_Stand = self.train_cnn_regression_class.standardize_X_ColumnWise.transform(self.df_MinMax_obs.values)
 
@@ -467,15 +467,15 @@ class ObsParameterPredictor:
         
         # self.df_spectra_list_obs = pd.DataFrame(data=np.array(self.spectra_list_obs).reshape(-1, 104), columns=self.wl.wl)
         self.df_spectra_list_pre = pd.DataFrame(data=self.spectra_list_pre, columns=self.wl.wl[::-1])
-        # display(self.spectra_list_pre)
-        # display(self.df_spectra_list_obs)
+        # print(self.spectra_list_pre)
+        # print(self.df_spectra_list_obs)
         
         if __print_results__:
             print_results_fun(targets=self.dic_random_pred_mean, 
                               print_title='Predicted Targets from Randomly Generated Spectra:')
 
         if __print_results__:
-            display(self.df_random_pred.describe())
+            print(self.df_random_pred.describe())
 
         if __plot_randomly_generated_spectra__:
             p = figure(
