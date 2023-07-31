@@ -168,7 +168,7 @@ class TrainRegression:
 
         
         
-    def split_train_validation_test(self, test_size=0.1, val_size=0.1):
+    def split_train_validation_test(self, test_size=0.1, val_size=0.1, random_state_ = 42):
         """
         Split the loaded set into train, validation, and test sets
 
@@ -192,7 +192,7 @@ class TrainRegression:
             self.target_values,
             test_size=test_size,
             shuffle=True,
-            random_state=42
+            random_state=random_state_
         )
         self.X_test, self.y_test = X_test, y_test
 
@@ -201,7 +201,7 @@ class TrainRegression:
             y_train,
             test_size=val_size,
             shuffle=True,
-            random_state=42
+            random_state=random_state_
         )
 
 
@@ -279,9 +279,6 @@ class TrainRegression:
 
         if print_model:
             print(normalizer)
-
-
-    
 
     def normalize_y_column_wise(self, y_train=None, y_val=None, y_test=None, print_model=False):
         """
