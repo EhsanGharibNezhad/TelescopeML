@@ -210,7 +210,291 @@ def find_nearest_top_bottom(value, lst):
 
     return nearest_bottom, nearest_top
 
+
 def interpolate_df(dataset,
+                   predicted_targets_dic,
+                   print_results_=False):
+
+    my_list_g = list(dataset['gravity'].sort_values().unique())
+    my_list_met = list(dataset['metallicity'].sort_values().unique())
+    my_list_c_o = list(dataset['c_o_ratio'].sort_values().unique())
+    my_list_T = list(dataset['temperature'].sort_values().unique())
+
+    g0, g1 = find_nearest_top_bottom(predicted_targets_dic['gravity'], my_list_g)
+    co0, co1 = find_nearest_top_bottom(predicted_targets_dic['c_o_ratio'], my_list_c_o)
+    met0, met1 = find_nearest_top_bottom(predicted_targets_dic['metallicity'], my_list_met)
+    T0, T1 = find_nearest_top_bottom(predicted_targets_dic['temperature'], my_list_T)
+
+    filter_params = {'gravity': (g0, g1),
+                     'temperature': (T0, T1),
+                     'c_o_ratio': (co0, co1),
+                     'metallicity': (met0, met1)}
+
+    df_to_interpolate = filter_dataset_range(dataset, filter_params).reset_index(drop=True)
+
+    my_list_g = list(df_to_interpolate['gravity'].sort_values().unique())
+    my_list_met = list(df_to_interpolate['metallicity'].sort_values().unique())
+    my_list_c_o = list(df_to_interpolate['c_o_ratio'].sort_values().unique())
+    my_list_T = list(df_to_interpolate['temperature'].sort_values().unique())
+
+    if print_results_:
+        display(df_to_interpolate)
+        print(my_list_g, my_list_c_o, my_list_T, my_list_met)
+
+    df_interpolated_ = pd.DataFrame(columns=df_to_interpolate.drop(
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+
+    # display(df_interpolated_)
+    df_interpolated_all = pd.DataFrame(columns=df_to_interpolate.columns)
+
+    for temp in my_list_T:
+        for grav in my_list_g:
+            for met in my_list_met:
+                for c_o in range(0, len(my_list_c_o) - 1):
+                    # print(temp, grav, met, c_o)
+
+                    filter_params = {'gravity': (grav, grav),
+                                     'temperature': (temp, temp),
+                                     'c_o_ratio': (my_list_c_o[c_o], my_list_c_o[c_o + 1]),
+                                     'metallicity': (met, met)}
+
+                    df_to_interpolate_ = filter_dataset_range(dataset, filter_params).reset_index(
+                        drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
+
+                    # display(df_to_interpolate)
+                    data = df_to_interpolate_.drop(
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+
+                    y = df_to_interpolate_['c_o_ratio'].to_numpy()
+
+                    column_grid = data.columns.to_numpy().astype(float)
+                    values = df_to_interpolate_.drop(
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+
+                    interp_func = RegularGridInterpolator((y, column_grid), values)
+
+                    # Define the coordinates for interpolation
+                    xi = column_grid  # x-coordinates for interpolation
+
+                    yi = predicted_targets_dic['c_o_ratio']
+                    # np.append(np.arange(y[0], y[1], abs(y[1] - y[0])/5, dtype=np.float64),y[1])  # y-coordinates for interpolation
+                    xi_mesh, yi_mesh = np.meshgrid(xi, yi, indexing='ij')  # Meshgrid for interpolation
+
+                    # Perform interpolation
+                    df_interpolated_ = pd.DataFrame(interp_func((yi_mesh, xi_mesh)).T, columns=data.columns,
+                                                    dtype=np.float64)
+                    df_interpolated_['c_o_ratio'] = yi_mesh[0]
+                    df_interpolated_['temperature'] = temp
+                    df_interpolated_['metallicity'] = met
+                    df_interpolated_['gravity'] = grav
+                    df_interpolated_['is_augmented'] = 'no'
+
+                    df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
+
+    # ***************************************************************************************
+
+    my_list_g = list(df_interpolated_all['gravity'].sort_values().unique())
+    my_list_met = list(df_interpolated_all['metallicity'].sort_values().unique())
+    my_list_c_o = list(df_interpolated_all['c_o_ratio'].sort_values().unique())
+    my_list_T = list(df_interpolated_all['temperature'].sort_values().unique())
+
+    # print(my_list_g, my_list_c_o, my_list_T, my_list_met)
+
+    df_interpolated_all2 = df_interpolated_all
+    df_interpolated_all2.drop_duplicates(inplace=True)
+
+    df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+    # df_interpolated_all = []
+
+    for c_o in my_list_c_o:
+        for temp in my_list_T:
+            for grav in my_list_g:
+                for met in range(0, len(my_list_met) - 1):
+                    # print(temp, grav, met, c_o)
+
+                    filter_params = {'gravity': (grav, grav),
+                                     'temperature': (temp, temp),
+                                     'c_o_ratio': (c_o, c_o),
+                                     'metallicity': (my_list_met[met], my_list_met[met + 1])}
+
+                    df_to_interpolate_ = filter_dataset_range(df_interpolated_all2, filter_params).reset_index(
+                        drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
+
+                    # display(df_to_interpolate_)
+
+                    # display(df_to_interpolate)
+                    data = df_to_interpolate_.drop(
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+
+                    y = df_to_interpolate_['metallicity'].to_numpy()
+                    # print(y)
+
+                    column_grid = data.columns.to_numpy().astype(float)
+                    values = df_to_interpolate_.drop(
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+
+                    interp_func = RegularGridInterpolator((y, column_grid), values)
+
+                    # Define the coordinates for interpolation
+                    xi = column_grid  # x-coordinates for interpolation
+
+                    yi = predicted_targets_dic['metallicity']
+                    # np.append(np.arange(y[0], y[1], abs(y[1] - y[0])/5, dtype=np.float64),y[1])  # y-coordinates for interpolation
+                    xi_mesh, yi_mesh = np.meshgrid(xi, yi, indexing='ij')  # Meshgrid for interpolation
+
+                    # Perform interpolation
+                    df_interpolated_ = pd.DataFrame(interp_func((yi_mesh, xi_mesh)).T, columns=data.columns,
+                                                    dtype=np.float64)
+                    df_interpolated_['metallicity'] = yi_mesh[0]
+                    df_interpolated_['temperature'] = temp
+                    df_interpolated_['c_o_ratio'] = c_o
+                    df_interpolated_['gravity'] = grav
+                    df_interpolated_['is_augmented'] = 'no'
+
+                    df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
+
+
+    # ************************************************************************************
+
+    my_list_g = list(df_interpolated_all['gravity'].sort_values().unique())
+    my_list_met = list(df_interpolated_all['metallicity'].sort_values().unique())
+    my_list_c_o = list(df_interpolated_all['c_o_ratio'].sort_values().unique())
+    my_list_T = list(df_interpolated_all['temperature'].sort_values().unique())
+
+    if print_results_:
+        print(my_list_g, my_list_c_o, my_list_T, my_list_met)
+
+    df_interpolated_all2 = df_interpolated_all
+    df_interpolated_all2.drop_duplicates(inplace=True)
+
+    df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+    # df_interpolated_all = pd.DataFrame(columns=df_interpolated_all2.columns)
+
+    # df_interpolated_all = df_interpolated_all_c_o.append(df_interpolated_all_c_o_list, ignore_index=True)
+
+    for c_o in my_list_c_o:
+        for met in my_list_met:
+            for grav in my_list_g:
+                for temp in range(0, len(my_list_T) - 1):
+                    # print(temp, grav, met, c_o)
+
+                    filter_params = {'gravity': (grav, grav),
+                                     'temperature': (my_list_T[temp], my_list_T[temp + 1]),
+                                     'c_o_ratio': (c_o, c_o),
+                                     'metallicity': (met, met)}
+
+                    df_to_interpolate_ = filter_dataset_range(df_interpolated_all2, filter_params).reset_index(
+                        drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
+
+                    # display(df_to_interpolate)
+                    data = df_to_interpolate_.drop(
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+
+                    y = df_to_interpolate_['temperature'].to_numpy()
+                    # print(y)
+
+                    column_grid = data.columns.to_numpy().astype(float)
+                    values = df_to_interpolate_.drop(
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+
+                    interp_func = RegularGridInterpolator((y, column_grid), values)
+
+                    # Define the coordinates for interpolation
+                    xi = column_grid  # x-coordinates for interpolation
+
+                    yi = predicted_targets_dic['temperature']
+
+                    xi_mesh, yi_mesh = np.meshgrid(xi, yi, indexing='ij')  # Meshgrid for interpolation
+
+                    # Perform interpolation
+                    df_interpolated_ = pd.DataFrame(interp_func((yi_mesh, xi_mesh)).T, columns=data.columns,
+                                                    dtype=np.float64)
+                    df_interpolated_['temperature'] = yi_mesh[0]
+                    df_interpolated_['metallicity'] = met
+                    df_interpolated_['c_o_ratio'] = c_o
+                    df_interpolated_['gravity'] = grav
+                    df_interpolated_['is_augmented'] = 'no'
+
+                    df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
+
+    # ******************************************************************************************
+
+    my_list_g = list(df_interpolated_all['gravity'].sort_values().unique())
+    my_list_met = list(df_interpolated_all['metallicity'].sort_values().unique())
+    my_list_c_o = list(df_interpolated_all['c_o_ratio'].sort_values().unique())
+    my_list_T = list(df_interpolated_all['temperature'].sort_values().unique())
+
+    df_interpolated_all2 = df_interpolated_all
+    df_interpolated_all2.drop_duplicates(inplace=True)
+
+    df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+    # df_interpolated_all = []
+
+    for c_o in my_list_c_o:
+        for met in my_list_met:
+            for temp in my_list_T:
+                for grav in range(0, len(my_list_g) - 1):
+                    # print(temp, grav, met, c_o)
+
+                    filter_params = {'gravity': (my_list_g[grav], my_list_g[grav + 1]),
+                                     'temperature': (temp, temp),
+                                     'c_o_ratio': (c_o, c_o),
+                                     'metallicity': (met, met)}
+
+                    df_to_interpolate_ = filter_dataset_range(df_interpolated_all2, filter_params).reset_index(
+                        drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
+
+                    # display(df_to_interpolate_)
+
+                    # display(df_to_interpolate)
+                    data = df_to_interpolate_.drop(
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+
+                    y = df_to_interpolate_['gravity'].to_numpy()
+                    # print(y)
+
+                    column_grid = data.columns.to_numpy().astype(float)
+                    values = df_to_interpolate_.drop(
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+
+                    interp_func = RegularGridInterpolator((y, column_grid), values)
+
+                    # Define the coordinates for interpolation
+                    xi = column_grid  # x-coordinates for interpolation
+
+                    yi = predicted_targets_dic['gravity']
+
+                    xi_mesh, yi_mesh = np.meshgrid(xi, yi, indexing='ij')  # Meshgrid for interpolation
+
+                    # Perform interpolation
+                    df_interpolated_ = pd.DataFrame(interp_func((yi_mesh, xi_mesh)).T, columns=data.columns,
+                                                    dtype=np.float64)
+                    df_interpolated_['gravity'] = yi_mesh[0]
+                    df_interpolated_['metallicity'] = met
+                    df_interpolated_['c_o_ratio'] = c_o
+                    df_interpolated_['temperature'] = temp
+                    df_interpolated_['is_augmented'] = 'no'
+
+                    df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
+
+
+    df_interpolated_all.drop_duplicates(inplace=True)
+
+    df_interpolated_final = df_interpolated_all[
+        (df_interpolated_all['temperature'] == predicted_targets_dic['temperature']) &
+        (df_interpolated_all['c_o_ratio'] == predicted_targets_dic['c_o_ratio']) &
+        (df_interpolated_all['metallicity'] == predicted_targets_dic['metallicity']) &
+        (df_interpolated_all['gravity'] == predicted_targets_dic['gravity']) &
+        (df_interpolated_all['is_augmented'] == 'no')]
+
+    return df_interpolated_final
+
+
+
+def interpolate_df_old(dataset,
                    predicted_targets_dic,
                    print_results_ = False):
 
@@ -967,7 +1251,7 @@ def plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar(stat_df,
 
     # Create a figure
     p = figure(
-        title='ML Predicted parameters - TEST 2',
+        title=object_name+': Observational vs. ML Predicted Spectra',
         x_axis_label='Features (Wavelength [μm])',
         y_axis_label='Flux (Fν)',
         y_axis_type="log",
@@ -1334,7 +1618,7 @@ def plot_chi_square_p_value(radius, chi_square_list, p_value_list,
     source = ColumnDataSource(data=dict(radius=radius, chi_square_list=chi_square_list, p_value_list=p_value_list))
 
     # Create the Bokeh figure
-    fig = figure(plot_width=800, plot_height=400, title="Chi-square and p-value", x_axis_label="Radius [R_Jup]",
+    fig = figure(width=800, height=400, title="Chi-square and p-value", x_axis_label="Radius [R_Jup]",
                  y_axis_label="Statistic Test Metric",
                  y_axis_type="log",
                  y_range=(0.01, max(chi_square_list) + 0.20 * max(chi_square_list)))
