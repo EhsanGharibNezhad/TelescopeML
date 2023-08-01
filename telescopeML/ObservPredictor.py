@@ -1,62 +1,28 @@
-# Import functions/Classes from other modules ====================
+# ======= Import functions/Classes from other modules ====================
 
-from io_funs import LoadSave
+# from io_funs import LoadSave
 
 from StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, plot_predicted_vs_spectra_errorbar
 from StatVisAnalyzer import interpolate_df, print_results_fun
 from StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar
 
 
-# Import Python libraries ========================================
+# ======= Import Python libraries ========================================
 
 # Standard Data Manipulation / Statistical Libraries ******
+# import os
 import pandas as pd
 import numpy as np
-import pickle as pk
-from scipy import stats
+# import pickle as pk
+# from scipy import stats
+# from uncertainties import ufloat
 
-import os
-from bokeh.plotting import figure, show
-from bokeh.models import ColumnDataSource
-from bokeh.io import output_notebook
 
 # Data Visulaization Libraries ****************************
 import matplotlib.pyplot as plt
-import seaborn as sns
-from uncertainties import ufloat
+# import seaborn as sns
 
-
-# Data science / Machine learning Libraries ***************
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-# from bokeh.palettes import Category20, colorblind
-from tensorflow.keras.models import Sequential, model_from_json
-
-
-
-
-import astropy.units as u
-from astropy.constants import c
-from astropy.nddata import StdDevUncertainty, NDDataArray
-
-
-from scipy.interpolate import interp1d
-import os
-import scipy.stats as st
-from sklearn.preprocessing import StandardScaler
-
-
-
-
-import random
-from bokeh.palettes import Magma, Inferno, Plasma, Viridis, Cividis
-from bokeh.palettes import  viridis, inferno
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-# Data Visualizing libararies
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 from bokeh.io import output_notebook
-from bokeh.layouts import row, column
 output_notebook()
 from bokeh.plotting import show,figure
 TOOLTIPS = [
@@ -64,10 +30,42 @@ TOOLTIPS = [
     ("(x,y)", "($x, $y)"),
 ]
 
+# from bokeh.plotting import figure, show
+# from bokeh.models import ColumnDataSource
+# from bokeh.io import output_notebook
+
+
+
+# Data science / Machine learning Libraries ***************
+# from sklearn.model_selection import train_test_split
+# from sklearn.preprocessing import StandardScaler
+# from tensorflow.keras.models import Sequential, model_from_json
+
+
+
+# from astropy.constants import c
+from astropy.nddata import StdDevUncertainty, NDDataArray
+
+
+# from scipy.interpolate import interp1d
+# import scipy.stats as st
+
+
+
+
+# import random
+# from bokeh.palettes import Magma, Inferno, Plasma, Viridis, Cividis
+from bokeh.palettes import  viridis
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+# Data Visualizing libararies
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
 import astropy.units as u
-from scipy.interpolate import InterpolatedUnivariateSpline
+# from scipy.interpolate import InterpolatedUnivariateSpline
 from scipy.interpolate import pchip
-from tensorflow.keras.models import Sequential, model_from_json
+# from tensorflow.keras.models import Sequential, model_from_json
 import spectres
 
 
@@ -169,7 +167,7 @@ class ObsParameterPredictor:
 
         Args:
             __print_results__ (bool): Whether to print the results. Defaults to False.
-            __plot_results__ (bool): Whether to plot the results. Defaults to True.
+            __plot_spectra_errorbar__ (bool): Whether to plot the results. Defaults to True.
             use_spectres (bool): Whether to use SpectRes for interpolation. Defaults to True.
         """
         if use_spectres:
