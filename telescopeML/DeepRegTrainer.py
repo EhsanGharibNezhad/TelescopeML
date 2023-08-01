@@ -1,0 +1,246 @@
+import tensorflow as tf
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
+
+from tensorflow.keras.models import save_model
+import pickle as pk
+
+
+# # Import BOHB Package ========================================
+
+# # Libraries for BOHB Package
+# import logging
+# logging.basicConfig(level=logging.WARNING)
+
+# import argparse
+
+# import hpbandster.core.nameserver as hpns
+# import hpbandster.core.result as hpres
+
+# from hpbandster.optimizers import BOHB as BOHB
+# from hpbandster.examples.commons import MyWorker
+
+# from tensorflow.keras.models import load_model
+# import ConfigSpace as CS
+# from hpbandster.core.worker import Worker
+
+# import logging
+# logging.basicConfig(level=logging.WARNING)
+
+# import argparse
+
+# import hpbandster.core.nameserver as hpns
+# import hpbandster.core.result as hpres
+
+# from hpbandster.optimizers import BOHB as BOHB
+# from hpbandster.examples.commons import MyWorker
+
+# from tensorflow.keras.models import load_model
+
+
+# import tensorflow as tf
+# from tensorflow import keras
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Flatten
+# from tensorflow.keras.layers import Conv1D, Reshape
+from tensorflow.keras.callbacks import EarlyStopping
+# from tensorflow.keras.utils import plot_model
+
+# from tensorflow.keras.layers import Input, Conv1D, Concatenate, Dense, MaxPooling1D
+# from tensorflow.keras.models import Model
+
+# import keras
+# from keras.datasets import mnist
+# from keras.models import Sequential
+# from keras.layers import Dense, Dropout, Flatten
+# from keras.layers import Conv2D, MaxPooling2D
+# # from keras import backend as K
+
+# # mlp for multi-output regression
+# from numpy import mean
+# from numpy import std
+# from keras.models import Sequential
+# from keras.layers import Dense
+
+# import warnings
+# import logging
+
+
+class TrainCNN:
+    def __init__(self,
+                 X1_train, X1_val, X1_test,  # Row-StandardScaled input spectra
+                 X2_train, X2_val, X2_test,  # Col-StandardScaled Mix Max of all rows of input spetra
+                 y1_train, y1_val, y1_test,  # Col-StandardScaled target feature 1
+                 y2_train, y2_val, y2_test,  # Col-StandardScaled target feature 2
+                 y3_train, y3_val, y3_test,  # Col-StandardScaled target feature 3
+                 y4_train, y4_val, y4_test,  # Col-StandardScaled target feature 4
+                 ):
+
+        self.X1_train, self.X1_val, self.X1_test = X1_train, X1_val, X1_test
+
+        # train, val, test sets for input 2 (Min and Max 2 features)
+        self.X2_train, self.X2_val, self.X2_test = X2_train, X2_val, X2_test
+
+        # train, val, test sets for target features
+        self.y1_train, self.y1_val, self.y1_test = y1_train, y1_val, y1_test
+        self.y2_train, self.y2_val, self.y2_test = y2_train, y2_val, y2_test
+        self.y3_train, self.y3_val, self.y3_test = y3_train, y3_val, y3_test
+        self.y4_train, self.y4_val, self.y4_test = y4_train, y4_val, y4_test
+
+    def build_model(self,
+                    hyperparameters
+                    ):
+        """
+        Build a CNN model with a certain number of blocks and layers using for loops.
+
+        Args:
+            num_blocks (int): Number of blocks in the CNN model.
+            num_layers_per_block (int): Number of layers in each block.
+            num_filters (list): List of integers representing the number of filters in each layer.
+            kernel_size (int): Size of the convolutional kernel.
+            input_shape (tuple): Input shape of the data, e.g., (104, 1) for 1D data with 104 time steps.
+            num_classes (int): Number of output classes.
+
+        Returns:
+            tf.keras.Model: The built CNN model.
+        """
+
+        Conv__num_blocks = hyperparameters['Conv__num_blocks']
+        Conv__num_layers_per_block = hyperparameters['Conv__num_layers_per_block']
+        Conv__num_filters = hyperparameters['Conv__num_filters']
+        Conv__kernel_size = hyperparameters['Conv__kernel_size']
+        Conv__MaxPooling1D = hyperparameters['Conv__MaxPooling1D']
+
+        FC1__num_blocks = hyperparameters['FC1__num_blocks']
+        FC1_num_layers_per_block = hyperparameters['FC1_num_layers_per_block']
+        FC1__units = hyperparameters['FC1__units']
+        FC1__dropout = hyperparameters['FC1__dropout']
+
+        FC2__num_blocks = hyperparameters['FC2__num_blocks']
+        FC2_num_layers_per_block = hyperparameters['FC2_num_layers_per_block']
+        FC2__units = hyperparameters['FC2__units']
+        FC2__dropout = hyperparameters['FC2__dropout']
+
+        self.learning_rate = hyperparameters['learning_rate']
+
+        # Define the input layer
+        input_layer_1 = tf.keras.layers.Input(shape=(104, 1))
+        input_layer_2 = tf.keras.layers.Input(shape=(2,))
+
+        # Start building the model using the input layer
+        x = input_layer_1
+
+        # Build the specified number of blocks using for loops
+        for block in range(Conv__num_blocks):
+            # Build the specified number of layers in each block using for loops
+            for layer in range(Conv__num_layers_per_block):
+                x = Conv1D(filters=Conv__num_filters * ((block + layer + 1) * 2) ** 2,
+                           kernel_size=Conv__kernel_size,
+                           activation='relu',
+                           padding='same',
+                           kernel_initializer='he_normal',
+                           name='Conv__B' + str(block + 1) + '_L' + str(layer + 1)
+                           )(x)
+
+            # Add a MaxPooling layer at the end of each block
+            x = MaxPooling1D(pool_size=(Conv__MaxPooling1D),
+                             name='MaxPool1D__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+
+        # Flatten the output of the last block
+        x = Flatten()(x)
+
+        for block in range(FC1__num_blocks):
+            for layer in range(FC1_num_layers_per_block):
+                x = Dense(FC1__units * ((block + layer + 1) * 2) ** 2,
+                          activation='relu',
+                          name='FC1__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+
+            x = Dropout(FC1__dropout,
+                        name='FC1__Dropout__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+
+        # Concatenate the outputs from the convolutional layers and dense layer
+        x = tf.keras.layers.concatenate([x, input_layer_2],
+                                        name='Concatenated_Layer')
+
+        # Add a dense layer for classification
+        for block in range(FC2__num_blocks):
+            for layer in range(FC2_num_layers_per_block):
+                x = Dense(FC2__units * ((block + layer + 1) * 2) ** 2,
+                          activation='relu',
+                          name='FC2__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+
+            x = Dropout(FC2__dropout,
+                        name='FC2__Dropout__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+
+        ######### 3rd FC Block: gravity  ##############################
+
+        out__gravity = Dense(1,
+                             activation='linear',
+                             # kernel_initializer = 'he_normal',
+                             name='FC3__gravity')(x)
+
+        ######### 3rd FC Block: c_o_ratio  ##############################
+        out__c_o_ratio = Dense(1,
+                               activation='linear',
+                               # kernel_initializer = 'he_normal',
+                               name='FC3__c_o_ratio')(x)
+
+        ######### 3rd FC Block: metallicity  ##############################
+        out__metallicity = Dense(1,
+                                 activation='linear',
+                                 # kernel_initializer = 'he_normal',
+                                 name='FC3__metallicity')(x)
+
+        ######### 3rd FC Block: temperature  ##############################
+        out__temperature = Dense(1,
+                                 activation='linear',
+                                 name='FC3__temperature')(x)
+
+        ######### OUTPUT   ################################################
+        # Create the model with two inputs and two outputs
+        model = tf.keras.Model(inputs=[input_layer_1, input_layer_2],
+                               outputs=[out__gravity, out__c_o_ratio, out__metallicity, out__temperature])
+
+        self.model = model
+
+        print(model.summary())
+
+    def fit_cnn_model(self,
+                      budget=3):
+
+        # Compile the model with an optimizer, loss function, and metrics
+        self.model.compile(loss='huber_loss',
+                           optimizer=keras.optimizers.Adam(learning_rate=self.learning_rate),
+                           metrics=['mae'])
+
+        early_stop = EarlyStopping(monitor='loss', min_delta=4e-4, patience=50, mode='auto', \
+                                   restore_best_weights=True)
+
+        # YOU CAN ADD FUNCTION HERE TO ADD NOISE
+        history = self.model.fit(x=[self.X1_train, self.X2_train],
+                                 y=[self.y1_train, self.y2_train, self.y3_train, self.y4_train],
+                                 # self.x_train, self.y_train,
+                                 batch_size=32,  # config['batch_size'], # self.batch_size,
+                                 validation_data=(
+                                 [self.X1_val, self.X2_val], [self.y1_val, self.y2_val, self.y3_val, self.y4_val]),
+                                 # validation_split=0.2,
+                                 epochs=int(budget),
+                                 verbose=1,
+                                 callbacks=[early_stop],
+                                 )
+
+        return history, self.model
+#         train_score = model.evaluate(x = [self.X1_train, self.X2_train],
+#                                      y = [self.y1_train, self.y2_train, self.y3_train, self.y4_train],
+#                                      verbose=0)
+#         val_score   = model.evaluate(x = [self.X1_val, self.X2_val],
+#                                      y = [self.y1_val, self.y2_val, self.y3_val, self.y4_val],
+#                                      verbose=0)
+#         test_score  = model.evaluate(x = [self.X1_test, self.X2_test],
+#                                      y = [self.y1_test, self.y2_test, self.y3_test, self.y4_test],
+#                                      verbose=0)
+
