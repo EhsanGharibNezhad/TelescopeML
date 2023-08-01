@@ -181,24 +181,24 @@ class TrainCNN:
         out__gravity = Dense(1,
                              activation='linear',
                              # kernel_initializer = 'he_normal',
-                             name='FC3__gravity')(x)
+                             name='gravity')(x)
 
         ######### 3rd FC Block: c_o_ratio  ##############################
         out__c_o_ratio = Dense(1,
                                activation='linear',
                                # kernel_initializer = 'he_normal',
-                               name='FC3__c_o_ratio')(x)
+                               name='c_o_ratio')(x)
 
         ######### 3rd FC Block: metallicity  ##############################
         out__metallicity = Dense(1,
                                  activation='linear',
                                  # kernel_initializer = 'he_normal',
-                                 name='FC3__metallicity')(x)
+                                 name='metallicity')(x)
 
         ######### 3rd FC Block: temperature  ##############################
         out__temperature = Dense(1,
                                  activation='linear',
-                                 name='FC3__temperature')(x)
+                                 name='temperature')(x)
 
         ######### OUTPUT   ################################################
         # Create the model with two inputs and two outputs
@@ -212,8 +212,9 @@ class TrainCNN:
     def fit_cnn_model(self,
                       budget=3):
 
+        model = self.model
         # Compile the model with an optimizer, loss function, and metrics
-        self.model.compile(loss='huber_loss',
+        model.compile(loss='huber_loss',
                            optimizer=keras.optimizers.Adam(learning_rate=self.learning_rate),
                            metrics=['mae'])
 
@@ -232,8 +233,9 @@ class TrainCNN:
                                  verbose=1,
                                  callbacks=[early_stop],
                                  )
-
-        return history, self.model
+        self.model = model
+        self.history = history
+        return history, model
 #         train_score = model.evaluate(x = [self.X1_train, self.X2_train],
 #                                      y = [self.y1_train, self.y2_train, self.y3_train, self.y4_train],
 #                                      verbose=0)
