@@ -92,7 +92,7 @@ class TrainCNN:
         self.y4_train, self.y4_val, self.y4_test = y4_train, y4_val, y4_test
 
     def build_model(self,
-                    hyperparameters
+                    hyperparameters # dic
                     ):
         """
         Build a CNN model with a certain number of blocks and layers using for loops.

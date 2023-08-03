@@ -68,7 +68,7 @@ from sklearn.base import BaseEstimator
 
 
 
-class TrainRegression:
+class BuildRegression:
     """
     Perform Convolutional Neural Network training
 
