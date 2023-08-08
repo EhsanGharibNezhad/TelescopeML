@@ -6,6 +6,7 @@ not_pushed/
 bohb_model_tuner/out*
 store/
 __pycache__/
+.ipynb_checkpoints/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
