@@ -1,85 +1,109 @@
-import tensorflow as tf
-from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout
+# Import functions from other modules ============================
+# from io_funs import LoadSave
 
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
+# Import python libraries ========================================
 
-from tensorflow.keras.models import save_model
+# ******* Standard Data Manipulation / Statistical Libraries *****
+import pandas as pd
+pd.options.mode.chained_assignment = None  # Suppress warnings
+import numpy as np
 import pickle as pk
 
+from typing import Union
 
-# # Import BOHB Package ========================================
+# from typing import List, Union, Dict
+# from sklearn.base import BaseEstimator
 
-# # Libraries for BOHB Package
-# import logging
-# logging.basicConfig(level=logging.WARNING)
+# ******* Data Visualization Libraries ****************************
 
-# import argparse
+import matplotlib.pyplot as plt
 
-# import hpbandster.core.nameserver as hpns
-# import hpbandster.core.result as hpres
+import seaborn as sns
 
-# from hpbandster.optimizers import BOHB as BOHB
-# from hpbandster.examples.commons import MyWorker
+from bokeh.io import output_notebook
+output_notebook()
+from bokeh.plotting import show,figure
+TOOLTIPS = [
+    ("index", "$index"),
+    ("(x,y)", "($x, $y)"),
+]
 
-# from tensorflow.keras.models import load_model
-# import ConfigSpace as CS
-# from hpbandster.core.worker import Worker
-
-# import logging
-# logging.basicConfig(level=logging.WARNING)
-
-# import argparse
-
-# import hpbandster.core.nameserver as hpns
-# import hpbandster.core.result as hpres
-
-# from hpbandster.optimizers import BOHB as BOHB
-# from hpbandster.examples.commons import MyWorker
-
-# from tensorflow.keras.models import load_model
-
-
-# import tensorflow as tf
-# from tensorflow import keras
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Dense, Flatten
-# from tensorflow.keras.layers import Conv1D, Reshape
+# ******** Data science / Machine learning Libraries ***************
+import tensorflow as tf
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout
 from tensorflow.keras.callbacks import EarlyStopping
-# from tensorflow.keras.utils import plot_model
 
-# from tensorflow.keras.layers import Input, Conv1D, Concatenate, Dense, MaxPooling1D
-# from tensorflow.keras.models import Model
+tf.get_logger().setLevel('ERROR')
 
-# import keras
-# from keras.datasets import mnist
-# from keras.models import Sequential
-# from keras.layers import Dense, Dropout, Flatten
-# from keras.layers import Conv2D, MaxPooling2D
-# # from keras import backend as K
-
-# # mlp for multi-output regression
-# from numpy import mean
-# from numpy import std
-# from keras.models import Sequential
-# from keras.layers import Dense
-
-# import warnings
-# import logging
+from tensorflow import keras
+from tensorflow.keras.models import save_model
 
 
 class TrainCNN:
+    """
+    Train Convolutional Neural Networks model
+
+    Parameters:
+    -----------
+    X1_train : array-like
+        Row-StandardScaled input spectra for training.
+    X1_val : array-like
+        Row-StandardScaled input spectra for validation.
+    X1_test : array-like
+        Row-StandardScaled input spectra for testing.
+    X2_train : array-like
+        Col-StandardScaled Mix Max of all rows of input spectra for training.
+    X2_val : array-like
+        Col-StandardScaled Mix Max of all rows of input spectra for validation.
+    X2_test : array-like
+        Col-StandardScaled Mix Max of all rows of input spectra for testing.
+    y1_train : array-like
+        Col-StandardScaled target feature 1 for training.
+    y1_val : array-like
+        Col-StandardScaled target feature 1 for validation.
+    y1_test : array-like
+        Col-StandardScaled target feature 1 for testing.
+    y2_train : array-like
+        Col-StandardScaled target feature 2 for training.
+    y2_val : array-like
+        Col-StandardScaled target feature 2 for validation.
+    y2_test : array-like
+        Col-StandardScaled target feature 2 for testing.
+    y3_train : array-like
+        Col-StandardScaled target feature 3 for training.
+    y3_val : array-like
+        Col-StandardScaled target feature 3 for validation.
+    y3_test : array-like
+        Col-StandardScaled target feature 3 for testing.
+    y4_train : array-like
+        Col-StandardScaled target feature 4 for training.
+    y4_val : array-like
+        Col-StandardScaled target feature 4 for validation.
+    y4_test : array-like
+        Col-StandardScaled target feature 4 for testing.
+    """
     def __init__(self,
-                 X1_train, X1_val, X1_test,  # Row-StandardScaled input spectra
-                 X2_train, X2_val, X2_test,  # Col-StandardScaled Mix Max of all rows of input spetra
-                 y1_train, y1_val, y1_test,  # Col-StandardScaled target feature 1
-                 y2_train, y2_val, y2_test,  # Col-StandardScaled target feature 2
-                 y3_train, y3_val, y3_test,  # Col-StandardScaled target feature 3
-                 y4_train, y4_val, y4_test,  # Col-StandardScaled target feature 4
+                 X1_train: Union[np.ndarray, list],
+                 X1_val: Union[np.ndarray, list],
+                 X1_test: Union[np.ndarray, list],
+                 X2_train: Union[np.ndarray, list],
+                 X2_val: Union[np.ndarray, list],
+                 X2_test: Union[np.ndarray, list],
+                 y1_train: Union[np.ndarray, list],
+                 y1_val: Union[np.ndarray, list],
+                 y1_test: Union[np.ndarray, list],
+                 y2_train: Union[np.ndarray, list],
+                 y2_val: Union[np.ndarray, list],
+                 y2_test: Union[np.ndarray, list],
+                 y3_train: Union[np.ndarray, list],
+                 y3_val: Union[np.ndarray, list],
+                 y3_test: Union[np.ndarray, list],
+                 y4_train: Union[np.ndarray, list],
+                 y4_val: Union[np.ndarray, list],
+                 y4_test: Union[np.ndarray, list]
                  ):
 
+        # train, val, test sets for main features (104 wavelengths)
         self.X1_train, self.X1_val, self.X1_test = X1_train, X1_val, X1_test
 
         # train, val, test sets for input 2 (Min and Max 2 features)
@@ -98,12 +122,24 @@ class TrainCNN:
         Build a CNN model with a certain number of blocks and layers using for loops.
 
         Args:
-            num_blocks (int): Number of blocks in the CNN model.
-            num_layers_per_block (int): Number of layers in each block.
-            num_filters (list): List of integers representing the number of filters in each layer.
-            kernel_size (int): Size of the convolutional kernel.
-            input_shape (tuple): Input shape of the data, e.g., (104, 1) for 1D data with 104 time steps.
-            num_classes (int): Number of output classes.
+            hyperparameters (dict): A dictionary containing hyperparameters for configuring the model.
+                'Conv__num_blocks' (int): Number of blocks in the CNN model.
+                'Conv__num_layers_per_block' (int): Number of layers in each convolutional block.
+                'Conv__num_filters' (list): List of integers representing the number of filters in each layer.
+                'Conv__kernel_size' (int): Size of the convolutional kernel.
+                'Conv__MaxPooling1D' (bool): Whether to include MaxPooling1D layers after each block.
+
+                'FC1__num_blocks' (int): Number of blocks in the fully connected (FC1) part of the model.
+                'FC1_num_layers_per_block' (int): Number of layers in each FC1 block.
+                'FC1__units' (list): List of integers representing the number of units in each layer.
+                'FC1__dropout' (float): Dropout rate for FC1 layers.
+
+                'FC2__num_blocks' (int): Number of blocks in the second fully connected (FC2) part of the model.
+                'FC2_num_layers_per_block' (int): Number of layers in each FC2 block.
+                'FC2__units' (list): List of integers representing the number of units in each layer.
+                'FC2__dropout' (float): Dropout rate for FC2 layers.
+
+                'learning_rate' (float): Learning rate for the model.
 
         Returns:
             tf.keras.Model: The built CNN model.

@@ -5,70 +5,39 @@ from io_funs import LoadSave
 
 # ******* Standard Data Manipulation / Statistical Libraries *****
 import pandas as pd
+pd.options.mode.chained_assignment = None  # Suppress warnings
 import numpy as np
-# from scipy import stats
+import pickle as pk
 
-# ******* Data Visulaization Libraries ****************************
+from typing import List, Union, Dict
+from sklearn.base import BaseEstimator
+
+# ******* Data Visualization Libraries ****************************
 
 import matplotlib.pyplot as plt
+
+from bokeh.io import output_notebook
+output_notebook()
+from bokeh.plotting import show,figure
+TOOLTIPS = [
+    ("index", "$index"),
+    ("(x,y)", "($x, $y)"),
+]
 
 # ******** Data science / Machine learning Libraries ***************
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
-from tensorflow.keras.callbacks import EarlyStopping
-from tensorflow.keras.models import load_model
-from tensorflow.keras.models import save_model
-import pickle as pk
-
-# Import BOHB Package ========================================
-
-# Libraries for BOHB Package 
-import logging
-logging.basicConfig(level=logging.WARNING)
-
-# import argparse
-#
-# import hpbandster.core.nameserver as hpns
-# import hpbandster.core.result as hpres
-#
-# from hpbandster.optimizers import BOHB as BOHB
-# from hpbandster.examples.commons import MyWorker
-#
-# from tensorflow.keras.models import load_model
-# import ConfigSpace as CS
-# from hpbandster.core.worker import Worker
-
-# import logging
-# logging.basicConfig(level=logging.WARNING)
-
-
-from bokeh.io import output_notebook
-# from bokeh.layouts import row, column
-output_notebook()
-from bokeh.plotting import show,figure
-
-TOOLTIPS = [
-    ("index", "$index"),
-    ("(x,y)", "($x, $y)"),
-]
-
-from typing import List, Union, Dict
-from sklearn.base import BaseEstimator
+tf.get_logger().setLevel('ERROR')
 
 # ===============================================================================
 # ==================                                           ==================
 # ==================            Train CNN Regression           ==================
 # ==================                                           ==================
-# ===============================================================================  
+# ===============================================================================
 
-
-
-class BuildRegression:
+class BuildCNN:
     """
     Perform Convolutional Neural Network training
 
@@ -100,10 +69,6 @@ class BuildRegression:
         Resolution of the synthetic spectra used to generate the dataset
     - feature_improvement_method: str
         Indicates the method used for feature improvement ('no', 'pca', 'RFE')
-    - n_jobs: int
-        Number of processors for optimization step
-    - cv: int
-        Cross-validation
     - augmentation_method: str
         Indicates if augmented dataset is used ('no' or method name)
     - ml_model: object
@@ -127,8 +92,6 @@ class BuildRegression:
         param_grid: Union[None, Dict] = None,
         spectral_resolution: Union[None, int] = None,
         is_feature_improved: str = 'no',
-        # n_jobs: Union[None, int] = None,
-        # cv: Union[None, int] = None,
         is_augmented: str = 'no',
         ml_model: Union[None, BaseEstimator] = None,
         ml_model_str: Union[None, str] = None,
@@ -144,8 +107,6 @@ class BuildRegression:
         self.param_grid = param_grid
         self.spectral_resolution = spectral_resolution
         self.is_feature_improved = is_feature_improved
-        # self.n_jobs = n_jobs
-        # self.cv = cv
         self.is_augmented = is_augmented
         self.ml_model = ml_model
         self.ml_model_str = ml_model_str
@@ -174,7 +135,10 @@ class BuildRegression:
 
         
         
-    def split_train_validation_test(self, test_size=0.1, val_size=0.1, random_state_ = 42):
+    def split_train_validation_test(self,
+                                    test_size=0.1,
+                                    val_size=0.1,
+                                    random_state_ = 42):
         """
         Split the loaded set into train, validation, and test sets
 
@@ -212,7 +176,11 @@ class BuildRegression:
 
 
 
-    def normalize_X_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
+    def normalize_X_column_wise(self,
+                                X_train=None,
+                                X_val=None,
+                                X_test=None,
+                                print_model=False):
         """
         Normalize features/column variables to a specified range.
         Transform your data such that its values are within the specified range [0, 1].
@@ -240,8 +208,14 @@ class BuildRegression:
         self.X_test_normalized_columnwise = normalizer.transform(X_test)
         self.normalize_X_ColumnWise = normalizer
 
-        LoadSave(self.ml_model_str, self.is_feature_improved, self.is_augmented, self.is_tuned).load_or_dump_trained_object(
-            trained_object=self.normalize_X_ColumnWise, indicator='normalize_X_ColumnWise', load_or_dump='dump')
+        LoadSave(self.ml_model_str,
+                 self.is_feature_improved,
+                 self.is_augmented,
+                 self.is_tuned
+                 ).load_or_dump_trained_object(
+                        trained_object=self.normalize_X_ColumnWise,
+                        indicator='normalize_X_ColumnWise',
+                        load_or_dump='dump')
 
         if print_model:
             print(normalizer)

@@ -28,28 +28,6 @@ from bokeh.plotting import output_notebook
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
 
-# from bokeh.io import output_notebook
-# from bokeh.layouts import row, column
-# output_notebook()
-# from bokeh.plotting import show,figure
-# TOOLTIPS = [
-#     ("index", "$index"),
-#     ("(x,y)", "($x, $y)"),
-# ]
-
-# ******** Data science / Machine learning Libraries ***************
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.models import save_model
-from tensorflow.keras.models import load_model
-
-# ******** Import BOHB Package  *************************************
-# import logging
-# logging.basicConfig(level=logging.WARNING)
-# import argparse
-# import hpbandster.core.result as hpres
-# from hpbandster.examples.commons import MyWorker
-
 
 def print_results_fun(targets, print_title=None):
     """

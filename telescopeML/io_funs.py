@@ -1,13 +1,20 @@
 import os
 import pickle as pk
-from tensorflow.keras.models import model_from_json
+from tensorflow.keras.models import load_model
+
+# from tensorflow.keras.models import model_from_json
 
 class LoadSave:
     """
     Load and Save trained operators, models, and datasets
     """
 
-    def __init__(self, ml_model_str, is_feature_improved, is_augmented, is_tuned):
+    def __init__(self,
+                 ml_model_str,
+                 is_feature_improved,
+                 is_augmented,
+                 is_tuned
+                 ):
         self.ml_model_str = ml_model_str
         self.is_feature_improved = is_feature_improved
         self.is_augmented = is_augmented
@@ -49,31 +56,44 @@ class LoadSave:
             with open(generic_path, 'rb') as file:
                 return pk.load(file)
 
-    def load_or_dump_trained_model_CNN(self, trained_model, indicator='TrainedCNN', load_or_dump='dump'):
-        """
-        Load or save the trained CNN model
 
-        Inputs:
-        -------
-        - trained_model : The trained CNN model
-        - indicator (str): Indicator for the type of trained model
-        - load_or_dump (str): 'dump' or 'load'
-        """
-        json_path = self.create_generic_path(f'{indicator}_json')
-        weights_path = self.create_generic_path(f'{indicator}_weights')
+def load_or_dump_trained_model_CNN(
+                                   trained_model = None,
+                                   indicator='TrainedCNN',
+                                   load_or_dump='dump'):
+    """
+    Load or save the trained CNN model
 
-        if load_or_dump == 'dump':
-            # Serialize model to JSON
-            model_json = trained_model.to_json()
-            with open(json_path, 'w') as json_file:
-                json_file.write(model_json)
-            # Save model weights
-            trained_model.save_weights(weights_path + '.h5')
-        elif load_or_dump == 'load':
-            # Load JSON and create model
-            with open(json_path, 'r') as json_file:
-                loaded_model_json = json_file.read()
-            loaded_model = model_from_json(loaded_model_json)
-            # Load model weights
-            loaded_model.load_weights(weights_path + '.h5')
-            return loaded_model
+    Inputs:
+    -------
+    - trained_model : The trained CNN model
+    - indicator (str): Indicator for the type of trained model
+    - load_or_dump (str): 'dump' or 'load'
+    """
+    # json_path = self.create_generic_path(f'{indicator}_json')
+    # weights_path = self.create_generic_path(f'{indicator}_weights')
+
+    if load_or_dump == 'dump':
+        trained_model.trained_model.save(
+            f'../../outputs/trained_models/trained_CNN_architecture_{indicator}.h5')
+        trained_model.trained_model.save_weights(
+            f'../../outputs/trained_models/trained_CNN_weights_{indicator}.h5')
+
+        with open(
+                f'../../outputs/trained_models/trained_CNN_{indicator}.pkl',
+                'wb') as file:
+            pk.dump(trained_model.history.history, file)
+
+    elif load_or_dump == 'load':
+        loaded_model = load_model(
+            f'../../outputs/trained_models/trained_CNN_architecture_{indicator}.h5')
+        loaded_model.load_weights(
+            f'../../outputs/trained_models/trained_CNN_weights_{indicator}.h5')
+
+        # Loading the saved history object
+        with open(
+                f'../../outputs/trained_models/trained_CNN_history_{indicator}.pkl',
+                'rb') as file:
+                history = pk.load(file)
+
+        return loaded_model, history
