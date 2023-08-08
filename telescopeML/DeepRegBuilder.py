@@ -5,6 +5,7 @@ from io_funs import LoadSave
 
 # ******* Standard Data Manipulation / Statistical Libraries *****
 import pandas as pd
+
 pd.options.mode.chained_assignment = None  # Suppress warnings
 import numpy as np
 import pickle as pk
@@ -17,8 +18,10 @@ from sklearn.base import BaseEstimator
 import matplotlib.pyplot as plt
 
 from bokeh.io import output_notebook
+
 output_notebook()
-from bokeh.plotting import show,figure
+from bokeh.plotting import show, figure
+
 TOOLTIPS = [
     ("index", "$index"),
     ("(x,y)", "($x, $y)"),
@@ -29,7 +32,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 import tensorflow as tf
+
 tf.get_logger().setLevel('ERROR')
+
 
 # ===============================================================================
 # ==================                                           ==================
@@ -52,7 +57,7 @@ class BuildCNN:
     - trained_model: object
         Trained ML model (optional)
     - trained_model_history: dict
-        History dict from the trained model 
+        History dict from the trained model
     - feature_values: array
         Flux arrays (input data)
     - feature_names: list
@@ -81,20 +86,20 @@ class BuildCNN:
     """
 
     def __init__(
-        self,
-        trained_model: Union[None, BaseEstimator] = None,
-        trained_model_history: Union[None, Dict] = None,
-        feature_values: Union[None, np.ndarray] = None,
-        feature_names: Union[None, List[str]] = None,
-        target_values: Union[None, np.ndarray] = None,
-        target_name: Union[None, str] = None,
-        is_tuned: str = 'no',
-        param_grid: Union[None, Dict] = None,
-        spectral_resolution: Union[None, int] = None,
-        is_feature_improved: str = 'no',
-        is_augmented: str = 'no',
-        ml_model: Union[None, BaseEstimator] = None,
-        ml_model_str: Union[None, str] = None,
+            self,
+            trained_model: Union[None, BaseEstimator] = None,
+            trained_model_history: Union[None, Dict] = None,
+            feature_values: Union[None, np.ndarray] = None,
+            feature_names: Union[None, List[str]] = None,
+            target_values: Union[None, np.ndarray] = None,
+            target_name: Union[None, str] = None,
+            is_tuned: str = 'no',
+            param_grid: Union[None, Dict] = None,
+            spectral_resolution: Union[None, int] = None,
+            is_feature_improved: str = 'no',
+            is_augmented: str = 'no',
+            ml_model: Union[None, BaseEstimator] = None,
+            ml_model_str: Union[None, str] = None,
     ) -> None:
 
         self.trained_model = trained_model
@@ -110,7 +115,6 @@ class BuildCNN:
         self.is_augmented = is_augmented
         self.ml_model = ml_model
         self.ml_model_str = ml_model_str
-
 
     def split_train_test(self, test_size=0.1):
         """
@@ -128,17 +132,15 @@ class BuildCNN:
         - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
         """
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.feature_values,
-                                                            self.target_values,
-                                                            test_size=test_size,
-                                                            shuffle=True,
-                                                            random_state=42)
+                                                                                self.target_values,
+                                                                                test_size=test_size,
+                                                                                shuffle=True,
+                                                                                random_state=42)
 
-        
-        
     def split_train_validation_test(self,
                                     test_size=0.1,
                                     val_size=0.1,
-                                    random_state_ = 42):
+                                    random_state_=42):
         """
         Split the loaded set into train, validation, and test sets
 
@@ -173,8 +175,6 @@ class BuildCNN:
             shuffle=True,
             random_state=random_state_
         )
-
-
 
     def normalize_X_column_wise(self,
                                 X_train=None,
@@ -213,14 +213,12 @@ class BuildCNN:
                  self.is_augmented,
                  self.is_tuned
                  ).load_or_dump_trained_object(
-                        trained_object=self.normalize_X_ColumnWise,
-                        indicator='normalize_X_ColumnWise',
-                        load_or_dump='dump')
+            trained_object=self.normalize_X_ColumnWise,
+            indicator='normalize_X_ColumnWise',
+            load_or_dump='dump')
 
         if print_model:
             print(normalizer)
-
-
 
     def normalize_X_row_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
         """
@@ -242,7 +240,7 @@ class BuildCNN:
         X_train = self.X_train if X_train is None else X_train
         X_val = self.X_val if X_val is None else X_val
         X_test = self.X_test if X_test is None else X_test
-        
+
         normalizer = MinMaxScaler(feature_range=(0, 1))
         self.X_train_normalized_rowwise = normalizer.fit_transform(X_train.T).T
         self.X_val_normalized_rowwise = normalizer.fit_transform(X_val.T).T
@@ -253,9 +251,9 @@ class BuildCNN:
                  self.is_feature_improved,
                  self.is_augmented,
                  self.is_tuned).load_or_dump_trained_object(
-                     trained_object=self.normalize_X_RowWise,
-                     indicator='normalize_X_RowWise',
-                     load_or_dump='dump')
+            trained_object=self.normalize_X_RowWise,
+            indicator='normalize_X_RowWise',
+            load_or_dump='dump')
 
         if print_model:
             print(normalizer)
@@ -291,16 +289,12 @@ class BuildCNN:
                  self.is_feature_improved,
                  self.is_augmented,
                  self.is_tuned).load_or_dump_trained_object(
-                     trained_object=self.normalize_y_ColumnWise,
-                     indicator='normalize_y_ColumnWise',
-                     load_or_dump='dump')
+            trained_object=self.normalize_y_ColumnWise,
+            indicator='normalize_y_ColumnWise',
+            load_or_dump='dump')
 
         if print_model:
             print(scaler_y)
-
-
-
-
 
     def standardize_y_column_wise(self, y_train=None, y_val=None, y_test=None, print_model=False):
         """
@@ -322,7 +316,7 @@ class BuildCNN:
         y_train = self.y_train if y_train is None else y_train
         y_val = self.y_val if y_val is None else y_val
         y_test = self.y_test if y_test is None else y_test
-        
+
         scaler_y = StandardScaler()
         self.y_train_standardized_columnwise = scaler_y.fit_transform(y_train)
         self.y_val_standardized_columnwise = scaler_y.transform(y_val)
@@ -333,15 +327,12 @@ class BuildCNN:
                  self.is_feature_improved,
                  self.is_augmented,
                  self.is_tuned).load_or_dump_trained_object(
-                     trained_object=self.standardize_y_ColumnWise,
-                     indicator='standardize_y_ColumnWise',
-                     load_or_dump='dump')
+            trained_object=self.standardize_y_ColumnWise,
+            indicator='standardize_y_ColumnWise',
+            load_or_dump='dump')
 
         if print_model:
             print(scaler_y)
-
-
-    
 
     def standardize_X_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
         """
@@ -363,7 +354,7 @@ class BuildCNN:
         X_train = self.X_train if X_train is None else X_train
         X_val = self.X_val if X_val is None else X_val
         X_test = self.X_test if X_test is None else X_test
-        
+
         scaler_X = StandardScaler()
         # if X_train == None:
         self.X_train_standardized_columnwise = scaler_X.fit_transform(X_train)
@@ -373,24 +364,19 @@ class BuildCNN:
         X_train_standardized_columnwise = scaler_X.fit_transform(X_train)
         X_val_standardized_columnwise = scaler_X.transform(X_val)
         X_test_standardized_columnwise = scaler_X.transform(X_test)
-        
-        
-        
+
         self.standardize_X_ColumnWise = scaler_X
 
         LoadSave(self.ml_model_str,
                  self.is_feature_improved,
                  self.is_augmented,
                  self.is_tuned).load_or_dump_trained_object(
-                     trained_object=self.standardize_X_ColumnWise,
-                     indicator='standardize_X_ColumnWise',
-                     load_or_dump='dump')
+            trained_object=self.standardize_X_ColumnWise,
+            indicator='standardize_X_ColumnWise',
+            load_or_dump='dump')
 
         if print_model:
             print(scaler_X)
-            
-
-
 
     def standardize_X_row_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
         """
@@ -412,7 +398,7 @@ class BuildCNN:
         X_train = self.X_train if X_train is None else X_train
         X_val = self.X_val if X_val is None else X_val
         X_test = self.X_test if X_test is None else X_test
-        
+
         scaler_X = StandardScaler()
         self.X_train_standardized_rowwise = scaler_X.fit_transform(X_train.T).T
         self.X_val_standardized_rowwise = scaler_X.fit_transform(X_val.T).T
@@ -423,18 +409,16 @@ class BuildCNN:
                  self.is_feature_improved,
                  self.is_augmented,
                  self.is_tuned).load_or_dump_trained_object(
-                     trained_object=self.standardize_X_RowWise,
-                     indicator='standardize_X_RowWise',
-                     load_or_dump='dump')
+            trained_object=self.standardize_X_RowWise,
+            indicator='standardize_X_RowWise',
+            load_or_dump='dump')
 
         if print_model:
             print(scaler_X)
-            
 
-
-    def plot_boxplot_scaled_features(self, scaled_feature, title = None, xticks_list = None, fig_size=(14, 3)):
+    def plot_boxplot_scaled_features(self, scaled_feature, title=None, xticks_list=None, fig_size=(14, 3)):
         """
-        Interpretation: 
+        Interpretation:
         - Median: middle quartile marks
         - Inter-quartile range: (The middle “box”): 50% of scores fall within the inter-quartile range
         - Upper quartile: 75% of the scores fall below the upper quartile.
@@ -442,15 +426,15 @@ class BuildCNN:
         """
         plt.figure(figsize=fig_size)
         plt.boxplot(scaled_feature, sym='')
-        
+
         if len(scaled_feature) > 10:
             plt.xticks(rotation=45)
 
         plt.xlabel('Features', fontsize=12)
         plt.ylabel('Scaled Value', fontsize=12)
-        if title: 
+        if title:
             plt.title(title, fontsize=14)
-            
+
         # Add custom x-ticks
         # custom_xticks = ['Label 1', 'Label 2', 'Label 3', 'Label 4']
         if xticks_list:
@@ -460,7 +444,6 @@ class BuildCNN:
         plt.tight_layout()
         plt.show()
 
-
     def plot_histogram_scaled_features(self, scaled_feature):
         # Plotting the histogram
         plt.figure(figsize=(15, 6))
@@ -469,36 +452,41 @@ class BuildCNN:
         plt.ylabel('Frequency')
         plt.title('Histogram of Scaled Features')
         plt.show()
-        
-    def plot_model_loss (self, history = None, title = None):
-        
+
+    def plot_model_loss(self, history=None, title=None):
+
         # from bokeh.plotting import figure, show
         # from bokeh.models import Legend
-        
+
         history = self.trained_model_history if history is None else history
         # Define the epochs as a list
         epochs = list(range(len(history['loss'])))
 
         # Define colorblind-friendly colors
-        colors = ['#d62728',  '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
+        colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
 
         # Create a new figure
-        p = figure(title=title , width=1000, height=300, y_axis_type='log', x_axis_label='Epochs', y_axis_label='Loss')
+        p = figure(title=title, width=1000, height=300, y_axis_type='log', x_axis_label='Epochs', y_axis_label='Loss')
 
         # Add the data lines to the figure with colorblind-friendly colors and increased line width
-        p.line(epochs, history['loss'], line_color=colors[0], line_dash='solid', line_width=2, legend_label='Total loss')
+        p.line(epochs, history['loss'], line_color=colors[0], line_dash='solid', line_width=2,
+               legend_label='Total loss')
         p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
 
-        p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2, legend_label='gravity')
+        p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
+               legend_label='gravity')
         p.line(epochs, history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
 
-        p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2, legend_label='c_o_ratio')
+        p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
+               legend_label='c_o_ratio')
         p.line(epochs, history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
 
-        p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2, legend_label='metallicity')
+        p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
+               legend_label='metallicity')
         p.line(epochs, history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
 
-        p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2, legend_label='temperature')
+        p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
+               legend_label='temperature')
         p.line(epochs, history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
 
         # Increase size of x and y ticks
@@ -510,7 +498,6 @@ class BuildCNN:
 
         # display legend in top left corner (default is top right corner)
         p.legend.location = "bottom_left"
-
 
         # change appearance of legend text
         # p.legend.label_text_font = "times"
@@ -524,7 +511,5 @@ class BuildCNN:
         p.legend.background_fill_color = 'white'
         p.legend.background_fill_alpha = 0.5
 
-
         # Show the plot
         show(p)
-

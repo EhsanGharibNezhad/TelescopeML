@@ -281,4 +281,3 @@ class TrainCNN:
 #         test_score  = model.evaluate(x = [self.X1_test, self.X2_test],
 #                                      y = [self.y1_test, self.y2_test, self.y3_test, self.y4_test],
 #                                      verbose=0)
-
