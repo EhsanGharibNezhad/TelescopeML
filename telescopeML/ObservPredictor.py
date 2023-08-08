@@ -17,6 +17,11 @@ import numpy as np
 # from scipy import stats
 # from uncertainties import ufloat
 
+import astropy.units as u
+from scipy.interpolate import pchip
+# from tensorflow.keras.models import Sequential, model_from_json
+import spectres
+
 
 # Data Visulaization Libraries ****************************
 import matplotlib.pyplot as plt
@@ -30,31 +35,11 @@ TOOLTIPS = [
     ("(x,y)", "($x, $y)"),
 ]
 
-# from bokeh.plotting import figure, show
-# from bokeh.models import ColumnDataSource
-# from bokeh.io import output_notebook
-
-
 
 # Data science / Machine learning Libraries ***************
-# from sklearn.model_selection import train_test_split
-# from sklearn.preprocessing import StandardScaler
-# from tensorflow.keras.models import Sequential, model_from_json
-
-
 
 # from astropy.constants import c
 from astropy.nddata import StdDevUncertainty, NDDataArray
-
-
-# from scipy.interpolate import interp1d
-# import scipy.stats as st
-
-
-
-
-# import random
-# from bokeh.palettes import Magma, Inferno, Plasma, Viridis, Cividis
 from bokeh.palettes import  viridis
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -62,11 +47,6 @@ from bokeh.palettes import  viridis
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 
 
-import astropy.units as u
-# from scipy.interpolate import InterpolatedUnivariateSpline
-from scipy.interpolate import pchip
-# from tensorflow.keras.models import Sequential, model_from_json
-import spectres
 
 
 
