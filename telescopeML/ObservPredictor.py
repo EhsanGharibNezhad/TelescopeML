@@ -2,10 +2,10 @@
 
 # from io_funs import LoadSave
 
-from StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, \
+from .StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, \
     plot_predicted_vs_spectra_errorbar
-from StatVisAnalyzer import interpolate_df, print_results_fun
-from StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, \
+from .StatVisAnalyzer import interpolate_df, print_results_fun
+from .StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, \
     plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar
 
 # ======= Import Python libraries ========================================

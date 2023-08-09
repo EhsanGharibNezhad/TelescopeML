@@ -1,5 +1,5 @@
 # Import functions from other modules ============================
-from io_funs import LoadSave
+from .io_funs import LoadSave
 
 # Import python libraries ========================================
 
