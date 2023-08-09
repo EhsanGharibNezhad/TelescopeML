@@ -19,7 +19,7 @@ class LoadSave:
         self.is_feature_improved = is_feature_improved
         self.is_augmented = is_augmented
         self.is_tuned = is_tuned
-        self.base_path = '../../outputs/trained_models/'
+        self.base_path = '../outputs/trained_models/'
 
     def create_generic_path(self, indicator):
         """
@@ -75,24 +75,24 @@ def load_or_dump_trained_model_CNN(
 
     if load_or_dump == 'dump':
         trained_model.trained_model.save(
-            f'../../outputs/trained_models/trained_CNN_architecture_{indicator}.h5')
+            f'../outputs/trained_models/trained_CNN_architecture_{indicator}.h5')
         trained_model.trained_model.save_weights(
-            f'../../outputs/trained_models/trained_CNN_weights_{indicator}.h5')
+            f'../outputs/trained_models/trained_CNN_weights_{indicator}.h5')
 
         with open(
-                f'../../outputs/trained_models/trained_CNN_{indicator}.pkl',
+                f'../outputs/trained_models/trained_CNN_{indicator}.pkl',
                 'wb') as file:
             pk.dump(trained_model.history.history, file)
 
     elif load_or_dump == 'load':
         loaded_model = load_model(
-            f'../../outputs/trained_models/trained_CNN_architecture_{indicator}.h5')
+            f'../outputs/trained_models/trained_CNN_architecture_{indicator}.h5')
         loaded_model.load_weights(
-            f'../../outputs/trained_models/trained_CNN_weights_{indicator}.h5')
+            f'../outputs/trained_models/trained_CNN_weights_{indicator}.h5')
 
         # Loading the saved history object
         with open(
-                f'../../outputs/trained_models/trained_CNN_history_{indicator}.pkl',
+                f'../outputs/trained_models/trained_CNN_history_{indicator}.pkl',
                 'rb') as file:
                 history = pk.load(file)
 

@@ -205,7 +205,7 @@ class ObsParameterPredictor:
             _replace_zeros_with_mean_ (bool): Whether to replace zeros with the mean of their non-zero neighbors. Defaults to True.
         """
         # Load the observational spectra
-        obs_data_df = pd.read_csv(f'../../datasets/observational_spectra/{self.object_name}_fluxcal.dat',
+        obs_data_df = pd.read_csv(f'../datasets/observational_spectra/{self.object_name}_fluxcal.dat',
                                   delim_whitespace=True, comment='#', names=('wl', 'F_lambda', 'F_lambda_error'),
                                   usecols=(0, 1, 2))
 

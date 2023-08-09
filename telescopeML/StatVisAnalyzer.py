@@ -161,7 +161,7 @@ def regression_report(trained_model,
 
         f.tight_layout()
         target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-        plt.savefig(f'../../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
+        plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
         plt.show()
 
 
@@ -898,7 +898,7 @@ def boxplot_hist(data,
         x_label = 'c_o_ratio'
     if x_label == '[M/H]':
         x_label = 'metallicity'
-    plt.savefig(f'../../outputs/figures/boxplot_hist_{x_label}.pdf', format='pdf')
+    plt.savefig(f'../outputs/figures/boxplot_hist_{x_label}.pdf', format='pdf')
 
     plt.show()
 
