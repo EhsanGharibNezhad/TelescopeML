@@ -1,0 +1,15 @@
+LICENSE
+README.md
+setup.py
+telescopeML/DeepRegBuilder.py
+telescopeML/DeepRegTrainer.py
+telescopeML/ObservPredictor.py
+telescopeML/StatVisAnalyzer.py
+telescopeML/__init__.py
+telescopeML/io_funs.py
+telescopeML.egg-info/PKG-INFO
+telescopeML.egg-info/SOURCES.txt
+telescopeML.egg-info/dependency_links.txt
+telescopeML.egg-info/not-zip-safe
+telescopeML.egg-info/requires.txt
+telescopeML.egg-info/top_level.txt

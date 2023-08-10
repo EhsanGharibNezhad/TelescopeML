@@ -46,7 +46,7 @@ setup(
     long_description = 'README.md',
     author = 'Ehsan Gharib-Nezhad',
     author_email = 'e.gharibnezhad@gmail.com',
-    url = 'https://natashabatalha.github.io/picaso',
+    url = 'https://github.com/EhsanGharibNezhad/telescopeML',
     license = 'GPL-3.0',
     download_url = 'https://github.com/EhsanGharibNezhad/telescopeML',
     classifiers = [
