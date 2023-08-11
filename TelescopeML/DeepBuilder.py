@@ -1,5 +1,5 @@
 # Import functions from other modules ============================
-from .io_funs import LoadSave
+from .io_funs import *
 
 # Import python libraries ========================================
 
@@ -42,9 +42,9 @@ tf.get_logger().setLevel('ERROR')
 # ==================                                           ==================
 # ===============================================================================
 
-class BuildCNN:
+class BuildRegressorCNN:
     """
-    Perform Convolutional Neural Network training
+    Build Convolutional Neural Networks using Regression approach
 
     Tasks:
     - Process dataset: Scale, split_train_val_test
@@ -100,6 +100,7 @@ class BuildCNN:
             is_augmented: str = 'no',
             ml_model: Union[None, BaseEstimator] = None,
             ml_model_str: Union[None, str] = None,
+            ml_method: str = 'regression',
     ) -> None:
 
         self.trained_model = trained_model
@@ -115,6 +116,12 @@ class BuildCNN:
         self.is_augmented = is_augmented
         self.ml_model = ml_model
         self.ml_model_str = ml_model_str
+        self.ml_method = ml_method
+        self.LoadSave = LoadSave(ml_model_str,
+                                 ml_method,
+                                 is_feature_improved,
+                                 is_augmented,
+                                 is_tuned)
 
     def split_train_test(self, test_size=0.1):
         """
@@ -208,13 +215,9 @@ class BuildCNN:
         self.X_test_normalized_columnwise = normalizer.transform(X_test)
         self.normalize_X_ColumnWise = normalizer
 
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned
-                 ).load_or_dump_trained_object(
+        self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_X_ColumnWise,
-            indicator='normalize_X_ColumnWise',
+            indicator='normalize_X_column_wise',
             load_or_dump='dump')
 
         if print_model:
@@ -247,12 +250,9 @@ class BuildCNN:
         self.X_test_normalized_rowwise = normalizer.fit_transform(X_test.T).T
         self.normalize_X_RowWise = normalizer
 
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned).load_or_dump_trained_object(
+        self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_X_RowWise,
-            indicator='normalize_X_RowWise',
+            indicator='normalize_X_row_wise',
             load_or_dump='dump')
 
         if print_model:
@@ -285,12 +285,9 @@ class BuildCNN:
         self.y_test_normalized_columnwise = scaler_y.transform(y_test)
         self.normalize_y_ColumnWise = scaler_y
 
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned).load_or_dump_trained_object(
+        self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_y_ColumnWise,
-            indicator='normalize_y_ColumnWise',
+            indicator='normalize_y_column_wise',
             load_or_dump='dump')
 
         if print_model:
@@ -323,13 +320,10 @@ class BuildCNN:
         self.y_test_standardized_columnwise = scaler_y.transform(y_test)
         self.standardize_y_ColumnWise = scaler_y
 
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned).load_or_dump_trained_object(
-            trained_object=self.standardize_y_ColumnWise,
-            indicator='standardize_y_ColumnWise',
-            load_or_dump='dump')
+        self.LoadSave.load_or_dump_trained_object(
+                                trained_object=self.standardize_y_ColumnWise,
+                                indicator='standardize_y_column_wise',
+                                load_or_dump='dump')
 
         if print_model:
             print(scaler_y)
@@ -367,12 +361,9 @@ class BuildCNN:
 
         self.standardize_X_ColumnWise = scaler_X
 
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned).load_or_dump_trained_object(
+        self.LoadSave.load_or_dump_trained_object(
             trained_object=self.standardize_X_ColumnWise,
-            indicator='standardize_X_ColumnWise',
+            indicator='standardize_X_column_wise',
             load_or_dump='dump')
 
         if print_model:
@@ -405,12 +396,9 @@ class BuildCNN:
         self.X_test_standardized_rowwise = scaler_X.fit_transform(X_test.T).T
         self.standardize_X_RowWise = scaler_X
 
-        LoadSave(self.ml_model_str,
-                 self.is_feature_improved,
-                 self.is_augmented,
-                 self.is_tuned).load_or_dump_trained_object(
+        self.LoadSave.load_or_dump_trained_object(
             trained_object=self.standardize_X_RowWise,
-            indicator='standardize_X_RowWise',
+            indicator='standardize_X_row_wise',
             load_or_dump='dump')
 
         if print_model:
