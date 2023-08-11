@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TelescopeML &mdash; TelescopeML 0.0 documentation</title>
@@ -14,6 +14,9 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/clipboard.min.js"></script>
@@ -78,8 +81,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <p><code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code> is a python library to help analyzing stellar, brown dwarf, and exoplanet observational spectra.
-It consists of a set of trained models utilizing traditional machine learning algorithims as well as the power of neural networks.</p>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p><code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code> is a python library to analyze stellar and exoplanetary telescope spectra and extract the invaluable information there.
+It consists of a set of modules and trained ML models utilizing the developed deep Convolutional Neural Networks (CNN) and Machine Learning (ML) models.</p>
 <section id="telescopeml">
 <h1>TelescopeML<a class="headerlink" href="#telescopeml" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">

@@ -1,9 +1,13 @@
 Installation
 =============
 
+Requirements
+~~~~~~~~~~~~
 
-Method 1: Install with Git:
---------------------------------
+`TelescopeML` is written in python3 and therefore requires an environment with python>=3.8.
+
+Method 1: Install with Git for *users*:
+----------------------------------------
 
 The Github repository contains the reference folder and helpful tutorials.  
 
@@ -13,12 +17,7 @@ The Github repository contains the reference folder and helpful tutorials.
 	cd TelescopeML
 	python setup.py install 
 
-Method 2: Install with Pip:
-----------------------------
 
-.. code-block:: bash 
-
-	pip install TelescopeML
 
 
 Create Conda Environment: 
