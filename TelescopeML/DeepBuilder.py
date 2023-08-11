@@ -1,5 +1,5 @@
 # Import functions from other modules ============================
-from .io_funs import *
+from .IO_utils import *
 
 # Import python libraries ========================================
 

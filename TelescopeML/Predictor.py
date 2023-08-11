@@ -1,6 +1,6 @@
 # ======= Import functions/Classes from other modules ====================
 
-from .io_funs import *
+from .IO_utils import *
 
 from .StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, \
     plot_predicted_vs_spectra_errorbar
