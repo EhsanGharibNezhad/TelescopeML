@@ -39,9 +39,9 @@ from tensorflow import keras
 from tensorflow.keras.models import save_model
 
 
-class TrainCNN:
+class TrainRegressorCNN:
     """
-    Train Convolutional Neural Networks model
+    Train Convolutional Neural Networks model using regression approach
 
     Parameters:
     -----------
