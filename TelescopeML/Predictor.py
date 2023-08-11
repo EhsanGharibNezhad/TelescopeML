@@ -1,6 +1,6 @@
 # ======= Import functions/Classes from other modules ====================
 
-# from io_funs import LoadSave
+from .IO_utils import *
 
 from .StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, \
     plot_predicted_vs_spectra_errorbar
@@ -56,20 +56,21 @@ from bokeh.palettes import viridis
 # ===============================================================================
 
 
-class ObsParameterPredictor:
+class ObserveParameterPredictor:
     def __init__(self,
                  object_name,
                  training_dataset_df,
                  wl,
-                 train_cnn_regression_class,
+                 BuildRegressorCNN_class,
                  bd_literature_dic,
-
                  ):
+
         self.object_name = object_name
         self.training_dataset_df = training_dataset_df
         self.wl = wl
-        self.train_cnn_regression_class = train_cnn_regression_class
+        self.BuildRegressorCNN_class = BuildRegressorCNN_class
         self.bd_literature_dic = bd_literature_dic
+
 
     """
     Load, process, visualize observational spectra
@@ -275,7 +276,7 @@ class ObsParameterPredictor:
             print('------------ df_MinMax Single Observational Spectrum ------------')
             print(self.df_MinMax_obs)
 
-        XminXmax_Stand = self.train_cnn_regression_class.standardize_X_ColumnWise.transform(self.df_MinMax_obs.values)
+        XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(self.df_MinMax_obs.values)
 
         bd_mean = self.df_Fnu_obs_absolute_intd.mean(axis=1)[0]
         bd_std = self.df_Fnu_obs_absolute_intd.std(axis=1)[0]
@@ -283,9 +284,9 @@ class ObsParameterPredictor:
         X_Scaled = (self.df_Fnu_obs_absolute_intd.values[0] - bd_mean) / bd_std
 
         y_pred_train = np.array(
-            self.train_cnn_regression_class.trained_model.predict([X_Scaled[::-1].reshape(1, 104), XminXmax_Stand],
+            self.BuildRegressorCNN_class.trained_model.predict([X_Scaled[::-1].reshape(1, 104), XminXmax_Stand],
                                                                   verbose=0))[:, :, 0].T
-        y_pred_train_ = self.train_cnn_regression_class.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+        y_pred_train_ = self.BuildRegressorCNN_class.standardize_y_ColumnWise.inverse_transform(y_pred_train)
         y_pred_train_[:, 3] = 10 ** y_pred_train_[:, 3]
         y_pred = y_pred_train_
         self.y_pred = y_pred
@@ -382,7 +383,7 @@ class ObsParameterPredictor:
                 (df_Fnu_obs_absolute_intd_min, df_Fnu_obs_absolute_intd_max)
             ).T
 
-            XminXmax_Stand = self.train_cnn_regression_class.standardize_X_ColumnWise.transform(df_MinMax_obs.values)
+            XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(df_MinMax_obs.values)
 
             bd_mean = self.df_Fnu_obs_absolute_intd.mean(axis=1)[0]
             bd_std = self.df_Fnu_obs_absolute_intd.std(axis=1)[0]
@@ -390,11 +391,11 @@ class ObsParameterPredictor:
             X_Scaled = (self.df_Fnu_obs_absolute_intd.values[0] - bd_mean) / bd_std
 
             y_pred_train = np.array(
-                self.train_cnn_regression_class.trained_model.predict(
+                self.BuildRegressorCNN_class.trained_model.predict(
                     [X_Scaled[::-1].reshape(1, 104), XminXmax_Stand], verbose=0)
             )[:, :, 0].T
 
-            y_pred_train_ = self.train_cnn_regression_class.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+            y_pred_train_ = self.BuildRegressorCNN_class.standardize_y_ColumnWise.inverse_transform(y_pred_train)
             y_pred_train_[:, 3] = 10 ** y_pred_train_[:, 3]
             y_pred_random = y_pred_train_
 
