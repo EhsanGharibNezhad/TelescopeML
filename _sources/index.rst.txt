@@ -4,9 +4,8 @@
    contain the root `toctree` directive.
 
 
-``TelescopeML`` is a python library to help analyzing stellar, brown dwarf, and exoplanet observational spectra. 
-It consists of a set of trained models utilizing traditional machine learning algorithims as well as the power of neural networks.     
-
+``TelescopeML`` is a python library to analyze stellar and exoplanetary telescope spectra and extract the invaluable information there.
+It consists of a set of modules and trained ML models utilizing the developed deep Convolutional Neural Networks (CNN) and Machine Learning (ML) models.
 
 
 TelescopeML
