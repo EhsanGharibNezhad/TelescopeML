@@ -1,39 +1,20 @@
 The Modules
 ============
 
+telescopeML\.TrainCNNRegression 
+---------------------------------------
 
-TelescopeML\.DeepBuilder Module
---------------------------------
-
-.. automodule:: TelescopeML.DeepBuilder
+.. automodule:: telescopeML.TrainCNNRegression
     :members:
     :undoc-members:
     :show-inheritance:
 
 
-TelescopeML\.DeepTrainer Module
---------------------------------
+telescopeML\.io_funs
+-------------------------------
 
-.. automodule:: TelescopeML.DeepTrainer
+.. automodule:: telescopeML.io_funs
     :members:
     :undoc-members:
     :show-inheritance:
 
-
-
-TelescopeML\.StatVisAnalyzer Module
-------------------------------------
-
-.. automodule:: TelescopeML.StatVisAnalyzer
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: TelescopeML
-    :members:
-    :undoc-members:
-    :show-inheritance:
