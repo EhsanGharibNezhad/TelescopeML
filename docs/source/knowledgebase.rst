@@ -2,80 +2,16 @@ Knowledge Base
 ===============
 
 
+Data Preperation Techniques
+-----------------------------
+.. toctree::
+   :maxdepth: 1
 
-Basics of Random Forest Algorithim 
------------------------------------
+    Data Preperation Techniques  <KnowledgeBase/Gopal_dataPrep.ipynb>
 
-Decision Trees:
-................
+The Art of CNN Training
+-------------------------
+.. toctree::
+   :maxdepth: 1
 
-Ensemble methods:
-..................
-
-
-Random forest algorithm:
-.........................
-
-Hyperparameters:
-.................
-
-Key Benefits:
-..............
-
-Key Drawbacks:
-...............
-
-
-Astro Applications:
-......................
-
-
-
-Basics of XGBoost Algorithim 
-------------------------------
-
-Gradient Desent:
-................
-
-
-XGBoost algorithm:
-.....................
-
-Hyperparameters:
-.................
-
-
-Key Benefits:
-..............
-
-Key Drawbacks:
-...............
-
-
-Astro Applications:
-......................
-
-
-Basics of 1DCNN  
------------------
-
-Neural Network Key Concepts:
-.............................
-
-Convolution Layers:
-....................
-
-
-Hyperparameters:
-.................
-
-
-Key Benefits:
-..............
-
-Key Drawbacks:
-...............
-
-
-Astro Applications:
-......................
+    Neural Network Arch  <KnowledgeBase/Gopal_train.ipynb>
