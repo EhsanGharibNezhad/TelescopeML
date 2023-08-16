@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; TelescopeML 0.0 documentation</title>
+  <title>Installation &mdash; TelescopeML 0.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
@@ -50,14 +50,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#method-1-install-with-git-for-users">Method 1: Install with Git for <em>users</em>:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#create-conda-environment">Create Conda Environment:</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#method-1-creating-an-environment-from-the-environment-yml-file">Method 1: Creating an environment from the <strong>environment.yml</strong> file</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#method-1-install-with-git-recommended">Method 1: Install with Git (Recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#method-2-install-via-pip">Method 2: Install via Pip</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
@@ -86,7 +80,10 @@
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
-  </ul>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="TelescopeML" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.html" class="btn btn-neutral float-right" title="Tuturials" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -118,43 +115,73 @@
 </style>
 <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
-<section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
-<p><cite>TelescopeML</cite> is written in python3 and therefore requires an environment with python&gt;=3.8.</p>
-<section id="method-1-install-with-git-for-users">
-<h3>Method 1: Install with Git for <em>users</em>:<a class="headerlink" href="#method-1-install-with-git-for-users" title="Permalink to this heading"></a></h3>
-<p>The Github repository contains the reference folder and helpful tutorials.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code> is written in <cite>python3</cite> and therefore requires an environment with python&gt;=3.8.
+To utilize all modules in the library in full capacity (e.g., explore data, train CNNs, predict results),
+the following methods are recommended:</p>
+</div>
+<section id="method-1-install-with-git-recommended">
+<h2>Method 1: Install with Git (Recommended)<a class="headerlink" href="#method-1-install-with-git-recommended" title="Permalink to this heading"></a></h2>
+<p>If you want to access the latest features or modify the code and contribute,
+we suggest that you clone the source code from GitHub by following steps:</p>
+<ol class="arabic simple">
+<li><p>Clone the repo and create Anaconda environment named <cite>TelescopeML</cite>:</p></li>
+</ol>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/ehsangharibnezhad/TelescopeML.git
 <span class="nb">cd</span> TelescopeML
-python setup.py install
-</pre></div>
-</div>
-</section>
-<section id="create-conda-environment">
-<h3>Create Conda Environment:<a class="headerlink" href="#create-conda-environment" title="Permalink to this heading"></a></h3>
-<section id="method-1-creating-an-environment-from-the-environment-yml-file">
-<h4>Method 1: Creating an environment from the <strong>environment.yml</strong> file<a class="headerlink" href="#method-1-creating-an-environment-from-the-environment-yml-file" title="Permalink to this heading"></a></h4>
-<ol class="arabic simple">
-<li><p>Create the environment named <cite>telescopeML</cite> from the <cite>environment.yml</cite> file:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda telescopeML create -f environment.yml
+conda TelescopeML create -f environment.yml
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p>Activate the new environment:</p></li>
+<li><p>Activate the new environment and verify it:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda activate telescopeML
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda activate TelescopeML
+conda env list
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p>Verify that the new environment was installed correctly:</p></li>
+<li><p>Install the library via the <cite>setup.py</cite> file:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda env list
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/ehsangharibnezhad/TelescopeML.git
+<span class="nb">cd</span> TelescopeML
+python3 setup.py install
 </pre></div>
 </div>
-<p>Get more details at <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file">Conda Tutorials</a></p>
+<p>If you are thinking to develop the code, then you can install it using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/ehsangharibnezhad/TelescopeML.git
+<span class="nb">cd</span> TelescopeML
+python3 setup.py develop
+</pre></div>
+</div>
 </section>
-</section>
+<section id="method-2-install-via-pip">
+<h2>Method 2: Install via Pip<a class="headerlink" href="#method-2-install-via-pip" title="Permalink to this heading"></a></h2>
+<p>You can install <cite>TelescopeML</cite> package from pip, the Python package manager, by the following steps:</p>
+<ol class="arabic simple">
+<li><p>Clone the repo and Create Anaconda environment named :</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/ehsangharibnezhad/TelescopeML.git
+<span class="nb">cd</span> TelescopeML
+conda TelescopeML create -f environment.yml
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Activate the new environment and verify it:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda activate TelescopeML
+conda env list
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Now install via pip:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install TelescopeML
+</pre></div>
+</div>
+<p>Read more details at <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file">Conda Tutorials</a></p>
 </section>
 </section>
 
@@ -184,7 +211,7 @@ python setup.py install
   </div>
   <script>
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.Navigation.enable(false);
       });
   </script> 
 
