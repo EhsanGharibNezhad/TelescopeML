@@ -19,6 +19,13 @@ TelescopeML\.DeepTrainer Module
     :undoc-members:
     :show-inheritance:
 
+TelescopeML\.Predictor Module
+------------------------------------
+
+.. automodule:: TelescopeML.Predictor
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 
 TelescopeML\.StatVisAnalyzer Module
@@ -28,6 +35,8 @@ TelescopeML\.StatVisAnalyzer Module
     :members:
     :undoc-members:
     :show-inheritance:
+
+
 
 
 Module contents

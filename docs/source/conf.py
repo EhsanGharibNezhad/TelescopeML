@@ -23,7 +23,7 @@ copyright = '2021, Ehsan (Sam) Gharib-Nezhad'
 author = 'Ehsan (Sam) Gharib-Nezhad'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0'
+release = '0.0.0'
 
 # -- General configuration ---------------------------------------------------
 
@@ -71,3 +71,12 @@ html_static_path = ['_static']
 htmlhelp_basename = 'TelescopeMLdocs'
 
 highlight_language = 'none'
+
+html_theme_options = {
+    'display_version': True,
+    'prev_next_buttons_location': 'both',
+    'sticky_navigation': False,
+    'navigation_depth': 3,
+    'includehidden': True,
+    'titles_only': False,
+}

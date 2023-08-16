@@ -1,17 +1,9 @@
-Knowledge Base
+KnowledgeBase
 ===============
 
-
-Data Preperation Techniques
------------------------------
+Concepts: Data processing and Model Training in CNN
+----------------------------------------------------
 .. toctree::
    :maxdepth: 1
 
-    Data Preperation Techniques  <KnowledgeBase/Gopal_dataPrep.ipynb>
-
-The Art of CNN Training
--------------------------
-.. toctree::
-   :maxdepth: 1
-
-    Neural Network Arch  <KnowledgeBase/Gopal_train.ipynb>
+    Neural Network Arch  <tutorials/Concepts_CNN_Model.ipynb>
