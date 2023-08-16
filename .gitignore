@@ -8,6 +8,12 @@ store/
 __pycache__/
 .ipynb_checkpoints/
 
+# Mac files
+*.DS_Store
+
+*__pycache__/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 __pycache__

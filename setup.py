@@ -1,3 +1,26 @@
+"""Quick install setup file for TelescopeML.
+
+
+NOTES:
+------
+- read version number from __version__.txt
+- some dependencies should be installed manually (typically: all packages with
+compiled components such as numpy, pandas, etc.)
+
+
+Examples
+--------
+
+Install (normal, use-only)::
+
+    python setup.py install
+
+Or (create an alias, so you can still edit)::
+
+    python setup.py develop
+
+"""
+
 #!/usr/bin/env python
 
 # This sample setup.py can be used as a template for any project using d2to1.
@@ -40,25 +63,25 @@ except ImportError:
 # also be placed in the setup.cfg, as will be demonstrated in a future update
 # to this sample package.
 setup(
-    name='telescopeML',
+    name='TelescopeML',
     version = '0.0.0',
     description = 'Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra',
     long_description = 'README.md',
-    author = 'Ehsan Gharib-Nezhad',
+    author = 'Ehsan (Sam) Gharib-Nezhad',
     author_email = 'e.gharibnezhad@gmail.com',
-    url = 'https://github.com/EhsanGharibNezhad/telescopeML',
+    url = 'https://ehsangharibnezhad.github.io/TelescopeML',
     license = 'GPL-3.0',
-    download_url = 'https://github.com/EhsanGharibNezhad/telescopeML',
+    download_url = 'https://ehsangharibnezhad.github.io/TelescopeML',
     classifiers = [
                   'Intended Audience :: Science/Research',
-                  'License :: OSI Approved :: BSD License',
+                  'License :: GNU General Public License v3.0',
                   'Operating System :: OS Independent' ,
                   'Programming Language :: Python',
                   'Programming Language :: Python :: 3',
                   'Topic :: Scientific/Engineering :: Computer Science, Astronomy',
                   'Topic :: Software Development :: Libraries :: Python Modules'
   ],
-  packages=['telescopeML'],
+  packages=['TelescopeML'],
   install_requires=[
           'numpy<1.25',
           'bokeh>=2.3.0,<3.1.0',
