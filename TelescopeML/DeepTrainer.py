@@ -45,41 +45,41 @@ class TrainRegressorCNN:
 
     Parameters:
     -----------
-    X1_train : array-like
+    X1_train : array
         Row-StandardScaled input spectra for training.
-    X1_val : array-like
+    X1_val : array
         Row-StandardScaled input spectra for validation.
-    X1_test : array-like
+    X1_test : array
         Row-StandardScaled input spectra for testing.
-    X2_train : array-like
+    X2_train : array
         Col-StandardScaled Mix Max of all rows of input spectra for training.
-    X2_val : array-like
+    X2_val : array
         Col-StandardScaled Mix Max of all rows of input spectra for validation.
-    X2_test : array-like
+    X2_test : array
         Col-StandardScaled Mix Max of all rows of input spectra for testing.
-    y1_train : array-like
+    y1_train : array
         Col-StandardScaled target feature 1 for training.
-    y1_val : array-like
+    y1_val : array
         Col-StandardScaled target feature 1 for validation.
-    y1_test : array-like
+    y1_test : array
         Col-StandardScaled target feature 1 for testing.
-    y2_train : array-like
+    y2_train : array
         Col-StandardScaled target feature 2 for training.
-    y2_val : array-like
+    y2_val : array
         Col-StandardScaled target feature 2 for validation.
-    y2_test : array-like
+    y2_test : array
         Col-StandardScaled target feature 2 for testing.
-    y3_train : array-like
+    y3_train : array
         Col-StandardScaled target feature 3 for training.
-    y3_val : array-like
+    y3_val : array
         Col-StandardScaled target feature 3 for validation.
-    y3_test : array-like
+    y3_test : array
         Col-StandardScaled target feature 3 for testing.
-    y4_train : array-like
+    y4_train : array
         Col-StandardScaled target feature 4 for training.
-    y4_val : array-like
+    y4_val : array
         Col-StandardScaled target feature 4 for validation.
-    y4_test : array-like
+    y4_test : array
         Col-StandardScaled target feature 4 for testing.
     """
     def __init__(self,

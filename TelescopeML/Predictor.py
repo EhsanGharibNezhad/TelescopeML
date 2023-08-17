@@ -57,6 +57,17 @@ from bokeh.palettes import viridis
 
 
 class ObserveParameterPredictor:
+
+    """
+    Load, process, visualize observational spectra
+
+    Attribute
+    ----------
+    - feature_values_obs: Fluxes for each feature (wavelength) from observational data
+    - feature_values_obs_err:
+    - feature_names_obs: Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron
+    - feature_names_synthetic: Name of features (wavelengths) from synthetic data
+    """
     def __init__(self,
                  object_name,
                  training_dataset_df,
@@ -72,16 +83,7 @@ class ObserveParameterPredictor:
         self.bd_literature_dic = bd_literature_dic
 
 
-    """
-    Load, process, visualize observational spectra
 
-    Attribute
-    ---------
-    - feature_values_obs: Fluxes for each feature (wavelength) from observational data
-    - feature_values_obs_err: 
-    - feature_names_obs: Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron
-    - feature_names_synthetic: Name of features (wavelengths) from synthetic data
-    """
 
     def ProcessObservationalDataset(self,
                                     feature_values_obs,
@@ -93,10 +95,10 @@ class ObserveParameterPredictor:
         Process the observational dataset and set various attributes of the object.
 
         Args:
-            feature_values_obs (array-like): Observed feature values.
-            feature_values_obs_err (array-like): Errors corresponding to the observed feature values.
-            feature_names_obs (array-like): Names of the observed features.
-            feature_names_synthetic (array-like): Names of the synthetic features.
+            feature_values_obs (array): Observed feature values.
+            feature_values_obs_err (array): Errors corresponding to the observed feature values.
+            feature_names_obs (array): Names of the observed features.
+            feature_names_synthetic (array): Names of the synthetic features.
             bd_literature_dic (dict): Dictionary containing literature information. Defaults to None.
         """
 
@@ -122,8 +124,8 @@ class ObserveParameterPredictor:
         Convert F_lambda to F_nu along with error propagation.
 
         Returns:
-            fnu_values (array-like): Array of flux density values in F_nu.
-            fnu_errors (array-like): Array of error bars for the flux density values in F_nu.
+            fnu_values (array): Array of flux density values in F_nu.
+            fnu_errors (array): Array of error bars for the flux density values in F_nu.
         """
         flam_values = self.feature_values_obs
         flam_errors = self.feature_values_obs_err
