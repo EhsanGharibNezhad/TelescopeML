@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Predict target features (brown dwarf parameters) using trained CNN model &mdash; TelescopeML 0.0.0 documentation</title>
+  <title>Predict target features (brown dwarf parameters) using trained CNN model &mdash; TelescopeMLdoc</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
@@ -42,6 +42,9 @@
           <a href="../index.html" class="icon icon-home">
             TelescopeML
           </a>
+              <div class="version">
+                0.0.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -380,7 +383,7 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <section id="Predict-target-features-(brown-dwarf-parameters)-using-trained-CNN-model">
-<h1>Predict target features (brown dwarf parameters) using trained CNN model<a class="headerlink" href="#Predict-target-features-(brown-dwarf-parameters)-using-trained-CNN-model" title="Permalink to this heading"></a></h1>
+<h1>Predict target features (brown dwarf parameters) using trained CNN model<a class="headerlink" href="#Predict-target-features-(brown-dwarf-parameters)-using-trained-CNN-model" title="Permalink to this heading">¶</a></h1>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -1002,7 +1005,7 @@ if (force === true) {
 </div>
 </section>
 <section id="Step-1:-Load-the-training-dataset-(syntheric-spectra)">
-<h1>Step 1: Load the training dataset (syntheric spectra)<a class="headerlink" href="#Step-1:-Load-the-training-dataset-(syntheric-spectra)" title="Permalink to this heading"></a></h1>
+<h1>Step 1: Load the training dataset (syntheric spectra)<a class="headerlink" href="#Step-1:-Load-the-training-dataset-(syntheric-spectra)" title="Permalink to this heading">¶</a></h1>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -1139,7 +1142,7 @@ if (force === true) {
 </div></div>
 </div>
 <section id="Check-the-columns">
-<h2>Check the columns<a class="headerlink" href="#Check-the-columns" title="Permalink to this heading"></a></h2>
+<h2>Check the columns<a class="headerlink" href="#Check-the-columns" title="Permalink to this heading">¶</a></h2>
 <p>note: one of the columns, <em>is_augmented</em>, is indicating wheter this is a native dataset or an augmented one. For now, we don’t need it so drop it, but all modules will take this into account!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -1308,7 +1311,7 @@ if (force === true) {
 </div></div>
 </div>
 <section id="Prepare-feature-variables-(X)-and-targets-(y)">
-<h3>Prepare feature variables (X) and targets (y)<a class="headerlink" href="#Prepare-feature-variables-(X)-and-targets-(y)" title="Permalink to this heading"></a></h3>
+<h3>Prepare feature variables (X) and targets (y)<a class="headerlink" href="#Prepare-feature-variables-(X)-and-targets-(y)" title="Permalink to this heading">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -1421,7 +1424,7 @@ if (force === true) {
 </section>
 </section>
 <section id="Step-2:-Build-the-CNN-model-/-Data-processing">
-<h1>Step 2: Build the CNN model / Data processing<a class="headerlink" href="#Step-2:-Build-the-CNN-model-/-Data-processing" title="Permalink to this heading"></a></h1>
+<h1>Step 2: Build the CNN model / Data processing<a class="headerlink" href="#Step-2:-Build-the-CNN-model-/-Data-processing" title="Permalink to this heading">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -1482,7 +1485,7 @@ if (force === true) {
 </div>
 </div>
 <section id="Scale-y-features---ColumnWise">
-<h2>Scale y features - ColumnWise<a class="headerlink" href="#Scale-y-features---ColumnWise" title="Permalink to this heading"></a></h2>
+<h2>Scale y features - ColumnWise<a class="headerlink" href="#Scale-y-features---ColumnWise" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
@@ -1521,7 +1524,7 @@ if (force === true) {
 </div>
 </section>
 <section id="Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)">
-<h2>Feature engeenering: Take Min and Max of each row (BD spectra)<a class="headerlink" href="#Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)" title="Permalink to this heading"></a></h2>
+<h2>Feature engeenering: Take Min and Max of each row (BD spectra)<a class="headerlink" href="#Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -1625,7 +1628,7 @@ if (force === true) {
 </div>
 </section>
 <section id="Scale-Min-Max-features---ColumnWise">
-<h2>Scale Min Max features - ColumnWise<a class="headerlink" href="#Scale-Min-Max-features---ColumnWise" title="Permalink to this heading"></a></h2>
+<h2>Scale Min Max features - ColumnWise<a class="headerlink" href="#Scale-Min-Max-features---ColumnWise" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
@@ -1660,7 +1663,7 @@ if (force === true) {
 </section>
 </section>
 <section id="Step-3:-Load-the-Trained-CNN-model">
-<h1>Step 3: Load the Trained CNN model<a class="headerlink" href="#Step-3:-Load-the-Trained-CNN-model" title="Permalink to this heading"></a></h1>
+<h1>Step 3: Load the Trained CNN model<a class="headerlink" href="#Step-3:-Load-the-Trained-CNN-model" title="Permalink to this heading">¶</a></h1>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
@@ -1689,7 +1692,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 </div>
 </div>
 <section id="Check-the-CNN-archeticture">
-<h2>Check the CNN archeticture<a class="headerlink" href="#Check-the-CNN-archeticture" title="Permalink to this heading"></a></h2>
+<h2>Check the CNN archeticture<a class="headerlink" href="#Check-the-CNN-archeticture" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
@@ -1777,7 +1780,7 @@ ________________________________________________________________________________
 </div>
 </section>
 <section id="Check-the-performance-of-the-trained-models">
-<h2>Check the performance of the trained models<a class="headerlink" href="#Check-the-performance-of-the-trained-models" title="Permalink to this heading"></a></h2>
+<h2>Check the performance of the trained models<a class="headerlink" href="#Check-the-performance-of-the-trained-models" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
@@ -1827,7 +1830,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </section>
 <section id="Plot-predicted-Vs.-Actual-outcomes:-Histogram-&amp;-Scatter-plot">
-<h2>Plot predicted Vs. Actual outcomes: Histogram &amp; Scatter plot<a class="headerlink" href="#Plot-predicted-Vs.-Actual-outcomes:-Histogram-&-Scatter-plot" title="Permalink to this heading"></a></h2>
+<h2>Plot predicted Vs. Actual outcomes: Histogram &amp; Scatter plot<a class="headerlink" href="#Plot-predicted-Vs.-Actual-outcomes:-Histogram-&-Scatter-plot" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
@@ -1894,7 +1897,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </section>
 </section>
 <section id="Step-4:-Predict-Observational-data-using-the-trained-CNN-model">
-<h1>Step 4: Predict Observational data using the trained CNN model<a class="headerlink" href="#Step-4:-Predict-Observational-data-using-the-trained-CNN-model" title="Permalink to this heading"></a></h1>
+<h1>Step 4: Predict Observational data using the trained CNN model<a class="headerlink" href="#Step-4:-Predict-Observational-data-using-the-trained-CNN-model" title="Permalink to this heading">¶</a></h1>
 <p>Steps: - Define the literature reported data for the object - Instintiate ObsParameterPredictor class - load_observational_spectra - replace negative Flam with zero - take the average of neibougrs for Flam_error &lt;= 0 - plot_observational_spectra_errorbar_ - Process_Observational_Dataset - Instintiate ProcessObservationalDataset class - define feature_names_synthetic and feature_names_obs - flux_interpolated -</p>
 <hr class="docutils" />
 <div class="nbinput nblast docutils container">
@@ -2051,7 +2054,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <p>Comennet from natasha: &gt;2.2 mincron - Is not missing any thing! &gt; 1 sigma error &gt; training set &gt; trusing the posterior space</p>
 <section id="Tune-the-brown-dwarf-Radius">
-<h2>Tune the brown dwarf Radius<a class="headerlink" href="#Tune-the-brown-dwarf-Radius" title="Permalink to this heading"></a></h2>
+<h2>Tune the brown dwarf Radius<a class="headerlink" href="#Tune-the-brown-dwarf-Radius" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
@@ -2314,9 +2317,9 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <hr class="docutils" />
 <section id="Ross-458C">
-<h3>Ross 458C<a class="headerlink" href="#Ross-458C" title="Permalink to this heading"></a></h3>
+<h3>Ross 458C<a class="headerlink" href="#Ross-458C" title="Permalink to this heading">¶</a></h3>
 <section id="Define-the-literature-data-reported-for-this-object">
-<h4>Define the literature data reported for this object<a class="headerlink" href="#Define-the-literature-data-reported-for-this-object" title="Permalink to this heading"></a></h4>
+<h4>Define the literature data reported for this object<a class="headerlink" href="#Define-the-literature-data-reported-for-this-object" title="Permalink to this heading">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2333,7 +2336,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </section>
 <section id="Instintiate-the-ObsParameterPredictor-class-from-ObservPredictor-module">
-<h4>Instintiate the <em>ObsParameterPredictor</em> class from <em>ObservPredictor</em> module<a class="headerlink" href="#Instintiate-the-ObsParameterPredictor-class-from-ObservPredictor-module" title="Permalink to this heading"></a></h4>
+<h4>Instintiate the <em>ObsParameterPredictor</em> class from <em>ObservPredictor</em> module<a class="headerlink" href="#Instintiate-the-ObsParameterPredictor-class-from-ObservPredictor-module" title="Permalink to this heading">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2365,7 +2368,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </section>
 <section id="Deploy-the-trained-CNN-model-&amp;-Predict-the-target-features">
-<h4>Deploy the trained CNN model &amp; Predict the target features<a class="headerlink" href="#Deploy-the-trained-CNN-model-&-Predict-the-target-features" title="Permalink to this heading"></a></h4>
+<h4>Deploy the trained CNN model &amp; Predict the target features<a class="headerlink" href="#Deploy-the-trained-CNN-model-&-Predict-the-target-features" title="Permalink to this heading">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2387,7 +2390,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </section>
 </section>
 <section id="id1">
-<h2>Tune the brown dwarf Radius<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<h2>Tune the brown dwarf Radius<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2508,9 +2511,9 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <hr class="docutils" />
 <section id="GJ-570D">
-<h3>GJ 570D<a class="headerlink" href="#GJ-570D" title="Permalink to this heading"></a></h3>
+<h3>GJ 570D<a class="headerlink" href="#GJ-570D" title="Permalink to this heading">¶</a></h3>
 <section id="id2">
-<h4>Define the literature data reported for this object<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<h4>Define the literature data reported for this object<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2527,7 +2530,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </section>
 <section id="id3">
-<h4>Instintiate the <em>ObsParameterPredictor</em> class from <em>ObservPredictor</em> module<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<h4>Instintiate the <em>ObsParameterPredictor</em> class from <em>ObservPredictor</em> module<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2560,7 +2563,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </section>
 <section id="id4">
-<h4>Deploy the trained CNN model &amp; Predict the target features<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<h4>Deploy the trained CNN model &amp; Predict the target features<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2582,7 +2585,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </section>
 </section>
 <section id="id5">
-<h2>Tune the brown dwarf Radius<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
+<h2>Tune the brown dwarf Radius<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2703,7 +2706,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </section>
 <section id="GJ-570D-with-optimised-Radius">
-<h2>GJ 570D with optimised Radius<a class="headerlink" href="#GJ-570D-with-optimised-Radius" title="Permalink to this heading"></a></h2>
+<h2>GJ 570D with optimised Radius<a class="headerlink" href="#GJ-570D-with-optimised-Radius" title="Permalink to this heading">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2769,7 +2772,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </section>
 </section>
 <section id="THE-END">
-<h1>THE END<a class="headerlink" href="#THE-END" title="Permalink to this heading"></a></h1>
+<h1>THE END<a class="headerlink" href="#THE-END" title="Permalink to this heading">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>

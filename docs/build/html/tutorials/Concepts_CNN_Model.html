@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters &mdash; TelescopeML 0.0.0 documentation</title>
+  <title>Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters &mdash; TelescopeMLdoc</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
@@ -42,6 +42,9 @@
           <a href="../index.html" class="icon icon-home">
             TelescopeML
           </a>
+              <div class="version">
+                0.0.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -378,7 +381,7 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <section id="Train-a-Regression-ConvNN-Model-Using-BOHB-Tuned-Hyperparameters">
-<h1>Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters<a class="headerlink" href="#Train-a-Regression-ConvNN-Model-Using-BOHB-Tuned-Hyperparameters" title="Permalink to this heading"></a></h1>
+<h1>Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters<a class="headerlink" href="#Train-a-Regression-ConvNN-Model-Using-BOHB-Tuned-Hyperparameters" title="Permalink to this heading">¶</a></h1>
 <p>In this tutorial, we will be going over how to set-up, train and interpret a TelescopeML model using the built-in functions and also go over some of the important techniques and methods being applied behind the scenes in terms of: setup, pre-processing and training/predicting</p>
 <p>For the demonstration, are going to be importing the DeepRegTrainer, DeepRegBuilder files from the <strong>TelescopeML folder</strong> responsible for the class that houses the model architecture and its supporting functions as well as the StatVisAnalyzer’s regression_report function to get an in-depth visualization about how the model performed for the 4 distinct outputs within the given data</p>
 <div class="nbinput docutils container">
@@ -405,7 +408,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Step-1:-Load-the-training-dataset-(syntheric-spectra)">
-<h1>Step 1: Load the training dataset (syntheric spectra)<a class="headerlink" href="#Step-1:-Load-the-training-dataset-(syntheric-spectra)" title="Permalink to this heading"></a></h1>
+<h1>Step 1: Load the training dataset (syntheric spectra)<a class="headerlink" href="#Step-1:-Load-the-training-dataset-(syntheric-spectra)" title="Permalink to this heading">¶</a></h1>
 <p>The first step is going to be loading the dataset. In the example below, we have data collected on around 30,888 unique brown-dwarf spectra that spans from 0.897 micron to 2.512 micron with 104 features (instances) recorded in between. The goal of our model is to be able to predict 4 extra features accompanying the provided data that is:- * Gravity * Temperature * C/O Ratio * Metallicity</p>
 <p>of a given instance/example.</p>
 <div class="nbinput docutils container">
@@ -560,7 +563,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <section id="1.1:-Check-the-columns">
-<h2>1.1: Check the columns<a class="headerlink" href="#1.1:-Check-the-columns" title="Permalink to this heading"></a></h2>
+<h2>1.1: Check the columns<a class="headerlink" href="#1.1:-Check-the-columns" title="Permalink to this heading">¶</a></h2>
 <p>note: one of the columns, <em>is_augmented</em>, is indicating wheter this is a native dataset or an augmented one. For now, we don’t need it so drop it, but all modules will take this into account!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
@@ -731,7 +734,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="1.2:-Prepare-feature-variables-(X)-and-targets-(y)">
-<h2>1.2: Prepare feature variables (X) and targets (y)<a class="headerlink" href="#1.2:-Prepare-feature-variables-(X)-and-targets-(y)" title="Permalink to this heading"></a></h2>
+<h2>1.2: Prepare feature variables (X) and targets (y)<a class="headerlink" href="#1.2:-Prepare-feature-variables-(X)-and-targets-(y)" title="Permalink to this heading">¶</a></h2>
 <p>The next step is splitting the data into X and y sets. The X (variable) subset consists of all the features that contain the spectral flux values which is used to train the model on finding a pattern/similarities between these independent features. The y (target) subset contains the 4 distinct features (gravity, temperature, C/O ratio and metallicity) that the model is trying to predict based on the particular set of X values for a given observation.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
@@ -850,7 +853,7 @@ resolution of the synthetic spectra used to generate the dataset * is_feature_im
 </section>
 </section>
 <section id="Step-2:-Build-the-CNN-model-/-Data-processing">
-<h1>Step 2: Build the CNN model / Data processing<a class="headerlink" href="#Step-2:-Build-the-CNN-model-/-Data-processing" title="Permalink to this heading"></a></h1>
+<h1>Step 2: Build the CNN model / Data processing<a class="headerlink" href="#Step-2:-Build-the-CNN-model-/-Data-processing" title="Permalink to this heading">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
@@ -887,7 +890,7 @@ resolution of the synthetic spectra used to generate the dataset * is_feature_im
 </div>
 </div>
 <section id="2.2:-Scale-X-features---Row-wise">
-<h2>2.2: Scale X features - Row-wise<a class="headerlink" href="#2.2:-Scale-X-features---Row-wise" title="Permalink to this heading"></a></h2>
+<h2>2.2: Scale X features - Row-wise<a class="headerlink" href="#2.2:-Scale-X-features---Row-wise" title="Permalink to this heading">¶</a></h2>
 <p>Another crucial step in Data Preprocessing involves standardizing the data. To address this concern, we will perform scaling on the data at the level of individual rows (per-example), ensuring that each row has a mean of 0 and a standard deviation of 1. This choice of row-wise scaling is driven by the nature of the data, which consists of a collection of time-series observations where the order of features holds significant importance. Therefore, opting for row-wise scaling is essential to
 maintain the inherent relationships between the features, as scaling on a per-feature basis (column-wise) could disrupt the direct associations between features. This is because the resulting scaled value would correspond to the mean and standard deviation of the feature column, potentially affecting the contextual relationships between neighboring features.</p>
 <p>Our scaling is done using the StandardScaler() method from sklearn.preprocessing. X is transposed before applying StandardScaler() method.</p>
@@ -933,7 +936,7 @@ maintain the inherent relationships between the features, as scaling on a per-fe
 </div>
 </section>
 <section id="2.3:-Scale-y-features---Column-wise">
-<h2>2.3: Scale y features - Column-wise<a class="headerlink" href="#2.3:-Scale-y-features---Column-wise" title="Permalink to this heading"></a></h2>
+<h2>2.3: Scale y features - Column-wise<a class="headerlink" href="#2.3:-Scale-y-features---Column-wise" title="Permalink to this heading">¶</a></h2>
 <p>Based on the similar challenge of normalization, we are going to be scaling our y features. Here, we follow the standard approach of scaling each feature column-wise as each of the output (features) are independent of each-other. If not scaled, thier magnitudes would incentivize the model to favor one output over the other based on their face values</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
@@ -974,7 +977,7 @@ maintain the inherent relationships between the features, as scaling on a per-fe
 </div>
 </section>
 <section id="2.3:-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)">
-<h2>2.3: Feature engeenering: Take Min and Max of each row (BD spectra)<a class="headerlink" href="#2.3:-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)" title="Permalink to this heading"></a></h2>
+<h2>2.3: Feature engeenering: Take Min and Max of each row (BD spectra)<a class="headerlink" href="#2.3:-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)" title="Permalink to this heading">¶</a></h2>
 <p>In our CNN model, right before the concatenated layer, we introduce a new feature engineered layer which is Min-Max. This is done to retain the range/magnitude of the flux which helps in capturing crucial information about the time series’ variability or amplitude. This is also great for enhancing CNNs temporal learning capabilities which would help in forming patterns in critical points to obtain better generalizations.</p>
 <p>We calculate our generated feature by taking the minimum and maximum values of each example within the Train, Validation and Test sets. This is combined into a resulting array of shape (num_examples, 2) which is then concatenated with the output of the CNN model. This is then fed into the next dense layer which outputs the predicted parameters.</p>
 <p>For example, let’s see the first example from our training set X (Before standardization):</p>
@@ -1220,7 +1223,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 <hr class="docutils" />
 </section>
 <section id="2.4:-Scale-Min-Max-features---ColumnWise">
-<h2>2.4: Scale Min Max features - ColumnWise<a class="headerlink" href="#2.4:-Scale-Min-Max-features---ColumnWise" title="Permalink to this heading"></a></h2>
+<h2>2.4: Scale Min Max features - ColumnWise<a class="headerlink" href="#2.4:-Scale-Min-Max-features---ColumnWise" title="Permalink to this heading">¶</a></h2>
 <p>Similar to Standardizing the data for X and y, we ensure that the magnitude does not create a bias while learning from the data provided. Hence, these valuse are scaled column-wise as min and max are independent of each other. We also do this using the StandardScaler() similar to previous applications</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
@@ -1257,7 +1260,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </section>
 </section>
 <section id="Step-3:-Train-CNN-model">
-<h1>Step 3: Train CNN model<a class="headerlink" href="#Step-3:-Train-CNN-model" title="Permalink to this heading"></a></h1>
+<h1>Step 3: Train CNN model<a class="headerlink" href="#Step-3:-Train-CNN-model" title="Permalink to this heading">¶</a></h1>
 <p>The next important step after the pre-processing is training the newly instantiated model. The technique we are using is a Convolutional Neural Network (CNN) which is able to predict the outputs based on dependencies/patterns established from the input data. There are many different ways of constructing a CNN but here, we are going to be focusing on the current architecture used in this example.</p>
 <p>Our CNN can be divided into a few important layers:</p>
 <ul class="simple">
@@ -1564,7 +1567,7 @@ File <span class="ansi-green-intense-fg ansi-bold">g:\anaconda3\envs\NASA\Lib\si
 </pre></div></div>
 </div>
 <section id="3.1:-Post-Training-of-the-CNN-model">
-<h2>3.1: Post Training of the CNN model<a class="headerlink" href="#3.1:-Post-Training-of-the-CNN-model" title="Permalink to this heading"></a></h2>
+<h2>3.1: Post Training of the CNN model<a class="headerlink" href="#3.1:-Post-Training-of-the-CNN-model" title="Permalink to this heading">¶</a></h2>
 <p>We assign the trained-model and history parameters from previously initialized class to be the newly trained model and it’s history</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -2175,7 +2178,7 @@ File <span class="ansi-green-intense-fg ansi-bold">g:\anaconda3\envs\NASA\Lib\si
 </div>
 </div>
 <section id="Save-Trained-Model">
-<h3>Save Trained Model<a class="headerlink" href="#Save-Trained-Model" title="Permalink to this heading"></a></h3>
+<h3>Save Trained Model<a class="headerlink" href="#Save-Trained-Model" title="Permalink to this heading">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2199,7 +2202,7 @@ g:\anaconda3\envs\NASA\Lib\site-packages\keras\src\engine\training.py:3000: User
 </div>
 </section>
 <section id="Load-Saved-Models">
-<h3>Load Saved Models<a class="headerlink" href="#Load-Saved-Models" title="Permalink to this heading"></a></h3>
+<h3>Load Saved Models<a class="headerlink" href="#Load-Saved-Models" title="Permalink to this heading">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2226,7 +2229,7 @@ g:\anaconda3\envs\NASA\Lib\site-packages\keras\src\engine\training.py:3000: User
 </section>
 </section>
 <section id="Step-4:-Check-Trained-Model">
-<h1>Step 4: Check Trained Model<a class="headerlink" href="#Step-4:-Check-Trained-Model" title="Permalink to this heading"></a></h1>
+<h1>Step 4: Check Trained Model<a class="headerlink" href="#Step-4:-Check-Trained-Model" title="Permalink to this heading">¶</a></h1>
 <hr class="docutils" />
 <p>In the following Step, we are able to load the previously trained model and check the summary, architecture and history from the BuildCNN object it was stored into</p>
 <div class="nbinput docutils container">
@@ -2381,7 +2384,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </script></div>
 </div>
 <section id="4.1:-Plot-Y-predicted-vs-Y_Actual:-Histogram-&amp;-Scatter-plot">
-<h2>4.1: Plot Y predicted vs Y_Actual: Histogram &amp; Scatter plot<a class="headerlink" href="#4.1:-Plot-Y-predicted-vs-Y_Actual:-Histogram-&-Scatter-plot" title="Permalink to this heading"></a></h2>
+<h2>4.1: Plot Y predicted vs Y_Actual: Histogram &amp; Scatter plot<a class="headerlink" href="#4.1:-Plot-Y-predicted-vs-Y_Actual:-Histogram-&-Scatter-plot" title="Permalink to this heading">¶</a></h2>
 <p>In the code below, we are visualizing the model’s performance for each of y’s outputs. Since we have 4 different outputs where each one represents a different parameter, we will have 4 different sets of plots.</p>
 <p>The first plot shows us the Histogram plot of the predicted and the actual outcome overlayed on top of each other for each of the 4 values. This signifies where the probability of the prediction’s magnitude of difference fromt the ground truth. If we consider our model to have good performance, we should expect to see a Gaussian Distribution of the labels. We could break down the Histogram attributes into:</p>
 <ul class="simple">

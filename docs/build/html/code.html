@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Modules &mdash; TelescopeML 0.0.0 documentation</title>
+  <title>The Modules &mdash; TelescopeMLdoc</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
@@ -40,6 +40,9 @@
           <a href="index.html" class="icon icon-home">
             TelescopeML
           </a>
+              <div class="version">
+                0.0.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -146,16 +149,16 @@
 }
 </style>
 <section id="the-modules">
-<h1>The Modules<a class="headerlink" href="#the-modules" title="Permalink to this heading"></a></h1>
+<h1>The Modules<a class="headerlink" href="#the-modules" title="Permalink to this heading">¶</a></h1>
 <section id="module-TelescopeML.DeepBuilder">
-<span id="telescopeml-deepbuilder-module"></span><h2>TelescopeML.DeepBuilder Module<a class="headerlink" href="#module-TelescopeML.DeepBuilder" title="Permalink to this heading"></a></h2>
+<span id="telescopeml-deepbuilder-module"></span><h2>TelescopeML.DeepBuilder Module<a class="headerlink" href="#module-TelescopeML.DeepBuilder" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TelescopeML.DeepBuilder.</span></span><span class="sig-name descname"><span class="pre">BuildRegressorCNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.base.BaseEstimator</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trained_model_history</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_tuned</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_feature_improved</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_augmented</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.base.BaseEstimator</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml_model_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'regression'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TelescopeML.DeepBuilder.</span></span><span class="sig-name descname"><span class="pre">BuildRegressorCNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.base.BaseEstimator</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trained_model_history</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_tuned</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectral_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_feature_improved</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_augmented</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'no'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.base.BaseEstimator</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml_model_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ml_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'regression'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Build Convolutional Neural Networks using Regression approach</p>
 <section id="tasks">
-<h3>Tasks:<a class="headerlink" href="#tasks" title="Permalink to this heading"></a></h3>
+<h3>Tasks:<a class="headerlink" href="#tasks" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>Process dataset: Scale, split_train_val_test</p></li>
@@ -166,8 +169,8 @@
 </ul>
 </div></blockquote>
 </section>
-<section id="attributes">
-<h3>Attributes:<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<section id="inputs">
+<h3>Inputs:<a class="headerlink" href="#inputs" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>trained_model (object): Trained ML model (optional)</p></li>
@@ -185,215 +188,263 @@
 <li><p>ml_model_str (str): Name of the ML model</p></li>
 </ul>
 </div></blockquote>
-<dl class="simple">
-<dt>Outputs:</dt><dd><ul class="simple">
+</section>
+<section id="outputs">
+<h3>Outputs:<a class="headerlink" href="#outputs" title="Permalink to this heading">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
 <li><p>Trained ML models</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_X_column_wise">
-<span class="sig-name descname"><span class="pre">normalize_X_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_X_column_wise" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">normalize_X_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_X_column_wise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalize features/column variables to a specified range.
 Transform your data such that its values are within the specified range [0, 1].</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
+<section id="id1">
+<h4>Inputs:<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>X_train (array): Training feature matrix</p></li>
 <li><p>X_val (array): Validation feature matrix</p></li>
 <li><p>X_test (array): Test feature matrix</p></li>
 <li><p>print_model (bool): Whether to print the trained normalizer model</p></li>
 </ul>
-</dd>
-<dt>Assigns:</dt><dd><ul class="simple">
+</div></blockquote>
+</section>
+<section id="assigns">
+<h4>Assigns:<a class="headerlink" href="#assigns" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>self.X_train_normalized_columnwise (array): Normalized training feature matrix</p></li>
 <li><p>self.X_val_normalized_columnwise (array): Normalized validation feature matrix</p></li>
 <li><p>self.X_test_normalized_columnwise (array): Normalized test feature matrix</p></li>
 <li><p>self.normalize_X_ColumnWise (MinMaxScaler): Trained normalizer object</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_X_row_wise">
-<span class="sig-name descname"><span class="pre">normalize_X_row_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_X_row_wise" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">normalize_X_row_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_X_row_wise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalize observations/instances/row variables to a specified range.
 Transform your data such that its values are within the specified range [0, 1].</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
+<section id="id2">
+<h4>Inputs:<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>X_train (array): Training feature matrix</p></li>
 <li><p>X_val (array): Validation feature matrix</p></li>
 <li><p>X_test (array): Test feature matrix</p></li>
 <li><p>print_model (bool): Whether to print the trained normalizer model</p></li>
 </ul>
-</dd>
-<dt>Assigns:</dt><dd><ul class="simple">
+</div></blockquote>
+</section>
+<section id="id3">
+<h4>Assigns:<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>self.X_train_normalized_rowwise (array): Normalized training feature matrix</p></li>
 <li><p>self.X_val_normalized_rowwise (array): Normalized validation feature matrix</p></li>
 <li><p>self.X_test_normalized_rowwise (array): Normalized test feature matrix</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_y_column_wise">
-<span class="sig-name descname"><span class="pre">normalize_y_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_y_column_wise" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">normalize_y_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.normalize_y_column_wise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scale target variable (y) and column-wise feature variables to a specified range.
 Transform the data such that its values are within the specified range [0, 1].</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
+<section id="id4">
+<h4>Inputs:<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>y_train (array): Training target variable array</p></li>
 <li><p>y_val (array): Validation target variable array</p></li>
 <li><p>y_test (array): Test target variable array</p></li>
 <li><p>print_model (bool): Whether to print the trained scaler model</p></li>
 </ul>
-</dd>
-<dt>Assigns:</dt><dd><ul class="simple">
+</div></blockquote>
+</section>
+<section id="id5">
+<h4>Assigns:<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>self.y_train_normalized_columnwise (array): Scaled training target variable array</p></li>
 <li><p>self.y_val_normalized_columnwise (array): Scaled validation target variable array</p></li>
 <li><p>self.y_test_normalized_columnwise (array): Scaled test target variable array</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.plot_boxplot_scaled_features">
-<span class="sig-name descname"><span class="pre">plot_boxplot_scaled_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaled_feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xticks_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(14,</span> <span class="pre">3)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.plot_boxplot_scaled_features" title="Permalink to this definition"></a></dt>
-<dd><p>Interpretation:
-- Median: middle quartile marks
-- Inter-quartile range: (The middle “box”): 50% of scores fall within the inter-quartile range
-- Upper quartile: 75% of the scores fall below the upper quartile.
-- Lower quartile: 25% of scores fall below the lower quartile.</p>
+<span class="sig-name descname"><span class="pre">plot_boxplot_scaled_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaled_feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xticks_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(14,</span> <span class="pre">3)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.plot_boxplot_scaled_features" title="Permalink to this definition">¶</a></dt>
+<dd><section id="description">
+<h4>Description:<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>Median: middle quartile marks</p></li>
+<li><p>Inter-quartile range: (The middle “box”): 50% of scores fall within the inter-quartile range</p></li>
+<li><p>Upper quartile: 75% of the scores fall below the upper quartile.</p></li>
+<li><p>Lower quartile: 25% of scores fall below the lower quartile.</p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.plot_histogram_scaled_features">
-<span class="sig-name descname"><span class="pre">plot_histogram_scaled_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaled_feature</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.plot_histogram_scaled_features" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">plot_histogram_scaled_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scaled_feature</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.plot_histogram_scaled_features" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.plot_model_loss">
-<span class="sig-name descname"><span class="pre">plot_model_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.plot_model_loss" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">plot_model_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.plot_model_loss" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.split_train_test">
-<span class="sig-name descname"><span class="pre">split_train_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.split_train_test" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">split_train_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.split_train_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split the loaded set into train and test sets</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
+<section id="id6">
+<h4>Inputs:<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>test_size (float): The proportion of the dataset to include in the test split</p></li>
 </ul>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Train and test datasets for features and targets</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p>X_train (array), X_test (array), y_train (array), y_test (array)</p></li>
+</div></blockquote>
+</section>
+<section id="returns">
+<h4>Returns:<a class="headerlink" href="#returns" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>X_train (array), X_test (array), y_train (array), y_test (array): Train and test datasets for features and targets</p></li>
 </ul>
-</p>
-</dd>
-</dl>
-<p>References:
-- SciKit: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html</a></p>
+</div></blockquote>
+</section>
+<section id="references">
+<h4>References:<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>SciKit: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html</a></p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.split_train_validation_test">
-<span class="sig-name descname"><span class="pre">split_train_validation_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.split_train_validation_test" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">split_train_validation_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.split_train_validation_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split the loaded set into train, validation, and test sets</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
+<section id="id7">
+<h4>Inputs:<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>test_size (float): Proportion of the dataset to include in the test split</p></li>
 <li><p>val_size (float): Proportion of the remaining train dataset to include in the validation split</p></li>
 </ul>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Used to train, validate, and evaluate the machine learning model, respectively
-- self.y_train (array), self.y_val (array), self.y_test (array): Targets used for training, validation, and testing the models</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p>self.X_train (array), self.X_val (array), self.X_test (array)</p></li>
+</div></blockquote>
+</section>
+<section id="id8">
+<h4>Returns:<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>self.X_train (array), self.X_val (array), self.X_test (array): Used to train, validate, and evaluate the machine learning model, respectively</p></li>
+<li><p>self.y_train (array), self.y_val (array), self.y_test (array): Targets used for training, validation, and testing the models</p></li>
 </ul>
-</p>
-</dd>
-</dl>
-<p>References:
-- SciKit: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html</a></p>
+</div></blockquote>
+</section>
+<section id="id9">
+<h4>References:<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p>SciKit: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html">https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html</a></p></li>
+</ul>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_X_column_wise">
-<span class="sig-name descname"><span class="pre">standardize_X_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_X_column_wise" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">standardize_X_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_X_column_wise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
 Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
+<section id="id10">
+<h4>Inputs:<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>X_train (array): Training feature matrix</p></li>
 <li><p>X_val (array): Validation feature matrix</p></li>
 <li><p>X_test (array): Test feature matrix</p></li>
 <li><p>print_model (bool): Whether to print the trained scaler model</p></li>
 </ul>
-</dd>
-<dt>Assigns:</dt><dd><ul class="simple">
+</div></blockquote>
+</section>
+<section id="id11">
+<h4>Assigns:<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>self.X_train_standardized_columnwise (array): Standardized training feature matrix</p></li>
 <li><p>self.X_val_standardized_columnwise (array): Standardized validation feature matrix</p></li>
 <li><p>self.X_test_standardized_columnwise (array): Standardized test feature matrix</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_X_row_wise">
-<span class="sig-name descname"><span class="pre">standardize_X_row_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_X_row_wise" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">standardize_X_row_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_X_row_wise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
 Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
+<section id="id12">
+<h4>Inputs:<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>X_train (array): Training feature matrix</p></li>
 <li><p>X_val (array): Validation feature matrix</p></li>
 <li><p>X_test (array): Test feature matrix</p></li>
 <li><p>print_model (bool): Whether to print the trained scaler model</p></li>
 </ul>
-</dd>
-<dt>Assigns:</dt><dd><ul class="simple">
+</div></blockquote>
+</section>
+<section id="id13">
+<h4>Assigns:<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>self.X_train_standardized_columnwise (array): Standardized training feature matrix</p></li>
 <li><p>self.X_val_standardized_columnwise (array): Standardized validation feature matrix</p></li>
 <li><p>self.X_test_standardized_columnwise (array): Standardized test feature matrix</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_y_column_wise">
-<span class="sig-name descname"><span class="pre">standardize_y_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_y_column_wise" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">standardize_y_column_wise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepBuilder.BuildRegressorCNN.standardize_y_column_wise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Standardize target variable (y) column-wise by removing the mean and scaling to unit variance.
 Transform the data such that its distribution will have a mean value of 0 and a standard deviation of 1.</p>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
+<section id="id14">
+<h4>Inputs:<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>y_train (array): Training target variable array</p></li>
 <li><p>y_val (array): Validation target variable array</p></li>
 <li><p>y_test (array): Test target variable array</p></li>
 <li><p>print_model (bool): Whether to print the trained scaler model</p></li>
 </ul>
-</dd>
-<dt>Assigns:</dt><dd><ul class="simple">
+</div></blockquote>
+</section>
+<section id="id15">
+<h4>Assigns:<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
 <li><p>self.y_train_standardized_columnwise (array): Standardized training target variable array</p></li>
 <li><p>self.y_val_standardized_columnwise (array): Standardized validation target variable array</p></li>
 <li><p>self.y_test_standardized_columnwise (array): Standardized test target variable array</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
+</section>
 </dd></dl>
 
 </section>
@@ -401,14 +452,14 @@ Transform the data such that its distribution will have a mean value of 0 and a 
 
 </section>
 <section id="module-TelescopeML.DeepTrainer">
-<span id="telescopeml-deeptrainer-module"></span><h2>TelescopeML.DeepTrainer Module<a class="headerlink" href="#module-TelescopeML.DeepTrainer" title="Permalink to this heading"></a></h2>
+<span id="telescopeml-deeptrainer-module"></span><h2>TelescopeML.DeepTrainer Module<a class="headerlink" href="#module-TelescopeML.DeepTrainer" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="TelescopeML.DeepTrainer.TrainRegressorCNN">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TelescopeML.DeepTrainer.</span></span><span class="sig-name descname"><span class="pre">TrainRegressorCNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X1_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X1_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y3_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y3_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y3_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y4_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y4_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y4_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepTrainer.TrainRegressorCNN" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TelescopeML.DeepTrainer.</span></span><span class="sig-name descname"><span class="pre">TrainRegressorCNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X1_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X1_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y3_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y3_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y3_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y4_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y4_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y4_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepTrainer.TrainRegressorCNN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Train Convolutional Neural Networks model using regression approach</p>
 <section id="parameters">
-<h3>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p>X1_train (array): Row-StandardScaled input spectra for training.</p></li>
@@ -433,14 +484,16 @@ Transform the data such that its distribution will have a mean value of 0 and a 
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepTrainer.TrainRegressorCNN.build_model">
-<span class="sig-name descname"><span class="pre">build_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hyperparameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepTrainer.TrainRegressorCNN.build_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">build_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hyperparameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepTrainer.TrainRegressorCNN.build_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a CNN model with a certain number of blocks and layers using for loops.</p>
 <section id="args">
-<h4>Args:<a class="headerlink" href="#args" title="Permalink to this heading"></a></h4>
+<h4>Args:<a class="headerlink" href="#args" title="Permalink to this heading">¶</a></h4>
 <blockquote>
 <div><ul class="simple">
-<li><p>hyperparameters (dict): A dictionary containing hyperparameters for configuring the model.</p></li>
-<li><p>‘Conv__num_blocks’ (int): Number of blocks in the CNN model.</p></li>
+<li><dl class="simple">
+<dt>hyperparameters (dict): hyperparameters for configuring the model.</dt><dd><dl class="simple">
+<dt>hyperparameters keys includes:</dt><dd><ul>
+<li><p>Conv__num_blocks’ (int): Number of blocks in the CNN model.</p></li>
 <li><p>‘Conv__num_layers_per_block’ (int): Number of layers in each convolutional block.</p></li>
 <li><p>‘Conv__num_filters’ (list): List of integers representing the number of filters in each layer.</p></li>
 <li><p>‘Conv__kernel_size’ (int): Size of the convolutional kernel.</p></li>
@@ -454,22 +507,26 @@ Transform the data such that its distribution will have a mean value of 0 and a 
 <li><p>‘FC2__units’ (list): List of integers representing the number of units in each layer.</p></li>
 <li><p>‘FC2__dropout’ (float): Dropout rate for FC2 layers.</p></li>
 </ul>
-<p>‘learning_rate’ (float): Learning rate for the model.</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">returns</dt>
-<dd class="field-odd"><p>The built CNN model.</p>
-</dd>
-<dt class="field-even">rtype</dt>
-<dd class="field-even"><p>tf.keras.Model</p>
 </dd>
 </dl>
+</dd>
+</dl>
+</li>
+</ul>
+<p>‘learning_rate’ (float): Learning rate for the model.</p>
+</div></blockquote>
+</section>
+<section id="id16">
+<h4>Returns:<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>tf.keras.Model: The built CNN model.</p>
+</div></blockquote>
 </section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.DeepTrainer.TrainRegressorCNN.fit_cnn_model">
-<span class="sig-name descname"><span class="pre">fit_cnn_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepTrainer.TrainRegressorCNN.fit_cnn_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit_cnn_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.DeepTrainer.TrainRegressorCNN.fit_cnn_model" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -477,53 +534,52 @@ Transform the data such that its distribution will have a mean value of 0 and a 
 
 </section>
 <section id="module-TelescopeML.Predictor">
-<span id="telescopeml-predictor-module"></span><h2>TelescopeML.Predictor Module<a class="headerlink" href="#module-TelescopeML.Predictor" title="Permalink to this heading"></a></h2>
+<span id="telescopeml-predictor-module"></span><h2>TelescopeML.Predictor Module<a class="headerlink" href="#module-TelescopeML.Predictor" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="TelescopeML.Predictor.ObserveParameterPredictor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TelescopeML.Predictor.</span></span><span class="sig-name descname"><span class="pre">ObserveParameterPredictor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_dataset_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BuildRegressorCNN_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bd_literature_dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TelescopeML.Predictor.</span></span><span class="sig-name descname"><span class="pre">ObserveParameterPredictor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_dataset_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BuildRegressorCNN_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bd_literature_dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Load, process, visualize observational spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>feature_values_obs</strong> (<em>array</em>) – Fluxes for each feature (wavelength) from observational data</p></li>
-<li><p><strong>feature_values_obs_err</strong> (<em>array</em>) – </p></li>
-<li><p><strong>feature_names_obs</strong> (<em>array</em>) – Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron</p></li>
-<li><p><strong>feature_names_synthetic</strong> (<em>array</em>) – Name of features (wavelengths) from synthetic data</p></li>
-</ul>
-</dd>
-</dl>
+<section id="id17">
+<h3>Args:<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
+<blockquote>
+<div><p>feature_values_obs (array): Fluxes for each feature (wavelength) from observational data
+feature_values_obs_err (array):
+feature_names_obs (array): Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron
+feature_names_synthetic (array): Name of features (wavelengths) from synthetic data</p>
+</div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.Predictor.ObserveParameterPredictor.Flam2Fnu">
-<span class="sig-name descname"><span class="pre">Flam2Fnu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.Flam2Fnu" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">Flam2Fnu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.Flam2Fnu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert F_lambda to F_nu along with error propagation.</p>
-<p>Returns</p>
+<section id="id18">
+<h4>Returns:<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h4>
 <blockquote>
 <div><p>fnu_values (array): Array of flux density values in F_nu.</p>
 <p>fnu_errors (array): Array of error bars for the flux density values in F_nu.</p>
 </div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.Predictor.ObserveParameterPredictor.ProcessObservationalDataset">
-<span class="sig-name descname"><span class="pre">ProcessObservationalDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_values_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_values_obs_err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names_synthetic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bd_literature_dic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.ProcessObservationalDataset" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ProcessObservationalDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_values_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_values_obs_err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names_synthetic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bd_literature_dic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.ProcessObservationalDataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process the observational dataset and set various attributes of the object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>feature_values_obs</strong> (<em>array</em>) – Observed feature values.</p></li>
-<li><p><strong>feature_values_obs_err</strong> (<em>array</em>) – Errors corresponding to the observed feature values.</p></li>
-<li><p><strong>feature_names_obs</strong> (<em>array</em>) – Names of the observed features.</p></li>
-<li><p><strong>feature_names_synthetic</strong> (<em>array</em>) – Names of the synthetic features.</p></li>
-<li><p><strong>bd_literature_dic</strong> (<em>dict</em>) – Dictionary containing literature information. Defaults to None.</p></li>
-</ul>
-</dd>
-</dl>
+<section id="id19">
+<h4>Inputs:<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>feature_values_obs (array): Observed feature values.
+feature_values_obs_err (array): Errors corresponding to the observed feature values.
+feature_names_obs (array): Names of the observed features.
+feature_names_synthetic (array): Names of the synthetic features.
+bd_literature_dic (dict): Dictionary containing literature information. Defaults to None.</p>
+</div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.Predictor.ObserveParameterPredictor.Process_Observational_Dataset">
-<span class="sig-name descname"><span class="pre">Process_Observational_Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_predicted_vs_observed__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.Process_Observational_Dataset" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">Process_Observational_Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_predicted_vs_observed__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.Process_Observational_Dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process the observational dataset, extract ML features, perform predictions, and optionally print the results and plot the predicted versus observed spectra.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -537,22 +593,21 @@ Transform the data such that its distribution will have a mean value of 0 and a 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.Predictor.ObserveParameterPredictor.flux_interpolated">
-<span class="sig-name descname"><span class="pre">flux_interpolated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_spectra_errorbar__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_spectres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.flux_interpolated" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">flux_interpolated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_spectra_errorbar__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_spectres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.flux_interpolated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform flux interpolation using either SpectRes or pchip interpolation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>__print_results__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>__plot_spectra_errorbar__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>use_spectres</strong> (<em>bool</em>) – Whether to use SpectRes for interpolation. Defaults to True.</p></li>
-</ul>
-</dd>
-</dl>
+<section id="id20">
+<h4>Inputs:<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>__print_results__ (bool): True or False.
+__plot_spectra_errorbar__ (bool): True or False.
+use_spectres (bool): Whether to use SpectRes for interpolation. Defaults to True.</p>
+</div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.Predictor.ObserveParameterPredictor.load_observational_spectra">
-<span class="sig-name descname"><span class="pre">load_observational_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__plot_observational_spectra_errorbar__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_replace_zeros_with_mean_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.load_observational_spectra" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">load_observational_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">__plot_observational_spectra_errorbar__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_replace_zeros_with_mean_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.load_observational_spectra" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the observational spectra, process the dataset, and optionally plot the observational spectra with error bars.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -566,42 +621,45 @@ Transform the data such that its distribution will have a mean value of 0 and a 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelescopeML.Predictor.ObserveParameterPredictor.predict_from_random_spectra">
-<span class="sig-name descname"><span class="pre">predict_from_random_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_spectra_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_randomly_generated_spectra__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_histogram__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_boxplot_hist__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_predicted_vs_observed__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_predicted_vs_spectra_errorbar__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__calculate_confidence_intervals_std_df__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.predict_from_random_spectra" title="Permalink to this definition"></a></dt>
-<dd><ul class="simple">
+<span class="sig-name descname"><span class="pre">predict_from_random_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_spectra_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_randomly_generated_spectra__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_histogram__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_boxplot_hist__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_predicted_vs_observed__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_predicted_vs_spectra_errorbar__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__calculate_confidence_intervals_std_df__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.Predictor.ObserveParameterPredictor.predict_from_random_spectra" title="Permalink to this definition">¶</a></dt>
+<dd><section id="id21">
+<h4>Tasks:<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
 <li><p>Generate random spectra based on the observational data,</p></li>
 <li><p>Perform predictions on the generated spectra</p></li>
 <li><p>Provide various plotting and analysis options.</p></li>
 </ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>random_spectra_num</strong> (<em>int</em>) – Number of random spectra to generate. Defaults to 10.</p></li>
-<li><p><strong>__print_results__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>__plot_randomly_generated_spectra__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>__plot_histogram__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>__plot_boxplot_hist__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>__plot_predicted_vs_observed__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>__plot_predicted_vs_spectra_errorbar__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>__plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__</strong> (<em>bool</em>) – True or False.</p></li>
-<li><p><strong>__calculate_confidence_intervals_std_df__</strong> (<em>bool</em>) – True or False.</p></li>
-</ul>
-</dd>
-</dl>
+</section>
+<section id="id22">
+<h4>Args:<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h4>
+<blockquote>
+<div><p>random_spectra_num (int): Number of random spectra to generate. Defaults to 10.
+__print_results__ (bool): True or False.
+__plot_randomly_generated_spectra__ (bool): True or False.
+__plot_histogram__ (bool): True or False.
+__plot_boxplot_hist__ (bool): True or False.
+__plot_predicted_vs_observed__ (bool): True or False.
+__plot_predicted_vs_spectra_errorbar__ (bool): True or False.
+__plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__ (bool): True or False.
+__calculate_confidence_intervals_std_df__ (bool): True or False.</p>
+</div></blockquote>
+</section>
 </dd></dl>
 
+</section>
 </dd></dl>
 
 </section>
 <section id="module-TelescopeML.StatVisAnalyzer">
-<span id="telescopeml-statvisanalyzer-module"></span><h2>TelescopeML.StatVisAnalyzer Module<a class="headerlink" href="#module-TelescopeML.StatVisAnalyzer" title="Permalink to this heading"></a></h2>
+<span id="telescopeml-statvisanalyzer-module"></span><h2>TelescopeML.StatVisAnalyzer Module<a class="headerlink" href="#module-TelescopeML.StatVisAnalyzer" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.boxplot_hist">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">boxplot_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_loc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.boxplot_hist" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">boxplot_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_loc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.boxplot_hist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.calculate_confidence_intervals_std_df">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">calculate_confidence_intervals_std_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_calculate_confidence_intervals_std_df__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.calculate_confidence_intervals_std_df" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">calculate_confidence_intervals_std_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_calculate_confidence_intervals_std_df__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.calculate_confidence_intervals_std_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate confidence intervals and other statistics for a DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -622,7 +680,7 @@ Transform the data such that its distribution will have a mean value of 0 and a 
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.chi_square_test">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">chi_square_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.chi_square_test" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">chi_square_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__plot_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.chi_square_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform the chi-square test to evaluate the similarity between two datasets with error bars.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -653,17 +711,17 @@ float: The p-value.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.filter_dataframe">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">filter_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_datasets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.filter_dataframe" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">filter_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_datasets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.filter_dataframe" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.filter_dataset_range">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">filter_dataset_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.filter_dataset_range" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">filter_dataset_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.filter_dataset_range" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.find_closest_chi_square">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">find_closest_chi_square</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_square_statistic_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.find_closest_chi_square" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">find_closest_chi_square</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_square_statistic_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.find_closest_chi_square" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the closest chi-square test and p-value for a given degrees of freedom (df).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -684,22 +742,22 @@ closest_p_value (float): The p-value corresponding to the closest chi-square tes
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.find_nearest_top_bottom">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">find_nearest_top_bottom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.find_nearest_top_bottom" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">find_nearest_top_bottom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.find_nearest_top_bottom" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.interpolate_df">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">interpolate_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.interpolate_df" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">interpolate_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.interpolate_df" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.interpolate_df_old">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">interpolate_df_old</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.interpolate_df_old" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">interpolate_df_old</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.interpolate_df_old" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.plot_chi_square_p_value">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_chi_square_p_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_square_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_chi_square_p_value" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_chi_square_p_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi_square_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_chi_square_p_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot two lines on the same plot with twin y-axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -717,7 +775,7 @@ closest_p_value (float): The p-value corresponding to the closest chi-square tes
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stat_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs_err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_datasets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stat_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs_err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_datasets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot observed spectra with error bars and predicted spectra with confidence intervals.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -739,12 +797,12 @@ closest_p_value (float): The p-value corresponding to the closest chi-square tes
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.plot_predicted_vs_observed">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_predicted_vs_observed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_datasets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_Fnu_obs_absolute_intd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_predicted_vs_observed" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_predicted_vs_observed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_datasets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_Fnu_obs_absolute_intd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_predicted_vs_observed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.plot_predicted_vs_spectra_errorbar">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_predicted_vs_spectra_errorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_predicted_vs_spectra_errorbar" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_predicted_vs_spectra_errorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_targets_dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__print_results__</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_predicted_vs_spectra_errorbar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot predicted spectra along with observed spectra and error bars.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -763,12 +821,12 @@ closest_p_value (float): The p-value corresponding to the closest chi-square tes
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.plot_spectra_errorbar">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_spectra_errorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs_err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Flux</span> <span class="pre">(F𝜈)'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_spectra_errorbar" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_spectra_errorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs_err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Flux</span> <span class="pre">(F𝜈)'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_spectra_errorbar" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.plot_with_errorbars">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_with_errorbars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Data</span> <span class="pre">with</span> <span class="pre">Error</span> <span class="pre">Bars'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_with_errorbars" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">plot_with_errorbars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_pre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Data</span> <span class="pre">with</span> <span class="pre">Error</span> <span class="pre">Bars'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.plot_with_errorbars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Bokeh plot with custom error bars for two datasets.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -790,7 +848,7 @@ closest_p_value (float): The p-value corresponding to the closest chi-square tes
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.print_results_fun">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">print_results_fun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.print_results_fun" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">print_results_fun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.print_results_fun" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the outputs in a pretty format using pprint library.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -804,7 +862,7 @@ closest_p_value (float): The p-value corresponding to the closest chi-square tes
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.regression_report">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">regression_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xtrain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ytrain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ytest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_bottom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.regression_report" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">regression_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xtrain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xtest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ytrain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ytest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_bottom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.regression_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a regression report for the trained ML/CNN model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -825,7 +883,7 @@ closest_p_value (float): The p-value corresponding to the closest chi-square tes
 
 <dl class="py function">
 <dt class="sig sig-object py" id="TelescopeML.StatVisAnalyzer.replace_zeros_with_mean">
-<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">replace_zeros_with_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_col2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.replace_zeros_with_mean" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">TelescopeML.StatVisAnalyzer.</span></span><span class="sig-name descname"><span class="pre">replace_zeros_with_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_col2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TelescopeML.StatVisAnalyzer.replace_zeros_with_mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace zero values in a DataFrame column with the mean of their non-zero neighbors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -842,7 +900,7 @@ closest_p_value (float): The p-value corresponding to the closest chi-square tes
 
 </section>
 <section id="module-TelescopeML">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TelescopeML" title="Permalink to this heading"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TelescopeML" title="Permalink to this heading">¶</a></h2>
 </section>
 </section>
 
