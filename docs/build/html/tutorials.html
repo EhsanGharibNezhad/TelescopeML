@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tuturials &mdash; TelescopeML 0.0 documentation</title>
+  <title>Tuturials &mdash; TelescopeMLdoc</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Exploring the Example Dataset" href="tutorials/EDA.html" />
+    <link rel="next" title="Exploring the Example Dataset" href="tutorials/Data_Exploration.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
@@ -40,6 +40,9 @@
           <a href="index.html" class="icon icon-home">
             TelescopeML
           </a>
+              <div class="version">
+                0.0.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -52,20 +55,17 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#exploratory-data-analysis">Exploratory Data Analysis</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/EDA.html">Exploring the Example Dataset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/EDA.html#Step-1:-Load-the-dataset">Step 1: Load the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/Data_Exploration.html">Exploring the Example Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/Data_Exploration.html#Step-1:-Load-the-dataset">Step 1: Load the dataset</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#data-processing-for-the-cnn-model">Data Processing for the CNN Model</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html">Train a regression ConvNN model using BOHB tuner</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-1:-Load-the-dataset">Step 1: Load the dataset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-2:-Data-Processing">Step 2: Data Processing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-3:-Train-CNN-model">Step 3: Train CNN model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Save-Trained-Model">Save Trained Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Load-Saved-Models">Load Saved Models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-3:-Check-Trained-Model">Step 3: Check Trained Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-4:-Predict-Observational-data-using-the-trained-model">Step 4: Predict Observational data using the trained model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-5:-tensorflow_probability">Step 5: tensorflow_probability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html">Predict target features (brown dwarf parameters) using trained CNN model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#Step-1:-Load-the-training-dataset-(syntheric-spectra)">Step 1: Load the training dataset (syntheric spectra)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#Step-2:-Build-the-CNN-model-/-Data-processing">Step 2: Build the CNN model / Data processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#Step-3:-Load-the-Trained-CNN-model">Step 3: Load the Trained CNN model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#Step-4:-Predict-Observational-data-using-the-trained-CNN-model">Step 4: Predict Observational data using the trained CNN model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#THE-END">THE END</a></li>
 </ul>
 </li>
 </ul>
@@ -95,7 +95,10 @@
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/tutorials.rst.txt" rel="nofollow"> View page source</a>
       </li>
-  </ul>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials/Data_Exploration.html" class="btn btn-neutral float-right" title="Exploring the Example Dataset" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -126,29 +129,26 @@
 }
 </style>
 <section id="tuturials">
-<h1>Tuturials<a class="headerlink" href="#tuturials" title="Permalink to this heading"></a></h1>
+<h1>Tuturials<a class="headerlink" href="#tuturials" title="Permalink to this heading">¶</a></h1>
 <section id="exploratory-data-analysis">
-<h2>Exploratory Data Analysis<a class="headerlink" href="#exploratory-data-analysis" title="Permalink to this heading"></a></h2>
+<h2>Exploratory Data Analysis<a class="headerlink" href="#exploratory-data-analysis" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/EDA.html">Exploring the Example Dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/EDA.html#Step-1:-Load-the-dataset">Step 1: Load the dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data_Exploration.html">Exploring the Example Dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Data_Exploration.html#Step-1:-Load-the-dataset">Step 1: Load the dataset</a></li>
 </ul>
 </div>
 </section>
 <section id="data-processing-for-the-cnn-model">
-<h2>Data Processing for the CNN Model<a class="headerlink" href="#data-processing-for-the-cnn-model" title="Permalink to this heading"></a></h2>
+<h2>Data Processing for the CNN Model<a class="headerlink" href="#data-processing-for-the-cnn-model" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html">Train a regression ConvNN model using BOHB tuner</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-1:-Load-the-dataset">Step 1: Load the dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-2:-Data-Processing">Step 2: Data Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-3:-Train-CNN-model">Step 3: Train CNN model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Save-Trained-Model">Save Trained Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Load-Saved-Models">Load Saved Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-3:-Check-Trained-Model">Step 3: Check Trained Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-4:-Predict-Observational-data-using-the-trained-model">Step 4: Predict Observational data using the trained model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Tuned_CNN_v21_xNorm_yStand_WithMin_ToyML.html#Step-5:-tensorflow_probability">Step 5: tensorflow_probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html">Predict target features (brown dwarf parameters) using trained CNN model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#Step-1:-Load-the-training-dataset-(syntheric-spectra)">Step 1: Load the training dataset (syntheric spectra)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#Step-2:-Build-the-CNN-model-/-Data-processing">Step 2: Build the CNN model / Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#Step-3:-Load-the-Trained-CNN-model">Step 3: Load the Trained CNN model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#Step-4:-Predict-Observational-data-using-the-trained-CNN-model">Step 4: Predict Observational data using the trained CNN model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Predict_BrownDwarf_Parameters.html#THE-END">THE END</a></li>
 </ul>
 </div>
 </section>
@@ -159,7 +159,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="tutorials/EDA.html" class="btn btn-neutral float-right" title="Exploring the Example Dataset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorials/Data_Exploration.html" class="btn btn-neutral float-right" title="Exploring the Example Dataset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
@@ -180,7 +180,7 @@
   </div>
   <script>
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+          SphinxRtdTheme.Navigation.enable(false);
       });
   </script> 
 

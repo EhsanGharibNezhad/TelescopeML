@@ -58,14 +58,14 @@ def regression_report(trained_model,
 
     Args:
         trained_model (object): Trained regression model.
-        Xtrain (numpy.ndarray): Training set.
-        Xtest (numpy.ndarray): Test set.
-        ytrain (numpy.ndarray): Training target set.
-        ytest (numpy.ndarray): Test target set.
+        Xtrain (array): Training set.
+        Xtest (array): Test set.
+        ytrain (array): Training target set.
+        ytest (array): Test target set.
         target_i (int): Index of the target variable to analyze.
         xy_top (list, optional): Coordinates for annotations in the top plot. Defaults to [0.55, 0.85].
         xy_bottom (list, optional): Coordinates for annotations in the bottom plot. Defaults to [0.05, 0.8].
-        print_results (bool, optional): Whether to print the regression results. Defaults to True.
+        print_results (bool, optional): True or False.
     """
 
     # Apply the trained ML model on the train set to predict the targets
@@ -1119,7 +1119,7 @@ def plot_predicted_vs_spectra_errorbar(object_name,
         y_obs_error (list): List of error values corresponding to the observed feature values.
         training_datasets (list, optional): Training (or synthetic) datasets used for training the models. Default is None.
         predicted_targets_dic (dict, optional): Dictionary of predicted targets. Default is None.
-        __print_results__ (bool): Whether to print the results. Defaults to False.
+        __print_results__ (bool): True or False.
     """
     # Define maximum error threshold as a percentage of y-value
     max_error_threshold = 0.8
@@ -1202,7 +1202,7 @@ def plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar(stat_df,
         training_datasets (optional): Training datasets used for prediction. Default is None.
         predicted_targets_dic (optional): Dictionary of predicted targets. Default is None.
         # bd_object_class (optional): Object class. Default is None.
-        __print_results__ (bool): Whether to print the results. Defaults to False.
+        __print_results__ (bool): True or False.
 
 
     """
@@ -1316,8 +1316,8 @@ def calculate_confidence_intervals_std_df(dataset_df,
 
     Args:
         dataset_df (DataFrame): The input DataFrame containing the data.
-        __print_results__ (bool): Whether to print the results. Defaults to False.
-        __plot_calculate_confidence_intervals_std_df__ (bool): Whether to plot the results. Defaults to False.
+        __print_results__ (bool): True or False.
+        __plot_calculate_confidence_intervals_std_df__ (bool): True or False.
 
     Returns:
         DataFrame: A DataFrame with the calculated statistics.
@@ -1406,12 +1406,12 @@ def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Dat
     Create a Bokeh plot with custom error bars for two datasets.
 
     Args:
-        x_obs (array-like): X-axis values for observed dataset.
-        y_obs (array-like): Y-axis values for observed dataset.
-        err_obs (array-like): Error bars for observed dataset (positive values).
-        x_pre (array-like): X-axis values for predicted dataset.
-        y_pre (array-like): Y-axis values for predicted dataset.
-        err_pre (array-like): Error bars for predicted dataset (positive values).
+        x_obs (array): X-axis values for observed dataset.
+        y_obs (array): Y-axis values for observed dataset.
+        err_obs (array): Error bars for observed dataset (positive values).
+        x_pre (array): X-axis values for predicted dataset.
+        y_pre (array): Y-axis values for predicted dataset.
+        err_pre (array): Error bars for predicted dataset (positive values).
         title (str): Title of the plot (default is "Data with Error Bars").
 
     Returns:
@@ -1480,12 +1480,12 @@ def chi_square_test(x_obs, y_obs, yerr_obs,
     Perform the chi-square test to evaluate the similarity between two datasets with error bars.
 
     Args:
-        x_obs (array-like): The x-coordinates of the observed dataset.
-        y_obs (array-like): The y-coordinates of the observed dataset.
-        yerr_obs (array-like): The error bars associated with the observed dataset.
-        x_pre (array-like): The x-coordinates of the predicted dataset.
-        y_pre (array-like): The y-coordinates of the predicted dataset.
-        yerr_pre (array-like): The error bars associated with the predicted dataset.
+        x_obs (array): The x-coordinates of the observed dataset.
+        y_obs (array): The y-coordinates of the observed dataset.
+        yerr_obs (array): The error bars associated with the observed dataset.
+        x_pre (array): The x-coordinates of the predicted dataset.
+        y_pre (array): The y-coordinates of the predicted dataset.
+        yerr_pre (array): The error bars associated with the predicted dataset.
         radius (float): The radius value for comparison of points between datasets.
         __plot_results__ (bool, optional): If True, plot the results of the chi-square test. Defaults to False.
         __print_results__ (bool, optional): If True, print the results of the chi-square test. Defaults to True.
@@ -1559,9 +1559,9 @@ def plot_chi_square_p_value(radius, chi_square_list, p_value_list,
     Plot two lines on the same plot with twin y-axis.
 
     Args:
-        radius (array-like): The x-axis values.
-        chi_square_list (array-like): The y-axis values for the first line.
-        p_value_list (array-like): The y-axis values for the second line.
+        radius (array): The x-axis values.
+        chi_square_list (array): The y-axis values for the first line.
+        p_value_list (array): The y-axis values for the second line.
 
     Returns:
         None (displays the plot).
@@ -1616,8 +1616,8 @@ def find_closest_chi_square(df, chi_square_statistic_list):
         chi_square_statistic_list (list): List of chi-square test statistics.
 
     Returns:
-        float: The closest chi-square test statistic.
-        float: The p-value corresponding to the closest chi-square test.
+        closest_chi_square (float): The closest chi-square test statistic.
+        closest_p_value (float): The p-value corresponding to the closest chi-square test.
 
     """
     # Significance level (alpha)

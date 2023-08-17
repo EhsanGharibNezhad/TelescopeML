@@ -57,6 +57,17 @@ from bokeh.palettes import viridis
 
 
 class ObserveParameterPredictor:
+
+    """
+    Load, process, visualize observational spectra
+
+    Args:
+    ------
+        feature_values_obs (array): Fluxes for each feature (wavelength) from observational data
+        feature_values_obs_err (array):
+        feature_names_obs (array): Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron
+        feature_names_synthetic (array): Name of features (wavelengths) from synthetic data
+    """
     def __init__(self,
                  object_name,
                  training_dataset_df,
@@ -72,16 +83,7 @@ class ObserveParameterPredictor:
         self.bd_literature_dic = bd_literature_dic
 
 
-    """
-    Load, process, visualize observational spectra
 
-    Attribute
-    ---------
-    - feature_values_obs: Fluxes for each feature (wavelength) from observational data
-    - feature_values_obs_err: 
-    - feature_names_obs: Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron
-    - feature_names_synthetic: Name of features (wavelengths) from synthetic data
-    """
 
     def ProcessObservationalDataset(self,
                                     feature_values_obs,
@@ -92,11 +94,12 @@ class ObserveParameterPredictor:
         """
         Process the observational dataset and set various attributes of the object.
 
-        Args:
-            feature_values_obs (array-like): Observed feature values.
-            feature_values_obs_err (array-like): Errors corresponding to the observed feature values.
-            feature_names_obs (array-like): Names of the observed features.
-            feature_names_synthetic (array-like): Names of the synthetic features.
+        Inputs:
+        -------
+            feature_values_obs (array): Observed feature values.
+            feature_values_obs_err (array): Errors corresponding to the observed feature values.
+            feature_names_obs (array): Names of the observed features.
+            feature_names_synthetic (array): Names of the synthetic features.
             bd_literature_dic (dict): Dictionary containing literature information. Defaults to None.
         """
 
@@ -122,9 +125,12 @@ class ObserveParameterPredictor:
         Convert F_lambda to F_nu along with error propagation.
 
         Returns:
-            fnu_values (array-like): Array of flux density values in F_nu.
-            fnu_errors (array-like): Array of error bars for the flux density values in F_nu.
+        ----------
+            fnu_values (array): Array of flux density values in F_nu.
+
+            fnu_errors (array): Array of error bars for the flux density values in F_nu.
         """
+
         flam_values = self.feature_values_obs
         flam_errors = self.feature_values_obs_err
         wavelengths = self.feature_names_obs
@@ -146,9 +152,10 @@ class ObserveParameterPredictor:
         """
         Perform flux interpolation using either SpectRes or pchip interpolation.
 
-        Args:
-            __print_results__ (bool): Whether to print the results. Defaults to False.
-            __plot_spectra_errorbar__ (bool): Whether to plot the results. Defaults to True.
+        Inputs:
+        -------
+            __print_results__ (bool): True or False.
+            __plot_spectra_errorbar__ (bool): True or False.
             use_spectres (bool): Whether to use SpectRes for interpolation. Defaults to True.
         """
         if use_spectres:
@@ -202,8 +209,8 @@ class ObserveParameterPredictor:
         Load the observational spectra, process the dataset, and optionally plot the observational spectra with error bars.
 
         Args:
-            __plot_observational_spectra_errorbar__ (bool): Whether to plot the observational spectra with error bars. Defaults to True.
-            _replace_zeros_with_mean_ (bool): Whether to replace zeros with the mean of their non-zero neighbors. Defaults to True.
+            __plot_observational_spectra_errorbar__ (bool): True or False.
+            _replace_zeros_with_mean_ (bool): True or False.
         """
         # Load the observational spectra
         obs_data_df = pd.read_csv(f'../datasets/observational_spectra/{self.object_name}_fluxcal.dat',
@@ -244,8 +251,8 @@ class ObserveParameterPredictor:
         Process the observational dataset, extract ML features, perform predictions, and optionally print the results and plot the predicted versus observed spectra.
 
         Args:
-            __print_results__ (bool): Whether to print the results. Defaults to True.
-            __plot_predicted_vs_observed__ (bool): Whether to plot the predicted versus observed spectra. Defaults to True.
+            __print_results__ (bool): True or False.
+            __plot_predicted_vs_observed__ (bool): True or False.
         """
 
         # Instantiate ProcessObservationalDataset class
@@ -326,20 +333,23 @@ class ObserveParameterPredictor:
             __calculate_confidence_intervals_std_df__=False,
     ):
         """
+        Tasks:
+        ---------
         - Generate random spectra based on the observational data,
         - Perform predictions on the generated spectra
         - Provide various plotting and analysis options.
 
         Args:
+        --------
             random_spectra_num (int): Number of random spectra to generate. Defaults to 10.
-            __print_results__ (bool): Whether to print the results. Defaults to True.
-            __plot_randomly_generated_spectra__ (bool): Whether to plot the randomly generated spectra. Defaults to True.
-            __plot_histogram__ (bool): Whether to plot the histogram of predicted parameters. Defaults to True.
-            __plot_boxplot_hist__ (bool): Whether to plot the boxplot and histogram of predicted parameters. Defaults to True.
-            __plot_predicted_vs_observed__ (bool): Whether to plot the predicted versus observed spectra. Defaults to True.
-            __plot_predicted_vs_spectra_errorbar__ (bool): Whether to plot the predicted versus observed spectra with error bars. Defaults to True.
-            __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__ (bool): Whether to plot the predicted random spectra versus observed spectra with error bars. Defaults to True.
-            __calculate_confidence_intervals_std_df__ (bool): Whether to calculate and plot confidence intervals and standard deviations. Defaults to True.
+            __print_results__ (bool): True or False.
+            __plot_randomly_generated_spectra__ (bool): True or False.
+            __plot_histogram__ (bool): True or False.
+            __plot_boxplot_hist__ (bool): True or False.
+            __plot_predicted_vs_observed__ (bool): True or False.
+            __plot_predicted_vs_spectra_errorbar__ (bool): True or False.
+            __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__ (bool): True or False.
+            __calculate_confidence_intervals_std_df__ (bool): True or False.
         """
 
         color = viridis(250).__iter__()
