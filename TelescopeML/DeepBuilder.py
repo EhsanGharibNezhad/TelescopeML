@@ -47,42 +47,29 @@ class BuildRegressorCNN:
     Build Convolutional Neural Networks using Regression approach
 
     Tasks:
-    - Process dataset: Scale, split_train_val_test
-    - Train CNN model
-    - Optimize
-    - Feature reduction: PCA, RFE
-    - Output: Save trained models, metrics
+        - Process dataset: Scale, split_train_val_test
+        - Train CNN model
+        - Optimize
+        - Feature reduction: PCA, RFE
+        - Output: Save trained models, metrics
 
     Attributes:
-    - trained_model: object
-        Trained ML model (optional)
-    - trained_model_history: dict
-        History dict from the trained model
-    - feature_values: array
-        Flux arrays (input data)
-    - feature_names: list
-        Name of wavelength in micron
-    - target_values: array
-        Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity)
-    - target_name: str
-        Name of the target variable
-    - is_hyperparam_tuned: str
-        Indicates whether hyperparameters are tuned or not ('yes' or 'no')
-    - param_grid: dict
-        ML hyperparameters to be tuned (used if is_hyperparam_tuned = 'yes')
-    - spectral_resolution: int
-        Resolution of the synthetic spectra used to generate the dataset
-    - feature_improvement_method: str
-        Indicates the method used for feature improvement ('no', 'pca', 'RFE')
-    - augmentation_method: str
-        Indicates if augmented dataset is used ('no' or method name)
-    - ml_model: object
-        ML model object from sklearn package
-    - ml_model_str: str
-        Name of the ML model
+        - trained_model (object): Trained ML model (optional)
+        - trained_model_history (dict): History dict from the trained model
+        - feature_values (array): Flux arrays (input data)
+        - feature_names (list): Name of wavelength in micron
+        - target_values (array): Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity)
+        - target_name (str): Name of the target variable
+        - is_hyperparam_tuned (str): Indicates whether hyperparameters are tuned or not ('yes' or 'no')
+        - param_grid (dict): ML hyperparameters to be tuned (used if is_hyperparam_tuned = 'yes')
+        - spectral_resolution (int): Resolution of the synthetic spectra used to generate the dataset
+        - feature_improvement_method (str): Indicates the method used for feature improvement ('no', 'pca', 'RFE')
+        - augmentation_method (str): Indicates if augmented dataset is used ('no' or method name)
+        - ml_model (object): ML model object from sklearn package
+        - ml_model_str (str): Name of the ML model
 
     Outputs:
-    - Trained ML models
+        - Trained ML models
     """
 
     def __init__(
@@ -128,12 +115,10 @@ class BuildRegressorCNN:
         Split the loaded set into train and test sets
 
         Inputs:
-        - test_size: float
-            The proportion of the dataset to include in the test split
+          - test_size (float): The proportion of the dataset to include in the test split
 
         Returns:
-        - X_train, X_test, y_train, y_test: arrays
-            Train and test datasets for features and targets
+            - X_train (array), X_test (array), y_train (array), y_test (array): Train and test datasets for features and targets
 
         References:
         - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
@@ -152,16 +137,12 @@ class BuildRegressorCNN:
         Split the loaded set into train, validation, and test sets
 
         Inputs:
-        - test_size: float
-            Proportion of the dataset to include in the test split
-        - val_size: float
-            Proportion of the remaining train dataset to include in the validation split
+            - test_size (float): Proportion of the dataset to include in the test split
+            - val_size (float): Proportion of the remaining train dataset to include in the validation split
 
         Returns:
-        - self.X_train, self.X_val, self.X_test: arrays
-            Used to train, validate, and evaluate the machine learning model, respectively
-        - self.y_train, self.y_val, self.y_test: arrays
-            Targets used for training, validation, and testing the models
+            - self.X_train (array), self.X_val (array), self.X_test (array): Used to train, validate, and evaluate the machine learning model, respectively
+            - self.y_train (array), self.y_val (array), self.y_test (array): Targets used for training, validation, and testing the models
 
         References:
         - SciKit: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
@@ -193,15 +174,15 @@ class BuildRegressorCNN:
         Transform your data such that its values are within the specified range [0, 1].
 
         Inputs:
-            - X_train (numpy array): Training feature matrix
-            - X_val (numpy array): Validation feature matrix
-            - X_test (numpy array): Test feature matrix
+            - X_train (array): Training feature matrix
+            - X_val (array): Validation feature matrix
+            - X_test (array): Test feature matrix
             - print_model (bool): Whether to print the trained normalizer model
 
         Assigns:
-            - self.X_train_normalized_columnwise (numpy array): Normalized training feature matrix
-            - self.X_val_normalized_columnwise (numpy array): Normalized validation feature matrix
-            - self.X_test_normalized_columnwise (numpy array): Normalized test feature matrix
+            - self.X_train_normalized_columnwise (array): Normalized training feature matrix
+            - self.X_val_normalized_columnwise (array): Normalized validation feature matrix
+            - self.X_test_normalized_columnwise (array): Normalized test feature matrix
             - self.normalize_X_ColumnWise (MinMaxScaler): Trained normalizer object
         """
         # Set default values if None is provided
@@ -229,15 +210,15 @@ class BuildRegressorCNN:
         Transform your data such that its values are within the specified range [0, 1].
 
         Inputs:
-            - X_train (numpy array): Training feature matrix
-            - X_val (numpy array): Validation feature matrix
-            - X_test (numpy array): Test feature matrix
+            - X_train (array): Training feature matrix
+            - X_val (array): Validation feature matrix
+            - X_test (array): Test feature matrix
             - print_model (bool): Whether to print the trained normalizer model
 
         Assigns:
-            - self.X_train_normalized_rowwise (numpy array): Normalized training feature matrix
-            - self.X_val_normalized_rowwise (numpy array): Normalized validation feature matrix
-            - self.X_test_normalized_rowwise (numpy array): Normalized test feature matrix
+            - self.X_train_normalized_rowwise (array): Normalized training feature matrix
+            - self.X_val_normalized_rowwise (array): Normalized validation feature matrix
+            - self.X_test_normalized_rowwise (array): Normalized test feature matrix
         """
         # Set default values if None is provided
         X_train = self.X_train if X_train is None else X_train
@@ -264,15 +245,15 @@ class BuildRegressorCNN:
         Transform the data such that its values are within the specified range [0, 1].
 
         Inputs:
-            - y_train (numpy array): Training target variable array
-            - y_val (numpy array): Validation target variable array
-            - y_test (numpy array): Test target variable array
+            - y_train (array): Training target variable array
+            - y_val (array): Validation target variable array
+            - y_test (array): Test target variable array
             - print_model (bool): Whether to print the trained scaler model
 
         Assigns:
-            - self.y_train_normalized_columnwise (numpy array): Scaled training target variable array
-            - self.y_val_normalized_columnwise (numpy array): Scaled validation target variable array
-            - self.y_test_normalized_columnwise (numpy array): Scaled test target variable array
+            - self.y_train_normalized_columnwise (array): Scaled training target variable array
+            - self.y_val_normalized_columnwise (array): Scaled validation target variable array
+            - self.y_test_normalized_columnwise (array): Scaled test target variable array
         """
         # Set default values if None is provided
         y_train = self.y_train if y_train is None else y_train
@@ -299,15 +280,15 @@ class BuildRegressorCNN:
         Transform the data such that its distribution will have a mean value of 0 and a standard deviation of 1.
 
         Inputs:
-            - y_train (numpy array): Training target variable array
-            - y_val (numpy array): Validation target variable array
-            - y_test (numpy array): Test target variable array
+            - y_train (array): Training target variable array
+            - y_val (array): Validation target variable array
+            - y_test (array): Test target variable array
             - print_model (bool): Whether to print the trained scaler model
 
         Assigns:
-            - self.y_train_standardized_columnwise (numpy array): Standardized training target variable array
-            - self.y_val_standardized_columnwise (numpy array): Standardized validation target variable array
-            - self.y_test_standardized_columnwise (numpy array): Standardized test target variable array
+            - self.y_train_standardized_columnwise (array): Standardized training target variable array
+            - self.y_val_standardized_columnwise (array): Standardized validation target variable array
+            - self.y_test_standardized_columnwise (array): Standardized test target variable array
         """
         # Set default values if None is provided
         y_train = self.y_train if y_train is None else y_train
@@ -334,15 +315,15 @@ class BuildRegressorCNN:
         Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.
 
         Inputs:
-            - X_train (numpy array): Training feature matrix
-            - X_val (numpy array): Validation feature matrix
-            - X_test (numpy array): Test feature matrix
+            - X_train (array): Training feature matrix
+            - X_val (array): Validation feature matrix
+            - X_test (array): Test feature matrix
             - print_model (bool): Whether to print the trained scaler model
 
         Assigns:
-            - self.X_train_standardized_columnwise (numpy array): Standardized training feature matrix
-            - self.X_val_standardized_columnwise (numpy array): Standardized validation feature matrix
-            - self.X_test_standardized_columnwise (numpy array): Standardized test feature matrix
+            - self.X_train_standardized_columnwise (array): Standardized training feature matrix
+            - self.X_val_standardized_columnwise (array): Standardized validation feature matrix
+            - self.X_test_standardized_columnwise (array): Standardized test feature matrix
         """
         # Set default values if None is provided
         X_train = self.X_train if X_train is None else X_train
@@ -375,15 +356,15 @@ class BuildRegressorCNN:
         Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.
 
         Inputs:
-            - X_train (numpy array): Training feature matrix
-            - X_val (numpy array): Validation feature matrix
-            - X_test (numpy array): Test feature matrix
+            - X_train (array): Training feature matrix
+            - X_val (array): Validation feature matrix
+            - X_test (array): Test feature matrix
             - print_model (bool): Whether to print the trained scaler model
 
         Assigns:
-            - self.X_train_standardized_columnwise (numpy array): Standardized training feature matrix
-            - self.X_val_standardized_columnwise (numpy array): Standardized validation feature matrix
-            - self.X_test_standardized_columnwise (numpy array): Standardized test feature matrix
+            - self.X_train_standardized_columnwise (array): Standardized training feature matrix
+            - self.X_val_standardized_columnwise (array): Standardized validation feature matrix
+            - self.X_test_standardized_columnwise (array): Standardized test feature matrix
         """
         # Set default values if None is provided
         X_train = self.X_train if X_train is None else X_train
