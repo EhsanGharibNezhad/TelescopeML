@@ -1,4 +1,4 @@
-name: telescopeML2
+name: ml
 channels:
   - anaconda
   - conda-forge
@@ -74,7 +74,6 @@ dependencies:
   - ipykernel=6.15.2
   - ipython=8.6.0
   - ipython_genutils=0.2.0
-  - ipywidgets=7.6.5
   - jdcal=1.4.1
   - jedi=0.18.1
   - jinja2=3.1.2
@@ -93,7 +92,6 @@ dependencies:
   - jupyter_nbextensions_configurator=0.4.1
   - jupyter_server=1.18.1
   - jupyterlab_pygments=0.1.2
-  - jupyterlab_widgets=1.0.0
   - kealib=1.4.14
   - kiwisolver=1.4.2
   - krb5=1.19.2
@@ -245,7 +243,6 @@ dependencies:
   - wasabi=0.9.1
   - wcwidth=0.2.5
   - webencodings=0.5.1
-  - widgetsnbextension=3.5.2
   - xerces-c=3.2.3
   - xlrd=2.0.1
   - xz=5.2.6
@@ -268,9 +265,11 @@ dependencies:
     - base==1.0.4
     - base58==2.1.1
     - blinker==1.4
-    - bokeh==2.4.2
+    - bokeh==3.2.1
     - bottleneck==1.2.1
+    - build==0.10.0
     - cachetools==4.2.4
+    - chardet==4.0.0
     - chart-studio==1.1.0
     - clang==5.0
     - cloudpickle==2.0.0
@@ -278,6 +277,7 @@ dependencies:
     - colorlover==0.3.0
     - config==0.5.1
     - configspace==0.7.2
+    - contourpy==1.1.0
     - cufflinks==0.17.3
     - cv==1.0.0
     - cython==0.29.25
@@ -321,15 +321,18 @@ dependencies:
     - imageio==2.10.3
     - imagesize==1.3.0
     - imbalanced-learn==0.8.0
-    - importlib-metadata==4.11.3
+    - importlib-metadata==6.8.0
     - imutils==0.5.4
+    - ipywidgets==8.0.7
     - jellyfish==0.6.1
     - json5==0.9.6
+    - jupyter-bokeh==3.0.7
     - jupyter-contrib-core==0.3.3
     - jupyter-server==1.11.0
     - jupyterlab==3.1.11
     - jupyterlab-server==2.8.1
     - jupyterlab-sql==0.3.3
+    - jupyterlab-widgets==3.0.8
     - kaggle==1.5.12
     - keras==2.6.0
     - keras-preprocessing==1.1.2
@@ -348,8 +351,9 @@ dependencies:
     - nbclassic==0.3.1
     - nbsphinx==0.8.10
     - netifaces==0.11.0
+    - nine==0.0.4
     - numba==0.54.1
-    - numpy==1.20.3
+    - numpy==1.19.5
     - oauthlib==3.1.1
     - opencv-contrib-python==4.5.4.58
     - opencv-python==4.5.4.58
@@ -361,8 +365,9 @@ dependencies:
     - partd==1.2.0
     - patsy==0.5.1
     - phik==0.12.0
+    - photutils==1.8.0
     - pillow==8.4.0
-    - pip==23.0.1
+    - pip==23.2.1
     - pmdarima==1.8.4
     - pooch==1.5.2
     - promise==2.3
@@ -381,7 +386,9 @@ dependencies:
     - pyhive==0.6.4
     - pympler==0.9
     - pymysql==1.0.2
+    - pyproject-hooks==1.0.0
     - pyro4==4.82
+    - pysynphot==2.0.0
     - python-graphviz==0.17
     - python-slugify==6.1.1
     - pytz-deprecation-shim==0.1.0.post0
@@ -396,7 +403,7 @@ dependencies:
     - scikit-image==0.18.3
     - scikit-optimize==0.9.0
     - serpent==1.41
-    - setuptools==58.0.4
+    - setuptools==68.0.0
     - six==1.15.0
     - smmap==5.0.0
     - snowballstemmer==2.2.0
@@ -404,9 +411,13 @@ dependencies:
     - soundfile==0.10.3.post1
     - spectres==2.2.0
     - sphinx==5.3.0
+    - sphinx-copybutton==0.5.2
+    - sphinx-gallery==0.13.0
+    - sphinx-rtd-theme==1.2.2
     - sphinxcontrib-applehelp==1.0.2
     - sphinxcontrib-devhelp==1.0.2
     - sphinxcontrib-htmlhelp==2.0.0
+    - sphinxcontrib-jquery==4.1
     - sphinxcontrib-jsmath==1.0.1
     - sphinxcontrib-qthelp==1.0.3
     - sphinxcontrib-serializinghtml==1.1.5
@@ -433,6 +444,7 @@ dependencies:
     - tifffile==2021.11.2
     - tokenizers==0.10.3
     - toml==0.10.2
+    - tomli==2.0.1
     - toolz==0.11.2
     - torch==1.9.1
     - transformers==4.11.3
@@ -449,10 +461,12 @@ dependencies:
     - websocket-client==1.2.1
     - werkzeug==2.0.2
     - wheel==0.37.0
+    - widgetsnbextension==4.0.8
     - wordcloud==1.8.1
     - wrapt==1.12.1
     - xarray==2022.3.0
     - xgboost==1.7.0
+    - xyzservices==2023.7.0
     - zict==2.1.0
     - zipp==3.11.0
 prefix: /usr/local/anaconda3/envs/ml
