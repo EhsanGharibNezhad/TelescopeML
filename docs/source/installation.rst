@@ -7,23 +7,28 @@ Installation
 
 .. note::
 
-    ``TelescopeML`` is written in `python3` and therefore requires an environment with python>=3.8.
+    The installation of the ``TelescopeML`` package consists of two steps:
+    1. Installing the environment which has all the necessirily statistics, machine larning and astronomy packages.
+    2. Installing all modules of the ``TelescopeML``
+
+
+ , the following two steps should be  is written in `python3` and therefore requires an environment with python>=3.8.
     To utilize all modules in the library in full capacity (e.g., explore data, train CNNs, predict results),
     the following methods are recommended:
 
 
 Method 1: Install with Git (Recommended)
 -----------------------------------------
-If you want to access the latest features or modify the code and contribute,
+If you want to access the latest features or modify the code,
 we suggest that you clone the source code from GitHub by following steps:
 
-1. Clone the repo and create Anaconda environment named `TelescopeML`:
+1. Clone the repo and create Conda environment named `TelescopeML`:
 
 .. code-block:: bash
 
     git clone https://github.com/ehsangharibnezhad/TelescopeML.git
     cd TelescopeML
-    conda TelescopeML create -f environment.yml
+    conda env create -f environment.yml
 
 
 2. Activate the new environment and verify it:

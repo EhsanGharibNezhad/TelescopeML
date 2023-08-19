@@ -8,12 +8,6 @@
 
 from setuptools import setup, find_packages
 
-with open('README.rst') as f:
-    readme = f.read()
-
-with open('LICENSE') as f:
-    license = f.read()
-
 setup(
     name='TelescopeML',
     version = '0.0.0',
@@ -23,7 +17,7 @@ setup(
     author_email = 'e.gharibnezhad@gmail.com',
     url = 'https://ehsangharibnezhad.github.io/TelescopeML',
     license = 'GPL-3.0',
-    download_url = 'https://ehsangharibnezhad.github.io/TelescopeML',
+    download_url = 'https://github.com/EhsanGharibNezhad/TelescopeML',
     classifiers = [
                   'Intended Audience :: Science/Research',
                   'License :: GNU General Public License v3.0',
