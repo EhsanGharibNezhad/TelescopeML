@@ -21,4 +21,4 @@ classifiers = [
 
 [project.urls]
 "Homepage" = "https://ehsangharibnezhad.github.io/TelescopeML"
-"Bug Tracker" = "https://ehsangharibnezhad.github.io/TelescopeML"
+"Bug Tracker" = "https://github.com/EhsanGharibNezhad/TelescopeML"
