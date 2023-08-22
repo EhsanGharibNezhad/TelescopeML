@@ -31,12 +31,16 @@ from bokeh.models import ColumnDataSource
 
 def print_results_fun(targets, print_title=None):
     """
-    Print the outputs in a pretty format using pprint library.
+    Print the outputs in a pretty format using the pprint library.
 
-    Parameters:
-        targets (any): The data to be printed.
-        print_title (str): An optional title to display before the printed data.
+    Parameters
+    ----------
+    targets : any
+        The data to be printed.
+    print_title : str
+        An optional title to display before the printed data.
     """
+
     print('*' * 30 + '\n')
 
     if print_title is not None:
@@ -52,20 +56,30 @@ def print_results_fun(targets, print_title=None):
 def regression_report(trained_model,
                       Xtrain, Xtest, ytrain, ytest,
                       target_i,
-                      xy_top=None, xy_bottom=None, print_results= False):
+                      xy_top=None, xy_bottom=None, __print_results__= False):
     """
     Generate a regression report for the trained ML/CNN model.
 
-    Args:
-        trained_model (object): Trained regression model.
-        Xtrain (array): Training set.
-        Xtest (array): Test set.
-        ytrain (array): Training target set.
-        ytest (array): Test target set.
-        target_i (int): Index of the target variable to analyze.
-        xy_top (list, optional): Coordinates for annotations in the top plot. Defaults to [0.55, 0.85].
-        xy_bottom (list, optional): Coordinates for annotations in the bottom plot. Defaults to [0.05, 0.8].
-        print_results (bool, optional): True or False.
+    Parameters
+    -----------
+    trained_model : object
+        Trained regression model.
+    Xtrain : array
+        Training set.
+    Xtest : array
+        Test set.
+    ytrain : array
+        Training target set.
+    ytest : array
+        Test target set.
+    target_i : int
+        Index of the target variable to analyze.
+    xy_top : list, optional
+        Coordinates for annotations in the top plot. Defaults to [0.55, 0.85].
+    xy_bottom : list, optional
+        Coordinates for annotations in the bottom plot. Defaults to [0.05, 0.8].
+    __print_results__ : bool, optional
+        True or False.
     """
 
     # Apply the trained ML model on the train set to predict the targets
@@ -121,7 +135,7 @@ def regression_report(trained_model,
         f, axs = plt.subplots(2, 1, figsize=(5, 5), sharey=False, sharex=False,
                               gridspec_kw=dict(height_ratios=[1, 3]))
 
-        if print_results:
+        if __print_results__:
             print('\n\n----------------------- Test ------------------------')
             print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
                 r2_score_test, rmse_score_train, mean_test, std_test))
@@ -164,12 +178,10 @@ def regression_report(trained_model,
         plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
         plt.show()
 
-
-
-
-
-
 def filter_dataset_range(dataset, filter_params):
+    """
+    filer the dataframe
+    """
     filtered_df = dataset.copy()
 
     for param, bounds in filter_params.items():
@@ -179,6 +191,9 @@ def filter_dataset_range(dataset, filter_params):
     return filtered_df
 
 def find_nearest_top_bottom(value, lst):
+    """
+    Find the nearest value in the list of data
+    """
     lst.sort()
     nearest_top = None
     nearest_bottom = None
@@ -205,6 +220,16 @@ def find_nearest_top_bottom(value, lst):
 def interpolate_df(dataset,
                    predicted_targets_dic,
                    print_results_=False):
+    """
+    Interpolate the training set.
+
+    Parameters
+    ----------
+    dataset : array
+        The training dataset to be interpolated.
+    predicted_targets_dic : dict
+        Target features to be interpolated.
+    """
 
     my_list_g = list(dataset['gravity'].sort_values().unique())
     my_list_met = list(dataset['metallicity'].sort_values().unique())
@@ -465,393 +490,6 @@ def interpolate_df(dataset,
     return df_interpolated_final
 
 
-
-def interpolate_df_old(dataset,
-                   predicted_targets_dic,
-                   print_results_ = False):
-
-
-
-    my_list_g = list(dataset['gravity'].sort_values().unique())
-    my_list_met = list(dataset['metallicity'].sort_values().unique())
-    my_list_c_o = list(dataset['c_o_ratio'].sort_values().unique())
-    my_list_T = list(dataset['temperature'].sort_values().unique())
-
-
-    g0, g1 = find_nearest_top_bottom(predicted_targets_dic['gravity'], my_list_g)
-    co0, co1 = find_nearest_top_bottom(predicted_targets_dic['c_o_ratio'], my_list_c_o)
-    met0, met1 = find_nearest_top_bottom(predicted_targets_dic['metallicity'], my_list_met)
-    T0, T1 = find_nearest_top_bottom(predicted_targets_dic['temperature'], my_list_T)
-
-    filter_params = {'gravity': (g0 , g1),
-                     'temperature': (T0,T1),
-                     'c_o_ratio': (co0, co1),
-                     'metallicity': (met0, met1)}
-
-    df_to_interpolate = filter_dataset_range(dataset, filter_params).reset_index(drop=True)
-
-
-    my_list_g = list(df_to_interpolate['gravity'].sort_values().unique())
-    my_list_met = list(df_to_interpolate['metallicity'].sort_values().unique())
-    my_list_c_o = list(df_to_interpolate['c_o_ratio'].sort_values().unique())
-    my_list_T = list(df_to_interpolate['temperature'].sort_values().unique())
-
-    if print_results_:
-        print(my_list_g, my_list_c_o, my_list_T, my_list_met)
-
-
-
-    df_interpolated_ = pd.DataFrame(columns=df_to_interpolate.drop(
-            columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
-    df_interpolated_all = []
-
-
-
-
-    for temp in my_list_T:
-        for grav in my_list_g:
-            for met in my_list_met:
-                for c_o in range(0,len(my_list_c_o)-1):
-                    #print(temp, grav, met, c_o)
-
-
-                    filter_params = {'gravity': (grav, grav),
-                     'temperature': (temp, temp),
-                     'c_o_ratio': (my_list_c_o[c_o], my_list_c_o[c_o+1]),
-                     'metallicity': (met, met)}
-
-
-
-                    df_to_interpolate_ = filter_dataset_range(dataset, filter_params).reset_index(
-                    drop=True)#.drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
-
-
-                    # print(df_to_interpolate)
-                    data = df_to_interpolate_.drop(columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
-
-
-
-                    y = df_to_interpolate_['c_o_ratio'].to_numpy()
-
-                    column_grid = data.columns.to_numpy().astype(float)
-                    values = df_to_interpolate_.drop(columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
-
-                    interp_func = RegularGridInterpolator((y,column_grid),values)
-
-                    # Define the coordinates for interpolation
-                    xi = column_grid  # x-coordinates for interpolation
-
-                    yi = predicted_targets_dic['c_o_ratio']
-                    #np.append(np.arange(y[0], y[1], abs(y[1] - y[0])/5, dtype=np.float64),y[1])  # y-coordinates for interpolation
-                    xi_mesh, yi_mesh = np.meshgrid(xi, yi, indexing='ij')  # Meshgrid for interpolation
-
-                    # Perform interpolation
-                    df_interpolated_ = pd.DataFrame(interp_func((yi_mesh, xi_mesh)).T, columns=data.columns, dtype=np.float64)
-                    df_interpolated_['c_o_ratio'] = yi_mesh[0]
-                    df_interpolated_['temperature'] = temp
-                    df_interpolated_['metallicity'] = met
-                    df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
-
-                    df_interpolated_all.append(df_interpolated_)
-
-
-    # df_interpolated_all = df_interpolated_.append(df_interpolated_all, ignore_index=True)
-    # df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
-    df_interpolated_all = pd.concat([df_interpolated_] + df_interpolated_all, ignore_index=True)
-
-
-    # df_interpolated_.append(df_interpolated_all, ignore_index=True)
-    df_combined = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
-    df_interpolated_ = df_combined
-
-    # ***************************************************************************************
-
-    my_list_g = list(df_interpolated_all['gravity'].sort_values().unique())
-    my_list_met = list(df_interpolated_all['metallicity'].sort_values().unique())
-    my_list_c_o = list(df_interpolated_all['c_o_ratio'].sort_values().unique())
-    my_list_T = list(df_interpolated_all['temperature'].sort_values().unique())
-
-    # print(my_list_g, my_list_c_o, my_list_T, my_list_met)
-
-
-    df_interpolated_all2 = df_interpolated_all
-    df_interpolated_all2.drop_duplicates(inplace=True)
-
-    df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-            columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
-    df_interpolated_all = []
-
-
-
-    for c_o in my_list_c_o:
-        for temp in my_list_T:
-            for grav in my_list_g:
-                for met in range(0,len(my_list_met)-1):
-                    #print(temp, grav, met, c_o)
-
-
-                    filter_params = {'gravity': (grav, grav),
-                     'temperature': (temp, temp),
-                     'c_o_ratio': (c_o, c_o),
-                     'metallicity': (my_list_met[met], my_list_met[met+1] )}
-
-
-
-                    df_to_interpolate_ = filter_dataset_range(df_interpolated_all2, filter_params).reset_index(
-                    drop=True)#.drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
-
-                    # print(df_to_interpolate_)
-
-
-                    # print(df_to_interpolate)
-                    data = df_to_interpolate_.drop(columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
-
-
-
-                    y = df_to_interpolate_['metallicity'].to_numpy()
-                    #print(y)
-
-                    column_grid = data.columns.to_numpy().astype(float)
-                    values = df_to_interpolate_.drop(columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
-
-                    interp_func = RegularGridInterpolator((y,column_grid),values)
-
-                    # Define the coordinates for interpolation
-                    xi = column_grid  # x-coordinates for interpolation
-
-                    yi = predicted_targets_dic['metallicity']
-                    #np.append(np.arange(y[0], y[1], abs(y[1] - y[0])/5, dtype=np.float64),y[1])  # y-coordinates for interpolation
-                    xi_mesh, yi_mesh = np.meshgrid(xi, yi, indexing='ij')  # Meshgrid for interpolation
-
-                    # Perform interpolation
-                    df_interpolated_ = pd.DataFrame(interp_func((yi_mesh, xi_mesh)).T, columns=data.columns, dtype=np.float64)
-                    df_interpolated_['metallicity'] = yi_mesh[0]
-                    df_interpolated_['temperature'] = temp
-                    df_interpolated_['c_o_ratio'] = c_o
-                    df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
-
-                    df_interpolated_all.append(df_interpolated_)
-
-
-    # df_interpolated_all = df_interpolated_.append(df_interpolated_all, ignore_index=True)
-    df_interpolated_all = pd.concat([df_interpolated_] + df_interpolated_all, ignore_index=True)
-
-    # ************************************************************************************
-
-
-    my_list_g = list(df_interpolated_all['gravity'].sort_values().unique())
-    my_list_met = list(df_interpolated_all['metallicity'].sort_values().unique())
-    my_list_c_o = list(df_interpolated_all['c_o_ratio'].sort_values().unique())
-    my_list_T = list(df_interpolated_all['temperature'].sort_values().unique())
-
-    if print_results_:
-        print(my_list_g, my_list_c_o, my_list_T, my_list_met)
-
-
-    df_interpolated_all2 = df_interpolated_all
-    df_interpolated_all2.drop_duplicates(inplace=True)
-
-
-    df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-            columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
-    df_interpolated_all = []
-
-
-    # df_interpolated_all = df_interpolated_all_c_o.append(df_interpolated_all_c_o_list, ignore_index=True)
-
-
-    for c_o in my_list_c_o:
-        for met in my_list_met:
-            for grav in my_list_g:
-                for temp in range(0,len(my_list_T)-1):
-                    #print(temp, grav, met, c_o)
-
-
-                    filter_params = {'gravity': (grav, grav),
-                     'temperature': (my_list_T[temp], my_list_T[temp+1]),
-                     'c_o_ratio': (c_o, c_o),
-                     'metallicity': (met, met )}
-
-
-
-                    df_to_interpolate_ = filter_dataset_range(df_interpolated_all2, filter_params).reset_index(
-                    drop=True)#.drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
-
-
-                    # print(df_to_interpolate)
-                    data = df_to_interpolate_.drop(columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
-
-
-
-                    y = df_to_interpolate_['temperature'].to_numpy()
-                    #print(y)
-
-                    column_grid = data.columns.to_numpy().astype(float)
-                    values = df_to_interpolate_.drop(columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
-
-                    interp_func = RegularGridInterpolator((y,column_grid),values)
-
-                    # Define the coordinates for interpolation
-                    xi = column_grid  # x-coordinates for interpolation
-
-                    yi = predicted_targets_dic['temperature']
-
-                    xi_mesh, yi_mesh = np.meshgrid(xi, yi, indexing='ij')  # Meshgrid for interpolation
-
-                    # Perform interpolation
-                    df_interpolated_ = pd.DataFrame(interp_func((yi_mesh, xi_mesh)).T, columns=data.columns, dtype=np.float64)
-                    df_interpolated_['temperature'] = yi_mesh[0]
-                    df_interpolated_['metallicity'] = met
-                    df_interpolated_['c_o_ratio'] = c_o
-                    df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
-
-                    df_interpolated_all.append(df_interpolated_)
-
-
-    # df_interpolated_all = df_interpolated_.append(df_interpolated_all, ignore_index=True)
-    df_interpolated_all = pd.concat([df_interpolated_] + df_interpolated_all, ignore_index=True)
-
-    # ******************************************************************************************
-
-
-    my_list_g = list(df_interpolated_all['gravity'].sort_values().unique())
-    my_list_met = list(df_interpolated_all['metallicity'].sort_values().unique())
-    my_list_c_o = list(df_interpolated_all['c_o_ratio'].sort_values().unique())
-    my_list_T = list(df_interpolated_all['temperature'].sort_values().unique())
-
-
-
-    df_interpolated_all2 = df_interpolated_all
-    df_interpolated_all2.drop_duplicates(inplace=True)
-
-
-    df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-            columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
-    df_interpolated_all = []
-
-
-
-    for c_o in my_list_c_o:
-        for met in my_list_met:
-            for temp in my_list_T:
-                for grav in range(0,len(my_list_g)-1):
-                    #print(temp, grav, met, c_o)
-
-
-                    filter_params = {'gravity': (my_list_g[grav], my_list_g[grav+1]),
-                     'temperature': (temp, temp),
-                     'c_o_ratio': (c_o, c_o),
-                     'metallicity': (met, met )}
-
-
-
-                    df_to_interpolate_ = filter_dataset_range(df_interpolated_all2, filter_params).reset_index(
-                    drop=True)#.drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
-
-                    # print(df_to_interpolate_)
-
-
-                    # print(df_to_interpolate)
-                    data = df_to_interpolate_.drop(columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
-
-
-
-                    y = df_to_interpolate_['gravity'].to_numpy()
-                    #print(y)
-
-                    column_grid = data.columns.to_numpy().astype(float)
-                    values = df_to_interpolate_.drop(columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
-
-                    interp_func = RegularGridInterpolator((y,column_grid),values)
-
-                    # Define the coordinates for interpolation
-                    xi = column_grid  # x-coordinates for interpolation
-
-                    yi = predicted_targets_dic['gravity']
-
-                    xi_mesh, yi_mesh = np.meshgrid(xi, yi, indexing='ij')  # Meshgrid for interpolation
-
-                    # Perform interpolation
-                    df_interpolated_ = pd.DataFrame(interp_func((yi_mesh, xi_mesh)).T, columns=data.columns, dtype=np.float64)
-                    df_interpolated_['gravity'] = yi_mesh[0]
-                    df_interpolated_['metallicity'] = met
-                    df_interpolated_['c_o_ratio'] = c_o
-                    df_interpolated_['temperature'] = temp
-                    df_interpolated_['is_augmented'] = 'no'
-
-                    df_interpolated_all.append(df_interpolated_)
-
-
-    # df_interpolated_all = df_interpolated_.append(df_interpolated_all, ignore_index=True)
-    df_interpolated_all = pd.concat([df_interpolated_] + df_interpolated_all, ignore_index=True)
-    df_interpolated_all.drop_duplicates(inplace=True)
-
-    return df_interpolated_all
-
-
-# def plot_predicted_vs_observed(training_datasets,
-#                                wl,
-#                                predicted_targets_dic,
-#                                object_name,
-#                                df_flux_object,
-#                                print_results = False,
-#                               ):
-#
-#
-#
-#     ypred = list( predicted_targets_dic.values() )
-#
-#     filtered_df = interpolate_df(dataset=training_datasets,
-#                        predicted_targets_dic = predicted_targets_dic,
-#                        print_results_ = False)
-#
-#     print(filtered_df)
-#
-#
-#     p = figure(
-#         # title=f'{object_name} [XStand, yStand] Predicted: '+', '.join([['logg= ','C/O= ', 'Met= ', 'T= '][i]+str(np.round(y_pred[0][i],2)) for i in  range(4)]),
-#                x_axis_label='Features (Wavelength [𝜇m])',
-#                y_axis_label='Flux (F𝜈)',
-#                width=1000, height=300,
-#                y_axis_type = 'log')
-#
-#     # Add the scatter plot
-#
-#     p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0],
-#            line_width = 1,
-#            legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
-#
-#     if print_results:
-#         print(df_flux_object.iloc[:, ::-1])
-#
-#     p.line(x = wl['wl'] , y = df_flux_object.iloc[:, ::-1].values[0],
-#            line_color = 'orange', line_width = 2,
-#            legend_label='Observational')
-#
-#     p.circle(x = wl['wl'] , y = df_flux_object.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
-#            line_width = 2,
-#            color='orange'
-#             )
-#
-#     # Increase size of x and y ticks
-#     p.title.text_font_size = '12pt'
-#     p.xaxis.major_label_text_font_size = '12pt'
-#     p.xaxis.axis_label_text_font_size = '12pt'
-#     p.yaxis.major_label_text_font_size = '12pt'
-#     p.yaxis.axis_label_text_font_size = '12pt'
-#
-#
-#     p.legend.location = "top_right"
-#     p.legend.background_fill_color = 'white'
-#     p.legend.background_fill_alpha = 0.5
-#
-#
-#     show(p)
-
-
 def filter_dataframe(training_datasets, predicted_targets_dic):
     nearest_value_list = []
     filtered_df = training_datasets.copy()
@@ -1009,77 +647,21 @@ def plot_spectra_errorbar(object_name,
     show(p)
 
 
-# def plot_predicted_vs_observed(training_datasets,
-#                                wl,
-#                                predicted_targets_dic,
-#                                object_name,
-#                                df_Fnu_obs_absolute_intd,
-#                                __print_results__ = False,
-#                               ):
-#
-#
-#
-#     ypred = list( predicted_targets_dic.values() )
-#
-#     filtered_df = interpolate_df(dataset=training_datasets,
-#                        predicted_targets_dic = predicted_targets_dic,
-#                        print_results_ = False)
-#
-#     if __print_results__:
-#         print(filtered_df)
-#
-#
-#     p = figure(
-#         # title=f'{object_name} [XStand, yStand] Predicted: '+', '.join([['logg= ','C/O= ', 'Met= ', 'T= '][i]+str(np.round(y_pred[0][i],2)) for i in  range(4)]),
-#                x_axis_label='Features (Wavelength [𝜇m])',
-#                y_axis_label='Flux (F𝜈)',
-#                width=1000, height=300,
-#                y_axis_type = 'log')
-#
-#     # Add the scatter plot
-#
-#     p.line(x = wl['wl'] ,
-#            y = filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0],
-#            line_width = 1,
-#            legend_label = 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
-#
-#     if __print_results__:
-#         print(df_Fnu_obs_absolute_intd.iloc[:, ::-1])
-#
-#     p.line(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],
-#            line_color = 'orange', line_width = 2,
-#            legend_label='Observational')
-#
-#     p.circle(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
-#            line_width = 2,
-#            color='orange'
-#             )
-#
-#     # Increase size of x and y ticks
-#     p.title.text_font_size = '12pt'
-#     p.xaxis.major_label_text_font_size = '12pt'
-#     p.xaxis.axis_label_text_font_size = '12pt'
-#     p.yaxis.major_label_text_font_size = '12pt'
-#     p.yaxis.axis_label_text_font_size = '12pt'
-#
-#
-#     p.legend.location = "top_right"
-#     p.legend.background_fill_color = 'white'
-#     p.legend.background_fill_alpha = 0.5
-#
-#
-#     show(p)
-
 def replace_zeros_with_mean(df_col2):
     """
     Replace zero values in a DataFrame column with the mean of their non-zero neighbors.
 
-    Args:
-        df_col2 (pandas.Series): A pandas Series representing the column of a DataFrame.
+    Parameters
+    ----------
+    df_col2 : pandas.Series
+        A pandas Series representing the column of a DataFrame.
 
-    Returns:
-        pandas.Series: The updated pandas Series with zero values replaced by the mean of non-zero neighbors.
+    Returns
+    -------
+    pandas.Series
+        The updated pandas Series with zero values replaced by the mean of non-zero neighbors.
     """
+
     df_col = df_col2.copy()
     zero_indices = np.where(df_col.values <= 0)
     non_zero_indices = np.where(df_col.values > 0)
@@ -1112,15 +694,24 @@ def plot_predicted_vs_spectra_errorbar(object_name,
     """
     Plot predicted spectra along with observed spectra and error bars.
 
-    Args:
-        object_name (str): Name of the object being plotted.
-        x_obs (list): List of x-axis values (wavelengths) for the observed spectra.
-        y_obs (list): List of y-axis values (observed feature values) for the observed spectra.
-        y_obs_error (list): List of error values corresponding to the observed feature values.
-        training_datasets (list, optional): Training (or synthetic) datasets used for training the models. Default is None.
-        predicted_targets_dic (dict, optional): Dictionary of predicted targets. Default is None.
-        __print_results__ (bool): True or False.
+    Parameters
+    ----------
+    object_name : str
+        Name of the object being plotted.
+    x_obs : list
+        List of x-axis values (wavelengths) for the observed spectra.
+    y_obs : list
+        List of y-axis values (observed feature values) for the observed spectra.
+    y_obs_error : list
+        List of error values corresponding to the observed feature values.
+    training_datasets : list, optional
+        Training (or synthetic) datasets used for training the models. Default is None.
+    predicted_targets_dic : dict, optional
+        Dictionary of predicted targets. Default is None.
+    __print_results__ : bool
+        True or False.
     """
+
     # Define maximum error threshold as a percentage of y-value
     max_error_threshold = 0.8
 
@@ -1192,20 +783,30 @@ def plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar(stat_df,
     """
     Plot observed spectra with error bars and predicted spectra with confidence intervals.
 
-    Args:
-        stat_df (DataFrame): DataFrame containing the calculated statistics.
-        confidence_level (float): Confidence level for the confidence intervals.
-        object_name (str): Name of the object being plotted.
-        x_obs (list): List of x-axis values for the observed spectra.
-        y_obs (list): List of y-axis values for the observed spectra.
-        y_obs_err (list): List of error values corresponding to the observed spectra.
-        training_datasets (optional): Training datasets used for prediction. Default is None.
-        predicted_targets_dic (optional): Dictionary of predicted targets. Default is None.
-        # bd_object_class (optional): Object class. Default is None.
-        __print_results__ (bool): True or False.
-
-
+    Parameters
+    ----------
+    stat_df : DataFrame
+        DataFrame containing the calculated statistics.
+    confidence_level : float
+        Confidence level for the confidence intervals.
+    object_name : str
+        Name of the object being plotted.
+    x_obs : list
+        List of x-axis values for the observed spectra.
+    y_obs : list
+        List of y-axis values for the observed spectra.
+    y_obs_err : list
+        List of error values corresponding to the observed spectra.
+    training_datasets : optional
+        Training datasets used for prediction. Default is None.
+    predicted_targets_dic : optional
+        Dictionary of predicted targets. Default is None.
+    # bd_object_class : optional
+    #     Object class. Default is None.
+    __print_results__ : bool
+        True or False.
     """
+
     if __print_results__:
         print('*'*10+ ' Predicted Targets dic ' + '*'*10 )
         print(predicted_targets_dic)
@@ -1270,24 +871,6 @@ def plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar(stat_df,
     p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
 
 
-
-    #     ypred = list(predicted_targets_dic.values())
-
-    #     filtered_df = interpolate_df(dataset=training_datasets,
-    #                                  predicted_targets_dic=predicted_targets_dic, print_results_=False)
-
-    # if __print_results__:
-    #     print('------------- Interpolated spectrum based on the ML predicted targets --------------')
-    #     print(filtered_df)
-
-    # Add the scatter plot
-    # p.line(
-    #     x=x_pred['wl'],
-    #     y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature', 'is_augmented']).values[0],
-    #     line_width=1,
-    #     legend_label='ML Predicted:' + ', '.join([['log𝑔= ', 'C/O= ', '[M/H]= ', 'T= '][i] + str(np.round(ypred[i], 2)) for i in range(4)])
-    # )
-
     # Customize the plot
     p.title.text_font_size = '12pt'
     p.xaxis.major_label_text_font_size = '12pt'
@@ -1314,13 +897,19 @@ def calculate_confidence_intervals_std_df(dataset_df,
     """
     Calculate confidence intervals and other statistics for a DataFrame.
 
-    Args:
-        dataset_df (DataFrame): The input DataFrame containing the data.
-        __print_results__ (bool): True or False.
-        __plot_calculate_confidence_intervals_std_df__ (bool): True or False.
+    Parameters
+    ----------
+    dataset_df : DataFrame
+        The input DataFrame containing the data.
+    __print_results__ : bool
+        True or False.
+    __plot_calculate_confidence_intervals_std_df__ : bool
+        True or False.
 
-    Returns:
-        DataFrame: A DataFrame with the calculated statistics.
+    Returns
+    -------
+    DataFrame
+        A DataFrame with the calculated statistics.
     """
 
     # Copy the dataset to avoid modifying the original DataFrame
@@ -1405,19 +994,29 @@ def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Dat
     """
     Create a Bokeh plot with custom error bars for two datasets.
 
-    Args:
-        x_obs (array): X-axis values for observed dataset.
-        y_obs (array): Y-axis values for observed dataset.
-        err_obs (array): Error bars for observed dataset (positive values).
-        x_pre (array): X-axis values for predicted dataset.
-        y_pre (array): Y-axis values for predicted dataset.
-        err_pre (array): Error bars for predicted dataset (positive values).
-        title (str): Title of the plot (default is "Data with Error Bars").
+    Parameters
+    ----------
+    x_obs : array
+        X-axis values for observed dataset.
+    y_obs : array
+        Y-axis values for observed dataset.
+    err_obs : array
+        Error bars for observed dataset (positive values).
+    x_pre : array
+        X-axis values for predicted dataset.
+    y_pre : array
+        Y-axis values for predicted dataset.
+    err_pre : array
+        Error bars for predicted dataset (positive values).
+    title : str
+        Title of the plot (default is "Data with Error Bars").
 
-    Returns:
-        None (Displays the plot).
-
+    Returns
+    -------
+    None
+        (Displays the plot).
     """
+
     # Calculate upper and lower error bars for observed dataset
     upper_err_obs = [y_i + err for y_i, err in zip(y_obs, err_obs)]
     lower_err_obs = [y_i - err for y_i, err in zip(y_obs, err_obs)]
@@ -1479,24 +1078,38 @@ def chi_square_test(x_obs, y_obs, yerr_obs,
     """
     Perform the chi-square test to evaluate the similarity between two datasets with error bars.
 
-    Args:
-        x_obs (array): The x-coordinates of the observed dataset.
-        y_obs (array): The y-coordinates of the observed dataset.
-        yerr_obs (array): The error bars associated with the observed dataset.
-        x_pre (array): The x-coordinates of the predicted dataset.
-        y_pre (array): The y-coordinates of the predicted dataset.
-        yerr_pre (array): The error bars associated with the predicted dataset.
-        radius (float): The radius value for comparison of points between datasets.
-        __plot_results__ (bool, optional): If True, plot the results of the chi-square test. Defaults to False.
-        __print_results__ (bool, optional): If True, print the results of the chi-square test. Defaults to True.
+    Parameters
+    ----------
+    x_obs : array
+        The x-coordinates of the observed dataset.
+    y_obs : array
+        The y-coordinates of the observed dataset.
+    yerr_obs : array
+        The error bars associated with the observed dataset.
+    x_pre : array
+        The x-coordinates of the predicted dataset.
+    y_pre : array
+        The y-coordinates of the predicted dataset.
+    yerr_pre : array
+        The error bars associated with the predicted dataset.
+    radius : float
+        The radius value for comparison of points between datasets.
+    __plot_results__ : bool, optional
+        If True, plot the results of the chi-square test. Defaults to False.
+    __print_results__ : bool, optional
+        If True, print the results of the chi-square test. Defaults to True.
 
-    Returns:
-        float: The chi-square test statistic.
-        float: The p-value.
+    Returns
+    -------
+    float
+        The chi-square test statistic.
+    float
+        The p-value.
 
-    Raises:
-        ValueError: If the lengths of the datasets or error bars are not equal.
-
+    Raises
+    ------
+    ValueError
+        If the lengths of the datasets or error bars are not equal.
     """
 
     indices_to_remove = np.where(np.isnan(y_obs))[0]
@@ -1558,15 +1171,20 @@ def plot_chi_square_p_value(radius, chi_square_list, p_value_list,
     """
     Plot two lines on the same plot with twin y-axis.
 
-    Args:
-        radius (array): The x-axis values.
-        chi_square_list (array): The y-axis values for the first line.
-        p_value_list (array): The y-axis values for the second line.
+    Parameters
+    ----------
+    radius : array
+        The x-axis values.
+    chi_square_list : array
+        The y-axis values for the first line.
+    p_value_list : array
+        The y-axis values for the second line.
 
-    Returns:
-        None (displays the plot).
+    Returns
+    -------
+    None
+        (displays the plot).
     """
-
 
     # Create a ColumnDataSource to hold the data
     source = ColumnDataSource(data=dict(radius=radius, chi_square_list=chi_square_list, p_value_list=p_value_list))
@@ -1611,15 +1229,21 @@ def find_closest_chi_square(df, chi_square_statistic_list):
     """
     Find the closest chi-square test and p-value for a given degrees of freedom (df).
 
-    Args:
-        df (int): Degrees of freedom for the chi-square test.
-        chi_square_statistic_list (list): List of chi-square test statistics.
+    Parameters
+    ----------
+    df : int
+        Degrees of freedom for the chi-square test.
+    chi_square_statistic_list : list
+        List of chi-square test statistics.
 
-    Returns:
-        closest_chi_square (float): The closest chi-square test statistic.
-        closest_p_value (float): The p-value corresponding to the closest chi-square test.
-
+    Returns
+    -------
+    closest_chi_square : float
+        The closest chi-square test statistic.
+    closest_p_value : float
+        The p-value corresponding to the closest chi-square test.
     """
+
     # Significance level (alpha)
     alpha = 0.05
 

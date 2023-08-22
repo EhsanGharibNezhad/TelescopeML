@@ -57,17 +57,21 @@ from bokeh.palettes import viridis
 
 
 class ObserveParameterPredictor:
-
     """
-    Load, process, visualize observational spectra
+    Load, process, and visualize observational spectra.
 
-    Args:
-    ------
-        feature_values_obs (array): Fluxes for each feature (wavelength) from observational data
-        feature_values_obs_err (array):
-        feature_names_obs (array): Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron
-        feature_names_synthetic (array): Name of features (wavelengths) from synthetic data
+    Parameters
+    ----------
+    feature_values_obs : array
+        Fluxes for each feature (wavelength) from observational data.
+    feature_values_obs_err : array
+        Observed spectra error bars.
+    feature_names_obs : array
+        Name of features (wavelength) from observational data, e.g., 0.9, 1.0, 1.1 micron.
+    feature_names_synthetic : array
+        Name of features (wavelengths) from synthetic data.
     """
+
     def __init__(self,
                  object_name,
                  training_dataset_df,
@@ -94,13 +98,18 @@ class ObserveParameterPredictor:
         """
         Process the observational dataset and set various attributes of the object.
 
-        Inputs:
-        -------
-            feature_values_obs (array): Observed feature values.
-            feature_values_obs_err (array): Errors corresponding to the observed feature values.
-            feature_names_obs (array): Names of the observed features.
-            feature_names_synthetic (array): Names of the synthetic features.
-            bd_literature_dic (dict): Dictionary containing literature information. Defaults to None.
+        Parameters
+        -----------
+        feature_values_obs : array
+            Observed feature values.
+        feature_values_obs_err : array
+            Errors corresponding to the observed feature values.
+        feature_names_obs : array
+            Names of the observed features.
+        feature_names_synthetic : array
+            Names of the synthetic features.
+        bd_literature_dic : dict, optional
+            Dictionary containing literature information. Defaults to None.
         """
 
         self.feature_values_obs = feature_values_obs
@@ -120,15 +129,17 @@ class ObserveParameterPredictor:
                         bd_literature_dic['bd_distance_pc'] * ((u.pc).to(u.jupiterRad)) / (
                 bd_literature_dic['bd_radius_Rjup'])) ** 2
 
+
     def Flam2Fnu(self):
         """
         Convert F_lambda to F_nu along with error propagation.
 
-        Returns:
-        ----------
-            fnu_values (array): Array of flux density values in F_nu.
-
-            fnu_errors (array): Array of error bars for the flux density values in F_nu.
+        Returns
+        -------
+        fnu_values : array
+            Array of flux density values in F_nu.
+        fnu_errors : array
+            Array of error bars for the flux density values in F_nu.
         """
 
         flam_values = self.feature_values_obs
@@ -152,12 +163,16 @@ class ObserveParameterPredictor:
         """
         Perform flux interpolation using either SpectRes or pchip interpolation.
 
-        Inputs:
-        -------
-            __print_results__ (bool): True or False.
-            __plot_spectra_errorbar__ (bool): True or False.
-            use_spectres (bool): Whether to use SpectRes for interpolation. Defaults to True.
+        Parameters
+        ----------
+        __print_results__ : bool
+            True or False.
+        __plot_spectra_errorbar__ : bool
+            True or False.
+        use_spectres : bool, optional
+            Whether to use SpectRes for interpolation. Defaults to True.
         """
+
         if use_spectres:
             self.Fnu_obs_absolute_intd = spectres.spectres(self.feature_names_model,
                                                            np.float64(self.feature_names_obs),
@@ -208,10 +223,14 @@ class ObserveParameterPredictor:
         """
         Load the observational spectra, process the dataset, and optionally plot the observational spectra with error bars.
 
-        Args:
-            __plot_observational_spectra_errorbar__ (bool): True or False.
-            _replace_zeros_with_mean_ (bool): True or False.
+        Parameters
+        -----------
+        __plot_observational_spectra_errorbar__ : bool
+            True or False.
+        _replace_zeros_with_mean_ : bool
+            True or False.
         """
+
         # Load the observational spectra
         obs_data_df = pd.read_csv(f'../datasets/observational_spectra/{self.object_name}_fluxcal.dat',
                                   delim_whitespace=True, comment='#', names=('wl', 'F_lambda', 'F_lambda_error'),
@@ -250,19 +269,23 @@ class ObserveParameterPredictor:
         """
         Process the observational dataset, extract ML features, perform predictions, and optionally print the results and plot the predicted versus observed spectra.
 
-        Args:
-            __print_results__ (bool): True or False.
-            __plot_predicted_vs_observed__ (bool): True or False.
+        Parameters
+        ----------
+        __print_results__ : bool
+            True or False.
+        __plot_predicted_vs_observed__ : bool
+            True or False.
         """
 
         # Instantiate ProcessObservationalDataset class
+
         bd_object = self.ProcessObservationalDataset(
-            feature_values_obs=self.obs_data_df['F_lambda'].values,
-            feature_values_obs_err=self.obs_data_df['F_lambda_error'].values,
-            feature_names_obs=self.obs_data_df['wl'].values,
-            feature_names_synthetic=self.wl['wl'].values,
-            bd_literature_dic=self.bd_literature_dic,
-        )
+                feature_values_obs=self.obs_data_df['F_lambda'].values,
+                feature_values_obs_err=self.obs_data_df['F_lambda_error'].values,
+                feature_names_obs=self.obs_data_df['wl'].values,
+                feature_names_synthetic=self.wl['wl'].values,
+                bd_literature_dic=self.bd_literature_dic,
+            )
 
         # Extract the original ML features from the observational spectrum
         self.flux_interpolated(__print_results__=False,
@@ -333,23 +356,29 @@ class ObserveParameterPredictor:
             __calculate_confidence_intervals_std_df__=False,
     ):
         """
-        Tasks:
-        ---------
-        - Generate random spectra based on the observational data,
-        - Perform predictions on the generated spectra
-        - Provide various plotting and analysis options.
 
-        Args:
-        --------
-            random_spectra_num (int): Number of random spectra to generate. Defaults to 10.
-            __print_results__ (bool): True or False.
-            __plot_randomly_generated_spectra__ (bool): True or False.
-            __plot_histogram__ (bool): True or False.
-            __plot_boxplot_hist__ (bool): True or False.
-            __plot_predicted_vs_observed__ (bool): True or False.
-            __plot_predicted_vs_spectra_errorbar__ (bool): True or False.
-            __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__ (bool): True or False.
-            __calculate_confidence_intervals_std_df__ (bool): True or False.
+        Generate random spectra based on the observational data, predict the target features, and plot the spectra
+
+        Parameters
+        ----------
+        random_spectra_num : int, optional
+            Number of random spectra to generate. Defaults to 10.
+        __print_results__ : bool
+            True or False.
+        __plot_randomly_generated_spectra__ : bool
+            True or False.
+        __plot_histogram__ : bool
+            True or False.
+        __plot_boxplot_hist__ : bool
+            True or False.
+        __plot_predicted_vs_observed__ : bool
+            True or False.
+        __plot_predicted_vs_spectra_errorbar__ : bool
+            True or False.
+        __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__ : bool
+            True or False.
+        __calculate_confidence_intervals_std_df__ : bool
+            True or False.
         """
 
         color = viridis(250).__iter__()
