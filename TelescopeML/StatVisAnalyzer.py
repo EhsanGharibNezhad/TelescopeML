@@ -651,13 +651,13 @@ def plot_spectra_errorbar(object_name,
     show(p)
 
 
-def replace_zeros_with_mean(df_col2):
+def replace_zeros_with_mean(dataframe_col):
     """
     Replace zero values in a DataFrame column with the mean of their non-zero neighbors.
 
     Parameters
     ----------
-    df_col2 : pandas.Series
+    dataframe_col : pandas.Series
         A pandas Series representing the column of a DataFrame.
 
     Returns
@@ -666,7 +666,7 @@ def replace_zeros_with_mean(df_col2):
         The updated pandas Series with zero values replaced by the mean of non-zero neighbors.
     """
 
-    df_col = df_col2.copy()
+    df_col = dataframe_col.copy()
     zero_indices = np.where(df_col.values <= 0)
     non_zero_indices = np.where(df_col.values > 0)
 
@@ -683,7 +683,7 @@ def replace_zeros_with_mean(df_col2):
         return df_col
 
     else:
-        return df_col2
+        return dataframe_col
 
 
 

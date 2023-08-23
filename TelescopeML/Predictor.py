@@ -87,6 +87,53 @@ class ObserveParameterPredictor:
         self.bd_literature_dic = bd_literature_dic
 
 
+    def load_observational_spectra(self,
+                                   __plot_observational_spectra_errorbar__=False,
+                                   _replace_zeros_with_mean_=True,
+                                   __print_results__=False,
+                                   ):
+        """
+        Load the observational spectra, process the dataset, and optionally plot the observational spectra with error bars.
+
+        Parameters
+        -----------
+        __plot_observational_spectra_errorbar__ : bool
+            True or False.
+        _replace_zeros_with_mean_ : bool
+            True or False.
+        __print_results__ : bool
+            True or False.
+        """
+
+        # Load the observational spectra
+        obs_data_df = pd.read_csv(f'../datasets/observational_spectra/{self.object_name}_fluxcal.dat',
+                                  delim_whitespace=True, comment='#', names=('wl', 'F_lambda', 'F_lambda_error'),
+                                  usecols=(0, 1, 2))
+
+        # Process the dataset - remove Nan and negative values
+        obs_data_df['F_lambda'] = obs_data_df['F_lambda'].mask(obs_data_df['F_lambda'].lt(0), 0)
+        obs_data_df['F_lambda'].replace(0, np.nan, inplace=True)
+        obs_data_df['F_lambda'].interpolate(inplace=True)
+
+        if _replace_zeros_with_mean_:
+            obs_data_df['F_lambda'] = replace_zeros_with_mean(obs_data_df['F_lambda']) # gives wrong numbers
+            obs_data_df['F_lambda_error'] = replace_zeros_with_mean(obs_data_df['F_lambda_error'])
+            obs_data_df['F_lambda'] = replace_zeros_with_mean(obs_data_df['F_lambda']) # gives wrong numbers
+
+        self.obs_data_df = obs_data_df
+
+        if __print_results__:
+            print('------- Observational DataFrame Example ---------')
+            print(self.obs_data_df.head(5))
+
+        if __plot_observational_spectra_errorbar__:
+            plot_spectra_errorbar(
+                object_name=self.object_name,
+                x_obs=self.obs_data_df['wl'],
+                y_obs=self.obs_data_df['F_lambda'],
+                y_obs_err=self.obs_data_df['F_lambda_error'],
+                y_label='Flux (F𝛌)',
+            )
 
 
     def ProcessObservationalDataset(self,
@@ -226,50 +273,6 @@ class ObserveParameterPredictor:
                 y_label='Flux_abs (F_abs)',
             )
 
-    def load_observational_spectra(self,
-                                   __plot_observational_spectra_errorbar__=False,
-                                   _replace_zeros_with_mean_=True,
-                                   __print_results__=False,
-                                   ):
-        """
-        Load the observational spectra, process the dataset, and optionally plot the observational spectra with error bars.
-
-        Parameters
-        -----------
-        __plot_observational_spectra_errorbar__ : bool
-            True or False.
-        _replace_zeros_with_mean_ : bool
-            True or False.
-        """
-
-        # Load the observational spectra
-        obs_data_df = pd.read_csv(f'../datasets/observational_spectra/{self.object_name}_fluxcal.dat',
-                                  delim_whitespace=True, comment='#', names=('wl', 'F_lambda', 'F_lambda_error'),
-                                  usecols=(0, 1, 2))
-
-        # Process the dataset - remove Nan and negative values
-        obs_data_df['F_lambda'] = obs_data_df['F_lambda'].mask(obs_data_df['F_lambda'].lt(0), 0)
-        obs_data_df['F_lambda'].replace(0, np.nan, inplace=True)
-        obs_data_df['F_lambda'].interpolate(inplace=True)
-
-        if _replace_zeros_with_mean_:
-            obs_data_df['F_lambda_error'] = replace_zeros_with_mean(obs_data_df['F_lambda_error'])
-            # obs_data_df['F_lambda'] = replace_zeros_with_mean(obs_data_df['F_lambda']) # gives wrong numbers
-
-        self.obs_data_df = obs_data_df
-
-        if __print_results__:
-            print('------- Observational DataFrame Example ---------')
-            print(self.obs_data_df.head(5))
-
-        if __plot_observational_spectra_errorbar__:
-            plot_spectra_errorbar(
-                object_name=self.object_name,
-                x_obs=self.obs_data_df['wl'],
-                y_obs=self.obs_data_df['F_lambda'],
-                y_obs_err=self.obs_data_df['F_lambda_error'],
-                y_label='Flux (F𝛌)',
-            )
 
 
     def Process_Observational_Dataset(self,
