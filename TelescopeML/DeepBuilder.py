@@ -1,5 +1,5 @@
 # Import functions from other modules ============================
-# from .IO_utils import *
+from .IO_utils import *
 
 # Import python libraries ========================================
 
@@ -51,7 +51,7 @@ class BuildRegressorCNN:
     trained_model : object
         Trained ML model (optional).
     trained_model_history : dict
-        History dict from the trained model.
+        History dict from the trained model (optional).
     feature_values : array
         Flux arrays (input data).
     feature_names : list
@@ -75,19 +75,25 @@ class BuildRegressorCNN:
     ml_model_str : str
         Name of the ML model.
 
-    Returns
-    -------
-    Trained ML models
+    Notes
+    ------
+    This class can be instintiated and utilized with or without the trained ML model. In case of having the trained model,
+    you should have the following parameters:
+        - trained_model
+        - trained_model_history
+
+
+
     """
 
     def __init__(
             self,
             trained_model: Union[None, BaseEstimator] = None,
             trained_model_history: Union[None, Dict] = None,
-            feature_values: Union[None, np.ndarray] = None,
-            feature_names: Union[None, List[str]] = None,
-            target_values: Union[None, np.ndarray] = None,
-            target_name: Union[None, str] = None,
+            feature_values: Union[np.ndarray] = None,
+            feature_names: Union[List[str]] = None,
+            target_values: Union[np.ndarray] = None,
+            target_name: Union[str] = None,
             is_tuned: str = 'no',
             param_grid: Union[None, Dict] = None,
             spectral_resolution: Union[None, int] = None,
@@ -96,7 +102,7 @@ class BuildRegressorCNN:
             ml_model: Union[None, BaseEstimator] = None,
             ml_model_str: Union[None, str] = None,
             ml_method: str = 'regression',
-    ) -> None:
+    ):
 
         self.trained_model = trained_model
         self.trained_model_history = trained_model_history
@@ -129,18 +135,19 @@ class BuildRegressorCNN:
 
         Returns
         -------
-        X_train : array
+        self.X_train : array
             X train set.
-        X_test : array
+        self.X_test : array
             X test set.
-        y_train : array
+        self.y_train : array
             y train set.
-        y_test : array
+        self.y_test : array
             y test set.
 
         References
         ----------
-        SciKit link: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+        link: `sklearn.model_selection.train_test_split <https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html>`_
+
         """
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.feature_values,
                                                                                 self.target_values,
@@ -164,22 +171,22 @@ class BuildRegressorCNN:
 
         Returns
         -------
-        X_train : array
+        self.X_train : array
             Used to train the machine learning model.
-        X_val : array
+        self.X_val : array
             Used to validate the machine learning model.
-        X_test : array
+        self.X_test : array
             Used to evaluate the machine learning model.
-        y_train : array
+        self.y_train : array
             Targets used for training the models.
-        y_val : array
+        self.y_val : array
             Targets used for validating the models.
-        y_test : array
+        self.y_test : array
             Targets used for testing the models.
 
         References
         ----------
-        SciKit link: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+        link: `sklearn.model_selection.train_test_split <https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html>`_
         """
         X_train, X_test, y_train, y_test = train_test_split(
             self.feature_values,
@@ -219,13 +226,13 @@ class BuildRegressorCNN:
 
         Returns
         -------
-        X_train_normalized_columnwise : array
+        self.X_train_normalized_columnwise : array
             Normalized training feature matrix.
-        X_val_normalized_columnwise : array
+        self.X_val_normalized_columnwise : array
             Normalized validation feature matrix.
-        X_test_normalized_columnwise : array
+        self.X_test_normalized_columnwise : array
             Normalized test feature matrix.
-        normalize_X_ColumnWise : MinMaxScaler
+        self.normalize_X_ColumnWise : MinMaxScaler
             Trained normalizer object.
 
         """
@@ -267,11 +274,11 @@ class BuildRegressorCNN:
 
         Returns
         -------
-        X_train_normalized_rowwise : array
+        self.X_train_normalized_rowwise : array
             Normalized training feature matrix.
-        X_val_normalized_rowwise : array
+        self.X_val_normalized_rowwise : array
             Normalized validation feature matrix.
-        X_test_normalized_rowwise : array
+        self.X_test_normalized_rowwise : array
             Normalized test feature matrix.
         """
         # Set default values if None is provided

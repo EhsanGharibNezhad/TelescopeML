@@ -2,11 +2,11 @@
 
 from .IO_utils import *
 
-from .StatVisAnalyzer import plot_predicted_vs_observed, boxplot_hist, plot_spectra_errorbar, \
-    plot_predicted_vs_spectra_errorbar
+from .StatVisAnalyzer import boxplot_hist, plot_spectra_errorbar, \
+    plot_pred_vs_obs_errorbar
 from .StatVisAnalyzer import interpolate_df, print_results_fun
 from .StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, \
-    plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar
+    plot_pred_vs_obs_errorbar_stat
 
 # ======= Import Python libraries ========================================
 
@@ -110,6 +110,17 @@ class ObserveParameterPredictor:
             Names of the synthetic features.
         bd_literature_dic : dict, optional
             Dictionary containing literature information. Defaults to None.
+
+        Example
+        -------
+
+        >>> HD3651B_BD_literature_info = {'bd_name':'HD3651B',
+        >>>   'bd_Teff':818,
+        >>>   'bd_logg':3.94,
+        >>>   'bd_met': -0.22,
+        >>>   'bd_distance_pc' : 11.134,
+        >>>   'bd_radius_Rjup' : 0.81,
+        >>>   'bd_radius_Rjup_tuned': .81}
         """
 
         self.feature_values_obs = feature_values_obs
@@ -159,7 +170,7 @@ class ObserveParameterPredictor:
     def flux_interpolated(self,
                           __print_results__=False,
                           __plot_spectra_errorbar__=False,
-                          use_spectres=True):
+                          __use_spectres__=True):
         """
         Perform flux interpolation using either SpectRes or pchip interpolation.
 
@@ -169,11 +180,11 @@ class ObserveParameterPredictor:
             True or False.
         __plot_spectra_errorbar__ : bool
             True or False.
-        use_spectres : bool, optional
+        __use_spectres__ : bool, optional
             Whether to use SpectRes for interpolation. Defaults to True.
         """
 
-        if use_spectres:
+        if __use_spectres__:
             self.Fnu_obs_absolute_intd = spectres.spectres(self.feature_names_model,
                                                            np.float64(self.feature_names_obs),
                                                            np.float64(self.Fnu_obs_absolute))
@@ -196,7 +207,7 @@ class ObserveParameterPredictor:
                 x_obs=self.obs_data_df['wl'],
                 y_obs=self.obs_data_df['F_lambda'],
                 y_obs_err=self.obs_data_df['F_lambda_error'],
-                y_label='Flux (Flam)',
+                y_label='Flux (F𝛌)',
             )
 
             plot_spectra_errorbar(
@@ -248,6 +259,7 @@ class ObserveParameterPredictor:
         self.obs_data_df = obs_data_df
 
         if __print_results__:
+            print('------- Observational DataFrame Example ---------')
             print(self.obs_data_df.head(5))
 
         if __plot_observational_spectra_errorbar__:
@@ -256,16 +268,14 @@ class ObserveParameterPredictor:
                 x_obs=self.obs_data_df['wl'],
                 y_obs=self.obs_data_df['F_lambda'],
                 y_obs_err=self.obs_data_df['F_lambda_error'],
-                y_label='Flux (Flam)',
+                y_label='Flux (F𝛌)',
             )
-            # plot_spectra_errorbar(object_name=self.object_name,
-            #                       features=self.obs_data_df['wl'],
-            #                       feature_values=self.obs_data_df['F_lambda'],
-            #                       error=self.obs_data_df['F_lambda_error'])
+
 
     def Process_Observational_Dataset(self,
                                       __print_results__=False,
-                                      __plot_predicted_vs_observed__=False):
+                                      # __plot_predicted_vs_observed__=False
+                                      ):
         """
         Process the observational dataset, extract ML features, perform predictions, and optionally print the results and plot the predicted versus observed spectra.
 
@@ -273,27 +283,25 @@ class ObserveParameterPredictor:
         ----------
         __print_results__ : bool
             True or False.
-        __plot_predicted_vs_observed__ : bool
-            True or False.
         """
 
         # Instantiate ProcessObservationalDataset class
 
-        bd_object = self.ProcessObservationalDataset(
-                feature_values_obs=self.obs_data_df['F_lambda'].values,
-                feature_values_obs_err=self.obs_data_df['F_lambda_error'].values,
-                feature_names_obs=self.obs_data_df['wl'].values,
-                feature_names_synthetic=self.wl['wl'].values,
-                bd_literature_dic=self.bd_literature_dic,
-            )
+        self.ProcessObservationalDataset(
+                    feature_values_obs=self.obs_data_df['F_lambda'].values,
+                    feature_values_obs_err=self.obs_data_df['F_lambda_error'].values,
+                    feature_names_obs=self.obs_data_df['wl'].values,
+                    feature_names_synthetic=self.wl['wl'].values,
+                    bd_literature_dic=self.bd_literature_dic,
+                   )
 
         # Extract the original ML features from the observational spectrum
         self.flux_interpolated(__print_results__=False,
                                __plot_spectra_errorbar__=False,
-                               use_spectres=False)
+                               __use_spectres__=True)
 
         if __print_results__:
-            print('------------ df_Fnu_obs_absolute_intd ------------')
+            print('------------  Interpolated Observational Spectra: Absolute F𝜈 ------------')
             print(self.df_Fnu_obs_absolute_intd)
 
         # Extract the engineered ML features from the observational spectrum
@@ -334,14 +342,14 @@ class ObserveParameterPredictor:
             print_results_fun(targets=self.targets_single_spectrum_dic,
                               print_title='Predicted Targets from the Signle Observational Spectrum:')
 
-        if __plot_predicted_vs_observed__:
-            plot_predicted_vs_observed(
-                training_datasets=self.training_dataset_df,
-                wl=self.wl,
-                predicted_targets_dic=self.targets_single_spectrum_dic,
-                object_name=self.object_name,
-                df_Fnu_obs_absolute_intd=self.df_Fnu_obs_absolute_intd,
-            )
+        # if __plot_predicted_vs_observed__:
+        #     plot_predicted_vs_observed(
+        #         training_datasets=self.training_dataset_df,
+        #         wl=self.wl,
+        #         predicted_targets_dic=self.targets_single_spectrum_dic,
+        #         object_name=self.object_name,
+        #         df_Fnu_obs_absolute_intd=self.df_Fnu_obs_absolute_intd,
+        #     )
 
     def predict_from_random_spectra(
             self,
@@ -350,11 +358,11 @@ class ObserveParameterPredictor:
             __plot_randomly_generated_spectra__=False,
             __plot_histogram__=False,
             __plot_boxplot_hist__=False,
-            __plot_predicted_vs_observed__=False,
-            __plot_predicted_vs_spectra_errorbar__=False,
-            __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__=False,
+            # __plot_predicted_vs_observed__=False,
+            __plot_pred_vs_obs_errorbar__=False,
+            __plot_pred_vs_obs_errorbar_stat__=False,
             __calculate_confidence_intervals_std_df__=False,
-    ):
+            ):
         """
 
         Generate random spectra based on the observational data, predict the target features, and plot the spectra
@@ -371,11 +379,9 @@ class ObserveParameterPredictor:
             True or False.
         __plot_boxplot_hist__ : bool
             True or False.
-        __plot_predicted_vs_observed__ : bool
+        __plot_pred_vs_obs_errorbar__ : bool
             True or False.
-        __plot_predicted_vs_spectra_errorbar__ : bool
-            True or False.
-        __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__ : bool
+        __plot_pred_vs_obs_errorbar_stat__ : bool
             True or False.
         __calculate_confidence_intervals_std_df__ : bool
             True or False.
@@ -400,18 +406,18 @@ class ObserveParameterPredictor:
             spectra['F_lambda'].interpolate(inplace=True)
 
             # Process the randomly generated Observational spectra
-            bd_object_generated = self.ProcessObservationalDataset(
-                feature_values_obs=spectra['F_lambda'].values,
-                feature_values_obs_err=self.obs_data_df['F_lambda_error'].values,
-                feature_names_obs=self.obs_data_df['wl'].values,
-                feature_names_synthetic=self.wl['wl'].values,
-                bd_literature_dic=self.bd_literature_dic,
-            )
+            self.ProcessObservationalDataset(
+                    feature_values_obs=spectra['F_lambda'].values,
+                    feature_values_obs_err=self.obs_data_df['F_lambda_error'].values,
+                    feature_names_obs=self.obs_data_df['wl'].values,
+                    feature_names_synthetic=self.wl['wl'].values,
+                    bd_literature_dic=self.bd_literature_dic,
+                    )
 
             # Extract the original ML features from the observational spectrum
             self.flux_interpolated(__print_results__=False,
                                    __plot_spectra_errorbar__=False,
-                                   use_spectres=True
+                                   __use_spectres__=True
                                    )
 
             # Extract the engineered ML features from the observational spectrum
@@ -485,7 +491,7 @@ class ObserveParameterPredictor:
             p = figure(
                 title=self.object_name + ": Randomly generated spectra within 1σ",
                 x_axis_label='Features (Wavelength [𝜇m])',
-                y_axis_label='Flux (Fν)',
+                y_axis_label='Flux (F𝜈)',
                 width=800,
                 height=300,
                 y_axis_type="log",
@@ -526,22 +532,22 @@ class ObserveParameterPredictor:
             boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
             boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
 
-        if __plot_predicted_vs_observed__:
-            plot_predicted_vs_observed(
-                training_datasets=self.training_dataset_df,
-                wl=self.wl,
-                predicted_targets_dic=self.dic_random_pred_mean,
-                object_name=self.object_name,
-                df_Fnu_obs_absolute_intd=self.df_Fnu_obs_absolute_intd,
-                __print_results__=False,
-            )
+        # if __plot_predicted_vs_observed__:
+        #     plot_predicted_vs_observed(
+        #         training_datasets=self.training_dataset_df,
+        #         wl=self.wl,
+        #         predicted_targets_dic=self.dic_random_pred_mean,
+        #         object_name=self.object_name,
+        #         df_Fnu_obs_absolute_intd=self.df_Fnu_obs_absolute_intd,
+        #         __print_results__=False,
+        #     )
 
-        if __plot_predicted_vs_spectra_errorbar__:
-            plot_predicted_vs_spectra_errorbar(
+        if __plot_pred_vs_obs_errorbar__:
+            plot_pred_vs_obs_errorbar(
                 object_name=self.object_name,
                 x_obs=self.obs_data_df['wl'],
                 y_obs=self.Fnu_obs_absolute,
-                y_obs_error=np.array(self.Fnu_obs_absolute_err),
+                y_obs_error=self.Fnu_obs_absolute_err,
                 training_dataset=self.training_dataset_df,
                 x_pred=self.wl,
                 predicted_targets_dic=self.dic_random_pred_mean,
@@ -555,14 +561,14 @@ class ObserveParameterPredictor:
                 __plot_calculate_confidence_intervals_std_df__=False,
             )
 
-        if __plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar__:
-            plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar(
+        if __plot_pred_vs_obs_errorbar_stat__:
+            plot_pred_vs_obs_errorbar_stat(
                 stat_df=self.confidence_intervals_std_df,
                 confidence_level=0.95,
                 object_name=self.object_name,
                 x_obs=self.obs_data_df['wl'],
                 y_obs=self.Fnu_obs_absolute,
-                y_obs_err=np.array(self.Fnu_obs_absolute_err),
+                y_obs_err=self.Fnu_obs_absolute_err,
                 training_datasets=self.training_dataset_df,
                 x_pred=self.wl,
                 predicted_targets_dic=self.dic_random_pred_mean,  # self.dic_random_pred_mean,

@@ -541,80 +541,84 @@ def boxplot_hist(data,
     plt.show()
 
 
-def plot_predicted_vs_observed(training_datasets,
-                               wl,
-                               predicted_targets_dic,
-                               object_name,
-                               df_Fnu_obs_absolute_intd,
-                               __print_results__ = False,
-                              ):
-
-
-
-    ypred = list( predicted_targets_dic.values() )
-
-    filtered_df = interpolate_df(dataset=training_datasets,
-                       predicted_targets_dic = predicted_targets_dic,
-                       print_results_ = False)
-
-    if __print_results__:
-        print('*'*30+'Filtered and Interpolated training data based on the ML predicted parameters'+'*'*30)
-        print(filtered_df)
-
-
-    p = figure(
-        # title=f'{object_name} [XStand, yStand] Predicted: '+', '.join([['logg= ','C/O= ', 'Met= ', 'T= '][i]+str(np.round(y_pred[0][i],2)) for i in  range(4)]),
-               x_axis_label='Features (Wavelength [𝜇m])',
-               y_axis_label='Flux (F𝜈)',
-               width=800, height=300,
-               y_axis_type = 'log')
-
-    # Add the scatter plot
-
-    p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0],
-           line_width = 1,
-           legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
-
-    if __print_results__:
-        print(df_Fnu_obs_absolute_intd.iloc[:, ::-1])
-
-    p.line(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],
-           line_color = 'orange', line_width = 2,
-           legend_label='Observational')
-
-    p.circle(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
-           line_width = 2,
-           color='orange'
-            )
-
-    # Increase size of x and y ticks
-    p.title.text_font_size = '12pt'
-    p.xaxis.major_label_text_font_size = '12pt'
-    p.xaxis.axis_label_text_font_size = '12pt'
-    p.yaxis.major_label_text_font_size = '12pt'
-    p.yaxis.axis_label_text_font_size = '12pt'
-
-
-    p.legend.location = "top_right"
-    p.legend.background_fill_color = 'white'
-    p.legend.background_fill_alpha = 0.5
-
-
-    show(p)
+# def plot_predicted_vs_observed(training_datasets,
+#                                wl,
+#                                predicted_targets_dic,
+#                                object_name,
+#                                df_Fnu_obs_absolute_intd,
+#                                __print_results__ = False,
+#                               ):
+#
+#
+#
+#     ypred = list( predicted_targets_dic.values() )
+#
+#     filtered_df = interpolate_df(dataset=training_datasets,
+#                        predicted_targets_dic = predicted_targets_dic,
+#                        print_results_ = False)
+#
+#     if __print_results__:
+#         print('*'*30+'Filtered and Interpolated training data based on the ML predicted parameters'+'*'*30)
+#         print(filtered_df)
+#
+#
+#     p = figure(
+#         # title=f'{object_name} [XStand, yStand] Predicted: '+', '.join([['logg= ','C/O= ', 'Met= ', 'T= '][i]+str(np.round(y_pred[0][i],2)) for i in  range(4)]),
+#                x_axis_label='Features (Wavelength [𝜇m])',
+#                y_axis_label='Flux (F𝜈)',
+#                width=800, height=300,
+#                y_axis_type = 'log')
+#
+#     # Add the scatter plot
+#
+#     p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0],
+#            line_width = 1,
+#            legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
+#
+#     if __print_results__:
+#         print(df_Fnu_obs_absolute_intd.iloc[:, ::-1])
+#
+#     p.line(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],
+#            line_color = 'orange', line_width = 2,
+#            legend_label='Observational')
+#
+#     p.circle(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
+#            line_width = 2,
+#            color='orange'
+#             )
+#
+#     # Increase size of x and y ticks
+#     p.title.text_font_size = '12pt'
+#     p.xaxis.major_label_text_font_size = '12pt'
+#     p.xaxis.axis_label_text_font_size = '12pt'
+#     p.yaxis.major_label_text_font_size = '12pt'
+#     p.yaxis.axis_label_text_font_size = '12pt'
+#
+#
+#     p.legend.location = "top_right"
+#     p.legend.background_fill_color = 'white'
+#     p.legend.background_fill_alpha = 0.5
+#
+#
+#     show(p)
 
 
 def plot_spectra_errorbar(object_name,
                           x_obs,
                           y_obs,
                           y_obs_err,
-                          y_label = "Flux (F𝜈)"):
+                          y_label = "Flux (F𝜈)",
+                          title_label = None):
 
-    # Define maximum error threshold as a percentage of y-value
-    max_error_threshold = 0.8
+    if y_obs_err != None:
+        # Define maximum error threshold as a percentage of y-value
+        max_error_threshold = 0.8
 
-    # Calculate adjusted error bar coordinates
-    upper = np.minimum(y_obs + y_obs_err, y_obs + y_obs * max_error_threshold)
-    lower = np.maximum(y_obs - y_obs_err, y_obs - y_obs * max_error_threshold)# Sample data
+        # Calculate adjusted error bar coordinates
+        upper = np.minimum(y_obs + y_obs_err, y_obs + y_obs * max_error_threshold)
+        lower = np.maximum(y_obs - y_obs_err, y_obs - y_obs * max_error_threshold)# Sample data
+    else:
+        upper = None
 
 
     # Create a ColumnDataSource to store the data
@@ -622,10 +626,10 @@ def plot_spectra_errorbar(object_name,
 
 
     # Create the figure
-    p = figure(title=f"{object_name}: Calibrated Observational Spectra - TEST3",
+    p = figure(title=f"{object_name}: Calibrated Observational Spectra" if title_label is None else title_label ,
                x_axis_label="Features (Wavelength [𝜇m])",
                y_axis_label= y_label,
-               width=800, height=400,
+               width=800, height=300,
                y_axis_type="log",
                tools="pan,wheel_zoom,box_zoom,reset")
 
@@ -683,7 +687,7 @@ def replace_zeros_with_mean(df_col2):
 
 
 
-def plot_predicted_vs_spectra_errorbar(object_name,
+def plot_pred_vs_obs_errorbar(object_name,
                                        x_obs,
                                        y_obs,
                                        y_obs_error,
@@ -725,7 +729,7 @@ def plot_predicted_vs_spectra_errorbar(object_name,
     source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
 
     # Create the Observational figure
-    p = figure(title='TEST 1',#f"{object_name}: Calibrated Observational Spectra -TEST1",
+    p = figure(title=f"{object_name}: Calibrated Observational VS. Predicted Spectra",
                x_axis_label="Features (Wavelength [𝜇m])",
                y_axis_label="Flux (F𝜈)",
                width=800, height=300,
@@ -770,16 +774,16 @@ def plot_predicted_vs_spectra_errorbar(object_name,
 
     show(p)
 
-def plot_predictedRandomSpectra_vs_ObservedSpectra_errorbar(stat_df,
-                                                            confidence_level,
-                                                            object_name,
-                                                            x_obs,
-                                                            y_obs,
-                                                            y_obs_err,
-                                                            training_datasets,
-                                                            x_pred,
-                                                            predicted_targets_dic,
-                                                            __print_results__ = False):
+def plot_pred_vs_obs_errorbar_stat(  stat_df,
+                                confidence_level,
+                                object_name,
+                                x_obs,
+                                y_obs,
+                                y_obs_err,
+                                training_datasets,
+                                x_pred,
+                                predicted_targets_dic,
+                                __print_results__ = False):
     """
     Plot observed spectra with error bars and predicted spectra with confidence intervals.
 
