@@ -389,6 +389,7 @@ class BuildRegressorCNN:
         if print_model:
             print(scaler_y)
 
+
     def standardize_X_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
         """
         Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
@@ -426,9 +427,9 @@ class BuildRegressorCNN:
         self.X_val_standardized_columnwise = scaler_X.transform(X_val)
         self.X_test_standardized_columnwise = scaler_X.transform(X_test)
         # elif X_train:
-        X_train_standardized_columnwise = scaler_X.fit_transform(X_train)
-        X_val_standardized_columnwise = scaler_X.transform(X_val)
-        X_test_standardized_columnwise = scaler_X.transform(X_test)
+        # X_train_standardized_columnwise = scaler_X.fit_transform(X_train)
+        # X_val_standardized_columnwise = scaler_X.transform(X_val)
+        # X_test_standardized_columnwise = scaler_X.transform(X_test)
 
         self.standardize_X_ColumnWise = scaler_X
 

@@ -44,7 +44,7 @@ def print_results_fun(targets, print_title=None):
     print('*' * 30 + '\n')
 
     if print_title is not None:
-        print(print_title)
+        print(print_title+ '\n')
 
     # Use pprint to print the data in a well-formatted and indented manner.
     pprint.pprint(targets, indent=4, width=30)
@@ -607,31 +607,32 @@ def plot_spectra_errorbar(object_name,
                           x_obs,
                           y_obs,
                           y_obs_err,
-                          y_label = "Flux (F𝜈)",
-                          title_label = None):
+                          y_label = "Flux (F𝜈) [erg/s/cm2/Hz]",
+                          title_label = None,
+                          data_type='x_y_yerr'):
+    # Create the figure
+    p = figure(title=f"{object_name}: Calibrated Observational Spectra" if title_label is None else title_label,
+               x_axis_label="Features (Wavelength [𝜇m])",
+               y_axis_label=y_label,
+               width=800, height=300,
+               y_axis_type="log",
+               tools="pan,wheel_zoom,box_zoom,reset")
 
-    if y_obs_err != None:
+
+
+    # Add the scatter plot
+    p.scatter(x_obs, y_obs,  size=4, fill_color='green', line_color=None, line_alpha=0.2,
+              legend_label=f"{object_name}: Observational data")
+
+    if data_type == 'x_y_yerr':
         # Define maximum error threshold as a percentage of y-value
         max_error_threshold = 0.8
 
         # Calculate adjusted error bar coordinates
         upper = np.minimum(y_obs + y_obs_err, y_obs + y_obs * max_error_threshold)
         lower = np.maximum(y_obs - y_obs_err, y_obs - y_obs * max_error_threshold)# Sample data
-    else:
-        upper = None
-
-
-    # Create a ColumnDataSource to store the data
-    source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
-
-
-    # Create the figure
-    p = figure(title=f"{object_name}: Calibrated Observational Spectra" if title_label is None else title_label ,
-               x_axis_label="Features (Wavelength [𝜇m])",
-               y_axis_label= y_label,
-               width=800, height=300,
-               y_axis_type="log",
-               tools="pan,wheel_zoom,box_zoom,reset")
+        p.segment(x0=x_obs, y0=lower, x1=x_obs, y1=upper,
+                  color='gray', line_alpha=0.7)
 
     # Increase size of x and y ticks
     p.title.text_font_size = '12pt'
@@ -639,12 +640,6 @@ def plot_spectra_errorbar(object_name,
     p.xaxis.axis_label_text_font_size = '12pt'
     p.yaxis.major_label_text_font_size = '12pt'
     p.yaxis.axis_label_text_font_size = '12pt'
-
-    # Add the scatter plot
-    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2, legend_label=f"{object_name}: Observational data")
-
-    # Add the error bars using segment
-    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
 
     # Show the plot
     output_notebook()
