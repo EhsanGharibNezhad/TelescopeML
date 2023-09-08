@@ -726,7 +726,7 @@ def plot_pred_vs_obs_errorbar(object_name,
     # Create the Observational figure
     p = figure(title=f"{object_name}: Calibrated Observational VS. Predicted Spectra",
                x_axis_label="Features (Wavelength [𝜇m])",
-               y_axis_label="Flux (F𝜈)",
+               y_axis_label="Flux (F𝜈) [erg/s/cm2/Hz]",
                width=800, height=300,
                y_axis_type="log",
                tools="pan,wheel_zoom,box_zoom,reset")
@@ -778,6 +778,7 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
                                 training_datasets,
                                 x_pred,
                                 predicted_targets_dic,
+                                radius,
                                 __print_results__ = False):
     """
     Plot observed spectra with error bars and predicted spectra with confidence intervals.
@@ -806,28 +807,63 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
         True or False.
     """
 
+    chi2_stat, p_value = chi_square_test(
+                            x_obs=x_obs,
+                            y_obs=y_obs,
+                            yerr_obs=y_obs_err,
+
+                            x_pre=stat_df['wl'][::-1],
+                            y_pre=stat_df['mean'],
+                            yerr_pre=stat_df['std_values'],
+                            radius=radius,
+                            __plot_results__=False,
+                            __print_results__=True)
+
     if __print_results__:
         print('*'*10+ ' Predicted Targets dic ' + '*'*10 )
         print(predicted_targets_dic)
 
     # Create a figure
+
+
+    # Create ML figure
     p = figure(
-        title=object_name+': Observational vs. ML Predicted Spectra',
+        title=object_name+': Observational vs. ML Predicted Spectra'+' [𝛘2='+str(chi2_stat)+', p-value='+ str(p_value)+']',
         x_axis_label='Features (Wavelength [μm])',
-        y_axis_label='Flux (Fν)',
+        y_axis_label='Absolute Flux (F𝜈) [erg/s/cm2/Hz]',
         y_axis_type="log",
         width=1000,
         height=400
     )
 
+    # Create the Observationa  figure * * * * * * * * * * * * * * * * *
+    max_error_threshold = 0.8
+
+    # Calculate adjusted error bar coordinates
+    upper = np.minimum(y_obs + y_obs_err, y_obs + y_obs * max_error_threshold)
+    lower = np.maximum(y_obs - y_obs_err, y_obs - y_obs * max_error_threshold)# Sample data
+
+    # Create a ColumnDataSource to store the data
+    source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
+
+    # Add the scatter plot
+    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2,
+              legend_label=f"{object_name}: Observational data")
+
+    # Add the error bars using segment
+    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
+
+
     # Create the ML Predicted figure * * * * * * * * * * * * * * * * *
+
+
 
     p.line(x=stat_df['wl'][::-1],
            y=stat_df['mean'],
            color='blue', line_width=2,
            legend_label='ML Predicted:' + ', '.join(
-               [['log𝑔= ', 'C/O= ', '[M/H]= ', 'T= '][i] + str(np.round(list(predicted_targets_dic.values())[i], 2)) for i in range(4)])
-
+               [['log𝑔= ', 'C/O= ', '[M/H]= ', 'T= '][i] + str(np.round(list(predicted_targets_dic.values())[i], 2)) for i in range(4)])+
+                ', R='+str(np.round(radius,2))+' Rjup'
           )
 
     # Plot the shaded regions for confidence intervals
@@ -852,22 +888,7 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
 
 
 
-    # Create the Observationa  figure * * * * * * * * * * * * * * * * *
-    max_error_threshold = 0.8
 
-    # Calculate adjusted error bar coordinates
-    upper = np.minimum(y_obs + y_obs_err, y_obs + y_obs * max_error_threshold)
-    lower = np.maximum(y_obs - y_obs_err, y_obs - y_obs * max_error_threshold)# Sample data
-
-    # Create a ColumnDataSource to store the data
-    source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
-
-    # Add the scatter plot
-    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2,
-              legend_label=f"{object_name}: Observational data")
-
-    # Add the error bars using segment
-    p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
 
 
     # Customize the plot
@@ -952,7 +973,7 @@ def calculate_confidence_intervals_std_df(dataset_df,
         p = figure(
             title='Mean with Confidence Intervals',
             x_axis_label='Features (Wavelength [μm])',
-            y_axis_label='Flux (Fν)',
+            y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
             y_axis_type="log",
             width=1000,
             height=400
@@ -1030,7 +1051,7 @@ def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Dat
 
     p = figure(
         x_axis_label='Features (Wavelength [𝜇m])',
-        y_axis_label='Flux (F𝜈)',
+        y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
         width=800, height=300,
         y_axis_type='log',
         title=title
