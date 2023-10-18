@@ -4,6 +4,7 @@ tags:
   - Python
   - astronomy
   - exoplanets
+  - brown dwarfs
   - spectroscopy
   - atmospheric retrieval
   - atmospheric models
@@ -46,7 +47,18 @@ aas-journal: The Astrophysical Journal
 # Summary
 
 
-`TelescopeML` 
+`TelescopeML` is a python library consists of a set of modules each with specific machine learning or statistical 
+function to perform Convolutional Neural Networks (CNN) and Machine Learning (ML) trainings on telescope datasets 
+detected from atmospheres of  extrasolar planets and brown dwarfs. Here is the list of tasks that `TelescopeML` perform:
+    * Explore and Process the synthetic datasets (or the training examples)
+    * _DeepBuilder_: Build CNN model
+    * _DeepTrainer_: Train the module using any given hyperparameters
+    * _Predictor_: Train the module using any given hyperparameters
+
+
+![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
+extract the target features from the observational data\label{fig:modules}](TelescopeML_modules.png)
+
 
 # Statement of Need
 
