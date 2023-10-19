@@ -1,28 +1,32 @@
 ---
-title: '`telescopeML` Python Package: Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra'
+title: '`telescopeML` Python Package: Deep Convolutional Neural Networks and Machine Learning Models for Analyzing 
+Stellar and Exoplanetary Telescope Spectra'
 tags:
   - Python
-  - astronomy
-  - exoplanets
-  - brown dwarfs
-  - spectroscopy
-  - atmospheric retrieval
-  - atmospheric models
+  - Astronomy
+  - Exoplanets
+  - Brown dwarfs
+  - Spectroscopy
+  - Atmospheric retrieval
+  - Atmospheric models
+  - Machine learning
+  - Convolutional Neural Network
+  - Telescope
 authors:
   - name: Ehsan (Sam) Gharib-Nezhad
     orcid: 0000-0002-4088-7262
     affiliation: "1, 2"
   - name: Natasha E. Batalha
-    orcid: 
+    orcid: 0000-0003-1240-6844 
     affiliation: "1"
   - name: Hamed Valizadegan
-    orcid: 
+    orcid: (Ask Hamed to fix this!)
     affiliation: "3, 4"
   - name: Miguel J. S. Martinho
-    orcid: 
+    orcid: 0000-0002-2188-0807
     affiliation: "3, 4"
   - name: Gopal Nookula 
-    orcid: 
+    orcid: (Ask Gopal to fix this!)
     affiliation: "5"
 affiliations:
   - name: Space Science and Astrobiology Division, NASA Ames Research Center, Moffett Field, CA, USA
@@ -44,7 +48,7 @@ aas-journal: The Astrophysical Journal
 
 --- 
 
-# Summary
+# Statement of Need
 
 We are on the verge of a revolutionary era in space exploration, thanks to advancements in ground- and space-based 
 telescopes, such as the James Webb. These remarkable instruments collect an enormous amount of data from extrasolar 
@@ -57,39 +61,54 @@ of these atmospheres for a wide range of thermal structures and compositions. Wi
 these objects and the increasing amount of data coming to Earth each day, there is a critical need for a systematic 
 pipeline to explore the datasets and extract important information from them. This invaluable information will be 
 utilized to provide insights about the diversity of exoplanets and brown dwarfs' atmospheric compositions and will 
-help facilitate the long-term analysis of this data in research.
+help facilitate the long-term analysis of this data in research. `TelescopeML` is an ML Python package with a 
+Sphinx-ed user-friendly tutorial and PyPI package that provide both trained ML models and ML tools  for interpreting
+observational data captured by telescopes. 
 
-"TelescopeML" is a Python package consisting of a set of modules, each with specific machine learning or statistical 
-functionality to perform Convolutional Neural Networks (CNN) or Machine Learning (ML) training on the telescope datasets 
-captured from the atmospheres of extrasolar planets and brown dwarfs. The list of tasks that modules at  `TelescopeML`
-performs are as follows:
+# Functionality and Key Features
 
-    * _StatVisAnalyzer_: Explore and Process the synthetic datasets (or the training examples)
-    * _DeepBuilder_: Specify traing and target features, Normalize/Scale datasets, Build CNN model
-    * _DeepTrainer_: Create ML model, Train the model with the training examples, utilize hyperparameters
-    * _Predictor_: Train the module using any given hyperparameters
+`TelescopeML` is a Python package comprising a series of modules, each equipped with specialized machine learning and 
+statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on 
+datasets captured from the atmospheres of extrasolar planets and brown dwarfs. The tasks executed by the TelescopeML 
+modules are outlined below and visualized in Figure \autoref{fig:TelescopeML_modules}:
+
+    - _StatVisAnalyzer_: Explore and process the synthetic datasets (or the training examples).
+    - _DeepBuilder_: Specify training and target features, normalize/scale datasets, and construct a CNN model.
+    - _DeepTrainer_: Create an ML model, train the model with the training examples, and utilize hyperparameters.
+    - _Predictor_: Train the module using specified hyperparameters.
 
 ![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
-extract the target features from the observational data.](TelescopeML_modules.png)
-
-
-# Statement of Need
-
-
-# Future Developments
+extract the target features from the observational data.\label{fig:TelescopeML_modules}](TelescopeML_modules.png){height="9pt"}
 
 
 # Documentation
 
-Documentation for `TelescopeML`, with step-by-step tutorials illustrating research applications, is available at 
-[https://ehsangharibnezhad.github.io/TelescopeML/](https://ehsangharibnezhad.github.io/TelescopeML/). 
 
-# Similar Tools
+``TelescopeML`` is available and being maintained as a github repository at
+[github.com/EhsanGharibNezhad/TelescopeML](https://github.com/EhsanGharibNezhad/TelescopeML);
+documentation is available on
+[ehsangharibnezhad.github.io/TelescopeML](https://ehsangharibnezhad.github.io/TelescopeML/). 
+
+#  Users  and Future Developments
+
+Astrophysicists with no prior machine learning knowledge can deploy the TelescopeML package and download the pre-trained 
+ML or CNN models to interpret their observational data. In this scenario, pre-trained machine learning (ML) models, 
+as well as the PyPI package, can be installed and deployed. Tutorials in the Sphinx documentation include examples for 
+testing the code and also serve as a starting point. For this purpose, a basic knowledge of Python programming is required 
+to handle the code and extract astronomical features from the datasets. The necessary machine learning background and a 
+detailed guide for package installation, along with links to further Python details, are provided to help understand the 
+steps and outputs.
+
+Astrophysicists with machine learning expertise and data scientists can also benefit from this package by developing and 
+fine-tuning the modules and pre-trained models to accommodate more complex datasets from various telescopes. This effort 
+could also involve the utilization of new ML and deep learning algorithms, the application of new feature engineering 
+methods, and further optimization of hyperparameters using different and more efficient statistical techniques. The ultimate 
+outcome from these two groups would be the creation of more advanced models with higher accuracy and robustness.
+
 
 
 # Acknowledgements
-
+(Ask Natasha for the grant number for the brown dwarfs)
 E. Gharib-Nezhad expresses gratitude to the developers of many open source Python packages used by `TelescopeML`, ...
-Mention grants
 
 # References
