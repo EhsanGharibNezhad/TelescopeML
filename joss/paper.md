@@ -29,7 +29,7 @@ authors:
     orcid: (Ask Gopal to fix this!)
     affiliation: "5"
 affiliations:
-  - name: Space Science and Astrobiology Division, NASA Ames Research Center, Moffett Field, CA, USA
+  - name: Space Science and Astrobiology Division, NASA Ames Research Center, Moffett Field, CA, 94035 USA
     index: 1
   - name: Bay Area Environmental Research Institute, CA, USA
     index: 2
@@ -104,7 +104,6 @@ fine-tuning the modules and pre-trained models to accommodate more complex datas
 could also involve the utilization of new ML and deep learning algorithms, the application of new feature engineering 
 methods, and further optimization of hyperparameters using different and more efficient statistical techniques. The ultimate 
 outcome from these two groups would be the creation of more advanced models with higher accuracy and robustness.
-
 
 
 # Acknowledgements
