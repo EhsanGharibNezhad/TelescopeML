@@ -410,9 +410,9 @@ class ObserveParameterPredictor:
             print(self.df_MinMax_obs)
 
         # this is commited b/c it is for standardize_X_ColumnWise for the MinMax
-        # XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(self.df_MinMax_obs.values)
+        XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(self.df_MinMax_obs.values)
 
-        XminXmax_Stand = self.BuildRegressorCNN_class.normalize_X_ColumnWise.transform(self.df_MinMax_obs.values)
+        # XminXmax_Stand = self.BuildRegressorCNN_class.normalize_X_ColumnWise.transform(self.df_MinMax_obs.values)
 
         bd_mean = self.Fnu_obs_absolute_intd_df.mean(axis=1)[0]
         bd_std = self.Fnu_obs_absolute_intd_df.std(axis=1)[0]
@@ -534,8 +534,8 @@ class ObserveParameterPredictor:
                 (Fnu_obs_absolute_intd_df_min, Fnu_obs_absolute_intd_df_max)
             ).T
             # print('Bug check1 -- df_MinMax_obs:', df_MinMax_obs)
-            # XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(df_MinMax_obs.values)
-            XminXmax_Stand = self.BuildRegressorCNN_class.normalize_X_ColumnWise.transform(df_MinMax_obs.values)
+            XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(df_MinMax_obs.values)
+            # XminXmax_Stand = self.BuildRegressorCNN_class.normalize_X_ColumnWise.transform(df_MinMax_obs.values)
 
             # print('Bug check2 -- XminXmax_Stand:', XminXmax_Stand)
 
