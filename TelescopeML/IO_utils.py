@@ -89,7 +89,7 @@ def load_or_dump_trained_model_CNN(
             f'../outputs/trained_models/trained_CNN_weights_{indicator}.h5')
 
         with open(
-                f'../outputs/trained_models/trained_CNN_{indicator}.pkl',
+                f'../outputs/trained_models/trained_CNN_history_{indicator}.pkl',
                 'wb') as file:
             pk.dump(trained_model.history.history, file)
 
