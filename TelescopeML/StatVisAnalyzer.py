@@ -1296,3 +1296,48 @@ def find_closest_chi_square(df, chi_square_statistic_list):
 
 
 # check_chi_square(103, chi_square_list)
+
+
+def plot_scatter_x_y (x, y,
+                        plot_title="Scatter Plot",
+                        x_label="X-axis Label",
+                        y_label="Y-axis Label",
+                        plot_width = 800,
+                        plot_height = 400):
+
+    # Create a Bokeh figure
+    p = figure(
+        title=plot_title,
+        x_axis_label=x_label,
+        y_axis_label=y_label,
+        width=plot_width,  # Width of the plot in pixels
+        height=plot_height,  # Height of the plot in pixels
+        tools="pan,box_zoom,reset,save",  # Enable interactive tools
+    )
+
+    # Add a scatter plot
+    p.circle(
+        x,
+        y,
+        size=10,  # Size of the data points
+        color="blue",
+        legend_label="Data",
+        line_color="black",  # Color of the circle border
+        line_width=2,  # Width of the circle border line
+        fill_alpha=0.6,  # Transparency of the circles (0-1)
+    )
+
+    # Customize the appearance
+    p.title.text_font_size = "16px"
+    p.xaxis.axis_label_text_font_size = "14px"
+    p.yaxis.axis_label_text_font_size = "14px"
+    p.legend.label_text_font_size = "12px"
+
+    # Show grid lines
+    p.grid.visible = True
+    p.grid.grid_line_color = "gray"
+    p.grid.grid_line_dash = "dotted"
+    p.grid.grid_line_alpha = 0.5
+
+    # Show the plot
+    show(p)
