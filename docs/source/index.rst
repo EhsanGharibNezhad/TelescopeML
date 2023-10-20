@@ -34,7 +34,7 @@ or simply...
    Installation <installation>
    Tutorials <tutorials>
    The Code <code>
-   KnowledgeBase <knowledgebase> 
+   Knowledge Base <knowledgebase>
    Github <https://github.com/ehsangharibnezhad>
    Publications <publications>
    What to Cite <cite>

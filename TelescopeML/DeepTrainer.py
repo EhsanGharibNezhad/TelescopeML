@@ -43,26 +43,49 @@ class TrainRegressorCNN:
     """
     Train Convolutional Neural Networks model using regression approach
 
-    Parameters:
+    Parameters
     -----------
-        - X1_train (array): Row-StandardScaled input spectra for training.
-        - X1_val (array): Row-StandardScaled input spectra for validation.
-        - X1_test (array): Row-StandardScaled input spectra for testing.
-        - X2_train (array): Col-StandardScaled Mix Max of all rows of input spectra for training.
-        - X2_val (array): Col-StandardScaled Mix Max of all rows of input spectra for validation.
-        - X2_test (array): Col-StandardScaled Mix Max of all rows of input spectra for testing.
-        - y1_train (array): Col-StandardScaled target feature 1 for training.
-        - y1_val (array): Col-StandardScaled target feature 1 for validation.
-        - y1_test (array): Col-StandardScaled target feature 1 for testing.
-        - y2_train (array): Col-StandardScaled target feature 2 for training.
-        - y2_val (array): Col-StandardScaled target feature 2 for validation.
-        - y2_test (array): Col-StandardScaled target feature 2 for testing.
-        - y3_train (array): Col-StandardScaled target feature 3 for training.
-        - y3_val (array): Col-StandardScaled target feature 3 for validation.
-        - y3_test (array): Col-StandardScaled target feature 3 for testing.
-        - y4_train (array): Col-StandardScaled target feature 4 for training.
-        - y4_val (array): Col-StandardScaled target feature 4 for validation.
-        - y4_test (array): Col-StandardScaled target feature 4 for testing.
+    X1_train : array
+        Row-StandardScaled input spectra for training.
+    X1_val : array
+        Row-StandardScaled input spectra for validation.
+    X1_test : array
+        Row-StandardScaled input spectra for testing.
+
+    X2_train : array
+        Col-StandardScaled Mix Max of all rows of input spectra for training.
+    X2_val : array
+        Col-StandardScaled Mix Max of all rows of input spectra for validation.
+    X2_test : array
+        Col-StandardScaled Mix Max of all rows of input spectra for testing.
+
+    y1_train : array
+        Col-StandardScaled target feature 1 for training.
+    y1_val : array
+        Col-StandardScaled target feature 1 for validation.
+    y1_test : array
+        Col-StandardScaled target feature 1 for testing.
+
+    y2_train : array
+        Col-StandardScaled target feature 2 for training.
+    y2_val : array
+        Col-StandardScaled target feature 2 for validation.
+    y2_test : array
+        Col-StandardScaled target feature 2 for testing.
+
+    y3_train : array
+        Col-StandardScaled target feature 3 for training.
+    y3_val : array
+        Col-StandardScaled target feature 3 for validation.
+    y3_test : array
+        Col-StandardScaled target feature 3 for testing.
+
+    y4_train : array
+        Col-StandardScaled target feature 4 for training.
+    y4_val : array
+        Col-StandardScaled target feature 4 for validation.
+    y4_test : array
+        Col-StandardScaled target feature 4 for testing.
     """
     def __init__(self,
                  X1_train: Union[np.ndarray, list],
@@ -101,33 +124,56 @@ class TrainRegressorCNN:
                     hyperparameters # dic
                     ):
         """
-        Build a CNN model with a certain number of blocks and layers using for loops.
+        Build a CNN model with the given hyperparameters.
 
-        Args:
-        ------
-                -  hyperparameters (dict): hyperparameters for configuring the model.
-                    hyperparameters keys includes:
-                        -  Conv__num_blocks' (int): Number of blocks in the CNN model.
-                        -  'Conv__num_layers_per_block' (int): Number of layers in each convolutional block.
-                        -  'Conv__num_filters' (list): List of integers representing the number of filters in each layer.
-                        -  'Conv__kernel_size' (int): Size of the convolutional kernel.
-                        -  'Conv__MaxPooling1D' (bool): Whether to include MaxPooling1D layers after each block.
+        Parameters
+        ----------
+        hyperparameters : dict
+            A dictionary containing hyperparameter settings.
 
-                        -  'FC1__num_blocks' (int): Number of blocks in the fully connected (FC1) part of the model.
-                        -  'FC1_num_layers_per_block' (int): Number of layers in each FC1 block.
-                        -  'FC1__units' (list): List of integers representing the number of units in each layer.
-                        -  'FC1__dropout' (float): Dropout rate for FC1 layers.
+            hyperparameters keys includes:
+                - 'Conv__num_blocks' (int): Number of blocks in the CNN model.
+                - 'Conv__num_layers_per_block' (int): Number of layers in each convolutional block.
+                - 'Conv__num_filters' (list): Number of filters in each layer.
+                - 'Conv__kernel_size' (int): Size of the convolutional kernel.
+                - 'Conv__MaxPooling1D' (bool): MaxPooling1D size.
 
-                        -  'FC2__num_blocks' (int): Number of blocks in the second fully connected (FC2) part of the model.
-                        -  'FC2_num_layers_per_block' (int): Number of layers in each FC2 block.
-                        -  'FC2__units' (list): List of integers representing the number of units in each layer.
-                        -  'FC2__dropout' (float): Dropout rate for FC2 layers.
+                - 'FC1__num_blocks' (int): Number of blocks in the first fully connected (FC1) part.
+                - 'FC1_num_layers_per_block' (int): Number of layers in each FC1 block.
+                - 'FC1__units' (list): Number of units in each FC1 layer.
+                - 'FC1__dropout' (float): Dropout rate for FC1 layers.
 
-                'learning_rate' (float): Learning rate for the model.
+                - 'FC2__num_blocks' (int): Number of blocks in the second fully connected (FC2) part.
+                - 'FC2_num_layers_per_block' (int): Number of layers in each FC2 block.
+                - 'FC2__units' (list): Number of units in each FC2 layer.
+                - 'FC2__dropout' (float): Dropout rate for FC2 layers.
 
-        Returns:
+                - 'learning_rate' (float): Learning rate for the model.
+
+        Example
         --------
-            tf.keras.Model: The built CNN model.
+        >>> hyperparameters = {
+        >>>      'Conv__MaxPooling1D': 2,
+        >>>      'Conv__num_blocks': 1,
+        >>>      'Conv__num_layers_per_block': 3,
+        >>>      'Conv__num_filters': 4,
+        >>>      'Conv__kernel_size': 6,
+        >>>      'FC__NumberLayers': 4,
+        >>>      'FC1__num_blocks' : 1,
+        >>>      'FC1_num_layers_per_block': 4,
+        >>>      'FC1__dropout': 0.09889223768186726,
+        >>>      'FC1__units': 128,
+        >>>      'FC2__num_blocks' : 1,
+        >>>      'FC2_num_layers_per_block':2,
+        >>>      'FC2__dropout': 0.0024609140719442646,
+        >>>      'FC2__units': 64,
+        >>>      'learning_rate': 4.9946842008422193e-05}
+
+        Returns
+        -------
+        object
+            Pre-build tf.keras.Model CNN model.
+
         """
 
         Conv__num_blocks = hyperparameters['Conv__num_blocks']
@@ -232,7 +278,13 @@ class TrainRegressorCNN:
 
     def fit_cnn_model(self,
                       budget=3):
+        """
+        Fit the pre-build CNN model
 
+        Returns:
+            Training history (Loss values for train)
+            Trained model
+        """
         model = self.model
         # Compile the model with an optimizer, loss function, and metrics
         model.compile(loss='huber_loss',

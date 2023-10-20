@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters &mdash; TelescopeMLdoc</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Publications:" href="../publications.html" />
+    <link rel="prev" title="Knowledge Base" href="../knowledgebase.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            TelescopeML
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">The Code</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../knowledgebase.html">KnowledgeBase</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../knowledgebase.html#concepts-data-processing-and-model-training-in-cnn">Concepts: Data processing and Model Training in CNN</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Load-the-training-dataset-(syntheric-spectra)">Step 1: Load the training dataset (syntheric spectra)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Build-the-CNN-model-/-Data-processing">Step 2: Build the CNN model / Data processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Train-CNN-model">Step 3: Train CNN model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-4:-Check-Trained-Model">Step 4: Check Trained Model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ehsangharibnezhad">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cite.html">What to Cite</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TelescopeML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../knowledgebase.html">Knowledge Base</a></li>
+      <li class="breadcrumb-item active">Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/ML_concepts_Train_CNN_Model.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="../knowledgebase.html" class="btn btn-neutral float-left" title="Knowledge Base" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../publications.html" class="btn btn-neutral float-right" title="Publications:" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars and line breaks on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+    white-space: pre;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Train-a-Regression-ConvNN-Model-Using-BOHB-Tuned-Hyperparameters">
+<h1>Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters<a class="headerlink" href="#Train-a-Regression-ConvNN-Model-Using-BOHB-Tuned-Hyperparameters" title="Permalink to this heading">¶</a></h1>
+<p>In this tutorial, we will be going over how to set-up, train and interpret a TelescopeML model using the built-in functions and also go over some of the important techniques and methods being applied behind the scenes in terms of: setup, pre-processing and training/predicting</p>
+<p>For the demonstration, are going to be importing the DeepRegTrainer, DeepRegBuilder files from the <strong>TelescopeML folder</strong> responsible for the class that houses the model architecture and its supporting functions as well as the StatVisAnalyzer’s regression_report function to get an in-depth visualization about how the model performed for the 4 distinct outputs within the given data</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;..</span><span class="se">\\</span><span class="s1">telescopeML</span><span class="se">\\</span><span class="s1">telescopeML&#39;</span><span class="p">)</span>
+
+
+<span class="kn">from</span> <span class="nn">DeepTrainer</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">DeepBuilder</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">StatVisAnalyzer</span> <span class="kn">import</span> <span class="n">regression_report</span><span class="p">,</span> <span class="n">engineered_feature_visualizer</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="Step-1:-Load-the-training-dataset-(syntheric-spectra)">
+<h1>Step 1: Load the training dataset (syntheric spectra)<a class="headerlink" href="#Step-1:-Load-the-training-dataset-(syntheric-spectra)" title="Permalink to this heading">¶</a></h1>
+<p>The first step is going to be loading the dataset. In the example below, we have data collected on around 30,888 unique brown-dwarf spectra that spans from 0.897 micron to 2.512 micron with 104 features (instances) recorded in between. The goal of our model is to be able to predict 4 extra features accompanying the provided data that is:- * Gravity * Temperature * C/O Ratio * Metallicity</p>
+<p>of a given instance/example.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># original trainign dataset astronomers use to predict the parameters of the telescope brown dwarf spectra</span>
+
+<span class="n">train_BD</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../datasets/browndwarf_R100_v4_newWL_v2.csv.zip&#39;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;zip&#39;</span><span class="p">)</span>
+<span class="n">train_BD</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>temperature</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+      <th>2.512</th>
+      <th>2.487</th>
+      <th>2.462</th>
+      <th>2.438</th>
+      <th>2.413</th>
+      <th>2.389</th>
+      <th>...</th>
+      <th>0.971</th>
+      <th>0.962</th>
+      <th>0.952</th>
+      <th>0.943</th>
+      <th>0.933</th>
+      <th>0.924</th>
+      <th>0.915</th>
+      <th>0.906</th>
+      <th>0.897</th>
+      <th>is_augmented</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 109 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">train_BD</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(30888, 109)
+</pre></div></div>
+</div>
+<section id="1.1:-Check-the-columns">
+<h2>1.1: Check the columns<a class="headerlink" href="#1.1:-Check-the-columns" title="Permalink to this heading">¶</a></h2>
+<p>note: one of the columns, <em>is_augmented</em>, is indicating whether this is a native dataset or an augmented one. For now, we don’t need it so drop it, but all modules will take this into account!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">]</span>
+<span class="n">train_BD</span><span class="p">[</span><span class="n">target_features</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>temperature</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>In the following blocks below, we are eliminating the augmented rows (atrifically created data instances) as well as loading in the flux values (X_labels) as integers seperately</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_features_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
+<span class="n">training_features_labels</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;2.512&#39;, &#39;2.487&#39;, &#39;2.462&#39;, &#39;2.438&#39;, &#39;2.413&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_features_wl</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
+<span class="n">training_features_wl</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2.512, 2.487, 2.462, 2.438, 2.413]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wl</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../datasets/wl.csv&#39;</span><span class="p">)</span>
+<span class="n">wl</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>wl</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.511960</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.486966</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.462220</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="1.2:-Prepare-feature-variables-(X)-and-targets-(y)">
+<h2>1.2: Prepare feature variables (X) and targets (y)<a class="headerlink" href="#1.2:-Prepare-feature-variables-(X)-and-targets-(y)" title="Permalink to this heading">¶</a></h2>
+<p>The next step is splitting the data into X and y sets. The X (variable) subset consists of all the features that contain the spectral flux values. This information is used to train the model on finding a pattern/similarities between these independent features. The y (target) subset contains the 4 distinct features (gravity, temperature, C/O ratio and metallicity) that the model is trying to predict based on the particular set of X values for a given observation.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># to assure we are only training the module with the native non-augmented BD training dataset</span>
+<span class="n">train_BD</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">[</span><span class="n">train_BD</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;no&#39;</span><span class="p">])]</span>
+
+
+<span class="c1"># Training feature variables</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;is_augmented&#39;</span><span class="p">])</span><span class="c1">#.astype(np.float32)</span>
+
+
+<span class="c1"># Target feature variables</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">[[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="p">]]</span><span class="c1">#.astype(np.float32)</span>
+<br/></pre></div>
+</div>
+</div>
+<p>We are also scaling the temperature on a <span class="math notranslate nohighlight">\(\log_{10}\)</span> scale to reduce the magnitude of the variable while still keeping the similar variance amongst them. This also eliminates the model skewing towards larger value changes from the differences generated by the temperature</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Eliminates the Setting With Copy Warning</span>
+<span class="n">y_copy</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">y_copy</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">y_copy</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y_copy</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+      <th>temperature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+      <td>3.041393</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+      <td>3.041393</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+      <td>3.041393</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+      <td>3.041393</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>0.0</td>
+      <td>3.041393</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+<section id="Step-2:-Build-the-CNN-model-/-Data-processing">
+<h1>Step 2: Build the CNN model / Data processing<a class="headerlink" href="#Step-2:-Build-the-CNN-model-/-Data-processing" title="Permalink to this heading">¶</a></h1>
+<p>In the following steps, we are going to initialize the model from the BuildCNN class. Some of the uncommon parameters required here are: * Feature names/values: This corresponds to the flux names (string converted numerical values) and their integer counterparts. * param_grid: This is a dictionary that is used for identifying the hyperparameters to be tuned when dealing with a pre-trained model * spectral_resolution: This value indicates the resolution of the synthetic spectra used to
+generate the dataset</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span> <span class="o">=</span> <span class="n">BuildRegressorCNN</span><span class="p">(</span><span class="n">feature_values</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                        <span class="n">feature_names</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                                        <span class="n">target_values</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                        <span class="n">target_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                                        <span class="n">is_tuned</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span>
+                                        <span class="n">param_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">spectral_resolution</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                        <span class="n">is_feature_improved</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span>
+                                        <span class="n">is_augmented</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span>
+                                        <span class="n">ml_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">ml_model_str</span><span class="o">=</span><span class="s1">&#39;CNN&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>After initializing our ML model, we split the processed dataset into 3 separate parts: Train, Validation and Test.</p>
+<ul class="simple">
+<li><p>The training set is used to provide the model with data to analyze and understand the relationship/s between the required output and provided input information. This makes up the majority of the dataset.</p></li>
+<li><p>the test set is used to evaluate the model. This means that we aren’t allowed to touch this data until we finish completely training the model. This is to ensure that the model is not biased towards just the data collected and is still able to accurately provide an output when given a new instance.</p></li>
+<li><p>Since we can encounter a bias while training the model repeatedly with the training data, we further split the training data into a validation set. This is used to evaluate the model during training and to fine tune the hyperparameters of the model. This is done to ensure that the model is not overfitting the training data and is still able to provide an accurate output when given a new instance.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">split_train_validation_test</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                 <span class="n">val_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                 <span class="n">random_state_</span><span class="o">=</span><span class="mi">100</span><span class="p">,)</span>
+</pre></div>
+</div>
+</div>
+<section id="2.2:-Scale-X-features---Row-wise">
+<h2>2.2: Scale X features - Row-wise<a class="headerlink" href="#2.2:-Scale-X-features---Row-wise" title="Permalink to this heading">¶</a></h2>
+<p>Another crucial step in Data Preprocessing involves standardizing the data. To address this concern, we will perform scaling on the data at the level of individual rows (per-example), ensuring that each row has a mean of 0 and a standard deviation of 1. This choice of row-wise scaling is driven by the nature of the data, which consists of a collection of time-series observations where the order of features holds significant importance. Therefore, opting for row-wise scaling is essential to
+maintain the inherent relationships between the features, as scaling on a per-feature basis (column-wise) could disrupt the direct associations between features. This is because the resulting scaled value would correspond to the mean and standard deviation of the feature column, potentially affecting the contextual relationships between neighboring features.</p>
+<p>Our scaling is done using the StandardScaler() method from sklearn.preprocessing. X is transposed before applying StandardScaler() method.</p>
+<p>The formula used to normalize the data is</p>
+<div class="math notranslate nohighlight">
+\[z :=\frac{x - \mu}{\sigma}\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scale the X features using MinMax Scaler</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">standardize_X_row_wise</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>The boxplot below shows us a visual reference of the data (feature) ranges after scaling them using the StandardScaler(). We can interpret the boxplot as follows:</p>
+<ul class="simple">
+<li><p>The orange lines mark that Median which marks the middle of the quartile ranges within the data</p></li>
+<li><p>The box itself marks the interquartile range (IQR) which is the range between the upper and lower quartiles. This is calculated by the formula: <span class="math notranslate nohighlight">\(IQR := Q3 - Q1\)</span></p></li>
+<li><p>The line above the box marks the upper quartile range where 75% of the scores fall</p></li>
+<li><p>The line below the box marks the lower quartile range where 25% of the scores fall</p></li>
+</ul>
+<section id="The-picture-below-gives-us-an-example-of-a-visually-zoomed-in-description-for-each-of-the-scaled-feature-followed-by-the-collective-box-plot:-">
+<h3>The picture below gives us an example of a visually zoomed-in description for each of the scaled feature followed by the collective box-plot:-<a class="headerlink" href="#The-picture-below-gives-us-an-example-of-a-visually-zoomed-in-description-for-each-of-the-scaled-feature-followed-by-the-collective-box-plot:-" title="Permalink to this heading">¶</a></h3>
+<img alt="Inter-Quartile Range" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA4QAAAG6CAYAAABQoYjPAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAJp6SURBVHhe7d0HnBPl1sfxh15FEJBeRGkiAqKI0kRREBGwce29Y+/tVa9dsRfsDctVEVGxgxUVEARFitJ7b4IgCDjv/M7OLLMh2c3CLmQ3/6+fSHYySSaTmck5Ty3i+ZyIiIiIiIiknaLBvyIiIiIiIpJmlBCKiIiIiIikKSWEIiIiIiIiaUoJoYiIiIiISJpSQigiIiIiIpKmlBCKiIiIiIikKSWEIiIiIiIiaUoJoYiIiIiISJpSQigiIiIiIpKmlBCKiIiIiIikKSWEIiIiIiIiaaqI5wvu55l27dq5pUuXBn+JiIiIiIhIKsqXhLBOnTpu0KBBrnr16sESERERERERSTX5khDWrVvX/fDDD5YYioiIiIiISGpSH0IREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBER2Q7//POPW79+vdu0aVOwJMO///7r/v77b7dhwwbneV6wVEREJLUoIRQR2YFWrFjhFi9e7P76669giRRkmzdvdjfffLM79thj3bvvvhsszTBjxgxbfuKJJ7q1a9cGS/MPCeiyZcvckiVLtrotX77cklMREZFYSghFRHYQaol69uzp6tev7+644w4L4PPCggUL3N133+2ef/75YInkBZK9l156yd11111u6dKlwdKs+E5HjRrlPv30Uzd9+vRgaYY///zTffbZZ27o0KFu48aNwdL8s3LlSteiRQtXr169uLc2bdrYZ6HGUkREJKSEUERkByKBoHlhXpo3b567/fbb3XPPPRcskbxAQvjKK6+4W2+91Wp14ylSpIirXLmyq1atmitfvnywNCvW2VEoZOD4YpsaN25st7322suVKVPGTZw40d12223u0EMPdbNnzw6eISIi6U4JoYhIIaA+avmHfZto/xYrVsy98847bs6cOa5v377B0p3vhhtucGPGjLHbuHHjbPsGDBjgSpUq5X788UdLckVERKCEUEQkRdDHK9rPi35n9P2iXxjND6mxikVtUNj0lKQlfI3wFi+R4XV4PV6Xmi+aGjIwSiI0MeS1wvfnPekLyfPj9YVkWbjdq1atyvK86OuEeG+Wxw7KEop+rnifh8/Pe4b9M8P3za6ZJu/F64XNJ9kmnsNzeR0ej25P7L6NvjbvH/uZcmPdunWZ285+y4v+pSSqxYsXz7xRQ3jSSSe5Qw45xB7/5ptv7N94+CyrV6+2bQn3J8dLdk2cw2Mk3C/8y3FFU1s+WzK14jwnPK74N/rd8NrZHaNsG9vMc9nmZN9TRESUEIqIpASSgu7du9uNRIT+gPvvv7/bc8897Uazv0svvXSrRKRPnz7urLPOsvuTJ0927du3z7wddthhluRE8feFF15oTQl53YYNG9prH3XUUW7s2LHBWlsQiPO+vB795L7//nt73XC7zj///GDNDO+//75r2bKla9CgQeZ2X3LJJRas03/y4IMPdt9++22wdoZ+/frZ67/22mvBkqwI8Gnm2K1bNwv4o/jMZ555pr1n+HnCbTvhhBOsOW08H330kb3n5Zdf7ubOnetOPfVU16hRI3vegQce6AYNGuQ6dOhgtWsgmQr3K7dHH33UlpOs8PnatWtnNXC5wXfGZ+f92F/htu+3337uvvvuy/Jd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4Q5AVTknMydqp06d3Keffuo+//xzd//997v77rvPmoxS7c/JTJOAK664wo0YMSJ4dt7YnkTu4IMPdj/88IN7/vnnXfHixYOlIiIiIpIfmLqFgnyaiJJQkZjRZJTmonfddZd7+umn3VdffWW1gxTcc/+SSy5x69atC15h53vuueessoNmo5LalBDuANQE0hSzWrVq7u2333bt27cPHslAsrb//vtblXyHDh2sWSdNAeI13fzrr78S1h5y8eA50YvBP//8Y3/zHG5U7bNOeEu2T2DRokXtlggDz9Akliavv/76q/v999/dqlWrgke3RvMB3n/Dhg2Zf8+YMcP99ttv7o8//rBloehj9LWkDybNEMLnioiIiBQmxDsPPfSQxVe0JqOl1+677x48mqFixYruoosucoMHD3alSpWyOWXfeuutLHEitYzEW9k1KSVOZB3WBc+PxohhfBneiEcTxaJRYeyYXaUEsdzMmTPt83KbNWuWxa7x8J7EwWEszI3KFmJPnhuNO8PHiBmJSydMmGCxOOvEDp4oPn+H5bk6dep4c+bMCf5Kb34i4/knqeefDN57770XLE3sq6++4gyz23fffRcszeAnjV716tU9/0QIlmT17bffervttpt36KGHBks878EHH/R23XVXe39u3K9UqVLm7fXXX7f1/JPP69Spk1e8ePHMZaEvvvjCq1q1qnf44YfberFYds4553i77LKLPb9YsWL2L8/p37+/519QgjW3OOOMM2xbb7nlFs8/kb0999zT9hPP3WOPPYK1PO+HH37I8lj42mXLlvWaNWvmrVy5MlhTRHLL/5H3GjRo4D3xxBPBEpHtw29OjRo14l73RSQ5fmLmnXfeeRYLtmnTxvMTsOCRxDp27Gjr16tXz/OTv2Cp533yySeen0h6p512WrBka127drWYbejQofa3n0hZjFi6dGl7zRIlSmSJHZs2ber5iZWt+80339g6rVu3tr+junXr5lWuXNkbMWJEsCSrUaNGeU2aNLH3CWM87hPvLliwIFhri8WLF9tvVt26db0VK1Z49957r8W1Yez51FNP2XrsvyuvvDJLXMqtZMmSnp9EexdffLGtJ1uohjCfMZALJR2U6vgnXLA0sbZt21pfPdCMNIrmpH4CFPy1NUp2qF2k5CTkJ13OP3mcfyJYCQ2v3ahRo8xbhQoVgjUTC1+XUqFY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RnSUUSWEBZcSQrGTef369XafJpsiIiIiIjkJRxlVMliwKSEUt3nzZrdu3Tq7r/57IiIiIpIbqiEs2JQQitUQhsMRq4ZQRERERJIRrSFUQlhwKSEU1RCKiIiISK4pISwclBCKncxhH0INKiMiIiIiyVBCWDgoIUxDM2fOdNdcc40bPny4ncjcqCVEtMnoG2+84T744IPgLxERERFJZy+//LLr16+f27Bhg/0dLyEcO3asu/POO938+fPtb0l9SgjT0GOPPeYeeugh16NHD7d06dIsCWFYQ/jee++5Cy64wJ177rlu2bJltkxERERE0tP48ePd1Vdf7W6++WY3ePBgWxabEK5evdodf/zx7tZbb7VYUwoGJYRpqHXr1pkn7dtvv22DyoTzyJAQrlq1yl1yySU20Ax/77rrrvaYiIiIiKSnunXrukqVKrmNGze6G264wWoAowkhBg4c6GbPnm3399lnH/tXUp8SwjREzeABBxxg9++//34bUGbTpk32d6lSpdynn37qFi5caH+feOKJ6lcoIiIikuYqVqzo+vbta/dJ+ogXw8EISQhXrFhhNYNUMlStWtV17drVHpPUp4QwDVG6c/nll9vJS+L37LPPBo849+eff1q7b+yyyy7uvPPOs/siIiIikt6oKNhtt93s/osvvuhWrlxp90uWLOmef/55t2DBAvv7nHPOcbVq1bL7kvqUEKapgw8+2JUrV85KcTihw8Fk3nzzTTd58mS7Tzvxpk2b2n0RERERSW81a9Z099xzj90fOXKk++ijj+w+3YwGDBhg9+lqdPbZZ9t9KRiUEKap+vXru6OPPtruUytIe3CEI0KRIDKgjIiIiIhI6KijjsocX4KR60EsyQ2MQ9GwYUO7LwWDEsI09uSTT7pq1aoFf21RtGhR9/TTT7saNWoES0REREREMmoJw76EsapXr25Tm0nBooQwjdEG/KSTTgr+2qJRo0bujDPOsMRQRERERCREfEi3oiZNmgRLtrjxxhs1On0BpIg/zV111VWufPnywV8ZJ/lZZ52lkUVFREREJC4qFXr27Bn8lWHfffe1GDKcgkIKDiWEaa527dpZRhKltOeKK64I/hIRERER2RrJX+XKlYO/MvoOMkK9FDxKCNMcpTic0ExFgeuuu86GDhYRERERSYRKhPPPP9/u77HHHq537952XwoeJYTimjdv7saM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3bDxwaAyrVq5nkdrUBmRHW3s2LGudevsB5WJtXr1ajdt+jQ3c85Mt+zP5a54seKuZtWarkG9PVz9+vUtTovn383/utlzZrvps2a4eYvmub//+dtVrrCbq1eznmvYsKGrVKmSksEUpoRQdgoOu+iFQQmhyI6nhDAXlBDmjhJCkZ1uWxJCSU/6NZOdQqVEIiIiIiI7nxJCERERERGRNKWEUEREREREJE0pIRQREREREUlTSghFRERERETSlBJCERERERGRNKWEUEREREREJE0pIRQREREREUlTSghFRERERETSlBJCERERERGRNKWEUEREREREJE0pIRQREREREUlTSghFRERERETSlBJCERERERGRNKWEUEREREREJE0pIRQREREREUlTSghFRERERETSlBJCERERERGRNKWEUEREREREJE0pIRQREREREUlTSghFRERERETSlBJCERERERGRNKWEUFLCv//+m/mv53l2X0RERES2n2IryY4SQkkJRx55pLv33nvd3Xff7Zo2bRosFREREZFtUatWLXfPPfdYfNW+fftgqcjWlBBKSujUqZO7/vrr3TXXXOMaNGgQLBURERGRbVGtWjV34403uhtuuMEdcMABwVKRrSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCCVpCxYscHPmzHEbNmwIlmy/ZcuWudmzZ7u//vorWCIiIiIisdatW2cxE/GYSF5SQljATJw40b311lv2L/7880/39ttvu5EjR9rfoX/++ccNGTLE1v3f//7nRo0aFTwS3+bNm91nn31m63MbMWKE+/fff4NHM3Tq1Mk1bNjQjRs3Lliy/c4//3xXv359e890tn79ejdw4EA3ePBgu+95nvv888/tu1u6dGmwloiIiERRoEwcRMwDfj+/+eYb984777g1a9bYshDJVBjnvPvuu7ZudubNm2e/w6zPe6xYsSJ4ZOfgMxIztW/f3m3atClYmn6IT7/77jv7bsLvOPxuiV8l95QQFjDvvfeeO+mkk9ygQYPs77lz57qTTz7ZPfPMM/Z3iAvklVdeaevy+GWXXbZVghdFTd1//vMfW5/b008/bUliVJEiRVzRokXtlldKlChh/xYrVsz+TVcrV650Z555prvooossyedH6qabbrLv7vfffw/WEhERkajFixe7008/3fXt29f+Jta577777Dd14cKFtiz0448/ZsY5/L5+8sknwSNb43eY2In1wvWnT58ePLpzhPEXsRMxWboiGX7wwQftO1m0aJEtIxHke3rqqadyTPRla0oIC5jcXADCdUuWLOkmTJiQbc0etVEkkWGCFu99zjvvPHfVVVe5GjVqBEu2X69evdy1117r9tlnn2BJeovu93S+2IuIiORG7O9ndr+hxDokFffff7+1qIpn9erV1rqqePHilojl9Jo7QpMmTSxmIh7b2duys8V+/vDvdN8v20oJYRqg5o92548//njcJgZUt7/00kt2v2PHjvZvPFyE7r77blenTp1gyfajdOeBBx5wBxxwQLBEREREJP80bdrU1a5d22qVEtX6ffvtt1bDyLrlypULlu5czZs3t5jpmmuuydPWWiI6mtLAvvvu66pWrWr901atWhUs3WLatGl24evWrZurV69esHRr1CCSPMY2Jd24caOVpJF0gqr6MWPGWFOMoUOHuvnz5yesvqe/HM+NLaHjPXivcLAZnv/bb79ZP0dutOuPvib3uXAPGzbM3pc+lone8++//7b3TNT+nvfmcd4/tpktz2V5+FzW++qrr+w9R48evdV78nz6d/I4fRoSlUSKiIjIjkHLqSuuuMJ+y+ONsUAcQHNRftN79uyZ7W8369Dtg+aoH3/8sfvoo4/c8OHDM7t/xApjJmKJRHEKWIcbcVIofO7atWuDJVtEYzRely5FxGDEH7/88stW78X6xCU8TmIcG9uF+Oy8ZxjjxcP7sk7sa4TxVjgYIf/+8MMPmTFR9LOBbSR+I85j2+nOJDuGEsI0ULduXWtfz8lP09AoTr5XX33VSppoglCqVKngka0deeSRrmXLlm78+PHBkgxc/Gjyefnll1sHX9bp0KGDO+qoo9wRRxzh9ttvP2vXHe9icumll9pz6dwdRb+5Vq1aWZLKxYEaxIMPPti2gRuvec4559i6JLm8F+sffvjhdv+ggw5yhxxySNyLySWXXGLvSSIXD4knj/M5lixZEizN+IHgM1JCx8WeAXFY77DDDrP35DO3aNHCEkPce++9VrLIYDw8znr8/fLLL9vjIiIisuMR+/C7jBdeeMESmqixY8faqOr83hNLxCZT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nQ8//LDVHJ100kkWE/3f//2f69Spk/vjjz8sJuK3mWtHFLVrP//8s6tataq9Ni1vrr76anfAAQe4uXPnuptuusk99NBDFmNsD65TXI+2N9bi+se17aOPPrJYkNiJz8TybcHnYpuoRY2Nm7gRO0Wva1OnTnW///575vWU54f3eZ1Ro0bZ9wWWsyzRtt111122z8eNG+f8pDAzdvKTPXvuE088YTEw+y1W+Duw9957W+zE99uzZ0+Lab/44gv7+6effgrW3oJWW6zPYz/++GOwVDL5Oz7PqYZw27333ntWSnLttdcGS7bwTwKvXbt2nH1W6rx06dLgkQyUiPgnrOef3LaOfzHLUkrCfUqEvvvuOyt54W9q5+rXrx+ssWP4J7L3ySefeH5CY/epEWV7KSnalhrCX3/91UqIKDXjM8W7RQ0aNMhKxY499ljbh35SbTWE48ePt/1aq1atzBqFhQsXWikY2+f/cNiyEDW4/sXSHvvyyy+3eh//x8m7/PLL7XH2cWyJ1FNPPWWP3XPPPcGSDJQC9u/f344Dahljv2fwXpS+cTyIpIvu3btbbb0fCNj58e677waPbOEHX169evWsFNgP9Owcy8/fI2oIK1WqZKX10RpCxLv+iEjyqO3hHL7zzju3Opf4rezRo4c93rt377gxES2IiHNYx08Sg0cy8DgtbmJfl7+5tvAcav7HjBkTPLJtbrjhBtuGjz/+OFiybYiPhg4d6k2YMME+O7EM20gMsy2IW3g+8QafOd4txP2XXnrJYifej3iGWP+tt97y/ETQWqcRryxZssTWJ/6h9ZmfhG0V+/jJn70vrTiI36LvA2oXaUHGOs2bN/dWr14dPJKBVl1c/4nbonid66+/3p5HbTHfbSxiZGokiTclKxVbphhqzWgHfd111wVLtqC2iP5u1B6+/vrrVpMURUkOfdeefvppa0/97LPPWv+WEI8fcsghrkOHDtZnkNIx/xgIHt1xaO9OrZofsNn92FK7beVfDDJL6mNvUb169XKTJk1ye+65p5XgUxtHm3L/h8VKGimxql27drB2fOw3P5Gz+9S6sl9j34fvkZrQgw8+2M2aNctddtllwSNZsd1R1CZQysn37F9crU9ELN7LvwBbPyX6S4ikC65bt912m5UG04cl1rfffmv9gY499li7DiZCDf3w4cPdFVdc4fzgw5177rnWeoLW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hULlaAzG9Y0+j0y7QXxDXMo1K6+QlNOvkveknybfTzR2A8kao4RyfWbE9dw0S6XQnWsyv1OMaxGvoIDuBbwnhZ0S4Z8Eea5OnTrenDlzgr8kN/zkwttll108PwEIlmzhn/Se/+PpNWjQgCuXV7duXe/pp5/2/JPX83+QvZtuusmey2OXXHKJ5x/wwTO38H/AvX333dduzZs394oWLer5J1DmstatW3ujRo0K1s4//oXZ22effWwb9thjD9tmP1iyv7k1a9bM8wOJYO0MTZo08fyLs+cHCsESz/MDCK9ChQq2L/yA1Xvqqadsn/gBnOf/mNjrtmrVyvMvisEzcscPDO21eZ2ff/45WJrBv6DZe/kXHq906dLeGWec4X300Ueenxx6r7/+un0Onle7dm3vl19+CZ61BdvK43fddVewJCu+79NOO83W8S+g9ncU71epUiXPD+yDJSIZBg0aZOc258sHH3xgx2o8fvDgderUyY6xWrVqeatWrQoeycDz/vrrr8xryaJFi+x457WHDRtmy3ak7t27e36Q4vmJQrAkMT+w8fxg0j5b9PeI88hPHG0514ibb77ZPgvn7TvvvOOdd955dk2ZPn168IyMz121alV77z59+nh+oGjXXD/QtHW5+YGmXY9CfkJk79G2bVvbz/ADTa9bt26Zy/0kyl7LD35sW8Lv4tlnn7X1wXO49pUqVSruue4n8vacvn37BkvyD9cc3ovP+scffwRLt8b+8gM/W/ewww7L/PzJ8ANVb7/99rPn8psm6a1z584W1/z222/Bkqz8pM7bf//97Xjht/rxxx/3vvrqK+/zzz+3380wDjj77LPtmhA1cOBAb9ddd/WOOOII74EHHvCee+4579FHH/UOPPBAi4t43oUXXhg3lsqNK6+80l7r/fffD5Zsu5NOOikzTiLW5nWJA8JlxD7R823BggVe9erV7beAa1yIa1WNGjXsNbj+EMs8+eSTdo3lWsPrduzYcZtjJ343GjVq5DVt2tTzE9VgaQauwexX3oPvh3j1k08+se17+eWXvYYNG9rvDM9dvnx58KwtiJP5DbrtttuCJVnx3nxmXp/vNIrvku3i+90Zv2GpTAlhivniiy/sROAESYQT+b777vPq169vBzwnBs/hfpkyZbzBgwdbEBEPF0sSr0S3ihUrWoKZ33r37m3bGm8buPEYQUVUixYt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EZEYH3/8sbv44ovdr7/+6ipWrGiJ4Wuvvea+/fZbN3LkSFe8eHHXuXNnd9ZZZ7mDDjooeJaz9S699FJLHKOKFi3qLr/8cteqVSv7m8Dzxx9/dIcddpgrX768LcO0adPcAQccYO/RuHHjYGlyhg4d6gYMGOCKFClif5csWdKuxccff7y9VrFixWx5QULiTYDOfipbtmyw1LnFixe7Pffc073yyiv2+dC1a1dXu3Zt9+KLL9rfyeDnr0ePHu7www93V1xxRbA0f5BMXXLJJfYdf/TRR65UqVLuq6++ss8QT6VKldxDDz1kx9rs2bPdrbfeulUyVqNGDXf//fcHfzk3YcIEN2/ePPs80e+7b9++btCgQW7RokXBkuQ9//zzlhSFxxXH6x577OH69Onj6tWrZ8sKGgoO2KfdunULlmR499133cknn+x+//1316BBA1u2++672zn9f//3f/Z3Mv7880/XokUL9+STT9rxJSKS6lRDKCISsWrVKnfeeedZQkgyCGqfbr75ZtemTRv3yCOPuPvuu88Ce5JCAu0QNQJvv/2222WXXSwo79Kli924T2AZ4vVOO+00N3/+/GDJFgTyYfCdG1OmTHFvvfWW69ixo70f2/rZZ5+5Zs2aJUw6Uh0JzKmnnmoJYFSFChUsUeEzhki6ueUG+/mee+5xDz/8sFuyZEmwNH9QmPD666+7p556ypJBUGgaHiPhrWbNmvY98pnDpI6aRZ5Lgh9dt3379vZ4iGT4/PPP36pmitfJ7b4JjR492g0ZMiTzeCZRYp/ttddebsSIEcFaBQuFOxdccEHw1xYcTy+//HKWc3Vbjqtdd93VXX311e62225z69evD5aKiKQwagjzmv8j582ZMyf4S0Sk4HjppZe83XbbzVu2bFmwxPPWrFljf//777/BEs/zEwhvzz339Fq0aJG5fMWKFV6ZMmU8Pym0vxP56quvPD+p8fykMliSYerUqV7lypW9P/74w/6eO3eu5yeNdj8nTz75pOcnGt66deuCJZ63YMECz09qvf3228/buHFjsDQD2zp9+nTPT4CDJfFt2rTJ85MT7++//w6WZAifH91PURs2bPBmz55tt9j3juUnfrbe5s2bgyUZZsyYYdvPYznp1q2bd+655wZ/ZcV+5DX4LLF4z3333de74YYbsny/ee2kk07yOnTo4PnJWrAkvttvv92+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Em0rn58aRAYIitb+i4ikqtT+VRER2QmozWEkynh9ApNBoEqQuLMD1pxszzaGnzE7yayzIyT6Pmi+yUA4BO3buh+SRU0XtaXUSkWb5uZGquzPnOyI4yq/v69kJNrWVatWWY0hTX1FRAoC1RCKiIiIiIikqdQvahQREREREZF8oYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNKUEkIREREREZE0pYRQREREREQkTSkhFBERERERSVNKCEVERERERNJUviWExYsXD+6JiIiIiIhIKiri+YL7eaZ27dp2K1WqVLBEREREREREUk2+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" />
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">,</span>
+                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="n">training_features_labels</span><span class="p">,</span>
+                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled main 104 Features&#39;</span><span class="p">,</span>
+                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                                                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_31_0.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_31_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="2.3:-Scale-y-features---Column-wise">
+<h2>2.3: Scale y features - Column-wise<a class="headerlink" href="#2.3:-Scale-y-features---Column-wise" title="Permalink to this heading">¶</a></h2>
+<p>Based on the similar challenge of normalization, we are going to be scaling our y features. Here, we follow the standard approach of scaling each feature column-wise as each of the output (features) are independent of each-other. If not scaled, thier magnitudes would incentivize the model to favor one output over the other based on their face values</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Standardize the y features using Standard Scaler</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">standardize_y_column_wise</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>The boxplot below follows a similar interpretation to the one above:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">,</span>
+                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;$\log g$&#39;</span><span class="p">,</span> <span class="s1">&#39;T$_</span><span class="si">{eff}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;C/O ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;[M/E]&#39;</span><span class="p">],</span>
+                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled target Features - ColumnWise&#39;</span><span class="p">,</span>
+                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                                                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_36_0.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_36_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># build_cnn_regression.y_train_standardized_columnwise</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.3:-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)">
+<h2>2.3: Feature engeenering: Take Min and Max of each row (BD spectra)<a class="headerlink" href="#2.3:-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)" title="Permalink to this heading">¶</a></h2>
+<p>In our CNN model, just before the concatenated layer, we add a Min-Max layer. This keeps the range of the flux, which is important for understanding the variability in the time series. It also improves the CNN’s ability to learn patterns in time, leading to better overall understanding of critical points for better predictions.</p>
+<p>We calculate our generated feature by taking the minimum and maximum values of each example within the Train, Validation and Test sets. This is combined into a resulting array of shape (num_examples, 2) which is then concatenated with the output of the CNN model. This is then fed into the next dense layer which outputs the predicted parameters.</p>
+<p>For example, let’s see the first example from our collective set X (Before standardization):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2.512</th>
+      <th>2.487</th>
+      <th>2.462</th>
+      <th>2.438</th>
+      <th>2.413</th>
+      <th>2.389</th>
+      <th>2.366</th>
+      <th>2.342</th>
+      <th>2.319</th>
+      <th>2.296</th>
+      <th>...</th>
+      <th>0.981</th>
+      <th>0.971</th>
+      <th>0.962</th>
+      <th>0.952</th>
+      <th>0.943</th>
+      <th>0.933</th>
+      <th>0.924</th>
+      <th>0.915</th>
+      <th>0.906</th>
+      <th>0.897</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>8.548790e-08</td>
+      <td>6.015843e-08</td>
+      <td>9.539690e-08</td>
+      <td>7.383212e-08</td>
+      <td>...</td>
+      <td>1.257751e-07</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 104 columns</p>
+</div></div>
+</div>
+<p>To obtain our engineered feature, we take the Min and Max fluxes within the given example. This could be visually represented as:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Flux Values</span>
+<span class="n">tempY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">[:]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Wavelength Labels</span>
+<span class="n">tempX</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">wl</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">engineered_feature_visualizer</span><span class="p">(</span><span class="n">tempX</span><span class="p">,</span> <span class="n">tempY</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div id="c6efb530-9cdf-45cc-bb48-483e589ae387" data-root-id="p1225" style="display: contents;"></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="output_javascript"></div>
+<script type="text/javascript">
+var element = document.currentScript.previousSibling.previousSibling;
+(function(root) {
+  function embed_document(root) {
+  const docs_json = {"34b218fe-b548-4732-9f34-8889845742b9":{"version":"3.1.1","title":"Bokeh Application","defs":[],"roots":[{"type":"object","name":"Figure","id":"p1225","attributes":{"width":1000,"height":400,"x_range":{"type":"object","name":"DataRange1d","id":"p1227"},"y_range":{"type":"object","name":"DataRange1d","id":"p1226"},"x_scale":{"type":"object","name":"LinearScale","id":"p1239"},"y_scale":{"type":"object","name":"LogScale","id":"p1241"},"title":{"type":"object","name":"Title","id":"p1228","attributes":{"text":"Engineered Feature 1 Example"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1278","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1272","attributes":{"selected":{"type":"object","name":"Selection","id":"p1274","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1273"},"data":{"type":"map","entries":[["x",{"type":"ndarray","array":{"type":"bytes","data":"SQu7ln4YBEDzT280TuUDQLXYdTagsgNAnCqqUHOAA0Ct2DU6xk4DQL8YiK2XHQNA0m1NaObsAkCkZ2crsbwCQCt35Lr2jAJADNj33bVdAkCTjvFe7S4CQAt6NgucAAJAYHs4s8DSAUClr24qWqUBQHK+TUdneAFA6TtA4+ZLAUAGHp/a1x8BQDRFqgw59ABA8BeBWwnJAEAsMRusR54AQGYhQebycwBALUKF9AlKAEDymzzEiyAAQM2774ru7v8/lM/41Zad/z/3ynpUDk3/PxD4qfZS/f4/WBD7sWKu/j/42xWBO2D+Pz7zx2PbEv4/2aH3XkDG/T9j65Z8aHr9PwKxlstRL/0/2ffZX/rk/D/PTylSYJv8P3haJsCBUvw/w3E/zFwK/D8WbqOd78L7P46LNWA4fPs/Jm6BRDU2+z9LRK9/5PD6P8AHeEtErPo/X9wZ5lJo+j98jEySDiX6P6YiNpd14vk/ZKBfQIag+T++0andPl/5PzA9QsOdHvk/1y+YSaHe+D995VHNR5/4P0jMQa+PYPg/uONbVHci+D/JNqsl/eT3P9RwR5AfqPc/AI1KBd1r9z/4n8b5MzD3P6u7u+Yi9fY/v+wNSai69j+PUXuhwoD2P2FKknRwR/Y/osKnSrAO9j/Wks2vgNb1Pxf7yDPgnvU/uTUJas1n9T8VIp7pRjH1P/8GL01L+/Q/0GzxMtnF9D/CDqA875D0P03jcQ+MXPQ/eDsRVK4o9D+m+JK2VPXzP+DYbeZ9wvM/RNlxliiQ8z9Zrr98U17zPy5SwFL9LPM/+acc1ST88j/yNLXDyMvyP17umeHnm/I/ZBwC9YBs8j+bUUTHkj3yP/52ziQcD/I/Quwd3Rvh8T8OvLfCkLPxPzXkIKt5hvE/ibHWbtVZ8T8jL0fpoi3xP/GoyfjgAfE/XUGXfo7W8D/emcNeqqvwPyWONYAzgfA/6AGgzChX8D/uwHowiS3wP1Jx+5pTBPA/WC8d/A237z8tWqGcRGbvP4CNDgZJFu8/6p00LBnH7j/knhoIs3juP32Z8ZcUK+4/BGUH3zve7T8lobnlJpLtPzbRaLnTRu0/XZhrbED87D82FgIWa7LsPw=="},"shape":[104],"dtype":"float64","order":"little"}],["y",{"type":"ndarray","array":{"type":"bytes","data":"EZYqs5BveD61dwp4Srh/PisbdafMjYE+gRXbSgkJgT5hqmK80R1/PrzEs+lJ9Xc+Mua6Bq/ydj4rgAFcDiZwPkz3QAygm3k+pprkbLTRcz4Lxi0uAlp3PvYcGHUIono+8rUv4Eoigz61Y7zoVeeBPpO9Gs6dPpM+FCrQ87QUmD4cdg5ivuGcPjKq98Ve3J4+9rSnak3fnz5XhFVfsJedPqXx4U8/ppk+DGBb2z+ckz45+hIXi8CQPupmLL4R34c+uO0u56EPgz5vhnBuemZ+Pu7a+AaO4Hg+27kmy9Vzgj7DPWMTgI6DPkYEt23dXHw+CNHEkMzRcT78xwW5zVh2Pl27PnoqmXk+V3nAFNlAfT5zoJlodgmBPiNClburaYc+2a3ebM95jj4XDfsxgBuSPgZryyUf0pc+DYk873eJlz5WF5QI+2abPq76Y19FP5k+m9zXEkCZoD644hDrspicPsBmQJOPb6A+vfPxC/qepT6mAyQfxGumPnuaYuyagaM+KfBN2lTrnz6zX7jqNB2ZPr0YepOAvZE+PBan0Yxqiz7TNtoFPReEPgj3hadBHoA+IKjWfuU8eT7oBYmr0CNyPoAizVYppGo+qWQIEtHqXT5WpytpQPRhPtZHVo65BmI+Sh+OOOO0ZD5N3SmTZIFaPp1PEGcGElk+uf/R9vSbcz4cxA3F7L2gPpN4hs6cn6o+a9BpVWHvrj5RxnfzwFyxPsIdOOx3HrM+zl8Fr6pbsT7yDFSA6IyoPn0u1oXjhqw+JmDrp2W7qD5/a60LiKSjPjAuICkrk5w+NGYmpqBDkj5aGtmp4+KDPo5wmnBwLoU+BqNeik9MiD6TqAbGw0ODPk3cZHuOJ4g+kftD6v9egz4PGOSRsDCLPiSLbYgbOpc+vxIY4umooj7GqBUU4ZqhPtyI50Lqj54+aanCWOwqnD5LWbVemfObPkKhF5cKXJg+LcL3rD3bkz6A9+K1M3iQPhoyPBBalYs+RA9pdbanhT6/BNuGmeGAPmAV8OQl4Xk+caWn9E1vdD4h2BrYlIZyPgYndAsnxXA+QfDIngQUZj5uvNK73IdrPuAT4Y7fSmo+cwY83zjyZT6ocYM0vPldPg=="},"shape":[104],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1279","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1280"}}},"glyph":{"type":"object","name":"Line","id":"p1275","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"orange","line_width":2}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1276","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"orange","line_alpha":0.1,"line_width":2}},"muted_glyph":{"type":"object","name":"Line","id":"p1277","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"orange","line_alpha":0.2,"line_width":2}}}},{"type":"object","name":"GlyphRenderer","id":"p1287","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1281","attributes":{"selected":{"type":"object","name":"Selection","id":"p1283","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1282"},"data":{"type":"map","entries":[["x",[1.2725945094409383]],["y",[1.1395822391307464e-06]]]}}},"view":{"type":"object","name":"CDSView","id":"p1288","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1289"}}},"glyph":{"type":"object","name":"Scatter","id":"p1284","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":10},"line_color":{"type":"value","value":"red"},"fill_color":{"type":"value","value":"red"},"hatch_color":{"type":"value","value":"red"},"marker":{"type":"value","value":"square"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p1285","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":10},"line_color":{"type":"value","value":"red"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"red"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"value","value":"red"},"hatch_alpha":{"type":"value","value":0.1},"marker":{"type":"value","value":"square"}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p1286","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":10},"line_color":{"type":"value","value":"red"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"red"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"value","value":"red"},"hatch_alpha":{"type":"value","value":0.2},"marker":{"type":"value","value":"square"}}}}},{"type":"object","name":"GlyphRenderer","id":"p1299","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1293","attributes":{"selected":{"type":"object","name":"Selection","id":"p1295","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1294"},"data":{"type":"map","entries":[["x",[1.351288034711336]],["y",[2.3348638970228364e-08]]]}}},"view":{"type":"object","name":"CDSView","id":"p1300","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1301"}}},"glyph":{"type":"object","name":"Scatter","id":"p1296","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":10},"line_color":{"type":"value","value":"darkblue"},"fill_color":{"type":"value","value":"darkblue"},"hatch_color":{"type":"value","value":"darkblue"},"marker":{"type":"value","value":"hex"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p1297","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":10},"line_color":{"type":"value","value":"darkblue"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"darkblue"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"value","value":"darkblue"},"hatch_alpha":{"type":"value","value":0.1},"marker":{"type":"value","value":"hex"}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p1298","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":10},"line_color":{"type":"value","value":"darkblue"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"darkblue"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"value","value":"darkblue"},"hatch_alpha":{"type":"value","value":0.2},"marker":{"type":"value","value":"hex"}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1230","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1257"},{"type":"object","name":"WheelZoomTool","id":"p1258"},{"type":"object","name":"BoxZoomTool","id":"p1259","attributes":{"overlay":{"type":"object","name":"BoxAnnotation","id":"p1260","attributes":{"syncable":false,"level":"overlay","visible":false,"left_units":"canvas","right_units":"canvas","bottom_units":"canvas","top_units":"canvas","line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5}}}},{"type":"object","name":"SaveTool","id":"p1261"},{"type":"object","name":"ResetTool","id":"p1262"},{"type":"object","name":"HelpTool","id":"p1263"},{"type":"object","name":"HoverTool","id":"p1292","attributes":{"renderers":[{"id":"p1287"}],"tooltips":[["Wavelength","1.27"]]}},{"type":"object","name":"HoverTool","id":"p1303","attributes":{"renderers":[{"id":"p1299"}],"tooltips":[["Wavelength","1.35"]]}}]}},"left":[{"type":"object","name":"LogAxis","id":"p1250","attributes":{"ticker":{"type":"object","name":"LogTicker","id":"p1251","attributes":{"num_minor_ticks":10,"mantissas":[1,5]}},"formatter":{"type":"object","name":"LogTickFormatter","id":"p1252"},"axis_label":"Flux (F\u03bd)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1253"}}}],"below":[{"type":"object","name":"LinearAxis","id":"p1243","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1244","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1245"},"axis_label":"Features (Wavelength [\ud835\udf07m])","major_label_policy":{"type":"object","name":"AllLabels","id":"p1246"}}}],"center":[{"type":"object","name":"Grid","id":"p1249","attributes":{"axis":{"id":"p1243"}}},{"type":"object","name":"Grid","id":"p1256","attributes":{"dimension":1,"axis":{"id":"p1250"}}},{"type":"object","name":"Legend","id":"p1290","attributes":{"items":[{"type":"object","name":"LegendItem","id":"p1291","attributes":{"label":{"type":"value","value":"Max Value = 1.1395822391307464e-06"},"renderers":[{"id":"p1287"}]}},{"type":"object","name":"LegendItem","id":"p1302","attributes":{"label":{"type":"value","value":"Min Value = 2.3348638970228364e-08"},"renderers":[{"id":"p1299"}]}}]}}]}}],"callbacks":{"type":"map"}}};
+  const render_items = [{"docid":"34b218fe-b548-4732-9f34-8889845742b9","roots":{"p1225":"c6efb530-9cdf-45cc-bb48-483e589ae387"},"root_ids":["p1225"]}];
+  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+  }
+  if (root.Bokeh !== undefined) {
+    embed_document(root);
+  } else {
+    let attempts = 0;
+    const timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined) {
+        clearInterval(timer);
+        embed_document(root);
+      } else {
+        attempts++;
+        if (attempts > 100) {
+          clearInterval(timer);
+          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        }
+      }
+    }, 10, root)
+  }
+})(window);
+</script></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># train</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_min</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_max</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># validation</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_val_min</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_val</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_val_max</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_val</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># test</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_min</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_max</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_min</span><span class="p">,</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">df_MinMax_val</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_val_min</span><span class="p">,</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_val_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">df_MinMax_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_min</span><span class="p">,</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="s1">&#39;max&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>min</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.984493e-18</td>
+      <td>4.560593e-11</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6.833671e-15</td>
+      <td>2.317328e-09</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.870361e-14</td>
+      <td>5.564836e-09</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.696652e-19</td>
+      <td>5.071436e-11</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.321553e-10</td>
+      <td>1.636513e-07</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="2.4:-Scale-Min-Max-features---ColumnWise">
+<h2>2.4: Scale Min Max features - ColumnWise<a class="headerlink" href="#2.4:-Scale-Min-Max-features---ColumnWise" title="Permalink to this heading">¶</a></h2>
+<p>Similar to Standardizing the data for X and y, we ensure that the magnitude does not create a bias while learning from the data provided. Hence, these values are scaled column-wise as min and max are independent of each other. We also do this using the StandardScaler() similar to previous applications</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">standardize_X_column_wise</span><span class="p">(</span>
+                                                <span class="n">X_train</span> <span class="o">=</span> <span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                                                <span class="n">X_val</span>   <span class="o">=</span> <span class="n">df_MinMax_val</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                                                <span class="n">X_test</span>  <span class="o">=</span> <span class="n">df_MinMax_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                                                <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The box-plot below, depicts a visualization of the range of scaled features for the min and max feature values</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">,</span>
+                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;Min&#39;</span><span class="p">,</span><span class="s1">&#39;Max&#39;</span><span class="p">],</span>
+                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled Min Max Features - ColumnWise&#39;</span><span class="p">,</span>
+                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                                                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_51_0.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_51_0.png" />
+</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+<section id="Step-3:-Train-CNN-model">
+<h1>Step 3: Train CNN model<a class="headerlink" href="#Step-3:-Train-CNN-model" title="Permalink to this heading">¶</a></h1>
+<p>The next important step after the pre-processing is training the newly instantiated model. The technique we are using is a Convolutional Neural Network (CNN) which is able to predict the outputs based on dependencies/patterns established from the input data. There are many different ways of constructing a CNN but here, we are going to be focusing on the current architecture used in this example.</p>
+<p>Our CNN can be divided into a few important layers:</p>
+<ul class="simple">
+<li><p>The 1-Dimension Convolutional Layer (Conv1D): The main purpose of this layer is to extract low-level local patterns within our time-series data to assist with identifying more complex trends by passing the recorded information down to other layers of the models. Each filter gathers a different feature set using a kernel/window that slides over the input data pefroming a dot product with the filter instantiated window values and the input data. This is stored into a group of sub-layers called
+a feature map which can be further passed down to other Convolution layers or concentrated through MaxPooling to prepare for Dense Layers. Overall, it’s application in our model helps isolate local regularities between multiple spectral examples that can be further processed through FC/Dense layers.</p></li>
+<li><p>The Max-Pooling Layer(Max-Pool): Following the feature map generated by our Conv1D layer, we then apply Max-Pool onto those layers to shrink their individual sizes. It achieves this picking the maximum value amongst a kernel/window area applied on the every layer. This helps in selectively highlighting characterstics that stand-out amongst a given regularity/pattern. A crude example of this would be: If we observe a drop amongst multiple spectra, max-pooling eliminates the subtle
+characteristics of the drop like the muinute slope change and instead signifies the drop as the similarity itself.</p></li>
+<li><p>Flatten Layer: This layer follows a Conv Block (Multiple Conv layers followed by a Max-Pool) which transforms the multi-dimensional feature map into one dimensional array. This makes it simpler to extract all the features into the Fully Connected layer. This layer does not change outputs form the previous layer but instead simply re-arranges them</p></li>
+<li><p>The Fully Connected Layer(FC/Dense Layer): One of the main tasks of the FC layer is to be able to link the multiple regularities generated by different layers of the Conv1D layer to obtain a generality (trends amongst groups of spectra) from the provided set. To achieve this, the layer receives all the data from the previous layers (Flattened from the Flatten layer) to every single one of its nodes (units). This way, we are able to cummulate all the feature information accquired from previous
+higher-level layers to find correlation amongst similar trends within all the data instances (i.e. the general pattern).</p></li>
+<li><p>Dropout Layer: The dropout layer usually follows a FC layer to mitigate memorization and overfitting. This is achieved by randomly deactivating a certain percentage of individual nodes within the layer (i.e. sets the neuron’s outputs to zero during the iteration therby rendering the calculation useless). This percentage is determined when configuring the layer as a hyperparamenter. The main problem it addresses is curbing overfitting the data which is ‘remembering’ every single detail
+extracted from the every example. This overall leads to a more accurate assessment and prediction of a given instance.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span> <span class="o">=</span> <span class="n">TrainRegressorCNN</span><span class="p">(</span>
+            <span class="c1"># input dataset: StandardScaled instances</span>
+            <span class="n">X1_train</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">,</span>
+            <span class="n">X1_val</span>   <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_val_standardized_rowwise</span><span class="p">,</span>
+            <span class="n">X1_test</span>  <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_standardized_rowwise</span><span class="p">,</span>
+
+            <span class="c1"># input dataset: Min Max of each instance</span>
+            <span class="n">X2_train</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_standardized_columnwise</span><span class="p">,</span>
+            <span class="n">X2_val</span>   <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_val_standardized_columnwise</span><span class="p">,</span>
+            <span class="n">X2_test</span>  <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">,</span>
+
+            <span class="c1"># 1st target</span>
+            <span class="n">y1_train</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y1_val</span>   <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y1_test</span>  <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+
+            <span class="c1"># 2nd target</span>
+            <span class="n">y2_train</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">y2_val</span>   <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">y2_test</span>  <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+
+            <span class="c1"># 3rd target</span>
+            <span class="n">y3_train</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">y3_val</span>   <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">y3_test</span>  <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+
+            <span class="c1"># 4th target</span>
+            <span class="n">y4_train</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">y4_val</span>   <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">y4_test</span>  <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The dictionary below is used to pass into the model which specifies the architecture of the model being used to train the given data. As mentioned in the layer description above, we are using the Conv, FC, Max-pool and Flatten layers in this CNN. We also specify details like the kernel size and the number of units in each layer using the hyperparamenters dictionary. The format for our current example (model) is described below:</p>
+<ul class="simple">
+<li><p>We start-off with the input layer with each instance being (104,) dimensions</p></li>
+<li><p>This is followed by a Conv-Block that has 3 Conv-layers of shapes (104,16), (104,64), (104,144) including a Max-Pool and Flatten Layer</p></li>
+<li><p>That connects onto 4 other Dense Layers of shapes (None,512), (None,2048), (None,4608), (None,8192)</p></li>
+<li><p>This is passed onto a Dropout FC layer of the last shape which is concatenated with the engineered features in the following Concatenated Layer that is os shape (None,8194)</p></li>
+<li><p>Passing this through 2 more Dense Layers that are (None,256), (None,1024) and another Dropout FC Layer(None,1024), we then reach the simultaneous 4 output layers</p></li>
+<li><p>Each output layer is an FC layer of shape (None,1) that predicts one of the 4 different outputs</p></li>
+</ul>
+<p>The learning rate component below incdicates how much the weights vary with respect to the data through each ephoch (cycle).</p>
+<p>Note: The ‘None’ in shapes (None, Num-Units) indicate the batch-size which varies dynamically depending on the network’s flexibility.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s1">&#39;Conv__MaxPooling1D&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+     <span class="s1">&#39;Conv__num_blocks&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+     <span class="s1">&#39;Conv__num_layers_per_block&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+     <span class="s1">&#39;Conv__num_filters&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+     <span class="s1">&#39;Conv__kernel_size&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+     <span class="s1">&#39;FC__NumberLayers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+
+     <span class="s1">&#39;FC1__num_blocks&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+     <span class="s1">&#39;FC1_num_layers_per_block&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+     <span class="s1">&#39;FC1__dropout&#39;</span><span class="p">:</span> <span class="mf">0.09889223768186726</span><span class="p">,</span>
+     <span class="s1">&#39;FC1__units&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+
+     <span class="s1">&#39;FC2__num_blocks&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+     <span class="s1">&#39;FC2_num_layers_per_block&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span>
+     <span class="s1">&#39;FC2__dropout&#39;</span><span class="p">:</span> <span class="mf">0.0024609140719442646</span><span class="p">,</span>
+     <span class="s1">&#39;FC2__units&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+
+
+     <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">4.9946842008422193e-05</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>This provides us with a summary of the layers within our configured CNN</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">build_model</span><span class="p">(</span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="p">,</span>
+                     <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Model: &#34;model&#34;
+__________________________________________________________________________________________________
+ Layer (type)                Output Shape                 Param #   Connected to
+==================================================================================================
+ input_1 (InputLayer)        [(None, 104, 1)]             0         []
+
+ Conv__B1_L1 (Conv1D)        (None, 104, 16)              112       [&#39;input_1[0][0]&#39;]
+
+ Conv__B1_L2 (Conv1D)        (None, 104, 64)              6208      [&#39;Conv__B1_L1[0][0]&#39;]
+
+ Conv__B1_L3 (Conv1D)        (None, 104, 144)             55440     [&#39;Conv__B1_L2[0][0]&#39;]
+
+ MaxPool1D__B1_L3 (MaxPooli  (None, 52, 144)              0         [&#39;Conv__B1_L3[0][0]&#39;]
+ ng1D)
+
+ flatten (Flatten)           (None, 7488)                 0         [&#39;MaxPool1D__B1_L3[0][0]&#39;]
+
+ FC1__B1_L1 (Dense)          (None, 512)                  3834368   [&#39;flatten[0][0]&#39;]
+
+ FC1__B1_L2 (Dense)          (None, 2048)                 1050624   [&#39;FC1__B1_L1[0][0]&#39;]
+
+ FC1__B1_L3 (Dense)          (None, 4608)                 9441792   [&#39;FC1__B1_L2[0][0]&#39;]
+
+ FC1__B1_L4 (Dense)          (None, 8192)                 3775692   [&#39;FC1__B1_L3[0][0]&#39;]
+                                                          8
+
+ FC1__Dropout__B1_L4 (Dropo  (None, 8192)                 0         [&#39;FC1__B1_L4[0][0]&#39;]
+ ut)
+
+ input_2 (InputLayer)        [(None, 2)]                  0         []
+
+ Concatenated_Layer (Concat  (None, 8194)                 0         [&#39;FC1__Dropout__B1_L4[0][0]&#39;,
+ enate)                                                              &#39;input_2[0][0]&#39;]
+
+ FC2__B1_L1 (Dense)          (None, 256)                  2097920   [&#39;Concatenated_Layer[0][0]&#39;]
+
+ FC2__B1_L2 (Dense)          (None, 1024)                 263168    [&#39;FC2__B1_L1[0][0]&#39;]
+
+ FC2__Dropout__B1_L2 (Dropo  (None, 1024)                 0         [&#39;FC2__B1_L2[0][0]&#39;]
+ ut)
+
+ gravity (Dense)             (None, 1)                    1025      [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+ c_o_ratio (Dense)           (None, 1)                    1025      [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+ metallicity (Dense)         (None, 1)                    1025      [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+ temperature (Dense)         (None, 1)                    1025      [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+==================================================================================================
+Total params: 54510660 (207.94 MB)
+Trainable params: 54510660 (207.94 MB)
+Non-trainable params: 0 (0.00 Byte)
+__________________________________________________________________________________________________
+None
+</pre></div></div>
+</div>
+<p>The .fit_cnn_model() invokes the training procedure of the model. The budget represents the number of epochs specified by us for this session. This can be changed by editing the variable within the cell block</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span>  <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">fit_cnn_model</span><span class="p">(</span><span class="n">budget</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 1/3
+782/782 [==============================] - 547s 689ms/step - loss: 0.2631 - gravity_loss: 0.1072 - c_o_ratio_loss: 0.0517 - metallicity_loss: 0.0951 - temperature_loss: 0.0091 - gravity_mae: 0.3413 - c_o_ratio_mae: 0.2322 - metallicity_mae: 0.3399 - temperature_mae: 0.0891 - val_loss: 0.1333 - val_gravity_loss: 0.0467 - val_c_o_ratio_loss: 0.0248 - val_metallicity_loss: 0.0575 - val_temperature_loss: 0.0043 - val_gravity_mae: 0.2405 - val_c_o_ratio_mae: 0.1768 - val_metallicity_mae: 0.2648 - val_temperature_mae: 0.0742
+Epoch 2/3
+782/782 [==============================] - 874s 1s/step - loss: 0.1066 - gravity_loss: 0.0294 - c_o_ratio_loss: 0.0180 - metallicity_loss: 0.0564 - temperature_loss: 0.0028 - gravity_mae: 0.1810 - c_o_ratio_mae: 0.1478 - metallicity_mae: 0.2625 - temperature_mae: 0.0577 - val_loss: 0.1109 - val_gravity_loss: 0.0330 - val_c_o_ratio_loss: 0.0189 - val_metallicity_loss: 0.0570 - val_temperature_loss: 0.0021 - val_gravity_mae: 0.2056 - val_c_o_ratio_mae: 0.1525 - val_metallicity_mae: 0.2631 - val_temperature_mae: 0.0498
+Epoch 3/3
+782/782 [==============================] - 939s 1s/step - loss: 0.0837 - gravity_loss: 0.0189 - c_o_ratio_loss: 0.0145 - metallicity_loss: 0.0480 - temperature_loss: 0.0024 - gravity_mae: 0.1447 - c_o_ratio_mae: 0.1340 - metallicity_mae: 0.2400 - temperature_mae: 0.0524 - val_loss: 0.0765 - val_gravity_loss: 0.0172 - val_c_o_ratio_loss: 0.0117 - val_metallicity_loss: 0.0460 - val_temperature_loss: 0.0015 - val_gravity_mae: 0.1387 - val_c_o_ratio_mae: 0.1210 - val_metallicity_mae: 0.2295 - val_temperature_mae: 0.0387
+</pre></div></div>
+</div>
+<section id="3.1:-Post-Training-of-the-CNN-model">
+<h2>3.1: Post Training of the CNN model<a class="headerlink" href="#3.1:-Post-Training-of-the-CNN-model" title="Permalink to this heading">¶</a></h2>
+<p>We assign the trained-model and history parameters from previously initialized class to be the newly trained model and it’s history</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">trained_model</span> <span class="o">=</span> <span class="n">model</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="n">history</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;keras.src.engine.functional.Functional at 0x17388a98590&gt;
+</pre></div></div>
+</div>
+<p>The history parameter of the trained model gives us the losses recorded for each epoch from the last training session</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="o">.</span><span class="n">history</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;loss&#39;: [0.24889275431632996,
+  0.09456111490726471,
+  0.08177129179239273,
+  0.06999515742063522,
+  0.06781864166259766,
+  0.06337405741214752,
+  0.06348056346178055,
+  0.05925759673118591,
+  0.0583229586482048,
+  0.05900980904698372,
+  0.0560411773622036,
+  0.054662689566612244,
+  0.053180597722530365,
+  0.05108613148331642,
+  0.05260302498936653,
+  0.049626193940639496,
+  0.05006365478038788,
+  0.05028960853815079,
+  0.04770585149526596,
+  0.049768440425395966,
+  0.0457448773086071,
+  0.04735540971159935,
+  0.047876641154289246,
+  0.04551837965846062,
+  0.04683616757392883,
+  0.045146066695451736,
+  0.045674897730350494,
+  0.045240338891744614,
+  0.04518537223339081,
+  0.04376613721251488],
+ &#39;gravity_loss&#39;: [0.09643923491239548,
+  0.023079993203282356,
+  0.01778770610690117,
+  0.012498568743467331,
+  0.011851692572236061,
+  0.009593137539923191,
+  0.009649047628045082,
+  0.008105899207293987,
+  0.007495857309550047,
+  0.007979941554367542,
+  0.006845410913228989,
+  0.006249168422073126,
+  0.005732777528464794,
+  0.0050496309995651245,
+  0.005870335269719362,
+  0.004451435059309006,
+  0.004882357083261013,
+  0.004774303175508976,
+  0.003771205199882388,
+  0.004728083033114672,
+  0.0032638506963849068,
+  0.003717114683240652,
+  0.003996414132416248,
+  0.0031063787173479795,
+  0.003455990692600608,
+  0.002882492495700717,
+  0.0033245347440242767,
+  0.0031732660718262196,
+  0.0029188620392233133,
+  0.0024336683563888073],
+ &#39;c_o_ratio_loss&#39;: [0.051937274634838104,
+  0.016156954690814018,
+  0.014677600003778934,
+  0.011777780018746853,
+  0.011190537363290787,
+  0.01054714061319828,
+  0.010725690983235836,
+  0.00939725898206234,
+  0.009450779296457767,
+  0.009302442893385887,
+  0.009031073190271854,
+  0.008285818621516228,
+  0.00821955967694521,
+  0.007753751240670681,
+  0.008032706566154957,
+  0.007467848714441061,
+  0.00726023456081748,
+  0.007620173506438732,
+  0.006935302168130875,
+  0.007147008553147316,
+  0.0064972154796123505,
+  0.006648915819823742,
+  0.006655021570622921,
+  0.006398643366992474,
+  0.00636596092954278,
+  0.006215122062712908,
+  0.006190633401274681,
+  0.006126768887042999,
+  0.006005279719829559,
+  0.0059353504329919815],
+ &#39;metallicity_loss&#39;: [0.09176470339298248,
+  0.05286338925361633,
+  0.04707082733511925,
+  0.0437508262693882,
+  0.042764876037836075,
+  0.04128961265087128,
+  0.04102061688899994,
+  0.039983756840229034,
+  0.039579663425683975,
+  0.03985476493835449,
+  0.03848704695701599,
+  0.03855627402663231,
+  0.03766130283474922,
+  0.036969441920518875,
+  0.037281908094882965,
+  0.036489278078079224,
+  0.03660377487540245,
+  0.03661908954381943,
+  0.03587597236037254,
+  0.036663152277469635,
+  0.03507157042622566,
+  0.035934142768383026,
+  0.03614315390586853,
+  0.03506707400083542,
+  0.036029186099767685,
+  0.03514794260263443,
+  0.03524795174598694,
+  0.03504946827888489,
+  0.03534933924674988,
+  0.03456253930926323],
+ &#39;temperature_loss&#39;: [0.008751419372856617,
+  0.0024607875384390354,
+  0.0022351338993757963,
+  0.0019679847173392773,
+  0.0020115154329687357,
+  0.0019442125922068954,
+  0.002085199812427163,
+  0.0017706480575725436,
+  0.0017966489540413022,
+  0.0018726394046097994,
+  0.0016776606207713485,
+  0.0015714464243501425,
+  0.0015669588465243578,
+  0.001313340268097818,
+  0.0014180399011820555,
+  0.00121762091293931,
+  0.0013172689359635115,
+  0.001276085153222084,
+  0.0011233807308599353,
+  0.0012301286915317178,
+  0.0009122410556301475,
+  0.001055255183018744,
+  0.0010820453753694892,
+  0.0009462758316658437,
+  0.0009850258938968182,
+  0.000900518149137497,
+  0.000911757699213922,
+  0.0008908450836315751,
+  0.0009118854068219662,
+  0.0008345592068508267],
+ &#39;gravity_mae&#39;: [0.3223923146724701,
+  0.1612502932548523,
+  0.140829935669899,
+  0.1179133951663971,
+  0.11391531676054001,
+  0.10224854946136475,
+  0.10214696079492569,
+  0.09397798776626587,
+  0.09140034765005112,
+  0.09282626211643219,
+  0.08665069192647934,
+  0.08386817574501038,
+  0.07958324998617172,
+  0.07518139481544495,
+  0.07998433709144592,
+  0.07006429135799408,
+  0.0727594643831253,
+  0.07151246070861816,
+  0.06440973281860352,
+  0.07143542170524597,
+  0.060051705688238144,
+  0.06473764777183533,
+  0.06550154089927673,
+  0.05855125933885574,
+  0.06101683899760246,
+  0.056648094207048416,
+  0.05931781232357025,
+  0.05856073275208473,
+  0.056701987981796265,
+  0.05246806517243385],
+ &#39;c_o_ratio_mae&#39;: [0.23012053966522217,
+  0.14034438133239746,
+  0.13450124859809875,
+  0.12112317234277725,
+  0.11847927421331406,
+  0.11538254469633102,
+  0.11611177772283554,
+  0.10892412811517715,
+  0.10922253876924515,
+  0.10804342478513718,
+  0.10704150050878525,
+  0.10211382806301117,
+  0.1015414297580719,
+  0.09900140017271042,
+  0.10012548416852951,
+  0.09643641859292984,
+  0.09526071697473526,
+  0.09758935868740082,
+  0.09239955991506577,
+  0.09393024444580078,
+  0.0889272391796112,
+  0.08962525427341461,
+  0.08997904509305954,
+  0.08729269355535507,
+  0.08743826299905777,
+  0.08563075214624405,
+  0.08569890260696411,
+  0.08524908125400543,
+  0.08446639031171799,
+  0.0831523910164833],
+ &#39;metallicity_mae&#39;: [0.33398714661598206,
+  0.2531728446483612,
+  0.23762115836143494,
+  0.22787919640541077,
+  0.2246103286743164,
+  0.22018328309059143,
+  0.21915221214294434,
+  0.21494773030281067,
+  0.21348127722740173,
+  0.21354231238365173,
+  0.20994757115840912,
+  0.20928290486335754,
+  0.20548857748508453,
+  0.20345261693000793,
+  0.20392172038555145,
+  0.20041003823280334,
+  0.20026570558547974,
+  0.20033033192157745,
+  0.19712989032268524,
+  0.20069104433059692,
+  0.19317984580993652,
+  0.19633878767490387,
+  0.19639745354652405,
+  0.1927064210176468,
+  0.1960308998823166,
+  0.19253285229206085,
+  0.1926279217004776,
+  0.19172950088977814,
+  0.19254647195339203,
+  0.1895441710948944],
+ &#39;temperature_mae&#39;: [0.08847381174564362,
+  0.05376732349395752,
+  0.05101196467876434,
+  0.04804345220327377,
+  0.04873330518603325,
+  0.04780044034123421,
+  0.04985613375902176,
+  0.04537706449627876,
+  0.0458725206553936,
+  0.046710480004549026,
+  0.04418732598423958,
+  0.04299088194966316,
+  0.042888082563877106,
+  0.03932115435600281,
+  0.04047936946153641,
+  0.03768531233072281,
+  0.03903410583734512,
+  0.03871855512261391,
+  0.03654511272907257,
+  0.03789839148521423,
+  0.0328768827021122,
+  0.03535222262144089,
+  0.03554336726665497,
+  0.03341760113835335,
+  0.03382705897092819,
+  0.032717254012823105,
+  0.03249550238251686,
+  0.03232881799340248,
+  0.032742634415626526,
+  0.03121684119105339],
+ &#39;val_loss&#39;: [0.11760769784450531,
+  0.07947496324777603,
+  0.08114412426948547,
+  0.056817494332790375,
+  0.06566783785820007,
+  0.06341307610273361,
+  0.06317758560180664,
+  0.06193172559142113,
+  0.05640173330903053,
+  0.05803787335753441,
+  0.06304045021533966,
+  0.05018971860408783,
+  0.057363830506801605,
+  0.052000295370817184,
+  0.057107944041490555,
+  0.05701272934675217,
+  0.06291420757770538,
+  0.04900667071342468,
+  0.0701998770236969,
+  0.04663657769560814,
+  0.048058781772851944,
+  0.04521581530570984,
+  0.04500085487961769,
+  0.04428365081548691,
+  0.047162044793367386,
+  0.0442560575902462,
+  0.04993128031492233,
+  0.051000043749809265,
+  0.044179633259773254,
+  0.04404435306787491],
+ &#39;val_gravity_loss&#39;: [0.02986571006476879,
+  0.018848979845643044,
+  0.014884719625115395,
+  0.006686849519610405,
+  0.011940962634980679,
+  0.01205072458833456,
+  0.007569889537990093,
+  0.009241675026714802,
+  0.007069764193147421,
+  0.008837726898491383,
+  0.008178971707820892,
+  0.004580367356538773,
+  0.007269720546901226,
+  0.005180205684155226,
+  0.004217301961034536,
+  0.010099886916577816,
+  0.011079949326813221,
+  0.004545727279037237,
+  0.014678169041872025,
+  0.0037876921705901623,
+  0.0031340953428298235,
+  0.003145944094285369,
+  0.0035602112766355276,
+  0.0029728247318416834,
+  0.003042658092454076,
+  0.002581007080152631,
+  0.005438780412077904,
+  0.0062309615314006805,
+  0.002063026651740074,
+  0.0023792556021362543],
+ &#39;val_c_o_ratio_loss&#39;: [0.0190704558044672,
+  0.011853554286062717,
+  0.01222324464470148,
+  0.00921614095568657,
+  0.012813406065106392,
+  0.00952121615409851,
+  0.014908830635249615,
+  0.011158413253724575,
+  0.008401613682508469,
+  0.011098059825599194,
+  0.008464782498776913,
+  0.0070368628948926926,
+  0.007713346742093563,
+  0.008946382440626621,
+  0.010632690042257309,
+  0.008739016950130463,
+  0.007542862556874752,
+  0.007564484141767025,
+  0.007692795246839523,
+  0.006794163025915623,
+  0.00753348832949996,
+  0.006041966378688812,
+  0.0059465765953063965,
+  0.005986651871353388,
+  0.0068323551677167416,
+  0.006154713686555624,
+  0.0072822426445782185,
+  0.006007826887071133,
+  0.006419188808649778,
+  0.00546896131709218],
+ &#39;val_metallicity_loss&#39;: [0.06469742953777313,
+  0.04710659757256508,
+  0.05034603923559189,
+  0.03974173963069916,
+  0.039131272584199905,
+  0.04005881026387215,
+  0.03853831812739372,
+  0.040464553982019424,
+  0.039423197507858276,
+  0.03704441338777542,
+  0.04500860720872879,
+  0.037687476724386215,
+  0.04057726263999939,
+  0.03705170750617981,
+  0.04082156717777252,
+  0.03709283098578453,
+  0.042965132743120193,
+  0.03595242276787758,
+  0.04626457765698433,
+  0.035319287329912186,
+  0.03616831824183464,
+  0.03496069461107254,
+  0.03485258296132088,
+  0.03489665687084198,
+  0.036734238266944885,
+  0.0349198542535305,
+  0.0363139845430851,
+  0.03811010345816612,
+  0.03456232696771622,
+  0.035161472856998444],
+ &#39;val_temperature_loss&#39;: [0.003974100574851036,
+  0.0016658302629366517,
+  0.003690113080665469,
+  0.001172760152257979,
+  0.0017822154331952333,
+  0.0017823270754888654,
+  0.002160540781915188,
+  0.0010670818155631423,
+  0.001507166656665504,
+  0.001057682791724801,
+  0.001388105913065374,
+  0.0008850038284435868,
+  0.0018035012762993574,
+  0.0008219928131438792,
+  0.0014363822992891073,
+  0.0010809989180415869,
+  0.0013262697029858828,
+  0.0009440311696380377,
+  0.00156433938536793,
+  0.0007354406989179552,
+  0.001222869846969843,
+  0.0010672112694010139,
+  0.0006414831732399762,
+  0.0004275065439287573,
+  0.000552794081158936,
+  0.0006004738388583064,
+  0.0008962772553786635,
+  0.0006511614192277193,
+  0.001135093392804265,
+  0.0010346631752327085],
+ &#39;val_gravity_mae&#39;: [0.18360477685928345,
+  0.15118801593780518,
+  0.1232767254114151,
+  0.08607269078493118,
+  0.11160064488649368,
+  0.11510965973138809,
+  0.08968992531299591,
+  0.10607539862394333,
+  0.07990647107362747,
+  0.10376737266778946,
+  0.103365957736969,
+  0.06906849890947342,
+  0.09517116099596024,
+  0.07185869663953781,
+  0.06566309183835983,
+  0.1131516695022583,
+  0.11335278302431107,
+  0.06590359658002853,
+  0.128553569316864,
+  0.05611726641654968,
+  0.058290425688028336,
+  0.05897122249007225,
+  0.05976506695151329,
+  0.055117424577474594,
+  0.058904897421598434,
+  0.05230025202035904,
+  0.06973029673099518,
+  0.08663280308246613,
+  0.04745990037918091,
+  0.050488051027059555],
+ &#39;val_c_o_ratio_mae&#39;: [0.15918608009815216,
+  0.12157658487558365,
+  0.11975511163473129,
+  0.10832303017377853,
+  0.12949426472187042,
+  0.11213457584381104,
+  0.1322469264268875,
+  0.1209147721529007,
+  0.10688608139753342,
+  0.12470345199108124,
+  0.10625671595335007,
+  0.09193984419107437,
+  0.10042747855186462,
+  0.11032280325889587,
+  0.12206919491291046,
+  0.10777784138917923,
+  0.09820547699928284,
+  0.10023406147956848,
+  0.09965869784355164,
+  0.09234887361526489,
+  0.09223626554012299,
+  0.08316385000944138,
+  0.08380219340324402,
+  0.08338435739278793,
+  0.09264345467090607,
+  0.08461576700210571,
+  0.1013931855559349,
+  0.08124326169490814,
+  0.08636690676212311,
+  0.07966404408216476],
+ &#39;val_metallicity_mae&#39;: [0.27919045090675354,
+  0.23639018833637238,
+  0.24116109311580658,
+  0.21493098139762878,
+  0.2117256224155426,
+  0.21783511340618134,
+  0.21168911457061768,
+  0.22191298007965088,
+  0.21439172327518463,
+  0.20448929071426392,
+  0.22364798188209534,
+  0.20318655669689178,
+  0.20879806578159332,
+  0.2029348909854889,
+  0.22287069261074066,
+  0.20633593201637268,
+  0.2164473533630371,
+  0.19571447372436523,
+  0.23902638256549835,
+  0.19345268607139587,
+  0.19685035943984985,
+  0.19092482328414917,
+  0.18942883610725403,
+  0.18915338814258575,
+  0.19906194508075714,
+  0.1915649175643921,
+  0.19724008440971375,
+  0.20914201438426971,
+  0.1872539073228836,
+  0.19022688269615173],
+ &#39;val_temperature_mae&#39;: [0.07008987665176392,
+  0.04207833111286163,
+  0.06943131983280182,
+  0.035586435347795486,
+  0.0467880517244339,
+  0.046900007873773575,
+  0.051315099000930786,
+  0.035767100751399994,
+  0.04056551307439804,
+  0.03504092991352081,
+  0.04179307445883751,
+  0.0325537845492363,
+  0.045044805854558945,
+  0.03132238984107971,
+  0.041387856006622314,
+  0.037114400416612625,
+  0.039087843149900436,
+  0.03498584404587746,
+  0.041588738560676575,
+  0.027081293985247612,
+  0.03488494083285332,
+  0.03592454642057419,
+  0.02786862850189209,
+  0.0214958805590868,
+  0.024593602865934372,
+  0.025763044133782387,
+  0.034078385680913925,
+  0.02745812200009823,
+  0.03625747188925743,
+  0.03541009873151779]}
+</pre></div></div>
+</div>
+<p>The plot_model() function provides us with a graphical representation of the model that we described in the previous steps. This also helps us better understand the flow of the layers between each other while also specifying their individual details.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span>
+                <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                <span class="n">to_file</span><span class="o">=</span><span class="s2">&quot;model.png&quot;</span><span class="p">,</span>
+                <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">show_layer_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">rankdir</span><span class="o">=</span><span class="s2">&quot;TB&quot;</span><span class="p">,</span>
+                <span class="n">expand_nested</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">dpi</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+                <span class="n">layer_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="c1">#                 show_layer_activations=False,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_69_0.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_69_0.png" />
+</div>
+</div>
+<p>Finally, once we finish running and model, we are going to save it using the model.save() built-in method as a ‘.h5’ file. Here, we are going to be saving 3 separate files: * Model Architecture: This information includes the type of layers, their activation functions, connections between layers, and any other relevant parameters and hyperparameters that define the network’s structure. * Model Weights: These weights represent the neural network’s learned parameters that allow it to make
+predictions. * Training History: The training history, including metrics such as loss and accuracy at each epoch, is usually stored as well. This information helps visualize the progress of the model’s training over time.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">trained_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;../../outputs/trained_models/trained_CNN_architecture_Toy_parameters__newbuild_random100_v2.h5&#39;</span><span class="p">)</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">trained_model</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="s1">&#39;../../outputs/trained_models/trained_CNN_weights_Toy_parameters__newbuild_random100_v2.h5&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../outputs/trained_models/trained_CNN_history_Toy_parameters__newbuild_random100_v2.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pk</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+g:\anaconda3\envs\NASA\Lib\site-packages\keras\src\engine\training.py:3000: UserWarning: You are saving your model as an HDF5 file via `model.save()`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save(&#39;my_model.keras&#39;)`.
+  saving_api.save_model(
+</pre></div></div>
+</div>
+<p>Similarly, following the storing process, we load the model, it’s weights and the history back into separate variables. In this step we are could also load it using the keras.models.load_model() and keras.models.load_weights() functions. To load the history, we un-pickle the file using the pk.load() function after opening the file through python’s open() function to read a file.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;../../outputs/trained_models/trained_CNN_architecture_Toy_parameters__newbuild_random100_v2.h5&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s1">&#39;../../outputs/trained_models/trained_CNN_weights_Toy_parameters__newbuild_random100_v2.h5&#39;</span><span class="p">)</span>
+
+<span class="c1"># Loading the saved history object</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../outputs/trained_models/trained_CNN_history_Toy_parameters__newbuild_random100_v2.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="n">pk</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[82], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> model = load_model(&#39;../../outputs/trained_models/trained_CNN_architecture_Toy_parameters__newbuild_random100_v2.h5&#39;)
+<span class="ansi-green-fg">      2</span> model.load_weights(&#39;../../outputs/trained_models/trained_CNN_weights_Toy_parameters__newbuild_random100_v2.h5&#39;)
+<span class="ansi-green-fg">      4</span> # Loading the saved history object
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;load_model&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">trained_model</span> <span class="o">=</span> <span class="n">model</span>
+<span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">trained_model_history</span> <span class="o">=</span> <span class="n">history</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+<section id="Step-4:-Check-Trained-Model">
+<h1>Step 4: Check Trained Model<a class="headerlink" href="#Step-4:-Check-Trained-Model" title="Permalink to this heading">¶</a></h1>
+<p>In the following Step, we are going to load the previously trained model and check the summary, architecture and history from the ‘.h5’ extension file that it was stored into locally</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span>
+                <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">trained_model</span><span class="p">,</span>
+                <span class="c1"># to_file=&quot;model.png&quot;,</span>
+                <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">show_layer_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">rankdir</span><span class="o">=</span><span class="s2">&quot;TB&quot;</span><span class="p">,</span>
+                <span class="n">expand_nested</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">dpi</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+                <span class="n">layer_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="c1">#                 show_layer_activations=False,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_80_0.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_80_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">trained_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Model: &#34;model&#34;
+__________________________________________________________________________________________________
+ Layer (type)                Output Shape                 Param #   Connected to
+==================================================================================================
+ input_1 (InputLayer)        [(None, 104, 1)]             0         []
+
+ Conv__B1_L1 (Conv1D)        (None, 104, 16)              112       [&#39;input_1[0][0]&#39;]
+
+ Conv__B1_L2 (Conv1D)        (None, 104, 64)              6208      [&#39;Conv__B1_L1[0][0]&#39;]
+
+ Conv__B1_L3 (Conv1D)        (None, 104, 144)             55440     [&#39;Conv__B1_L2[0][0]&#39;]
+
+ MaxPool1D__B1_L3 (MaxPooli  (None, 52, 144)              0         [&#39;Conv__B1_L3[0][0]&#39;]
+ ng1D)
+
+ flatten (Flatten)           (None, 7488)                 0         [&#39;MaxPool1D__B1_L3[0][0]&#39;]
+
+ FC1__B1_L1 (Dense)          (None, 512)                  3834368   [&#39;flatten[0][0]&#39;]
+
+ FC1__B1_L2 (Dense)          (None, 2048)                 1050624   [&#39;FC1__B1_L1[0][0]&#39;]
+
+ FC1__B1_L3 (Dense)          (None, 4608)                 9441792   [&#39;FC1__B1_L2[0][0]&#39;]
+
+ FC1__B1_L4 (Dense)          (None, 8192)                 3775692   [&#39;FC1__B1_L3[0][0]&#39;]
+                                                          8
+
+ FC1__Dropout__B1_L4 (Dropo  (None, 8192)                 0         [&#39;FC1__B1_L4[0][0]&#39;]
+ ut)
+
+ input_2 (InputLayer)        [(None, 2)]                  0         []
+
+ Concatenated_Layer (Concat  (None, 8194)                 0         [&#39;FC1__Dropout__B1_L4[0][0]&#39;,
+ enate)                                                              &#39;input_2[0][0]&#39;]
+
+ FC2__B1_L1 (Dense)          (None, 256)                  2097920   [&#39;Concatenated_Layer[0][0]&#39;]
+
+ FC2__B1_L2 (Dense)          (None, 1024)                 263168    [&#39;FC2__B1_L1[0][0]&#39;]
+
+ FC2__Dropout__B1_L2 (Dropo  (None, 1024)                 0         [&#39;FC2__B1_L2[0][0]&#39;]
+ ut)
+
+ gravity (Dense)             (None, 1)                    1025      [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+ c_o_ratio (Dense)           (None, 1)                    1025      [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+ metallicity (Dense)         (None, 1)                    1025      [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+ temperature (Dense)         (None, 1)                    1025      [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+==================================================================================================
+Total params: 54510660 (207.94 MB)
+Trainable params: 54510660 (207.94 MB)
+Non-trainable params: 0 (0.00 Byte)
+__________________________________________________________________________________________________
+</pre></div></div>
+</div>
+<p>The following graph below shows us the graphical performance of the model throughout each epoch. There are two distinct lines presented within this plot. The solid line represents the loss at each point in the Epoch for the training dataset where as the dotted line gives us the loss at each point in the Epoch for our Validation Dataset. The various colors depict:</p>
+<ul class="simple">
+<li><p>Red: The average loss across all outputs i.e. Total Loss</p></li>
+<li><p>Orange: The loss calculated for the output gravity</p></li>
+<li><p>Green: The loss calculated for the output C_O_ratio</p></li>
+<li><p>Purple: The loss calculated for the output metallicity</p></li>
+<li><p>Brown: The loss calculated for the output temperature</p></li>
+</ul>
+<p>One key observation from this graph is that we have the least loss encountered for Temperature where as metallicity has the highest loss calculated individually. The total loss from all the training data still falls well below <span class="math notranslate nohighlight">\(10^{-1}\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">plot_model_loss</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;RandState=100: X:StandRow, y:StandCol - MinMax:StandCol, ToyCNNmodel&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[81], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> build_cnn_regression.plot_model_loss(title = &#39;RandState=100: X:StandRow, y:StandCol - MinMax:StandCol, ToyCNNmodel&#39;)
+
+File <span class="ansi-green-intense-fg ansi-bold">g:\NASA Internship Stuff\repos\telescopeML_project\notebooks\..\telescopeML\telescopeML\DeepBuilder.py:451</span>, in <span class="ansi-cyan-fg">BuildRegressorCNN.plot_model_loss</span><span class="ansi-blue-intense-fg ansi-bold">(self, history, title)</span>
+<span class="ansi-green-fg">    449</span> history = self.trained_model_history if history is None else history
+<span class="ansi-green-fg">    450</span> # Define the epochs as a list
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 451</span> epochs = list(range(len(history[&#39;loss&#39;])))
+<span class="ansi-green-fg">    453</span> # Define colorblind-friendly colors
+<span class="ansi-green-fg">    454</span> colors = [&#39;#d62728&#39;, &#39;#ff7f0e&#39;, &#39;#2ca02c&#39;, &#39;#9467bd&#39;, &#39;#8c564b&#39;]
+
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: &#39;NoneType&#39; object is not subscriptable
+</pre></div></div>
+</div>
+<section id="4.1:-Plot-Y-predicted-vs-Y_Actual:-Histogram-&amp;-Scatter-plot">
+<h2>4.1: Plot Y predicted vs Y_Actual: Histogram &amp; Scatter plot<a class="headerlink" href="#4.1:-Plot-Y-predicted-vs-Y_Actual:-Histogram-&-Scatter-plot" title="Permalink to this heading">¶</a></h2>
+<p>In the code below, we are visualizing the model’s performance for each of y’s outputs. Since we have 4 different outputs where each one represents a different parameter, we will have 4 different sets of plots.</p>
+<p>The first plot shows us the Histogram plot of the predicted and the actual outcome overlayed on top of each other for each of the 4 values. This signifies where the probability of the prediction’s magnitude of difference fromt the ground truth. If we consider our model to have good performance, we should expect to see a Gaussian Distribution of the labels. We could break down the Histogram attributes into:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mu_{3\text{ train}}, \mu_{3\text{ test}}\)</span> - Skewness of the data which helps determine whether the data has a normal or a skewed distribution</p></li>
+<li><p>X-Axis labels: which represent difference between the predicted and actual values i.e. residual values</p></li>
+<li><p>Y-Axis labels: are the logarithimic scaled values of the probability distribution for each residual instance</p></li>
+</ul>
+<p>The second plot shows us a scatter plot between the predicted vs actual values for each of the 4 parameters. If we consider our model to have good performance, we should expect to see a continuous line with a slope of 1. Any variation from the center (i.e. Ground Truth) is the error produced by the prediction of the model. Some of the plot’s attributes are: - <span class="math notranslate nohighlight">\(R^{2}_{train} \text{ and } R^{2}_{test}\)</span> = <span class="math notranslate nohighlight">\(R^2\)</span> value (representing the goodness of the fit) [<span class="math notranslate nohighlight">\(mean\)</span> <span class="math notranslate nohighlight">\(\pm\)</span>
+$Standard $ <span class="math notranslate nohighlight">\(Deviation\)</span> of the data] - The X and Y axis labels represending the Scaled feature values for each of the output features</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">regression_report</span><span class="p">(</span>
+        <span class="n">trained_model</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="p">,</span>
+
+        <span class="n">Xtrain</span> <span class="o">=</span> <span class="p">[</span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+                  <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_train_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">]],</span>
+
+        <span class="n">Xtest</span>  <span class="o">=</span> <span class="p">[</span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_standardized_rowwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+                  <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">]],</span>
+
+        <span class="n">ytrain</span> <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+
+        <span class="n">ytest</span>  <span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+
+        <span class="n">target_i</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+
+        <span class="n">xy_top</span>   <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+        <span class="n">xy_bottom</span><span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">],</span>
+        <span class="n">print_results</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+782/782 [==============================] - 40s 50ms/step
+97/97 [==============================] - 4s 37ms/step
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_86_1.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_86_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_86_2.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_86_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_86_3.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_86_3.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_ML_concepts_Train_CNN_Model_86_4.png" src="../_images/tutorials_ML_concepts_Train_CNN_Model_86_4.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../knowledgebase.html" class="btn btn-neutral float-left" title="Knowledge Base" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../publications.html" class="btn btn-neutral float-right" title="Publications:" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Ehsan (Sam) Gharib-Nezhad.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

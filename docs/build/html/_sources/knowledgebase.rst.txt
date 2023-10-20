@@ -1,4 +1,4 @@
-KnowledgeBase
+Knowledge Base
 ===============
 
 Concepts: Data processing and Model Training in CNN
@@ -6,4 +6,4 @@ Concepts: Data processing and Model Training in CNN
 .. toctree::
    :maxdepth: 1
 
-    Neural Network Arch  <tutorials/Concepts_CNN_Model.ipynb>
+    Building ML model  <tutorials/ML_concepts_Train_CNN_Model.ipynb>
