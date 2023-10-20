@@ -2,7 +2,7 @@
 
 ![logo](logo_TelescopeML.png)
 
-** ``TelescopeML``: Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra**
+** `TelescopeML`: Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra**
 
 
 ## Brief introduction
