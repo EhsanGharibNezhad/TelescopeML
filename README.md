@@ -12,10 +12,10 @@ statistical capabilities for conducting Convolutional Neural Networks (CNN) or M
 datasets captured from the atmospheres of extrasolar planets and brown dwarfs. The tasks executed by the ``TelescopeML``
 modules are outlined below:
 
-    - *StatVisAnalyzer*: Explore and process the synthetic datasets (or the training examples) and perform statistical analysis.
-    - *DeepBuilder*: Specify training and target features, normalize/scale datasets, and construct a CNN model.
-    - *DeepTrainer*: Create an ML model, train the model with the training examples, and utilize hyperparameters.
-    - *Predictor*: Train the module using specified hyperparameters.
+- *StatVisAnalyzer*: Explore and process the synthetic datasets (or the training examples) and perform statistical analysis.
+- *DeepBuilder*: Specify training and target features, normalize/scale datasets, and construct a CNN model.
+- *DeepTrainer*: Create an ML model, train the model with the training examples, and utilize hyperparameters.
+- *Predictor*: Train the module using specified hyperparameters.
 
 
 # Documentation
