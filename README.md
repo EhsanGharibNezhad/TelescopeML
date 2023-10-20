@@ -4,7 +4,6 @@
 
 ** `TelescopeML`: Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra**
 
-
 ## Brief introduction
 
 ``TelescopeML`` is a Python package comprising a series of modules, each equipped with specialized machine learning and
