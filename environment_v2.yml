@@ -1,4 +1,4 @@
-name: test6
+name: TelescopeML
 channels:
   - conda-forge
 dependencies:
