@@ -9,7 +9,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='TelescopeML',
-    version = '0.0.0',  # MAJOR.MINOR.PATCH
+    version = '0.0.1',  # MAJOR.MINOR.PATCH
     description = 'Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra',
     long_description = long_description,
     long_description_content_type='text/markdown',
@@ -29,13 +29,20 @@ setup(
   ],
   packages=find_packages(exclude=('tests', 'docs')),
   install_requires=[
-                  'numpy',
+                  'numpy==1.26.1',
                   'bokeh',
                   'pandas',
                   'astropy',
                   'matplotlib',
+                  'seaborn==0.12.2',
+                  'sphinx==7.2.6',
+                  'scipy==1.11.1',
+                  'keras==2.14.0',
+                  'tensorflow==2.14.0',
+                  'jupyterlab',
                   'sphinx',
-                  'scipy',
-          ],
+                  'spectres==2.2.0',
+                  'scikit-learn==1.3.0',
+  ],
     zip_safe = False,
 )

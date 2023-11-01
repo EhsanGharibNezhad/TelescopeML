@@ -121,7 +121,7 @@ class TrainRegressorCNN:
         self.y4_train, self.y4_val, self.y4_test = y4_train, y4_val, y4_test
 
     def build_model(self,
-                    hyperparameters # dic
+                    hyperparameters, # dic
                     ):
         """
         Build a CNN model with the given hyperparameters.
@@ -277,6 +277,7 @@ class TrainRegressorCNN:
         print(model.summary())
 
     def fit_cnn_model(self,
+                      batch_size = 32,
                       budget=3):
         """
         Fit the pre-build CNN model
@@ -298,7 +299,7 @@ class TrainRegressorCNN:
         history = self.model.fit(x=[self.X1_train, self.X2_train],
                                  y=[self.y1_train, self.y2_train, self.y3_train, self.y4_train],
                                  # self.x_train, self.y_train,
-                                 batch_size=32,  # config['batch_size'], # self.batch_size,
+                                 batch_size= batch_size,  # config['batch_size'], # self.batch_size,
                                  validation_data=(
                                  [self.X1_val, self.X2_val], [self.y1_val, self.y2_val, self.y3_val, self.y4_val]),
                                  # validation_split=0.2,
