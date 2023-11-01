@@ -1,0 +1,62 @@
+Metadata-Version: 2.1
+Name: TelescopeML
+Version: 0.0.1
+Summary: Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra
+Home-page: https://ehsangharibnezhad.github.io/TelescopeML
+Download-URL: https://github.com/EhsanGharibNezhad/TelescopeML
+Author: Ehsan (Sam) Gharib-Nezhad
+Author-email: e.gharibnezhad@gmail.com
+License: GPL-3.0
+Keywords: Astronomy,Stars,Telescope,CNN
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy==1.26.1
+Requires-Dist: bokeh
+Requires-Dist: pandas
+Requires-Dist: astropy
+Requires-Dist: matplotlib
+Requires-Dist: seaborn==0.12.2
+Requires-Dist: sphinx==7.2.6
+Requires-Dist: scipy==1.11.1
+Requires-Dist: keras==2.14.0
+Requires-Dist: tensorflow==2.14.0
+Requires-Dist: jupyterlab
+Requires-Dist: sphinx
+Requires-Dist: spectres==2.2.0
+Requires-Dist: scikit-learn==1.3.0
+
+# TelescopeML
+
+![logo](logo_TelescopeML.png)
+
+** `TelescopeML`: Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra**
+
+## Brief introduction
+
+``TelescopeML`` is a Python package comprising a series of modules, each equipped with specialized machine learning and
+statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on
+datasets captured from the atmospheres of extrasolar planets and brown dwarfs. 
+
+## Main Features and Modules:
+
+- *StatVisAnalyzer*: Explore and process the synthetic datasets (or the training examples) and perform statistical analysis.
+- *DeepBuilder*: Specify training and target features, normalize/scale datasets, and construct a CNN model.
+- *DeepTrainer*: Create an ML model, train the model with the training examples, and utilize hyperparameters.
+- *Predictor*: Train the module using specified hyperparameters.
+
+
+## Documentation
+
+- Documentation: https://ehsangharibnezhad.github.io/TelescopeML/
+- Installation: https://ehsangharibnezhad.github.io/TelescopeML/installation.html
+- Tutorials: https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html
+- The code: https://ehsangharibnezhad.github.io/TelescopeML/code.html
+- Concepts: https://ehsangharibnezhad.github.io/TelescopeML/knowledgebase.html
+
