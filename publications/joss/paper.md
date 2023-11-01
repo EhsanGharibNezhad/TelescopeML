@@ -81,14 +81,15 @@ for interpreting observational data captured by telescopes.
 `TelescopeML` is a Python package comprising a series of modules, each equipped with specialized machine learning and 
 statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on datasets 
 captured from the atmospheres of extrasolar planets and brown dwarfs. The tasks executed by the `TelescopeML` modules are 
-outlined below and visualized in Figure \autoref{fig:TelescopeML_modules}:
+outlined below and visualized in following Figure:
 
-- **StatVisAnalyzer module**: Explore and process the synthetic datasets (or the training examples) and provide functions for statistical analysis.
 - **DeepBuilder module**: Specify training and target features, normalize/scale datasets, and pass them to the ML training phase.
 - **DeepTrainer module**: Create an ML model, train the model with the training examples, and utilize hyperparameters.
 - **Predictor module**: Process the observational datasets and deploy the trained ML model to predict atmospheric parameters such as gravity and temperature.
+- **StatVisAnalyzer module**: Explore and process the synthetic datasets (or the training examples) and provide functions for statistical analysis.
 
-![TelescopeML modules](TelescopeML_modules.png){height="500pt"}
+![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
+extract the target features from the observational data.](TelescopeML_modules.pdf){height="600pt"}
 
 
 # Documentation
