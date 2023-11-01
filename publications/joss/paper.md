@@ -88,7 +88,7 @@ outlined below and visualized in Figure \autoref{fig:TelescopeML_modules}:
 - **DeepTrainer module**: Create an ML model, train the model with the training examples, and utilize hyperparameters.
 - **Predictor module**: Process the observational datasets and deploy the trained ML model to predict atmospheric parameters such as gravity and temperature.
 
-![TelescopeML modules](TelescopeML_modules.png){height="15pt"}
+![TelescopeML modules](TelescopeML_modules.png){height="500pt"}
 
 
 # Documentation
