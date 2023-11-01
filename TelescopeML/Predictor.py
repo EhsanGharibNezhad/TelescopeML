@@ -44,6 +44,21 @@ from astropy.nddata import StdDevUncertainty, NDDataArray
 from bokeh.palettes import viridis
 
 
+__reference_data__ = os.getenv("TelescopeML_reference_data")
+print(__reference_data__)
+
+# if __reference_data__ is None:
+#     raise Exception('\n'
+#                        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+#                        "TelescopeML Error Message: \n\n"
+#                        "You need to define the path to your reference data.\n"
+#                        "Check out this tutorial: https://ehsangharibnezhad.github.io/TelescopeML/installation.html\n"
+#                        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+#                     )
+# else:
+#     pass
+
+
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 # Data Visualizing libararies
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -119,7 +134,7 @@ class ObserveParameterPredictor:
 
         # Load the observational spectra
         if obs_data_df is None:
-            obs_data_df = pd.read_csv(f'../datasets/observational_spectra/{self.object_name}_fluxcal.dat',
+            obs_data_df = pd.read_csv(__reference_data__+f'/observational_datasets/{self.object_name}_fluxcal.dat',
                                       delim_whitespace=True, comment='#', names=('wl', 'F_lambda', 'F_lambda_error'),
                                       usecols=(0, 1, 2))
 
