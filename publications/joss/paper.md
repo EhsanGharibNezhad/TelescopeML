@@ -83,10 +83,10 @@ statistical capabilities for conducting Convolutional Neural Networks (CNN) or M
 captured from the atmospheres of extrasolar planets and brown dwarfs. The tasks executed by the `TelescopeML` modules are 
 outlined below and visualized in Figure \autoref{fig:TelescopeML_modules}:
 
-    -  __StatVisAnalyzer module__: Explore and process the synthetic datasets (or the training examples) and provide functions for statistical analysis.
-    - __DeepBuilder module__: Specify training and target features, normalize/scale datasets, and pass them to the ML training phase.
-    - __DeepTrainer module__: Create an ML model, train the model with the training examples, and utilize hyperparameters.
-    - __Predictor module__: Process the observational datasets and deploy the trained ML model to predict atmospheric parameters such as gravity and temperature.
+    - *StatVisAnalyzer module*: Explore and process the synthetic datasets (or the training examples) and provide functions for statistical analysis.
+    - *DeepBuilder module*: Specify training and target features, normalize/scale datasets, and pass them to the ML training phase.
+    - *DeepTrainer module*: Create an ML model, train the model with the training examples, and utilize hyperparameters.
+    - *Predictor module*: Process the observational datasets and deploy the trained ML model to predict atmospheric parameters such as gravity and temperature.
 
 ![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
 extract the target features from the observational data.\label{fig:TelescopeML_modules}](TelescopeML_modules.png)
@@ -100,11 +100,11 @@ extract the target features from the observational data.\label{fig:TelescopeML_m
 documentation is hosted with _Sphinx_ using _ReadtheDocs_ tools and includes several instructions and tutorials 
 as follows: 
 
-    - __Main page__: https://ehsangharibnezhad.github.io/TelescopeML/
-    - __Installation__: https://ehsangharibnezhad.github.io/TelescopeML/installation.html
-    - __Tutorials and examples__: https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html
-    - __The code__: https://ehsangharibnezhad.github.io/TelescopeML/code.html
-    - __ML Concepts__: https://ehsangharibnezhad.github.io/TelescopeML/knowledgebase.html
+    - **Main page**: https://ehsangharibnezhad.github.io/TelescopeML/
+    - __Installation**: https://ehsangharibnezhad.github.io/TelescopeML/installation.html
+    - __Tutorials and examples**: https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html
+    - __The code**: https://ehsangharibnezhad.github.io/TelescopeML/code.html
+    - **ML Concepts**: https://ehsangharibnezhad.github.io/TelescopeML/knowledgebase.html
 
 
 #  Users  and Future Developments
