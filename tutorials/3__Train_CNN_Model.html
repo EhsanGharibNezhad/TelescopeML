@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters &mdash; TelescopeML 0.0.0 documentation</title>
+  <title>3. Train a Regression ConvNN Model using the BOHB Tuned Hyperparameters &mdash; TelescopeML 0.0.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="The Modules" href="../code.html" />
-    <link rel="prev" title="Predict target features (brown dwarf parameters) using the trained CNN model" href="2__Predict_BrownDwarf_Parameters.html" /> 
+    <link rel="prev" title="2. Deploy CNN Model to Predict Brown Dwarf Atmospheric Parameters" href="2__Deploy_ML_Models_Predict_BrownDwarf_Parameters.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,17 +50,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#exploratory-data-analysis">Exploratory Data Analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#deploy-the-trained-cnn-model-to-predict">Deploy the trained CNN Model to Predict</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../tutorials.html#train-cnn-model">Train CNN Model</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Load-the-training-dataset-(syntheric-spectra)">Step 1: Load the training dataset (syntheric spectra)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Build-the-CNN-model-/-Data-processing">Step 2: Build the CNN model / Data processing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Train-CNN-model">Step 3: Train CNN model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-4:-Check-Trained-Model">Step 4: Check Trained Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#exploring-the-dataset">Exploring the Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#predict-brown-dwarf-atmospheric-parameters">Predict Brown Dwarf Atmospheric Parameters</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../tutorials.html#train-a-regression-ml-model">Train a Regression ML Model</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Train a Regression ConvNN Model using the BOHB Tuned Hyperparameters</a></li>
 </ul>
 </li>
 </ul>
@@ -87,12 +84,12 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../tutorials.html">Tutorials</a></li>
-      <li class="breadcrumb-item active">Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters</li>
+      <li class="breadcrumb-item active">3. Train a Regression ConvNN Model using the BOHB Tuned Hyperparameters</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorials/3__Train_CNN_Model.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
-        <a href="2__Predict_BrownDwarf_Parameters.html" class="btn btn-neutral float-left" title="Predict target features (brown dwarf parameters) using the trained CNN model" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="2__Deploy_ML_Models_Predict_BrownDwarf_Parameters.html" class="btn btn-neutral float-left" title="2. Deploy CNN Model to Predict Brown Dwarf Atmospheric Parameters" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../code.html" class="btn btn-neutral float-right" title="The Modules" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
@@ -379,8 +376,21 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Train-a-Regression-ConvNN-Model-Using-BOHB-Tuned-Hyperparameters">
-<h1>Train a Regression ConvNN Model Using BOHB Tuned Hyperparameters<a class="headerlink" href="#Train-a-Regression-ConvNN-Model-Using-BOHB-Tuned-Hyperparameters" title="Permalink to this heading"></a></h1>
+<section id="3.-Train-a-Regression-ConvNN-Model-using-the-BOHB-Tuned-Hyperparameters">
+<h1>3. Train a Regression ConvNN Model using the BOHB Tuned Hyperparameters<a class="headerlink" href="#3.-Train-a-Regression-ConvNN-Model-using-the-BOHB-Tuned-Hyperparameters" title="Permalink to this heading"></a></h1>
+<p>In the following steps, you will:</p>
+<ul class="simple">
+<li><p>Load the brown dwarf dataset used to train the ML models</p></li>
+<li><p>Prepare the X and y variables to deploy the trained ML models</p></li>
+<li><p>Visualize them for few cases</p></li>
+</ul>
+<p>We will need the following modules from <code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code>:</p>
+<ul class="simple">
+<li><p><em>DeepBuilder</em>: to prepare the syntheric brown dwarf dataset, load the trained machine learning (ML) models</p></li>
+<li><p><em>Predictor</em>: to prepare the observatinal brown dwarf dataset and deploy the trained ML models</p></li>
+<li><p><em>StatVisAnalyzer</em>: provide statistical-test and plotting function</p></li>
+<li><p><em>IO_utils</em>: provide functions to load the trained ML models</p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -407,7 +417,7 @@ div.rendered_html tbody tr:hover {
     </style>
     <div>
         <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
-        <span id="c7f82d0d-9865-4568-bba7-75cd06c4e6f7">Loading BokehJS ...</span>
+        <span id="ea09c81b-d8eb-45e5-b39f-bfc462830662">Loading BokehJS ...</span>
     </div></div>
 </div>
 <div class="nboutput docutils container">
@@ -574,7 +584,7 @@ const JS_MIME_TYPE = 'application/javascript';
      "</div>"}};
 
   function display_loaded() {
-    const el = document.getElementById("c7f82d0d-9865-4568-bba7-75cd06c4e6f7");
+    const el = document.getElementById("ea09c81b-d8eb-45e5-b39f-bfc462830662");
     if (el != null) {
       el.textContent = "BokehJS is loading...";
     }
@@ -680,7 +690,7 @@ if (force === true) {
       console.log("Bokeh: BokehJS failed to load within specified timeout.");
       root._bokeh_failed_load = true;
     } else if (force !== true) {
-      const cell = $(document.getElementById("c7f82d0d-9865-4568-bba7-75cd06c4e6f7")).parents('.cell').data().cell;
+      const cell = $(document.getElementById("ea09c81b-d8eb-45e5-b39f-bfc462830662")).parents('.cell').data().cell;
       cell.output_area.append_execute_result(NB_LOAD_WARNING)
     }
   }
@@ -719,7 +729,7 @@ if (force === true) {
     </style>
     <div>
         <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
-        <span id="d97d73e8-b8b3-4019-948b-b0543942b214">Loading BokehJS ...</span>
+        <span id="df244045-bd92-4e0d-b173-5c56901c2f34">Loading BokehJS ...</span>
     </div></div>
 </div>
 <div class="nboutput docutils container">
@@ -886,7 +896,7 @@ const JS_MIME_TYPE = 'application/javascript';
      "</div>"}};
 
   function display_loaded() {
-    const el = document.getElementById("d97d73e8-b8b3-4019-948b-b0543942b214");
+    const el = document.getElementById("df244045-bd92-4e0d-b173-5c56901c2f34");
     if (el != null) {
       el.textContent = "BokehJS is loading...";
     }
@@ -992,7 +1002,7 @@ if (force === true) {
       console.log("Bokeh: BokehJS failed to load within specified timeout.");
       root._bokeh_failed_load = true;
     } else if (force !== true) {
-      const cell = $(document.getElementById("d97d73e8-b8b3-4019-948b-b0543942b214")).parents('.cell').data().cell;
+      const cell = $(document.getElementById("df244045-bd92-4e0d-b173-5c56901c2f34")).parents('.cell').data().cell;
       cell.output_area.append_execute_result(NB_LOAD_WARNING)
     }
   }
@@ -1023,7 +1033,7 @@ if (force === true) {
     </style>
     <div>
         <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
-        <span id="c6bf9c9a-2465-40b0-8860-0a0be6620c87">Loading BokehJS ...</span>
+        <span id="ddeab4b7-7491-4f86-bbc7-264e643c48fe">Loading BokehJS ...</span>
     </div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1190,7 +1200,7 @@ const JS_MIME_TYPE = 'application/javascript';
      "</div>"}};
 
   function display_loaded() {
-    const el = document.getElementById("c6bf9c9a-2465-40b0-8860-0a0be6620c87");
+    const el = document.getElementById("ddeab4b7-7491-4f86-bbc7-264e643c48fe");
     if (el != null) {
       el.textContent = "BokehJS is loading...";
     }
@@ -1296,7 +1306,7 @@ if (force === true) {
       console.log("Bokeh: BokehJS failed to load within specified timeout.");
       root._bokeh_failed_load = true;
     } else if (force !== true) {
-      const cell = $(document.getElementById("c6bf9c9a-2465-40b0-8860-0a0be6620c87")).parents('.cell').data().cell;
+      const cell = $(document.getElementById("ddeab4b7-7491-4f86-bbc7-264e643c48fe")).parents('.cell').data().cell;
       cell.output_area.append_execute_result(NB_LOAD_WARNING)
     }
   }
@@ -1321,16 +1331,22 @@ if (force === true) {
 /Users/egharibn/RESEARCH/ml/projects/TelescopeML_project/reference_data/
 </pre></div></div>
 </div>
-</section>
-<section id="Step-1:-Load-the-training-dataset-(syntheric-spectra)">
-<h1>Step 1: Load the training dataset (syntheric spectra)<a class="headerlink" href="#Step-1:-Load-the-training-dataset-(syntheric-spectra)" title="Permalink to this heading"></a></h1>
-<p>Define the <code class="docutils literal notranslate"><span class="pre">TelescopeML_reference_data</span></code> path</p>
+<section id="3.1-Data-Preperation">
+<h2>3.1 Data Preperation<a class="headerlink" href="#3.1-Data-Preperation" title="Permalink to this heading"></a></h2>
+<section id="3.1.1-Load-the-Synthetic-spectra---training-dataset">
+<h3>3.1.1 Load the Synthetic spectra - training dataset<a class="headerlink" href="#3.1.1-Load-the-Synthetic-spectra---training-dataset" title="Permalink to this heading"></a></h3>
+<p>We computed a low-resolution spectrum (<span class="math notranslate nohighlight">\(R\)</span>=200) utilizing atmopshric brown dwarfs grid model, <a class="reference external" href="https://arxiv.org/pdf/2107.07434.pdf">Sonora-Bobcat</a> for spectral range $:nbsphinx-math:<cite>sim`$0.9-2.4 :math:</cite>mu m`. An open-source atmospheric radiative transfer Python package, <a class="reference external" href="https://natashabatalha.github.io/picaso/">PICASO</a> was employed for generating these datasets. This dataset encompass 30,888 synthetic spectra (or instances or rows).</p>
+<p>Each spectrum has 104 features (or wavelengths in the astrophysics context, i.e., 0.897, 0.906, …, 2.512~<span class="math notranslate nohighlight">\(\mu\)</span>m) and 4 parameters: - gravity ( log<span class="math notranslate nohighlight">\(g\)</span> ) - temperature ( T<span class="math notranslate nohighlight">\(_{eff}\)</span> ) - carbon-to-oxygen ratio ( C/O ) - metallicity ( [M/H] )</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">__reference_data__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TelescopeML_reference_data&quot;</span><span class="p">)</span>
-<span class="n">__reference_data__</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the `TelescopeML_reference_data` path</span>
+
+<span class="kn">import</span> <span class="nn">os</span>  <span class="c1"># to check the path</span>
+
+<span class="n">__reference_data_path__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TelescopeML_reference_data&quot;</span><span class="p">)</span>
+<span class="n">__reference_data_path__</span>
 </pre></div>
 </div>
 </div>
@@ -1343,14 +1359,15 @@ if (force === true) {
 &#39;/Users/egharibn/RESEARCH/ml/projects/TelescopeML_project/reference_data/&#39;
 </pre></div></div>
 </div>
+<p>Load the dataset and check few instances</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># original trainign dataset astronomers use to predict the parameters of the telescope brown dwarf spectra</span>
-
-<span class="n">train_BD</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__reference_data__</span><span class="p">,</span> <span class="s1">&#39;training_datasets&#39;</span><span class="p">,</span> <span class="s1">&#39;browndwarf_R100_v4_newWL_v2.csv.bz2&#39;</span><span class="p">),</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;bz2&#39;</span><span class="p">)</span>
-<span class="n">train_BD</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_BD</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__reference_data_path__</span><span class="p">,</span>
+                                    <span class="s1">&#39;training_datasets&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;browndwarf_R100_v4_newWL_v2.csv.bz2&#39;</span><span class="p">),</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;bz2&#39;</span><span class="p">)</span>
+<span class="n">train_BD</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1473,14 +1490,69 @@ if (force === true) {
       <td>2.791689e-08</td>
       <td>no</td>
     </tr>
+    <tr>
+      <th>3</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>0.0</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
   </tbody>
 </table>
-<p>3 rows × 109 columns</p>
+<p>5 rows × 109 columns</p>
 </div></div>
 </div>
-<section id="Check-the-columns">
-<h2>Check the columns<a class="headerlink" href="#Check-the-columns" title="Permalink to this heading"></a></h2>
-<p>note: one of the columns, <em>is_augmented</em>, is indicating wheter this is a native dataset or an augmented one. For now, we don’t need it so drop it, but all modules will take this into account!</p>
+</section>
+<section id="3.1.2-Check-atmospheric-parameters">
+<h3>3.1.2 Check atmospheric parameters<a class="headerlink" href="#3.1.2-Check-atmospheric-parameters" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>gravity ( log<span class="math notranslate nohighlight">\(g\)</span> )</p></li>
+<li><p>temperature ( T<span class="math notranslate nohighlight">\(_{eff}\)</span> )</p></li>
+<li><p>carbon-to-oxygen ratio ( C/O )</p></li>
+<li><p>metallicity ( [M/H] )</p></li>
+</ul>
+<p>Note: one of the columns, <em>is_augmented</em>, is indicating whether this is a native dataset or an augmented one. let’s just ignore it for now!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -1563,7 +1635,9 @@ if (force === true) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_features_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># training_features_labels: they are Wavelengths variables in string format</span>
+
+<span class="n">training_features_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
 <span class="n">training_features_labels</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -1581,7 +1655,9 @@ if (force === true) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_features_wl</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># training_features_wl: they are Wavelengths variables</span>
+
+<span class="n">training_features_wl</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
 <span class="n">training_features_wl</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -1599,7 +1675,9 @@ if (force === true) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wl_synthetic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__reference_data__</span><span class="p">,</span> <span class="s1">&#39;training_datasets&#39;</span><span class="p">,</span> <span class="s1">&#39;wl.csv&#39;</span><span class="p">))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wl_synthetic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__reference_data_path__</span><span class="p">,</span>
+                                        <span class="s1">&#39;training_datasets&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;wl.csv&#39;</span><span class="p">))</span>
 <span class="n">wl_synthetic</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1647,8 +1725,14 @@ if (force === true) {
 </table>
 </div></div>
 </div>
-<section id="Prepare-feature-variables-(X)-and-targets-(y)">
-<h3>Prepare feature variables (X) and targets (y)<a class="headerlink" href="#Prepare-feature-variables-(X)-and-targets-(y)" title="Permalink to this heading"></a></h3>
+</section>
+<section id="3.1.3-Prepare-Inputs-and-outputs-for-ML-models-(X,y)">
+<h3>3.1.3 Prepare Inputs and outputs for ML models (X,y)<a class="headerlink" href="#3.1.3-Prepare-Inputs-and-outputs-for-ML-models-(X,y)" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>X: 104 column variables or fluxes</p></li>
+<li><p>y: output variables: ‘gravity’, ‘temperature’, ‘c_o_ratio’, ‘metallicity’</p></li>
+</ul>
+<p>Note: one of the columns, <em>is_augmented</em>, is indicating whether this is a native dataset or an augmented one. let’s just ignore it for now!</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -1666,11 +1750,12 @@ if (force === true) {
              <span class="s1">&#39;is_augmented&#39;</span><span class="p">])</span><span class="c1">#.astype(np.float32)</span>
 
 
-<span class="c1"># Target feature variables</span>
+<span class="c1"># Target/Output feature variables</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">[[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="p">]]</span><span class="c1">#.astype(np.float32)</span>
 <br/></pre></div>
 </div>
 </div>
+<p>log-transform the ‘temperature’ variable toreduce the skewness of the data, making it more symmetric and normal-like for the ML model</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -1683,7 +1768,8 @@ if (force === true) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the output variables</span>
+<span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1759,15 +1845,27 @@ if (force === true) {
 <hr class="docutils" />
 </section>
 </section>
-</section>
-<section id="Step-2:-Build-the-CNN-model-/-Data-processing">
-<h1>Step 2: Build the CNN model / Data processing<a class="headerlink" href="#Step-2:-Build-the-CNN-model-/-Data-processing" title="Permalink to this heading"></a></h1>
+<section id="3.2-Build-the-CNN-model-and-Processing-the-Data">
+<h2>3.2 Build the CNN model and Processing the Data<a class="headerlink" href="#3.2-Build-the-CNN-model-and-Processing-the-Data" title="Permalink to this heading"></a></h2>
+<p>Here we instintiate BuildRegressorCNN class from DeepBuilder module to prepare the datasets and take the trained CNN (Convolutional Neural Networks) for us:</p>
+<ul class="simple">
+<li><p>Take the synthetic datasets</p></li>
+<li><p>Process them, e.g.</p>
+<ul>
+<li><p>Divide them to three sets: train, validation, and test sets</p></li>
+<li><p>Scale y variables</p></li>
+<li><p>Scale X variables</p></li>
+<li><p>Create new features</p></li>
+</ul>
+</li>
+</ul>
+<section id="3.2.1-Instintiate-BuildRegressorCNN-class-from-DeepBuilder-module">
+<h3>3.2.1 Instintiate BuildRegressorCNN class from DeepBuilder module<a class="headerlink" href="#3.2.1-Instintiate-BuildRegressorCNN-class-from-DeepBuilder-module" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instintiate BuildCNN class</span>
-<span class="n">build_cnn_regression</span> <span class="o">=</span> <span class="n">BuildRegressorCNN</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span> <span class="o">=</span> <span class="n">BuildRegressorCNN</span><span class="p">(</span>
                              <span class="n">feature_values</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
                              <span class="n">feature_names</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
                              <span class="n">target_values</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
@@ -1783,6 +1881,9 @@ if (force === true) {
 </pre></div>
 </div>
 </div>
+</section>
+<section id="3.2.2-Split-the-dataset-into-train,-validate-and-test-sets">
+<h3>3.2.2 Split the dataset into train, validate and test sets<a class="headerlink" href="#3.2.2-Split-the-dataset-into-train,-validate-and-test-sets" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
@@ -1793,6 +1894,9 @@ if (force === true) {
 </pre></div>
 </div>
 </div>
+</section>
+<section id="3.2.3-Standardize-X-Variables-Row-wise">
+<h3>3.2.3 Standardize X Variables Row-wise<a class="headerlink" href="#3.2.3-Standardize-X-Variables-Row-wise" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -1818,11 +1922,12 @@ if (force === true) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_3__Train_CNN_Model_21_0.png" src="../_images/tutorials_3__Train_CNN_Model_21_0.png" />
+<img alt="../_images/tutorials_3__Train_CNN_Model_24_0.png" src="../_images/tutorials_3__Train_CNN_Model_24_0.png" />
 </div>
 </div>
-<section id="Scale-y-features---ColumnWise">
-<h2>Scale y features - ColumnWise<a class="headerlink" href="#Scale-y-features---ColumnWise" title="Permalink to this heading"></a></h2>
+</section>
+<section id="3.2.4-Standardize-y-Variables-Column-wise">
+<h3>3.2.4 Standardize y Variables Column-wise<a class="headerlink" href="#3.2.4-Standardize-y-Variables-Column-wise" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -1833,11 +1938,11 @@ if (force === true) {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">,</span>
-                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;$\log g$&#39;</span><span class="p">,</span> <span class="s1">&#39;T$_</span><span class="si">{eff}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;C/O ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;[M/E]&#39;</span><span class="p">],</span>
+                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;$\log g$&#39;</span><span class="p">,</span> <span class="s1">&#39;T$_</span><span class="si">{eff}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;C/O ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;[M/H]&#39;</span><span class="p">],</span>
                                                   <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled target Features - ColumnWise&#39;</span><span class="p">,</span>
                                                   <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
                                                     <span class="p">)</span>
@@ -1848,20 +1953,12 @@ if (force === true) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_3__Train_CNN_Model_24_0.png" src="../_images/tutorials_3__Train_CNN_Model_24_0.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># build_cnn_regression.y_train_standardized_columnwise</span>
-</pre></div>
+<img alt="../_images/tutorials_3__Train_CNN_Model_27_0.png" src="../_images/tutorials_3__Train_CNN_Model_27_0.png" />
 </div>
 </div>
 </section>
-<section id="Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)">
-<h2>Feature engeenering: Take Min and Max of each row (BD spectra)<a class="headerlink" href="#Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)" title="Permalink to this heading"></a></h2>
+<section id="3.2.5-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)">
+<h3>3.2.5 Feature engeenering: Take Min and Max of each row (BD spectra)<a class="headerlink" href="#3.2.5-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
@@ -1963,10 +2060,9 @@ if (force === true) {
 </table>
 </div></div>
 </div>
-<hr class="docutils" />
 </section>
-<section id="Normalize-Min-Max-features---ColumnWise">
-<h2>Normalize Min Max features - ColumnWise<a class="headerlink" href="#Normalize-Min-Max-features---ColumnWise" title="Permalink to this heading"></a></h2>
+<section id="3.2.6-Scale-Min-Max-features---ColumnWise">
+<h3>3.2.6 Scale Min Max features - ColumnWise<a class="headerlink" href="#3.2.6-Scale-Min-Max-features---ColumnWise" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
@@ -1995,15 +2091,17 @@ if (force === true) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_3__Train_CNN_Model_34_0.png" src="../_images/tutorials_3__Train_CNN_Model_34_0.png" />
+<img alt="../_images/tutorials_3__Train_CNN_Model_35_0.png" src="../_images/tutorials_3__Train_CNN_Model_35_0.png" />
 </div>
 </div>
 </section>
 </section>
-<section id="Step-3:-Train-CNN-model">
-<h1>Step 3: Train CNN model<a class="headerlink" href="#Step-3:-Train-CNN-model" title="Permalink to this heading"></a></h1>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<section id="3.3-Train-CNN-model">
+<h2>3.3 Train CNN model<a class="headerlink" href="#3.3-Train-CNN-model" title="Permalink to this heading"></a></h2>
+<section id="3.3.1-Instintiate-TrainRegressorCNN-class-from-DeepTrainer-Module">
+<h3>3.3.1 Instintiate <em>TrainRegressorCNN</em> class from <em>DeepTrainer</em> Module<a class="headerlink" href="#3.3.1-Instintiate-TrainRegressorCNN-class-from-DeepTrainer-Module" title="Permalink to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span> <span class="o">=</span> <span class="n">TrainRegressorCNN</span><span class="p">(</span>
@@ -2043,6 +2141,55 @@ if (force === true) {
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In [2], line 3</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> train_cnn_model <span style="color: rgb(98,98,98)">=</span> TrainRegressorCNN(
+<span class="ansi-green-intense-fg ansi-bold">      2</span>             <span style="color: rgb(95,135,135)"># input dataset: StandardScaled instances  </span>
+<span class="ansi-green-fg">----&gt; 3</span>             X1_train <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">build_cnn_regression</span><span style="color: rgb(98,98,98)">.</span>X_train_standardized_rowwise,
+<span class="ansi-green-intense-fg ansi-bold">      4</span>             X1_val   <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>X_val_standardized_rowwise,
+<span class="ansi-green-intense-fg ansi-bold">      5</span>             X1_test  <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>X_test_standardized_rowwise,
+<span class="ansi-green-intense-fg ansi-bold">      6</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span>             <span style="color: rgb(95,135,135)"># input dataset: Min Max of each instance  </span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span>             X2_train <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>X_train_standardized_columnwise,
+<span class="ansi-green-intense-fg ansi-bold">      9</span>             X2_val   <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>X_val_standardized_columnwise,
+<span class="ansi-green-intense-fg ansi-bold">     10</span>             X2_test  <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>X_test_standardized_columnwise,
+<span class="ansi-green-intense-fg ansi-bold">     11</span> <span style="color: rgb(95,135,135)">#             X2_train = build_cnn_regression.X_train_normalized_columnwise,</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span> <span style="color: rgb(95,135,135)">#             X2_val   = build_cnn_regression.X_val_normalized_columnwise,</span>
+<span class="ansi-green-intense-fg ansi-bold">     13</span> <span style="color: rgb(95,135,135)">#             X2_test  = build_cnn_regression.X_test_normalized_columnwise,</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>             <span style="color: rgb(95,135,135)"># 1st target</span>
+<span class="ansi-green-intense-fg ansi-bold">     16</span>             y1_train <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_train_standardized_columnwise[:,<span style="color: rgb(98,98,98)">0</span>],
+<span class="ansi-green-intense-fg ansi-bold">     17</span>             y1_val   <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_val_standardized_columnwise[:,<span style="color: rgb(98,98,98)">0</span>],
+<span class="ansi-green-intense-fg ansi-bold">     18</span>             y1_test  <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_test_standardized_columnwise[:,<span style="color: rgb(98,98,98)">0</span>],
+<span class="ansi-green-intense-fg ansi-bold">     19</span>
+<span class="ansi-green-intense-fg ansi-bold">     20</span>             <span style="color: rgb(95,135,135)"># 2nd target</span>
+<span class="ansi-green-intense-fg ansi-bold">     21</span>             y2_train <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_train_standardized_columnwise[:,<span style="color: rgb(98,98,98)">1</span>],
+<span class="ansi-green-intense-fg ansi-bold">     22</span>             y2_val   <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_val_standardized_columnwise[:,<span style="color: rgb(98,98,98)">1</span>],
+<span class="ansi-green-intense-fg ansi-bold">     23</span>             y2_test  <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_test_standardized_columnwise[:,<span style="color: rgb(98,98,98)">1</span>],
+<span class="ansi-green-intense-fg ansi-bold">     24</span>
+<span class="ansi-green-intense-fg ansi-bold">     25</span>             <span style="color: rgb(95,135,135)"># 3rd target</span>
+<span class="ansi-green-intense-fg ansi-bold">     26</span>             y3_train <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_train_standardized_columnwise[:,<span style="color: rgb(98,98,98)">2</span>],
+<span class="ansi-green-intense-fg ansi-bold">     27</span>             y3_val   <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_val_standardized_columnwise[:,<span style="color: rgb(98,98,98)">2</span>],
+<span class="ansi-green-intense-fg ansi-bold">     28</span>             y3_test  <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_test_standardized_columnwise[:,<span style="color: rgb(98,98,98)">2</span>],
+<span class="ansi-green-intense-fg ansi-bold">     29</span>
+<span class="ansi-green-intense-fg ansi-bold">     30</span>             <span style="color: rgb(95,135,135)"># 4th target</span>
+<span class="ansi-green-intense-fg ansi-bold">     31</span>             y4_train <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_train_standardized_columnwise[:,<span style="color: rgb(98,98,98)">3</span>],
+<span class="ansi-green-intense-fg ansi-bold">     32</span>             y4_val   <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_val_standardized_columnwise[:,<span style="color: rgb(98,98,98)">3</span>],
+<span class="ansi-green-intense-fg ansi-bold">     33</span>             y4_test  <span style="color: rgb(98,98,98)">=</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>y_test_standardized_columnwise[:,<span style="color: rgb(98,98,98)">3</span>],
+<span class="ansi-green-intense-fg ansi-bold">     34</span>             )
+
+<span class="ansi-red-fg">NameError</span>: name &#39;build_cnn_regression&#39; is not defined
+</pre></div></div>
+</div>
+</section>
+<section id="3.3.2-Define-the-Hyperparameters">
+<h3>3.3.2 Define the Hyperparameters<a class="headerlink" href="#3.3.2-Define-the-Hyperparameters" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
@@ -2099,6 +2246,9 @@ if (force === true) {
 </pre></div>
 </div>
 </div>
+</section>
+<section id="3.3.3-Build-a-CNN-model">
+<h3>3.3.3 Build a CNN model<a class="headerlink" href="#3.3.3-Build-a-CNN-model" title="Permalink to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
@@ -2192,6 +2342,9 @@ ________________________________________________________________________________
 None
 </pre></div></div>
 </div>
+</section>
+<section id="3.3.4-Train-the-CNN-model-using-the-datasets">
+<h3>3.3.4 Train the CNN model using the datasets<a class="headerlink" href="#3.3.4-Train-the-CNN-model-using-the-datasets" title="Permalink to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
@@ -2216,8 +2369,12 @@ Epoch 4/4
 13/13 [==============================] - 71s 5s/step - loss: 0.5084 - gravity_loss: 0.2663 - c_o_ratio_loss: 0.0823 - metallicity_loss: 0.1445 - temperature_loss: 0.0153 - gravity_mae: 0.6052 - c_o_ratio_mae: 0.3122 - metallicity_mae: 0.4354 - temperature_mae: 0.1363 - val_loss: 0.4271 - val_gravity_loss: 0.2252 - val_c_o_ratio_loss: 0.0601 - val_metallicity_loss: 0.1297 - val_temperature_loss: 0.0121 - val_gravity_mae: 0.5540 - val_c_o_ratio_mae: 0.2608 - val_metallicity_mae: 0.4115 - val_temperature_mae: 0.1195
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</section>
+<section id="3.3.5-Check-the-Trained-CNN-Archeticture-and-Summary">
+<h3>3.3.5 Check the Trained CNN Archeticture and Summary<a class="headerlink" href="#3.3.5-Check-the-Trained-CNN-Archeticture-and-Summary" title="Permalink to this heading"></a></h3>
+<p>Checking the architecture of a CNN and its summary is importnat because it provide insights about: - Model Design and Structure - Model complexity - Hyperparameter Tuning:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_cnn_regression</span><span class="o">.</span><span class="n">trained_model</span> <span class="o">=</span> <span class="n">model</span>
@@ -2225,8 +2382,22 @@ Epoch 4/4
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In [22], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>trained_model <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">model</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> build_cnn_regression<span style="color: rgb(98,98,98)">.</span>history <span style="color: rgb(98,98,98)">=</span> history
+
+<span class="ansi-red-fg">NameError</span>: name &#39;model&#39; is not defined
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span>
@@ -2245,13 +2416,32 @@ Epoch 4/4
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_3__Train_CNN_Model_42_0.png" src="../_images/tutorials_3__Train_CNN_Model_42_0.png" />
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In [23], line 2</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> tf<span style="color: rgb(98,98,98)">.</span>keras<span style="color: rgb(98,98,98)">.</span>utils<span style="color: rgb(98,98,98)">.</span>plot_model(
+<span class="ansi-green-fg">----&gt; 2</span>                 <span class="ansi-yellow-bg">train_cnn_model</span><span style="color: rgb(98,98,98)">.</span>model,
+<span class="ansi-green-intense-fg ansi-bold">      3</span>                 to_file<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">model.png</span><span style="color: rgb(175,0,0)">&#34;</span>,
+<span class="ansi-green-intense-fg ansi-bold">      4</span>                 show_shapes<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
+<span class="ansi-green-intense-fg ansi-bold">      5</span>                 show_dtype<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">False</span>,
+<span class="ansi-green-intense-fg ansi-bold">      6</span>                 show_layer_names<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
+<span class="ansi-green-intense-fg ansi-bold">      7</span>                 rankdir<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">TB</span><span style="color: rgb(175,0,0)">&#34;</span>,
+<span class="ansi-green-intense-fg ansi-bold">      8</span>                 expand_nested<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
+<span class="ansi-green-intense-fg ansi-bold">      9</span>                 dpi<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">90</span>,
+<span class="ansi-green-intense-fg ansi-bold">     10</span>                 layer_range<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">None</span>,
+<span class="ansi-green-intense-fg ansi-bold">     11</span> <span style="color: rgb(95,135,135)">#                 show_layer_activations=False,</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span> )
+
+<span class="ansi-red-fg">NameError</span>: name &#39;train_cnn_model&#39; is not defined
+</pre></div></div>
 </div>
-</div>
+</section>
+<section id="3.3.6-Trained-Model-Outcomes">
+<h3>3.3.6 Trained Model Outcomes<a class="headerlink" href="#3.3.6-Trained-Model-Outcomes" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
@@ -2262,6 +2452,12 @@ Epoch 4/4
 </pre></div>
 </div>
 </div>
+</section>
+</section>
+<section id="3.4-Check-the-performance-of-the-Trained-Model">
+<h2>3.4 Check the performance of the Trained Model<a class="headerlink" href="#3.4-Check-the-performance-of-the-Trained-Model" title="Permalink to this heading"></a></h2>
+<section id="3.4.1-Load-the-Saved-Trained-CNN-Models">
+<h3>3.4.1 Load the Saved Trained CNN Models<a class="headerlink" href="#3.4.1-Load-the-Saved-Trained-CNN-Models" title="Permalink to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
@@ -2281,9 +2477,8 @@ Epoch 4/4
 </div>
 </div>
 </section>
-<section id="Step-4:-Check-Trained-Model">
-<h1>Step 4: Check Trained Model<a class="headerlink" href="#Step-4:-Check-Trained-Model" title="Permalink to this heading"></a></h1>
-<hr class="docutils" />
+<section id="3.4.2-Double-check-the-Trained-CNN-Archeticture-and-Summary">
+<h3>3.4.2 Double-check the Trained CNN Archeticture and Summary<a class="headerlink" href="#3.4.2-Double-check-the-Trained-CNN-Archeticture-and-Summary" title="Permalink to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
@@ -2308,7 +2503,7 @@ Epoch 4/4
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_3__Train_CNN_Model_50_0.png" src="../_images/tutorials_3__Train_CNN_Model_50_0.png" />
+<img alt="../_images/tutorials_3__Train_CNN_Model_55_0.png" src="../_images/tutorials_3__Train_CNN_Model_55_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2393,6 +2588,9 @@ Non-trainable params: 0
 __________________________________________________________________________________________________
 </pre></div></div>
 </div>
+</section>
+<section id="3.4.3-Check-the-training-history-through-Loss-metric">
+<h3>3.4.3 Check the training history through <em>Loss</em> metric<a class="headerlink" href="#3.4.3-Check-the-training-history-through-Loss-metric" title="Permalink to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
@@ -2440,8 +2638,14 @@ var element = document.currentScript.previousSibling.previousSibling;
 })(window);
 </script></div>
 </div>
-<section id="Plot-Y-predicted-vs-Y_Actual:-Histogram-&amp;-Scatter-plot">
-<h2>Plot Y predicted vs Y_Actual: Histogram &amp; Scatter plot<a class="headerlink" href="#Plot-Y-predicted-vs-Y_Actual:-Histogram-&-Scatter-plot" title="Permalink to this heading"></a></h2>
+</section>
+<section id="3.4.4-Plot-the-Performance-of-the-trained-CNN-models---Regression-metrics">
+<h3>3.4.4 Plot the Performance of the trained CNN models - Regression metrics<a class="headerlink" href="#3.4.4-Plot-the-Performance-of-the-trained-CNN-models---Regression-metrics" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p>Plot predicted against actual scatter plots for all parameters</p></li>
+<li><p>Plot Residual histograms (predicted - Actual)</p></li>
+<li><p>Report regression metrics: R<span class="math notranslate nohighlight">\(^2\)</span> and skewness for training and test sets</p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -2479,12 +2683,13 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </section>
 </section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="2__Predict_BrownDwarf_Parameters.html" class="btn btn-neutral float-left" title="Predict target features (brown dwarf parameters) using the trained CNN model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="2__Deploy_ML_Models_Predict_BrownDwarf_Parameters.html" class="btn btn-neutral float-left" title="2. Deploy CNN Model to Predict Brown Dwarf Atmospheric Parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../code.html" class="btn btn-neutral float-right" title="The Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
