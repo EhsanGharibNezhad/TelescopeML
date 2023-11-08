@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import sphinx_rtd_theme
 import sys
 sys.path.insert(0, os.path.abspath('/Users/egharibn/RESEARCH/ml/projects/TelescopeML_project/TelescopeML/'))
 autodoc_mock_imports = ["sklearn", "tensorflow", "bokeh", "matplotlib", "ipython3"]
