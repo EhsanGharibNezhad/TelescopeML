@@ -5,6 +5,9 @@ ssh_key
 not_pushed/
 bohb_model_tuner/out*
 store/
+*/store
+*/*/store
+	
 __pycache__/
 .ipynb_checkpoints/
 
