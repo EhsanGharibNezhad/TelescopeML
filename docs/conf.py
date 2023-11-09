@@ -97,8 +97,8 @@ html_theme_options = {
 }
 
 
-#nbsphinx_prolog = """
-#{% set docname = env.doc2path(env.docname, base=None) %}
-#.. note::  `Download full notebook here <https://github.com/EhsanGharibNezhad/TelescopeML/tree/master/docs/{{ docname }}>`_
-#"""
-###.. only:: html
+nbsphinx_prolog = """
+{% set docname = env.doc2path(env.docname, base=None) %}
+.. note::  `Download full notebook here <https://github.com/EhsanGharibNezhad/TelescopeML/tree/master/docs/{{ docname }}>`_
+"""
+##.. only:: html
