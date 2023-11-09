@@ -176,7 +176,7 @@ def regression_report(trained_model,
 
         f.tight_layout()
         target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-        plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
+        # plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
         plt.show()
 
 def filter_dataset_range(dataset, filter_params):
@@ -537,7 +537,7 @@ def boxplot_hist(data,
         x_label = 'c_o_ratio'
     if x_label == '[M/H]':
         x_label = 'metallicity'
-    plt.savefig(f'../outputs/figures/boxplot_hist_{x_label}.pdf', format='pdf')
+    # plt.savefig(f'../outputs/figures/boxplot_hist_{x_label}.pdf', format='pdf')
 
     plt.show()
 
@@ -1396,7 +1396,7 @@ def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label
     dict_features = {'temperature': 'T$_{eff}$ [K]', 'gravity': 'log$g$', 'metallicity': '[M/H]', 'c_o_ratio': 'C/O'}
     cbar.set_label(dict_features[feature_to_plot])
 
-    plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_trainin_examples.pdf"), dpi=500,
-                bbox_inches='tight')
+    # plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_trainin_examples.pdf"), dpi=500,
+    #             bbox_inches='tight')
 
     plt.show()
