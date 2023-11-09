@@ -6,7 +6,7 @@ not_pushed/
 bohb_model_tuner/out*
 store/
 */store
-*/*/store
+../store_tutorials/store
 	
 __pycache__/
 .ipynb_checkpoints/
