@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 # from tensorflow.keras.models import model_from_json
 
 __reference_data__ = os.getenv("TelescopeML_reference_data")
-print(__reference_data__)
+# print(__reference_data__)
 #
 # if __reference_data__ is None:
 #     raise Exception('\n'
@@ -27,9 +27,9 @@ class LoadSave:
     def __init__(self,
                  ml_model_str,
                  ml_method,
-                 is_feature_improved,
-                 is_augmented,
-                 is_tuned,
+                 is_feature_improved = None,
+                 is_augmented = None,
+                 is_tuned = None,
                  ):
         self.ml_model_str = ml_model_str
         self.ml_method = ml_method
@@ -39,7 +39,7 @@ class LoadSave:
         self.base_path = os.path.join(__reference_data__,'trained_ML_models')
         # '../outputs/trained_models/'
 
-    def create_generic_path(self, indicator):
+    def create_generic_path(self, output_indicator):
         """
         Create the generic path for saving or loading the trained model
 
@@ -51,17 +51,19 @@ class LoadSave:
         --------
         - generic_path (str): The generic path for saving or loading the model
         """
-        file_name = f'{indicator}__{self.ml_model_str}' \
-                    f'__Is_feature_improved_{self.is_feature_improved}' \
-                    f'__Is_augmented_{self.is_augmented}__' \
-                    f'Is_tuned__{self.is_tuned}__' \
+        file_name = f'{output_indicator}__{self.ml_model_str}__' \
                     f'{self.ml_method}'
+        # file_name = f'{indicator}__{self.ml_model_str}' \
+        #             f'__Is_feature_improved_{self.is_feature_improved}' \
+        #             f'__Is_augmented_{self.is_augmented}__' \
+        #             f'Is_tuned__{self.is_tuned}__' \
+        #             f'{self.ml_method}'
         generic_path = os.path.join(self.base_path, file_name)
         return generic_path
 
     def load_or_dump_trained_object(self,
                                     trained_object,
-                                    indicator,
+                                    output_indicator,
                                     load_or_dump='dump'):
         """
         Load or save the trained object
@@ -72,7 +74,7 @@ class LoadSave:
         - indicator (str): Indicator for the type of trained object
         - load_or_dump (str): 'dump' or 'load'
         """
-        generic_path = self.create_generic_path(indicator)
+        generic_path = self.create_generic_path(output_indicator)
 
         if load_or_dump == 'dump':
             with open(generic_path, 'wb') as file:
@@ -84,19 +86,19 @@ class LoadSave:
 
 def load_or_dump_trained_model_CNN(
                                    trained_model = None,
-                                   indicator='TrainedCNN',
+                                   output_indicator='TrainedCNN',
                                    load_or_dump='dump'):
 
     path_architecture = os.path.join(__reference_data__,
-                         'trained_ML_models/trained_CNN_architecture_'+indicator+'.h5',
+                         'trained_ML_models/trained_CNN_architecture_'+output_indicator+'.h5',
                          )
 
     path_history = os.path.join(__reference_data__,
-                         'trained_ML_models/trained_CNN_history_'+indicator+'.pkl',
+                         'trained_ML_models/trained_CNN_history_'+output_indicator+'.pkl',
                          )
 
     path_weights = os.path.join(__reference_data__,
-                         'trained_ML_models/trained_CNN_weights_'+indicator+'.h5',
+                         'trained_ML_models/trained_CNN_weights_'+output_indicator+'.h5',
                          )
 
     """

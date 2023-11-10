@@ -102,16 +102,23 @@ class ObserveParameterPredictor:
                  object_name,
                  training_dataset_df,
                  wl_synthetic,
-                 BuildRegressorCNN_class,
                  bd_literature_dic,
+                 trained_ML_model,
+                 trained_X_ColWise_MinMax = None,
+                 trained_y_ColWise = None,
+                 trained_X_RowWise = None,
                  ):
 
         self.object_name = object_name
         self.training_dataset_df = training_dataset_df
         self.wl_synthetic = wl_synthetic
-        self.BuildRegressorCNN_class = BuildRegressorCNN_class
         self.bd_literature_dic = bd_literature_dic
+        self.trained_ML_model = trained_ML_model
+        self.trained_X_ColWise_MinMax = trained_X_ColWise_MinMax, #Trained_StandardScaler_X_ColWise_MinMax
+        self.trained_y_ColWise = trained_y_ColWise, #Trained_StandardScaler_y_ColWise
+        self.trained_X_RowWise = trained_X_RowWise, #Trained_StandardScaler_X_RowWise
 
+        # print(self.trained_X_ColWise_MinMax)
 
     def load_observational_spectra(self,
                                    obs_data_df = None,
@@ -425,9 +432,9 @@ class ObserveParameterPredictor:
             print(self.df_MinMax_obs)
 
         # this is commited b/c it is for standardize_X_ColumnWise for the MinMax
-        XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(self.df_MinMax_obs.values)
+        XminXmax_Stand = self.trained_X_ColWise_MinMax[0].transform(self.df_MinMax_obs.values)
 
-        # XminXmax_Stand = self.BuildRegressorCNN_class.normalize_X_ColumnWise.transform(self.df_MinMax_obs.values)
+        # XminXmax_Stand = self.trained_data_processor.normalize_X_ColumnWise.transform(self.df_MinMax_obs.values)
 
         bd_mean = self.Fnu_obs_absolute_intd_df.mean(axis=1)[0]
         bd_std = self.Fnu_obs_absolute_intd_df.std(axis=1)[0]
@@ -436,9 +443,9 @@ class ObserveParameterPredictor:
 
 
         y_pred_train = np.array(
-            self.BuildRegressorCNN_class.trained_model.predict([X_Scaled[::-1].reshape(1, 104), XminXmax_Stand],
+            self.trained_ML_model.predict([X_Scaled[::-1].reshape(1, 104), XminXmax_Stand],
                                                                   verbose=0))[:, :, 0].T
-        y_pred_train_ = self.BuildRegressorCNN_class.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+        y_pred_train_ = self.trained_y_ColWise[0].inverse_transform(y_pred_train)
         y_pred_train_[:, 3] = 10 ** y_pred_train_[:, 3]
         y_pred = y_pred_train_
         self.y_pred = y_pred
@@ -549,8 +556,8 @@ class ObserveParameterPredictor:
                 (Fnu_obs_absolute_intd_df_min, Fnu_obs_absolute_intd_df_max)
             ).T
             # print('Bug check1 -- df_MinMax_obs:', df_MinMax_obs)
-            XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(df_MinMax_obs.values)
-            # XminXmax_Stand = self.BuildRegressorCNN_class.normalize_X_ColumnWise.transform(df_MinMax_obs.values)
+            XminXmax_Stand = self.trained_X_ColWise_MinMax[0].transform(df_MinMax_obs.values)
+            # XminXmax_Stand = self.trained_data_processor.normalize_X_ColumnWise.transform(df_MinMax_obs.values)
 
             # print('Bug check2 -- XminXmax_Stand:', XminXmax_Stand)
 
@@ -565,11 +572,11 @@ class ObserveParameterPredictor:
             # print('Bug check4 -- X_Scaled:', X_Scaled)
 
             y_pred_train = np.array(
-                self.BuildRegressorCNN_class.trained_model.predict(
+                self.trained_ML_model.predict(
                     [X_Scaled[::-1].reshape(1, 104), XminXmax_Stand.reshape(1, 2)], verbose=0) #findme!
             )[:, :, 0].T
 
-            y_pred_train_ = self.BuildRegressorCNN_class.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+            y_pred_train_ = self.trained_y_ColWise[0].inverse_transform(y_pred_train)
             y_pred_train_[:, 3] = 10 ** y_pred_train_[:, 3]
             y_pred_random = y_pred_train_
 

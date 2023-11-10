@@ -211,6 +211,7 @@ class DataProcessor:
         )
 
     def normalize_X_column_wise(self,
+                                output_indicator='Trained_Normalizer_X_ColWise',
                                 X_train=None,
                                 X_val=None,
                                 X_test=None,
@@ -254,13 +255,18 @@ class DataProcessor:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_X_ColumnWise,
-            indicator='normalize_X_column_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
             print(normalizer)
 
-    def normalize_X_row_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
+    def normalize_X_row_wise(self,
+                             output_indicator='Trained_Normalizer_X_RowWise',
+                             X_train=None,
+                             X_val=None,
+                             X_test=None,
+                             print_model=False):
         """
         Normalize observations/instances/row variables to a specified range [0, 1].
 
@@ -299,13 +305,16 @@ class DataProcessor:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_X_RowWise,
-            indicator='normalize_X_row_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
             print(normalizer)
 
-    def normalize_y_column_wise(self, y_train=None, y_val=None, y_test=None, print_model=False):
+    def normalize_y_column_wise(self,
+                                output_indicator =  'Trained_Normalizer_y_ColWise',
+                                y_train=None,
+                                y_val=None, y_test=None, print_model=False):
         """
         Scale target variable (y) and column-wise feature variables to a specified range.
         Transform the data such that its values are within the specified range [0, 1].
@@ -343,13 +352,18 @@ class DataProcessor:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_y_ColumnWise,
-            indicator='normalize_y_column_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
             print(scaler_y)
 
-    def standardize_y_column_wise(self, y_train=None, y_val=None, y_test=None, print_model=False):
+    def standardize_y_column_wise(self,
+                                  output_indicator = 'Trained_StandardScaler_y_ColWise',
+                                  y_train=None,
+                                  y_val=None,
+                                  y_test=None,
+                                  print_model=False):
         """
         Standardize target variable (y) column-wise by removing the mean and scaling to unit variance.
         Transform the data such that its distribution will have a mean value of 0 and a standard deviation of 1.
@@ -388,14 +402,19 @@ class DataProcessor:
 
         self.LoadSave.load_or_dump_trained_object(
                                 trained_object=self.standardize_y_ColumnWise,
-                                indicator='standardize_y_column_wise',
+                                output_indicator=output_indicator,
                                 load_or_dump='dump')
 
         if print_model:
             print(scaler_y)
 
 
-    def standardize_X_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
+    def standardize_X_column_wise(self,
+                                  output_indicator = 'Trained_StandardScaler_X_ColWise',
+                                  X_train=None,
+                                  X_val=None,
+                                  X_test=None,
+                                  print_model=False):
         """
         Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
         Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.
@@ -440,13 +459,18 @@ class DataProcessor:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.standardize_X_ColumnWise,
-            indicator='standardize_X_column_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
             print(scaler_X)
 
-    def standardize_X_row_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
+    def standardize_X_row_wise(self,
+                               output_indicator = 'Trained_StandardScaler_X_RowWise',
+                               X_train=None,
+                               X_val=None,
+                               X_test=None,
+                               print_model=False):
         """
         Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
         Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.
@@ -485,7 +509,7 @@ class DataProcessor:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.standardize_X_RowWise,
-            indicator='standardize_X_row_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
