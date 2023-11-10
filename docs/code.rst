@@ -2,10 +2,10 @@ The Modules
 ============
 
 
-TelescopeML\.DeepBuilder Module
+TelescopeML\.DataMaster Module
 --------------------------------
 
-.. automodule:: TelescopeML.DeepBuilder
+.. automodule:: TelescopeML.DataMaster
     :members:
     :undoc-members:
     :show-inheritance:
