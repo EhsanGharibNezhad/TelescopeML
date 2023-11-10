@@ -42,16 +42,21 @@ tf.get_logger().setLevel('ERROR')
 # ==================                                           ==================
 # ===============================================================================
 
-class BuildRegressorCNN:
+class DataProcessor:
     """
-    Perform various tasks related to dataset processing, model preparation, and feature engineering.
+    Perform various tasks to process the datasets including:
+    - Prepare input and output variables
+    - Split train, validation, test sets
+    - Scale/Normalize the data
+    - Visualize the data
+    - feature engineering.
 
     Parameters
     ----------
-    trained_model : object
-        Trained ML model (optional).
-    trained_model_history : dict
-        History dict from the trained model (optional).
+    # trained_model : object
+    #     Trained ML model (optional).
+    # trained_model_history : dict
+    #     History dict from the trained model (optional).
     feature_values : array
         Flux arrays (input data).
     feature_names : list
@@ -88,8 +93,8 @@ class BuildRegressorCNN:
 
     def __init__(
             self,
-            trained_model: Union[None, BaseEstimator] = None,
-            trained_model_history: Union[None, Dict] = None,
+            # trained_model: Union[None, BaseEstimator] = None,
+            # trained_model_history: Union[None, Dict] = None,
             feature_values: Union[np.ndarray] = None,
             feature_names: Union[List[str]] = None,
             target_values: Union[np.ndarray] = None,
@@ -104,8 +109,8 @@ class BuildRegressorCNN:
             ml_method: str = 'regression',
     ):
 
-        self.trained_model = trained_model
-        self.trained_model_history = trained_model_history
+        # self.trained_model = trained_model
+        # self.trained_model_history = trained_model_history
         self.feature_values = feature_values
         self.feature_names = feature_names
         self.target_values = target_values
@@ -530,65 +535,3 @@ class BuildRegressorCNN:
         plt.title('Histogram of Scaled Features')
         plt.show()
 
-    def plot_model_loss(self, history=None, title=None):
-        """
-        Plot the trained model history for all individual target features
-        """
-        # from bokeh.plotting import figure, show
-        # from bokeh.models import Legend
-
-        history = self.trained_model_history if history is None else history
-        # Define the epochs as a list
-        epochs = list(range(len(history['loss'])))
-
-        # Define colorblind-friendly colors
-        colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
-
-        # Create a new figure
-        p = figure(title=title, width=1000, height=300, y_axis_type='log', x_axis_label='Epochs', y_axis_label='Loss')
-
-        # Add the data lines to the figure with colorblind-friendly colors and increased line width
-        p.line(epochs, history['loss'], line_color=colors[0], line_dash='solid', line_width=2,
-               legend_label='Total loss')
-        p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
-
-        p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
-               legend_label='gravity')
-        p.line(epochs, history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
-
-        p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
-               legend_label='c_o_ratio')
-        p.line(epochs, history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
-
-        p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
-               legend_label='metallicity')
-        p.line(epochs, history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
-
-        p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
-               legend_label='temperature')
-        p.line(epochs, history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
-
-        # Increase size of x and y ticks
-        p.title.text_font_size = '14pt'
-        p.xaxis.major_label_text_font_size = '12pt'
-        p.xaxis.axis_label_text_font_size = '12pt'
-        p.yaxis.major_label_text_font_size = '12pt'
-        p.yaxis.axis_label_text_font_size = '12pt'
-
-        # display legend in top left corner (default is top right corner)
-        p.legend.location = "bottom_left"
-
-        # change appearance of legend text
-        # p.legend.label_text_font = "times"
-        # p.legend.label_text_font_style = "italic"
-        # p.legend.label_text_color = "navy"
-
-        # change border and background of legend
-        # p.legend.border_line_width = 3
-        # p.legend.border_line_color = "navy"
-        # p.legend.border_line_alpha = 0.8
-        p.legend.background_fill_color = 'white'
-        p.legend.background_fill_alpha = 0.5
-
-        # Show the plot
-        show(p)
