@@ -11,27 +11,31 @@ Exploring the Datasets
 
 
 
-
-
 Predict Atmospheric Parameters
 -------------------------------
 .. toctree::
    :maxdepth: 2
 
-   Deploy CNN Model to Predict Brown Dwarf Atmospheric Parameters  <tutorials/2__Deploy_ML_Models_Predict_BrownDwarf_Parameters.ipynb>
+   Predict Brown Dwarf Atmospheric Parameters  <tutorials/2__Predict_BrownDwarf_Parameters.ipynb>
 
 
 
 
-
-
-
-Train a Regression ML Model
-----------------------------
+Data Processing
+----------------
 .. toctree::
    :maxdepth: 2
 
-   Train a Regression ConvNN Model using the BOHB Tuned Hyperparameters  <tutorials/3__Train_CNN_Model.ipynb>
+   Data Processing  <tutorials/3__Data_Processing.ipynb>
+
+
+
+Train a Regression CNNs Model
+------------------------------
+.. toctree::
+   :maxdepth: 2
+
+   Train a Regression CNNs Model  <tutorials/4__Train_CNN_Model.ipynb>
 
 
 
