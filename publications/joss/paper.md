@@ -91,7 +91,7 @@ outlined below and visualized in following Figure:
 - **StatVisAnalyzer module**: Explore and process the synthetic datasets (or the training examples) and provide functions for statistical analysis.
 
 ![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
-extract the target features from the observational data.](TelescopeML_modules.pdf){height="600pt"}
+extract the target features from the observational data.](TelescopeML_Modules_Infograph.jpg){height="700pt"}
 
 
 # Documentation
