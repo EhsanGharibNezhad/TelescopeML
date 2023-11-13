@@ -19,7 +19,6 @@ import os
 import pprint
 
 # ******* Data Visulaization Libraries ****************************
-# from bokeh.palettes import colorblind
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -55,6 +54,7 @@ def print_results_fun(targets, print_title=None):
 
 
 def regression_report(trained_model,
+                      trained_data_processor,
                       Xtrain, Xtest, ytrain, ytest,
                       target_i,
                       xy_top=None, xy_bottom=None, __print_results__= False):
@@ -88,19 +88,19 @@ def regression_report(trained_model,
         xy_bottom = [0.05, 0.8]
     if xy_top is None:
         xy_top = [0.55, 0.85]
-    y_pred_train = np.array(trained_model.trained_model.predict(Xtrain))[:, :, 0].T
-    y_pred_train_list = trained_model.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+    y_pred_train = np.array(trained_model.predict(Xtrain))[:, :, 0].T
+    y_pred_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_train)
     y_pred_train_list[:, 3] = 10 ** y_pred_train_list[:, 3]
 
-    y_act_train_list = trained_model.standardize_y_ColumnWise.inverse_transform(ytrain)
+    y_act_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytrain)
     y_act_train_list[:, 3] = 10 ** y_act_train_list[:, 3]
 
     # Apply the trained ML model on the test set to predict the targets
-    y_pred_test = np.array(trained_model.trained_model.predict(Xtest))[:, :, 0].T
-    y_pred_test_list = trained_model.standardize_y_ColumnWise.inverse_transform(y_pred_test)
+    y_pred_test = np.array(trained_model.predict(Xtest))[:, :, 0].T
+    y_pred_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_test)
     y_pred_test_list[:, 3] = 10 ** y_pred_test_list[:, 3]
 
-    y_act_test_list = trained_model.standardize_y_ColumnWise.inverse_transform(ytest)
+    y_act_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytest)
     y_act_test_list[:, 3] = 10 ** y_act_test_list[:, 3]
 
     for i in range(0, target_i):
@@ -540,68 +540,6 @@ def boxplot_hist(data,
     # plt.savefig(f'../outputs/figures/boxplot_hist_{x_label}.pdf', format='pdf')
 
     plt.show()
-
-
-# def plot_predicted_vs_observed(training_datasets,
-#                                wl,
-#                                predicted_targets_dic,
-#                                object_name,
-#                                df_Fnu_obs_absolute_intd,
-#                                __print_results__ = False,
-#                               ):
-#
-#
-#
-#     ypred = list( predicted_targets_dic.values() )
-#
-#     filtered_df = interpolate_df(dataset=training_datasets,
-#                        predicted_targets_dic = predicted_targets_dic,
-#                        print_results_ = False)
-#
-#     if __print_results__:
-#         print('*'*30+'Filtered and Interpolated training data based on the ML predicted parameters'+'*'*30)
-#         print(filtered_df)
-#
-#
-#     p = figure(
-#         # title=f'{object_name} [XStand, yStand] Predicted: '+', '.join([['logg= ','C/O= ', 'Met= ', 'T= '][i]+str(np.round(y_pred[0][i],2)) for i in  range(4)]),
-#                x_axis_label='Features (Wavelength [𝜇m])',
-#                y_axis_label='Flux (F𝜈)',
-#                width=800, height=300,
-#                y_axis_type = 'log')
-#
-#     # Add the scatter plot
-#
-#     p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0],
-#            line_width = 1,
-#            legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
-#
-#     if __print_results__:
-#         print(df_Fnu_obs_absolute_intd.iloc[:, ::-1])
-#
-#     p.line(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],
-#            line_color = 'orange', line_width = 2,
-#            legend_label='Observational')
-#
-#     p.circle(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
-#            line_width = 2,
-#            color='orange'
-#             )
-#
-#     # Increase size of x and y ticks
-#     p.title.text_font_size = '12pt'
-#     p.xaxis.major_label_text_font_size = '12pt'
-#     p.xaxis.axis_label_text_font_size = '12pt'
-#     p.yaxis.major_label_text_font_size = '12pt'
-#     p.yaxis.axis_label_text_font_size = '12pt'
-#
-#
-#     p.legend.location = "top_right"
-#     p.legend.background_fill_color = 'white'
-#     p.legend.background_fill_alpha = 0.5
-#
-#
-#     show(p)
 
 
 def plot_spectra_errorbar(object_name,
@@ -1400,3 +1338,67 @@ def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label
     #             bbox_inches='tight')
 
     plt.show()
+
+
+def plot_model_loss(history=None, title=None):
+    """
+    Plot the trained model history for all individual target features
+    """
+    # from bokeh.plotting import figure, show
+    # from bokeh.models import Legend
+
+    # history = self.trained_model_history if history is None else history
+    # Define the epochs as a list
+    epochs = list(range(len(history['loss'])))
+
+    # Define colorblind-friendly colors
+    colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
+
+    # Create a new figure
+    p = figure(title=title, width=1000, height=300, y_axis_type='log', x_axis_label='Epochs', y_axis_label='Loss')
+
+    # Add the data lines to the figure with colorblind-friendly colors and increased line width
+    p.line(epochs, history['loss'], line_color=colors[0], line_dash='solid', line_width=2,
+           legend_label='Total loss')
+    p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
+
+    p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
+           legend_label='gravity')
+    p.line(epochs, history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
+
+    p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
+           legend_label='c_o_ratio')
+    p.line(epochs, history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
+
+    p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
+           legend_label='metallicity')
+    p.line(epochs, history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
+
+    p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
+           legend_label='temperature')
+    p.line(epochs, history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
+
+    # Increase size of x and y ticks
+    p.title.text_font_size = '14pt'
+    p.xaxis.major_label_text_font_size = '12pt'
+    p.xaxis.axis_label_text_font_size = '12pt'
+    p.yaxis.major_label_text_font_size = '12pt'
+    p.yaxis.axis_label_text_font_size = '12pt'
+
+    # display legend in top left corner (default is top right corner)
+    p.legend.location = "bottom_left"
+
+    # change appearance of legend text
+    # p.legend.label_text_font = "times"
+    # p.legend.label_text_font_style = "italic"
+    # p.legend.label_text_color = "navy"
+
+    # change border and background of legend
+    # p.legend.border_line_width = 3
+    # p.legend.border_line_color = "navy"
+    # p.legend.border_line_alpha = 0.8
+    p.legend.background_fill_color = 'white'
+    p.legend.background_fill_alpha = 0.5
+
+    # Show the plot
+    show(p)
