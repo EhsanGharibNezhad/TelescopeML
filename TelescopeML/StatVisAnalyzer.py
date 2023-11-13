@@ -19,7 +19,6 @@ import os
 import pprint
 
 # ******* Data Visulaization Libraries ****************************
-# from bokeh.palettes import colorblind
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -541,68 +540,6 @@ def boxplot_hist(data,
     # plt.savefig(f'../outputs/figures/boxplot_hist_{x_label}.pdf', format='pdf')
 
     plt.show()
-
-
-# def plot_predicted_vs_observed(training_datasets,
-#                                wl,
-#                                predicted_targets_dic,
-#                                object_name,
-#                                df_Fnu_obs_absolute_intd,
-#                                __print_results__ = False,
-#                               ):
-#
-#
-#
-#     ypred = list( predicted_targets_dic.values() )
-#
-#     filtered_df = interpolate_df(dataset=training_datasets,
-#                        predicted_targets_dic = predicted_targets_dic,
-#                        print_results_ = False)
-#
-#     if __print_results__:
-#         print('*'*30+'Filtered and Interpolated training data based on the ML predicted parameters'+'*'*30)
-#         print(filtered_df)
-#
-#
-#     p = figure(
-#         # title=f'{object_name} [XStand, yStand] Predicted: '+', '.join([['logg= ','C/O= ', 'Met= ', 'T= '][i]+str(np.round(y_pred[0][i],2)) for i in  range(4)]),
-#                x_axis_label='Features (Wavelength [𝜇m])',
-#                y_axis_label='Flux (F𝜈)',
-#                width=800, height=300,
-#                y_axis_type = 'log')
-#
-#     # Add the scatter plot
-#
-#     p.line(x =wl['wl'] , y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature','is_augmented']).values[0],
-#            line_width = 1,
-#            legend_label= 'ML Predicted:'+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)]))
-#
-#     if __print_results__:
-#         print(df_Fnu_obs_absolute_intd.iloc[:, ::-1])
-#
-#     p.line(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],
-#            line_color = 'orange', line_width = 2,
-#            legend_label='Observational')
-#
-#     p.circle(x = wl['wl'] , y = df_Fnu_obs_absolute_intd.iloc[:, ::-1].values[0],#.iloc[:,4:-1].values[0],
-#            line_width = 2,
-#            color='orange'
-#             )
-#
-#     # Increase size of x and y ticks
-#     p.title.text_font_size = '12pt'
-#     p.xaxis.major_label_text_font_size = '12pt'
-#     p.xaxis.axis_label_text_font_size = '12pt'
-#     p.yaxis.major_label_text_font_size = '12pt'
-#     p.yaxis.axis_label_text_font_size = '12pt'
-#
-#
-#     p.legend.location = "top_right"
-#     p.legend.background_fill_color = 'white'
-#     p.legend.background_fill_alpha = 0.5
-#
-#
-#     show(p)
 
 
 def plot_spectra_errorbar(object_name,
