@@ -44,57 +44,44 @@ tf.get_logger().setLevel('ERROR')
 
 class DataProcessor:
     """
-    Perform various tasks to process the datasets including:
-    - Prepare input and output variables
-    - Split train, validation, test sets
-    - Scale/Normalize the data
+    Perform various tasks to process the datasets, including:
+
+    - Prepare inputs and outputs
+    - Split the dataset into training, validation, and test sets
+    - Scale/normalize the data
     - Visualize the data
-    - feature engineering.
+    - Conduct feature engineering
 
     Parameters
     ----------
-    # trained_model : object
-    #     Trained ML model (optional).
-    # trained_model_history : dict
-    #     History dict from the trained model (optional).
-    feature_values : array
+    feature_values : np.ndarray
         Flux arrays (input data).
-    feature_names : list
+    feature_names : List[str]
         Name of wavelength in micron.
-    target_values : array
+    target_values : np.ndarray
         Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity).
     target_name : str
         Name of the target variable.
     is_hyperparam_tuned : str
         Indicates whether hyperparameters are tuned or not ('yes' or 'no').
-    param_grid : dict
+    param_grid : dict, optional
         ML hyperparameters to be tuned (used if is_hyperparam_tuned = 'yes').
-    spectral_resolution : int
+    spectral_resolution : int, optional
         Resolution of the synthetic spectra used to generate the dataset.
     feature_improvement_method : str
-        Indicates the method used for feature improvement ('no', 'pca', 'RFE').
+        Method used for feature improvement ('no', 'pca', 'RFE').
     augmentation_method : str
-        Indicates if augmented dataset is used ('no' or method name).
-    ml_model : object
+        Indicates if an augmented dataset is used ('no' or method name).
+    ml_model : BaseEstimator, optional
         ML model object from sklearn package.
-    ml_model_str : str
+    ml_model_str : str, optional
         Name of the ML model.
-
-    Notes
-    ------
-    This class can be instintiated and utilized with or without the trained ML model. In case of having the trained model,
-    you should have the following parameters:
-        - trained_model
-        - trained_model_history
-
-
+    ml_method : str, optional
+        Machine learning method ('regression' or 'classification').
 
     """
-
     def __init__(
             self,
-            # trained_model: Union[None, BaseEstimator] = None,
-            # trained_model_history: Union[None, Dict] = None,
             feature_values: Union[np.ndarray] = None,
             feature_names: Union[List[str]] = None,
             target_values: Union[np.ndarray] = None,
@@ -109,8 +96,6 @@ class DataProcessor:
             ml_method: str = 'regression',
     ):
 
-        # self.trained_model = trained_model
-        # self.trained_model_history = trained_model_history
         self.feature_values = feature_values
         self.feature_names = feature_names
         self.target_values = target_values
@@ -446,14 +431,10 @@ class DataProcessor:
         X_test = self.X_test if X_test is None else X_test
 
         scaler_X = StandardScaler()
-        # if X_train == None:
+
         self.X_train_standardized_columnwise = scaler_X.fit_transform(X_train)
         self.X_val_standardized_columnwise = scaler_X.transform(X_val)
         self.X_test_standardized_columnwise = scaler_X.transform(X_test)
-        # elif X_train:
-        # X_train_standardized_columnwise = scaler_X.fit_transform(X_train)
-        # X_val_standardized_columnwise = scaler_X.transform(X_val)
-        # X_test_standardized_columnwise = scaler_X.transform(X_test)
 
         self.standardize_X_ColumnWise = scaler_X
 
