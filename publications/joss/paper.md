@@ -149,10 +149,12 @@ the package to apply to a wider range of telescope datasets.
 
 
 # Utilized Underlying Packages
-For processing the datasets and training the ML models, the following top software/packages are employed in `TelescopeML`:
+For processing datasets and training ML models in `TelescopeML`, the following software/packages are employed:
 Scikit-learn [@scikit-learn], TensorFlow [@tensorflow2015-whitepaper], AstroPy [@astropy:2022], SpectRes [@SpectRes],
 Pandas [@reback2020pandas], NumPy [@harris2020array], SciPy [@2020SciPy-NMeth], Matplotlib [@Hunter:2007], 
-Seaborn [@Waskom2021], Bokeh [@bokeh]. 
+Seaborn [@Waskom2021], Bokeh [@bokeh]. Additionally, for generating training astronomical datasets, 
+Picaso [@batalha2019picaso] is implemented.
+
 
 # Acknowledgements
 EGN and GN would like to thank OSTEM internships and funding through the NASA with contract number 80NSSC22DA010.
