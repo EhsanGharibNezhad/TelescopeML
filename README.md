@@ -42,7 +42,7 @@ or simply...
     - Predict the stellar/(exo-)planetary parameters
     - Report the statistical analysis
 
-![TelescopeML Modules](docs/figures/convolution_graph/TelescopeML_modules.png)
+![](docs/figures/TelescopeML_modules.png)
 
 
 
@@ -52,5 +52,4 @@ or simply...
 - Installation: https://ehsangharibnezhad.github.io/TelescopeML/installation.html
 - Tutorials: https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html
 - The code: https://ehsangharibnezhad.github.io/TelescopeML/code.html
-- Concepts: https://ehsangharibnezhad.github.io/TelescopeML/knowledgebase.html
 
