@@ -37,10 +37,10 @@ affiliations:
     index: 3
   - name: Intelligent Systems Division, NASA Ames Research Center, Moffett Field, CA 94035, USA
     index: 4
-  - name: (Hey Gopal- please complete this) University of California, Riverside
+  - name: Department of Computer Science, University of California, Riverside, Riverside, CA 92507 USA
     index: 5
 
-date: 01 November 2023
+date: 13 November 2023
 bibliography: paper.bib
 
 aas-doi: LINK OF ApJ PAPER
@@ -85,13 +85,32 @@ statistical capabilities for conducting Convolutional Neural Networks (CNN) or M
 captured from the atmospheres of extrasolar planets and brown dwarfs. The tasks executed by the `TelescopeML` modules are 
 outlined below and visualized in following Figure:
 
-- **DeepBuilder module**: Specify training and target features, normalize/scale datasets, and pass them to the ML training phase.
-- **DeepTrainer module**: Create an ML model, train the model with the training examples, and utilize hyperparameters.
-- **Predictor module**: Process the observational datasets and deploy the trained ML model to predict atmospheric parameters such as gravity and temperature.
-- **StatVisAnalyzer module**: Explore and process the synthetic datasets (or the training examples) and provide functions for statistical analysis.
+- **DataMaster module**: Performs various tasks to process the datasets, including:
+    - Preparing inputs and outputs
+    - Splitting the dataset into training, validation, and test sets
+    - Scaling/normalizing the data
+    - Visualizing the data
+    - Conducting feature engineering
+  
+- **DeepTrainer module**: Utilizes different methods/packages such as TensorFlow to:
+  - Build Convolutional Neural Networks (CNNs) model using the training examples
+  - Utilize tuned hyperparameters
+  - Fit/train the ML models
+  - Visualize the loss and training history, as well as the trained model's performance
+  
+- **Predictor module**: Implements the following tasks to predict atmospheric parameters: 
+  - Processes and predicts the observational datasets 
+  - Deploys the trained ML/CNNs model to predict atmospheric parameters
+  - Visualizes the processed observational dataset and the uncertainty in the predicted results
+  
+- **StatVisAnalyzer module**: Provides a set of functions to perform the following tasks: 
+  - Explores and processes the synthetic datasets
+  - Performs the chi-square test to evaluate the similarity between two datasets
+  - Calculates confidence intervals and standard errors
+  - Functions to visualize the datasets, including scatter plots, histograms, boxplots
 
 ![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
-extract the target features from the observational data.](TelescopeML_modules.pdf){height="600pt"}
+extract the target features from the observational data.](TelescopeML_Modules_Infograph.jpg){height="900pt"}
 
 
 # Documentation
@@ -129,10 +148,15 @@ be the creation of more advanced models with higher performance and robustness, 
 the package to apply to a wider range of telescope datasets.
 
 
+# Utilized Underlying Packages
+For processing datasets and training ML models in `TelescopeML`, the following software/packages are employed:
+Scikit-learn [@scikit-learn], TensorFlow [@tensorflow2015-whitepaper], AstroPy [@astropy:2022], SpectRes [@SpectRes],
+Pandas [@reback2020pandas], NumPy [@harris2020array], SciPy [@2020SciPy-NMeth], Matplotlib [@Hunter:2007], 
+Seaborn [@Waskom2021], Bokeh [@bokeh]. Additionally, for generating training astronomical datasets, 
+Picaso [@batalha2019picaso] is implemented.
+
 
 # Acknowledgements
-Ask the team if they want to add any grant!!!! 
-Ask Natasha for the Grant!!
 EGN and GN would like to thank OSTEM internships and funding through the NASA with contract number 80NSSC22DA010.
 EGN acknowledges ChatGPT 3.5 for proofreading some of the functions and providing helpful suggestions. 
 
