@@ -17,6 +17,10 @@ __pycache__/
 *__pycache__/
 TelescopeML.egg-info/*
 dist/*
+_build/
+doctrees/
+
+*/doctrees/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
