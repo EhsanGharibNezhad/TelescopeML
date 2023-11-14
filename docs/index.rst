@@ -63,9 +63,11 @@ or simply...
    Installation <installation>
    Tutorials <tutorials>
    The Code <code>
-   KnowledgeBase <knowledgebase> 
    Github <https://github.com/ehsangharibnezhad>
-   Publications <publications>
-   What to Cite <cite>
+
+
+.. KnowledgeBase <knowledgebase>
+.. Publications <publications>
+.. What to Cite <cite>
 
 
