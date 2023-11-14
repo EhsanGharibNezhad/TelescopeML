@@ -45,23 +45,7 @@ from bokeh.palettes import viridis
 
 
 __reference_data__ = os.getenv("TelescopeML_reference_data")
-print(__reference_data__)
-
-# if __reference_data__ is None:
-#     raise Exception('\n'
-#                        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
-#                        "TelescopeML Error Message: \n\n"
-#                        "You need to define the path to your reference data.\n"
-#                        "Check out this tutorial: https://ehsangharibnezhad.github.io/TelescopeML/installation.html\n"
-#                        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-#                     )
-# else:
-#     pass
-
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-# Data Visualizing libararies
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# print(__reference_data__)
 
 
 # ===============================================================================
@@ -102,16 +86,23 @@ class ObserveParameterPredictor:
                  object_name,
                  training_dataset_df,
                  wl_synthetic,
-                 BuildRegressorCNN_class,
                  bd_literature_dic,
+                 trained_ML_model,
+                 trained_X_ColWise_MinMax = None,
+                 trained_y_ColWise = None,
+                 trained_X_RowWise = None,
                  ):
 
         self.object_name = object_name
         self.training_dataset_df = training_dataset_df
         self.wl_synthetic = wl_synthetic
-        self.BuildRegressorCNN_class = BuildRegressorCNN_class
         self.bd_literature_dic = bd_literature_dic
+        self.trained_ML_model = trained_ML_model
+        self.trained_X_ColWise_MinMax = trained_X_ColWise_MinMax, #Trained_StandardScaler_X_ColWise_MinMax
+        self.trained_y_ColWise = trained_y_ColWise, #Trained_StandardScaler_y_ColWise
+        self.trained_X_RowWise = trained_X_RowWise, #Trained_StandardScaler_X_RowWise
 
+        # print(self.trained_X_ColWise_MinMax)
 
     def load_observational_spectra(self,
                                    obs_data_df = None,
@@ -223,10 +214,6 @@ class ObserveParameterPredictor:
                  Fnu_errors = Fnu_obs_err,
                  bd_literature_dic = bd_literature_dic)
 
-        # self.obs_data_df['Fnu_obs'] = self.Fnu_obs
-        # self.obs_data_df['Fnu_obs_err'] = self.Fnu_obs_err
-        # self.obs_data_df['Fnu_obs_absolute'] = self.Fnu_obs_absolute
-        # self.obs_data_df['Fnu_obs_absolute_err'] = self.Fnu_obs_absolute_err
 
         return Fnu_obs , Fnu_obs_err, Fnu_obs_absolute, Fnu_obs_absolute_err
 
@@ -425,9 +412,9 @@ class ObserveParameterPredictor:
             print(self.df_MinMax_obs)
 
         # this is commited b/c it is for standardize_X_ColumnWise for the MinMax
-        XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(self.df_MinMax_obs.values)
+        XminXmax_Stand = self.trained_X_ColWise_MinMax[0].transform(self.df_MinMax_obs.values)
 
-        # XminXmax_Stand = self.BuildRegressorCNN_class.normalize_X_ColumnWise.transform(self.df_MinMax_obs.values)
+        # XminXmax_Stand = self.trained_data_processor.normalize_X_ColumnWise.transform(self.df_MinMax_obs.values)
 
         bd_mean = self.Fnu_obs_absolute_intd_df.mean(axis=1)[0]
         bd_std = self.Fnu_obs_absolute_intd_df.std(axis=1)[0]
@@ -436,9 +423,9 @@ class ObserveParameterPredictor:
 
 
         y_pred_train = np.array(
-            self.BuildRegressorCNN_class.trained_model.predict([X_Scaled[::-1].reshape(1, 104), XminXmax_Stand],
+            self.trained_ML_model.predict([X_Scaled[::-1].reshape(1, 104), XminXmax_Stand],
                                                                   verbose=0))[:, :, 0].T
-        y_pred_train_ = self.BuildRegressorCNN_class.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+        y_pred_train_ = self.trained_y_ColWise[0].inverse_transform(y_pred_train)
         y_pred_train_[:, 3] = 10 ** y_pred_train_[:, 3]
         y_pred = y_pred_train_
         self.y_pred = y_pred
@@ -456,14 +443,6 @@ class ObserveParameterPredictor:
             print_results_fun(targets=self.targets_single_spectrum_dic,
                               print_title='Predicted Targets from the Signle Observational Spectrum:')
 
-        # if __plot_predicted_vs_observed__:
-        #     plot_predicted_vs_observed(
-        #         training_datasets=self.training_dataset_df,
-        #         wl=self.wl,
-        #         predicted_targets_dic=self.targets_single_spectrum_dic,
-        #         object_name=self.object_name,
-        #         Fnu_obs_absolute_intd_df=self.Fnu_obs_absolute_intd_df,
-        #     )
 
     def predict_from_random_spectra(
             self,
@@ -548,28 +527,24 @@ class ObserveParameterPredictor:
             df_MinMax_obs = pd.DataFrame(
                 (Fnu_obs_absolute_intd_df_min, Fnu_obs_absolute_intd_df_max)
             ).T
-            # print('Bug check1 -- df_MinMax_obs:', df_MinMax_obs)
-            XminXmax_Stand = self.BuildRegressorCNN_class.standardize_X_ColumnWise.transform(df_MinMax_obs.values)
-            # XminXmax_Stand = self.BuildRegressorCNN_class.normalize_X_ColumnWise.transform(df_MinMax_obs.values)
 
-            # print('Bug check2 -- XminXmax_Stand:', XminXmax_Stand)
+            XminXmax_Stand = self.trained_X_ColWise_MinMax[0].transform(df_MinMax_obs.values)
+            # XminXmax_Stand = self.trained_data_processor.normalize_X_ColumnWise.transform(df_MinMax_obs.values)
 
 
             bd_mean = Fnu_obs_absolute_intd_df.mean(axis=1)[0]
             bd_std = Fnu_obs_absolute_intd_df.std(axis=1)[0]
 
-            # print('Bug check3 -- bd_mean, bd_std:', bd_mean, bd_std)
 
             # X_Scaled = (Fnu_obs_absolute_intd_df.div((self.bd_literature_dic['bd_radius_Rjup'])**2).values[0] - bd_mean) / bd_std
             X_Scaled = (Fnu_obs_absolute_intd_df.values[0] - bd_mean) / bd_std
-            # print('Bug check4 -- X_Scaled:', X_Scaled)
 
             y_pred_train = np.array(
-                self.BuildRegressorCNN_class.trained_model.predict(
+                self.trained_ML_model.predict(
                     [X_Scaled[::-1].reshape(1, 104), XminXmax_Stand.reshape(1, 2)], verbose=0) #findme!
             )[:, :, 0].T
 
-            y_pred_train_ = self.BuildRegressorCNN_class.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+            y_pred_train_ = self.trained_y_ColWise[0].inverse_transform(y_pred_train)
             y_pred_train_[:, 3] = 10 ** y_pred_train_[:, 3]
             y_pred_random = y_pred_train_
 
@@ -588,14 +563,9 @@ class ObserveParameterPredictor:
             # self.filtered_df4 = filtered_df4
             # print(filtered_df4.iloc[0,0:-5].values)
 
-            # if __print_results__: FINDME
-
             spectra_list_pre.append(filtered_df4.iloc[:, 0:-5].div((self.bd_literature_dic['bd_radius_Rjup'])**2).values.flatten())
             # spectra_list_pre.append(filtered_df4.iloc[:, 0:-5].values.flatten())
-            # print('Bug check5 -- spectra_list_pre:', spectra_list_pre)
 
-        # print('*'*10+'  Filtered and Interpolated training data based on the ML predicted parameters  '+'*'*10)
-        # print(spectra_list_pre)
 
         self.spectra_list_obs = spectra_list_obs
         self.spectra_list_pre = spectra_list_pre
@@ -665,15 +635,7 @@ class ObserveParameterPredictor:
             boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
             boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
 
-        # if __plot_predicted_vs_observed__:
-        #     plot_predicted_vs_observed(
-        #         training_datasets=self.training_dataset_df,
-        #         wl=self.wl_synthetic,
-        #         predicted_targets_dic=self.dic_random_pred_mean,
-        #         object_name=self.object_name,
-        #         Fnu_obs_absolute_intd_df=self.Fnu_obs_absolute_intd_df,
-        #         __print_results__=False,
-        #     )
+
 
         if __plot_pred_vs_obs_errorbar__:
             plot_pred_vs_obs_errorbar(

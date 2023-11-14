@@ -42,54 +42,46 @@ tf.get_logger().setLevel('ERROR')
 # ==================                                           ==================
 # ===============================================================================
 
-class BuildRegressorCNN:
+class DataProcessor:
     """
-    Perform various tasks related to dataset processing, model preparation, and feature engineering.
+    Perform various tasks to process the datasets, including:
+
+    - Prepare inputs and outputs
+    - Split the dataset into training, validation, and test sets
+    - Scale/normalize the data
+    - Visualize the data
+    - Conduct feature engineering
 
     Parameters
     ----------
-    trained_model : object
-        Trained ML model (optional).
-    trained_model_history : dict
-        History dict from the trained model (optional).
-    feature_values : array
+    feature_values : np.ndarray
         Flux arrays (input data).
-    feature_names : list
+    feature_names : List[str]
         Name of wavelength in micron.
-    target_values : array
+    target_values : np.ndarray
         Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity).
     target_name : str
         Name of the target variable.
     is_hyperparam_tuned : str
         Indicates whether hyperparameters are tuned or not ('yes' or 'no').
-    param_grid : dict
+    param_grid : dict, optional
         ML hyperparameters to be tuned (used if is_hyperparam_tuned = 'yes').
-    spectral_resolution : int
+    spectral_resolution : int, optional
         Resolution of the synthetic spectra used to generate the dataset.
     feature_improvement_method : str
-        Indicates the method used for feature improvement ('no', 'pca', 'RFE').
+        Method used for feature improvement ('no', 'pca', 'RFE').
     augmentation_method : str
-        Indicates if augmented dataset is used ('no' or method name).
-    ml_model : object
+        Indicates if an augmented dataset is used ('no' or method name).
+    ml_model : BaseEstimator, optional
         ML model object from sklearn package.
-    ml_model_str : str
+    ml_model_str : str, optional
         Name of the ML model.
-
-    Notes
-    ------
-    This class can be instintiated and utilized with or without the trained ML model. In case of having the trained model,
-    you should have the following parameters:
-        - trained_model
-        - trained_model_history
-
-
+    ml_method : str, optional
+        Machine learning method ('regression' or 'classification').
 
     """
-
     def __init__(
             self,
-            trained_model: Union[None, BaseEstimator] = None,
-            trained_model_history: Union[None, Dict] = None,
             feature_values: Union[np.ndarray] = None,
             feature_names: Union[List[str]] = None,
             target_values: Union[np.ndarray] = None,
@@ -104,8 +96,6 @@ class BuildRegressorCNN:
             ml_method: str = 'regression',
     ):
 
-        self.trained_model = trained_model
-        self.trained_model_history = trained_model_history
         self.feature_values = feature_values
         self.feature_names = feature_names
         self.target_values = target_values
@@ -206,6 +196,7 @@ class BuildRegressorCNN:
         )
 
     def normalize_X_column_wise(self,
+                                output_indicator='Trained_Normalizer_X_ColWise',
                                 X_train=None,
                                 X_val=None,
                                 X_test=None,
@@ -249,13 +240,18 @@ class BuildRegressorCNN:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_X_ColumnWise,
-            indicator='normalize_X_column_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
             print(normalizer)
 
-    def normalize_X_row_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
+    def normalize_X_row_wise(self,
+                             output_indicator='Trained_Normalizer_X_RowWise',
+                             X_train=None,
+                             X_val=None,
+                             X_test=None,
+                             print_model=False):
         """
         Normalize observations/instances/row variables to a specified range [0, 1].
 
@@ -294,13 +290,16 @@ class BuildRegressorCNN:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_X_RowWise,
-            indicator='normalize_X_row_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
             print(normalizer)
 
-    def normalize_y_column_wise(self, y_train=None, y_val=None, y_test=None, print_model=False):
+    def normalize_y_column_wise(self,
+                                output_indicator =  'Trained_Normalizer_y_ColWise',
+                                y_train=None,
+                                y_val=None, y_test=None, print_model=False):
         """
         Scale target variable (y) and column-wise feature variables to a specified range.
         Transform the data such that its values are within the specified range [0, 1].
@@ -338,13 +337,18 @@ class BuildRegressorCNN:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.normalize_y_ColumnWise,
-            indicator='normalize_y_column_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
             print(scaler_y)
 
-    def standardize_y_column_wise(self, y_train=None, y_val=None, y_test=None, print_model=False):
+    def standardize_y_column_wise(self,
+                                  output_indicator = 'Trained_StandardScaler_y_ColWise',
+                                  y_train=None,
+                                  y_val=None,
+                                  y_test=None,
+                                  print_model=False):
         """
         Standardize target variable (y) column-wise by removing the mean and scaling to unit variance.
         Transform the data such that its distribution will have a mean value of 0 and a standard deviation of 1.
@@ -383,14 +387,19 @@ class BuildRegressorCNN:
 
         self.LoadSave.load_or_dump_trained_object(
                                 trained_object=self.standardize_y_ColumnWise,
-                                indicator='standardize_y_column_wise',
+                                output_indicator=output_indicator,
                                 load_or_dump='dump')
 
         if print_model:
             print(scaler_y)
 
 
-    def standardize_X_column_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
+    def standardize_X_column_wise(self,
+                                  output_indicator = 'Trained_StandardScaler_X_ColWise',
+                                  X_train=None,
+                                  X_val=None,
+                                  X_test=None,
+                                  print_model=False):
         """
         Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
         Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.
@@ -422,26 +431,27 @@ class BuildRegressorCNN:
         X_test = self.X_test if X_test is None else X_test
 
         scaler_X = StandardScaler()
-        # if X_train == None:
+
         self.X_train_standardized_columnwise = scaler_X.fit_transform(X_train)
         self.X_val_standardized_columnwise = scaler_X.transform(X_val)
         self.X_test_standardized_columnwise = scaler_X.transform(X_test)
-        # elif X_train:
-        # X_train_standardized_columnwise = scaler_X.fit_transform(X_train)
-        # X_val_standardized_columnwise = scaler_X.transform(X_val)
-        # X_test_standardized_columnwise = scaler_X.transform(X_test)
 
         self.standardize_X_ColumnWise = scaler_X
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.standardize_X_ColumnWise,
-            indicator='standardize_X_column_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
             print(scaler_X)
 
-    def standardize_X_row_wise(self, X_train=None, X_val=None, X_test=None, print_model=False):
+    def standardize_X_row_wise(self,
+                               output_indicator = 'Trained_StandardScaler_X_RowWise',
+                               X_train=None,
+                               X_val=None,
+                               X_test=None,
+                               print_model=False):
         """
         Standardize feature variables (X) column-wise by removing the mean and scaling to unit variance.
         Transform the data such that each feature will have a mean value of 0 and a standard deviation of 1.
@@ -480,7 +490,7 @@ class BuildRegressorCNN:
 
         self.LoadSave.load_or_dump_trained_object(
             trained_object=self.standardize_X_RowWise,
-            indicator='standardize_X_row_wise',
+            output_indicator=output_indicator,
             load_or_dump='dump')
 
         if print_model:
@@ -530,65 +540,3 @@ class BuildRegressorCNN:
         plt.title('Histogram of Scaled Features')
         plt.show()
 
-    def plot_model_loss(self, history=None, title=None):
-        """
-        Plot the trained model history for all individual target features
-        """
-        # from bokeh.plotting import figure, show
-        # from bokeh.models import Legend
-
-        history = self.trained_model_history if history is None else history
-        # Define the epochs as a list
-        epochs = list(range(len(history['loss'])))
-
-        # Define colorblind-friendly colors
-        colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
-
-        # Create a new figure
-        p = figure(title=title, width=1000, height=300, y_axis_type='log', x_axis_label='Epochs', y_axis_label='Loss')
-
-        # Add the data lines to the figure with colorblind-friendly colors and increased line width
-        p.line(epochs, history['loss'], line_color=colors[0], line_dash='solid', line_width=2,
-               legend_label='Total loss')
-        p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
-
-        p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
-               legend_label='gravity')
-        p.line(epochs, history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
-
-        p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
-               legend_label='c_o_ratio')
-        p.line(epochs, history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
-
-        p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
-               legend_label='metallicity')
-        p.line(epochs, history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
-
-        p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
-               legend_label='temperature')
-        p.line(epochs, history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
-
-        # Increase size of x and y ticks
-        p.title.text_font_size = '14pt'
-        p.xaxis.major_label_text_font_size = '12pt'
-        p.xaxis.axis_label_text_font_size = '12pt'
-        p.yaxis.major_label_text_font_size = '12pt'
-        p.yaxis.axis_label_text_font_size = '12pt'
-
-        # display legend in top left corner (default is top right corner)
-        p.legend.location = "bottom_left"
-
-        # change appearance of legend text
-        # p.legend.label_text_font = "times"
-        # p.legend.label_text_font_style = "italic"
-        # p.legend.label_text_color = "navy"
-
-        # change border and background of legend
-        # p.legend.border_line_width = 3
-        # p.legend.border_line_color = "navy"
-        # p.legend.border_line_alpha = 0.8
-        p.legend.background_fill_color = 'white'
-        p.legend.background_fill_alpha = 0.5
-
-        # Show the plot
-        show(p)
