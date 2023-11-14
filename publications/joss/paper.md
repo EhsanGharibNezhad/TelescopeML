@@ -148,10 +148,12 @@ be the creation of more advanced models with higher performance and robustness, 
 the package to apply to a wider range of telescope datasets.
 
 
+# Utilized Underlying Packages
+For processing the datasets and training the ML models, the following top software/packages are employed in `TelescopeML`:
+Scikit-learn [@scikit-learn], TensorFlow [@tensorflow2015-whitepaper], AstroPy [@astropy:2022], Pandas [@reback2020pandas],
+NumPy [@harris2020array], Matplotlib [@Hunter:2007]
 
 # Acknowledgements
-Ask the team if they want to add any grant!!!! 
-Ask Natasha for the Grant!!
 EGN and GN would like to thank OSTEM internships and funding through the NASA with contract number 80NSSC22DA010.
 EGN acknowledges ChatGPT 3.5 for proofreading some of the functions and providing helpful suggestions. 
 
