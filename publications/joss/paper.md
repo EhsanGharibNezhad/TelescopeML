@@ -92,11 +92,11 @@ outlined below and visualized in following Figure:
     - Visualizing the data
     - Conducting feature engineering
   
-- **DeepTrainer module**: Utilizes different methods/packages such as TensorFlow in machine learning to:
+- **DeepTrainer module**: Utilizes different methods/packages such as TensorFlow to:
   - Build Convolutional Neural Networks (CNNs) model using the training examples
   - Utilize tuned hyperparameters
   - Fit/train the ML models
-  - Visualize the loss and training history, as well as the trained model's performance on the train and test sets
+  - Visualize the loss and training history, as well as the trained model's performance
   
 - **Predictor module**: Implements the following tasks to predict atmospheric parameters: 
   - Processes and predicts the observational datasets 
@@ -105,12 +105,12 @@ outlined below and visualized in following Figure:
   
 - **StatVisAnalyzer module**: Provides a set of functions to perform the following tasks: 
   - Explores and processes the synthetic datasets
-  - Performs the chi-square test to evaluate the similarity between two datasets with error bars.
+  - Performs the chi-square test to evaluate the similarity between two datasets
   - Calculates confidence intervals and standard errors
   - Functions to visualize the datasets, including scatter plots, histograms, boxplots
 
 ![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
-extract the target features from the observational data.](TelescopeML_Modules_Infograph.jpg){height="700pt"}
+extract the target features from the observational data.](TelescopeML_Modules_Infograph.jpg){height="900pt"}
 
 
 # Documentation
