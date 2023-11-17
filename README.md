@@ -37,11 +37,13 @@ modules are outlined below:
   - Calculates confidence intervals and standard errors
   - Functions to visualize the datasets, including scatter plots, histograms, boxplots
 
+
 or simply...
 
-    - Load the pre-trained CNN models based on the latest synthetic datasets
-    - Predict the stellar/(exo-)planetary parameters
-    - Report the statistical analysis
+ - Load the trained CNN models
+ - Follow the tutorials
+ - Predict the stellar/exoplanetary parameters
+ - Report the statistical analysis
 
 
 
