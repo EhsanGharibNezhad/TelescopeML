@@ -61,7 +61,7 @@ and compositions. In addition to Bayesian-based techniques, machine learning and
 for various astronomical problems, including confirming the classification of light curves for 
 exoplanet validation [e.g., @Valizadegan2021], recognizing molecular features  [@Zingales2018ExoGAN] as well as interpreting brown dwarfs spectra using Random Forest technique 
 [e.g., @Lueber2023RandomForesr_BDs]. Here, we present one of the first applications of deep learning and convolutional neural networks on the interpretation brown dwarf 
-atmospheric datasets. The configuration of a CNN and the key concepts can be found in [e.g., @Goodfellow_2016DeepLearning, @KIRANYAZ2021].
+atmospheric datasets. The configuration of a CNN and the key concepts can be found in [@Goodfellow_2016DeepLearning; @KIRANYAZ2021].
 
 With the continuous observation of these objects and the increasing amount of data, there is a 
 critical need for a systematic pipeline to quickly explore the datasets and extract important physical from them. In the future we can expand our pipeline to exoplanet atmospheres, and use it to provide insights about the diversity of exoplanets and brown dwarfs' 
