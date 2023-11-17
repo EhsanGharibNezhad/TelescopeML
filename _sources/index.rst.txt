@@ -12,6 +12,9 @@ statistical capabilities for conducting Convolutional Neural Networks (CNN) or M
 datasets captured from the atmospheres of extrasolar planets and brown dwarfs. The tasks executed by the ``TelescopeML``
 modules are outlined below:
 
+.. image:: figures/TelescopeML_modules.png
+   :width: 600
+
 
 - *DataMaster module*: Performs various tasks to process the datasets, including:
 
@@ -43,12 +46,10 @@ modules are outlined below:
 
 or simply...
 
-    - Load the pre-trained CNN models based on the latest synthetic datasets
-    - Predict the stellar/(exo-)planetary parameters
-    - Report the statistical analysis
-
-.. image:: figures/TelescopeML_modules.png
-  :width: 1100
+ - Load the trained CNN models
+ - Follow the tutorials
+ - Predict the stellar/exoplanetary parameters
+ - Report the statistical analysis
 
 
 
