@@ -26,7 +26,6 @@ authors:
     orcid: 0000-0002-2188-0807
     affiliation: "3, 4"
   - name: Gopal Nookula 
-    orcid: (Ask Gopal to fix this!)
     affiliation: "5"
 affiliations:
   - name: Space Science and Astrobiology Division, NASA Ames Research Center, Moffett Field, CA, 94035 USA
@@ -40,7 +39,7 @@ affiliations:
   - name: Department of Computer Science, University of California, Riverside, Riverside, CA 92507 USA
     index: 5
 
-date: 13 November 2023
+date: 17 November 2023
 bibliography: paper.bib
 
 aas-doi: LINK OF ApJ PAPER
@@ -60,9 +59,9 @@ extract physical information, such as atmospheric temperature, metallicity, carb
 [@line2014systematic; @Iyer2023Sphinx; @Marley2015]. These atmospheric models rely on generating the physics and chemistry of these atmospheres for a wide range of thermal structures 
 and compositions. In addition to Bayesian-based techniques, machine learning and deep learning methods have been developed in recent years 
 for various astronomical problems, including confirming the classification of light curves for 
-exoplanet validation [e.g., @Valizadegan2021] as well as interpreting brown dwarfs spectra using Random Forest technique 
+exoplanet validation [e.g., @Valizadegan2021], recognizing molecular features  [@Zingales2018ExoGAN] as well as interpreting brown dwarfs spectra using Random Forest technique 
 [e.g., @Lueber2023RandomForesr_BDs]. Here, we present one of the first applications of deep learning and convolutional neural networks on the interpretation brown dwarf 
-atmospheric datasets.  
+atmospheric datasets. The configuration of a CNN and the key concepts can be found in [e.g., @Goodfellow_2016DeepLearning, @KIRANYAZ2021].
 
 With the continuous observation of these objects and the increasing amount of data, there is a 
 critical need for a systematic pipeline to quickly explore the datasets and extract important physical from them. In the future we can expand our pipeline to exoplanet atmospheres, and use it to provide insights about the diversity of exoplanets and brown dwarfs' 
