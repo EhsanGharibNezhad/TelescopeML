@@ -177,7 +177,6 @@ dependencies:
       - sphinxcontrib-jsmath==1.0.1
       - sphinxcontrib-qthelp==1.0.6
       - sphinxcontrib-serializinghtml==1.1.9
-      - stack-data==0.6.3
       - tensorboard==2.14.1
       - tensorflow==2.14.0
       - tensorflow-estimator==2.14.0
