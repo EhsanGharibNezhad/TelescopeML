@@ -79,7 +79,8 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
 
 .. note::
-    - Replace `PATH_TO_YOUR_TelescopeML_project` with the actual path to your TelescopeML directory.
+    - Replace `PATH_TO_YOUR_TelescopeML_project` with the actual path to your *reference_data* folder
+        that you downloaded in step 1.
     - *echo* command is used to check that your variable has been defined properly.
 
 
@@ -94,9 +95,6 @@ modern Linux system.
     echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/" ' >>~/.bashrc
     source ~/.bashrc
     echo $TelescopeML_reference_data
-
-
-Replace `PATH_TO_YOUR_TelescopeML_project` with the actual path to your *reference_data* folder that you downloaded in step 1.
 
 
 
