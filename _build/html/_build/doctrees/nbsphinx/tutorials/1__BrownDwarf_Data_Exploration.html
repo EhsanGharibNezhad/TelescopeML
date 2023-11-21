@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>1. Exploring the Brown Dwarf Synthetic Dataset &mdash; TelescopeML 0.0.2 documentation</title>
@@ -9,18 +9,16 @@
       <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../_static/nbsphinx-code-cells.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js"></script>
-        <script src="../../../../../../_static/jquery.js"></script>
-        <script src="../../../../../../_static/underscore.js"></script>
-        <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../../../../_static/doctools.js"></script>
-        <script src="../../../../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../../../../_static/clipboard.min.js"></script>
-        <script src="../../../../../../_static/copybutton.js"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=e3a6060d"></script>
+        <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../../../../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -79,291 +77,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt *,
-div.nbinput.container div.input_area pre,
-div.nboutput.container div.output_area pre,
-div.nbinput.container div.input_area .highlight,
-div.nboutput.container div.output_area .highlight {
-    border: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-div.nbinput.container > div[class*=highlight],
-div.nboutput.container > div[class*=highlight] {
-    margin: 0;
-}
-
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt * {
-    background: none;
-}
-
-div.nboutput.container div.output_area .highlight,
-div.nboutput.container div.output_area pre {
-    background: unset;
-}
-
-div.nboutput.container div.output_area div.highlight {
-    color: unset;  /* override Pygments text color */
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    width: 4.5ex;
-    padding-top: 5px;
-    position: relative;
-    user-select: none;
-}
-
-div.nbinput.container div.prompt > div,
-div.nboutput.container div.prompt > div {
-    position: absolute;
-    right: 0;
-    margin-right: 0.3ex;
-}
-
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        width: unset;
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-
-    div.nbinput.container div.prompt > div,
-    div.nboutput.container div.prompt > div {
-        position: unset;
-    }
-}
-
-/* disable scrollbars and line breaks on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-    white-space: pre;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    /*background: #f5f5f5;*/
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 5px;
-    margin: 0;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt .copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-.jp-RenderedHTMLCommon table,
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-.jp-RenderedHTMLCommon thead,
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-.jp-RenderedHTMLCommon tr,
-.jp-RenderedHTMLCommon th,
-.jp-RenderedHTMLCommon td,
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-.jp-RenderedHTMLCommon th,
-div.rendered_html th {
-  font-weight: bold;
-}
-.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-.jp-RenderedHTMLCommon tbody tr:hover,
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="admonition note">
+  <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference external" href="https://github.com/EhsanGharibNezhad/TelescopeML/tree/master/docs/_build/html/_build/doctrees/nbsphinx/tutorials/1__BrownDwarf_Data_Exploration.ipynb">Download full notebook here</a></p>
 </div>
 <section id="1.-Exploring-the-Brown-Dwarf-Synthetic-Dataset">
-<h1>1. Exploring the Brown Dwarf Synthetic Dataset<a class="headerlink" href="#1.-Exploring-the-Brown-Dwarf-Synthetic-Dataset" title="Permalink to this heading">¶</a></h1>
+<h1>1. Exploring the Brown Dwarf Synthetic Dataset<a class="headerlink" href="#1.-Exploring-the-Brown-Dwarf-Synthetic-Dataset" title="Link to this heading">¶</a></h1>
 <p>In the following steps, you will:</p>
 <ul class="simple">
 <li><p>Load the brown dwarf dataset used to train the ML models</p></li>
@@ -379,7 +98,7 @@ div.rendered_html tbody tr:hover {
 <p>[4] And last, you should be able to execute <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">TelescopeML</span></code> with no issue!</p>
 <p>Happy <em>TelescopeML</em>ing! ;)</p>
 <hr class="docutils" />
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -388,8 +107,16 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+No Bottleneck unit testing available.
+</pre></div></div>
+</div>
 <section id="1.1-Load-the-Synthetic-spectra">
-<h2>1.1 Load the Synthetic spectra<a class="headerlink" href="#1.1-Load-the-Synthetic-spectra" title="Permalink to this heading">¶</a></h2>
+<h2>1.1 Load the Synthetic spectra<a class="headerlink" href="#1.1-Load-the-Synthetic-spectra" title="Link to this heading">¶</a></h2>
 <p>We computed a low-resolution spectrum (<span class="math notranslate nohighlight">\(R\)</span>=200) utilizing atmopshric brown dwarfs grid model, <a class="reference external" href="https://arxiv.org/pdf/2107.07434.pdf">Sonora-Bobcat</a> for spectral range $:nbsphinx-math:<cite>sim`$0.9-2.4 :math:</cite>mu m`. An open-source atmospheric radiative transfer Python package, <a class="reference external" href="https://natashabatalha.github.io/picaso/">PICASO</a> was employed for generating these datasets. This dataset encompass 30,888 synthetic spectra (or instances or rows).</p>
 <p>Each spectrum has 104 features (or wavelengths in the astrophysics context, i.e., 0.897, 0.906, …, 2.512~<span class="math notranslate nohighlight">\(\mu\)</span>m) and 4 parameters: - gravity ( log<span class="math notranslate nohighlight">\(g\)</span> ) - temperature ( T<span class="math notranslate nohighlight">\(_{eff}\)</span> ) - carbon-to-oxygen ratio ( C/O ) - metallicity ( [M/E] )</p>
 <div class="nbinput docutils container">
@@ -415,7 +142,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <section id="Load-the-dataset-and-check-few-instances">
-<h3>Load the dataset and check few instances<a class="headerlink" href="#Load-the-dataset-and-check-few-instances" title="Permalink to this heading">¶</a></h3>
+<h3>Load the dataset and check few instances<a class="headerlink" href="#Load-the-dataset-and-check-few-instances" title="Link to this heading">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -602,7 +329,7 @@ div.rendered_html tbody tr:hover {
 </section>
 </section>
 <section id="1.2-Check-atmospheric-parameters">
-<h2>1.2 Check atmospheric parameters<a class="headerlink" href="#1.2-Check-atmospheric-parameters" title="Permalink to this heading">¶</a></h2>
+<h2>1.2 Check atmospheric parameters<a class="headerlink" href="#1.2-Check-atmospheric-parameters" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>gravity ( log<span class="math notranslate nohighlight">\(g\)</span> )</p></li>
 <li><p>temperature ( T<span class="math notranslate nohighlight">\(_{eff}\)</span> )</p></li>
@@ -690,7 +417,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="1.3-Check-the-training-variables">
-<h2>1.3 Check the training variables<a class="headerlink" href="#1.3-Check-the-training-variables" title="Permalink to this heading">¶</a></h2>
+<h2>1.3 Check the training variables<a class="headerlink" href="#1.3-Check-the-training-variables" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>training_features_labels: they are (Wavelengths and fluxes in astrophysics context)</p></li>
 </ol>
@@ -786,9 +513,9 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="1.4-Visualize-the-Brown-Dwarf-spectra-for-different-parameters">
-<h2>1.4 Visualize the Brown Dwarf spectra for different parameters<a class="headerlink" href="#1.4-Visualize-the-Brown-Dwarf-spectra-for-different-parameters" title="Permalink to this heading">¶</a></h2>
+<h2>1.4 Visualize the Brown Dwarf spectra for different parameters<a class="headerlink" href="#1.4-Visualize-the-Brown-Dwarf-spectra-for-different-parameters" title="Link to this heading">¶</a></h2>
 <section id="1.4.1-Effective-Temperature">
-<h3>1.4.1 Effective Temperature<a class="headerlink" href="#1.4.1-Effective-Temperature" title="Permalink to this heading">¶</a></h3>
+<h3>1.4.1 Effective Temperature<a class="headerlink" href="#1.4.1-Effective-Temperature" title="Link to this heading">¶</a></h3>
 <p>Plot the brown dwarf datasets for <span class="math notranslate nohighlight">\(T_{eff}\)</span>= 400-1800K while other paremeters are constnat (log<span class="math notranslate nohighlight">\(g\)</span>=5, C/O=1, [M/E]=0)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
@@ -823,7 +550,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="1.4.2-Gravity">
-<h3>1.4.2 Gravity<a class="headerlink" href="#1.4.2-Gravity" title="Permalink to this heading">¶</a></h3>
+<h3>1.4.2 Gravity<a class="headerlink" href="#1.4.2-Gravity" title="Link to this heading">¶</a></h3>
 <p>Plot the brown dwarf datasets for log<span class="math notranslate nohighlight">\(g\)</span>= 3-5.5 while other paremeters are constnat (<span class="math notranslate nohighlight">\(T_{eff}\)</span>=800, C/O=1, [M/E]=0)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -858,7 +585,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="1.4.3-Carbon-to-Oxygen-ratio">
-<h3>1.4.3 Carbon-to-Oxygen ratio<a class="headerlink" href="#1.4.3-Carbon-to-Oxygen-ratio" title="Permalink to this heading">¶</a></h3>
+<h3>1.4.3 Carbon-to-Oxygen ratio<a class="headerlink" href="#1.4.3-Carbon-to-Oxygen-ratio" title="Link to this heading">¶</a></h3>
 <p>Plot the brown dwarf datasets for C/O= 0.25-2.5 while other paremeters are constnat (<span class="math notranslate nohighlight">\(T_{eff}\)</span>=800, log<span class="math notranslate nohighlight">\(g\)</span>=5.0, [M/E]=0)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
@@ -893,7 +620,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="1.4.4-Metallicity">
-<h3>1.4.4 Metallicity<a class="headerlink" href="#1.4.4-Metallicity" title="Permalink to this heading">¶</a></h3>
+<h3>1.4.4 Metallicity<a class="headerlink" href="#1.4.4-Metallicity" title="Link to this heading">¶</a></h3>
 <p>Plot the brown dwarf datasets for [M/H]= -1.0 - 2.0 while other paremeters are constnat (<span class="math notranslate nohighlight">\(T_{eff}\)</span>=800, log<span class="math notranslate nohighlight">\(g\)</span>=5.0, C/O=1.0)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Installation &mdash; TelescopeML 0.0.2 documentation</title>
@@ -13,14 +13,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
+        <script src="_static/documentation_options.js?v=e3a6060d"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -95,32 +92,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
 <div class="admonition note">
@@ -128,7 +101,7 @@
 <p><cite>TelescopeML</cite> requires python &gt;= 3.9.</p>
 </div>
 <section id="step-1-create-your-directory-structure">
-<h2>Step 1: Create your directory structure<a class="headerlink" href="#step-1-create-your-directory-structure" title="Permalink to this heading">¶</a></h2>
+<h2>Step 1: Create your directory structure<a class="headerlink" href="#step-1-create-your-directory-structure" title="Link to this heading">¶</a></h2>
 <p>Let’s start by creating the folder structure as follow, named <em>TelescopeML_project</em>. While you are inside this parent
 <em>TelescopeML_project</em> directory, download the <em>reference_data</em> folder which include the following sub-directories:
 <em>training_datasets</em>, <em>tutorials</em>, <em>observational_datasets</em>,  <em>figures</em>, <em>trained_ML_models</em>.</p>
@@ -145,14 +118,14 @@
 </div>
 </section>
 <section id="step-2-set-input-file-environment-variables">
-<h2>Step 2: Set input file environment variables<a class="headerlink" href="#step-2-set-input-file-environment-variables" title="Permalink to this heading">¶</a></h2>
+<h2>Step 2: Set input file environment variables<a class="headerlink" href="#step-2-set-input-file-environment-variables" title="Link to this heading">¶</a></h2>
 <section id="for-mac-os">
-<h3>For Mac OS<a class="headerlink" href="#for-mac-os" title="Permalink to this heading">¶</a></h3>
+<h3>For Mac OS<a class="headerlink" href="#for-mac-os" title="Link to this heading">¶</a></h3>
 <p>follow the following steps to set the link to the input data:</p>
 <ol class="arabic simple">
 <li><p>Check your default shell in your terminal:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$SHELL</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
 </pre></div>
 </div>
 <p>This command will display the path to your default shell, typically something
@@ -163,25 +136,25 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <div><ul class="simple">
 <li><p>If your shell is <cite>/bin/zsh</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot; &#39;</span> &gt;&gt;~/.zshrc
-<span class="nb">source</span> ~/.zshrc
-<span class="nb">echo</span> <span class="nv">$TelescopeML_reference_data</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.zshrc
+<span class="nb">source</span><span class="w"> </span>~/.zshrc
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>if your shell is <cite>/bin/bash</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot;&#39;</span> &gt;&gt;~/.bash_profile
-<span class="nb">source</span> ~/.bash_profile
-<span class="nb">echo</span> <span class="nv">$TelescopeML_reference_data</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.bash_profile
+<span class="nb">source</span><span class="w"> </span>~/.bash_profile
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>if your sell is <cite>/bin/sh</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot;&#39;</span> &gt;&gt;~/.profile
-<span class="nb">source</span> ~/.profile
-<span class="nb">echo</span> <span class="nv">$TelescopeML_reference_data</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.profile
+<span class="nb">source</span><span class="w"> </span>~/.profile
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -200,26 +173,26 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 </div>
 </section>
 <section id="for-linux">
-<h3>For Linux<a class="headerlink" href="#for-linux" title="Permalink to this heading">¶</a></h3>
+<h3>For Linux<a class="headerlink" href="#for-linux" title="Link to this heading">¶</a></h3>
 <p>In Linux, the choice between <cite>~/.bashrc</cite> and <cite>~/.bash_profile</cite> depends on your specific use case and how
 you want environment variables to be set, but <cite>~/.bashrc</cite> is a common and practical choice for
 modern Linux system.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot; &#39;</span> &gt;&gt;~/.bashrc
-<span class="nb">source</span> ~/.bashrc
-<span class="nb">echo</span> <span class="nv">$TelescopeML_reference_data</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.bashrc
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="step-3-install-the-package">
-<h2>Step 3: Install the Package<a class="headerlink" href="#step-3-install-the-package" title="Permalink to this heading">¶</a></h2>
+<h2>Step 3: Install the Package<a class="headerlink" href="#step-3-install-the-package" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You need to first have <a class="reference external" href="https://www.anaconda.com/download/">Anaconda distribution</a> installed on your machine,
 before proceed to the next steps.</p>
 </div>
 <section id="method-1-install-through-git-recommended">
-<h3>Method 1: Install through Git (Recommended)<a class="headerlink" href="#method-1-install-through-git-recommended" title="Permalink to this heading">¶</a></h3>
+<h3>Method 1: Install through Git (Recommended)<a class="headerlink" href="#method-1-install-through-git-recommended" title="Link to this heading">¶</a></h3>
 <p>If you want to access the latest features or modify the code and contribute, we suggest that you clone the source code
 from GitHub by following steps:</p>
 <div class="admonition note">
@@ -230,21 +203,21 @@ clone the github repository.</p>
 <ol class="arabic simple">
 <li><p>Clone the repo and Create <cite>Conda</cite> environment named <em>TelescopeML</em>:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/ehsangharibnezhad/TelescopeML.git
-<span class="nb">cd</span> TelescopeML
-conda env create -f environment.yml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ehsangharibnezhad/TelescopeML.git
+<span class="nb">cd</span><span class="w"> </span>TelescopeML
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Activate the new environment:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda activate TelescopeML
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>TelescopeML
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Install the library via the <cite>setup.py</cite> file inside <em>TelescopeML</em> directory:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3.9 setup.py develop
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3.9<span class="w"> </span>setup.py<span class="w"> </span>develop
 </pre></div>
 </div>
 <p>Now, you should have the latest version of the package installed alongside the reference data.</p>
@@ -253,26 +226,26 @@ conda env create -f environment.yml
 </ol>
 </section>
 <section id="method-2-install-though-pip-straightforward">
-<h3>Method 2: Install though Pip (Straightforward)<a class="headerlink" href="#method-2-install-though-pip-straightforward" title="Permalink to this heading">¶</a></h3>
+<h3>Method 2: Install though Pip (Straightforward)<a class="headerlink" href="#method-2-install-though-pip-straightforward" title="Link to this heading">¶</a></h3>
 <p>The easiest way to install the most stable version is with <em>pip</em>, the Python package manager,
 but do not forget that you still need to create a virtual environment using the <a class="reference external" href="https://www.anaconda.com/download/">Anaconda distribution</a>
 and then install <code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code> there by the following steps:</p>
 <ol class="arabic simple">
 <li><p>Create a conda virtual environment using <cite>python&gt;=3.8</cite>:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name  TelescopeML  <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w">  </span>TelescopeML<span class="w">  </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Activate the new environment:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda activate TelescopeML
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>TelescopeML
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p>Now install the latest PyPI version of <cite>TelescopeML</cite> via pip:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install TelescopeML
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>TelescopeML
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
