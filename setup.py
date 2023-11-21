@@ -10,7 +10,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='TelescopeML',
-    version = (this_directory / "version.txt").read_text(),  # MAJOR.MINOR.PATCH
+    version = '0.0.2',  # MAJOR.MINOR.PATCH
     description = 'An End-to-End Python Package for Interpreting Telescope Datasets through Training Machine Learning Models, Generating Statistical Reports, and Visualizing Results',
     long_description = long_description,
     long_description_content_type='text/markdown',
