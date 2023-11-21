@@ -43,6 +43,7 @@ extensions = [  'sphinx_copybutton',
 
 nbsphinx_allow_errors = False
 
+
 nbsphinx_execute = 'always'
 
 
