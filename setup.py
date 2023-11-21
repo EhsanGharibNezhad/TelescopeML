@@ -9,8 +9,8 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='TelescopeML',
-    version = '0.0.1',  # MAJOR.MINOR.PATCH
-    description = 'Deep Convolutional Neural Networks and Machine Learning Models for Analyzing Stellar and Exoplanetary Telescope Spectra',
+    version = '0.0.2',  # MAJOR.MINOR.PATCH
+    description = 'An End-to-End Python Package for Interpreting Telescope Datasets through Training Machine Learning Models, Generating Statistical Reports, and Visualizing Results',
     long_description = long_description,
     long_description_content_type='text/markdown',
     author = 'Ehsan (Sam) Gharib-Nezhad',
