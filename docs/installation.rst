@@ -56,7 +56,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export $TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/" ' >>~/.zshrc
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/" ' >>~/.zshrc
         source ~/.zshrc
         echo $TelescopeML_reference_data
 
@@ -65,7 +65,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export $TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/"' >>~/.bash_profile
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/"' >>~/.bash_profile
         source ~/.bash_profile
         echo $TelescopeML_reference_data
 
@@ -73,7 +73,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export $TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/"' >>~/.profile
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/"' >>~/.profile
         source ~/.profile
         echo $TelescopeML_reference_data
 
@@ -91,12 +91,12 @@ modern Linux system.
 
 .. code-block:: bash
 
-    echo 'export $TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/" ' >>~/.bashrc
+    echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/" ' >>~/.bashrc
     source ~/.bashrc
     echo $TelescopeML_reference_data
 
 
-Replace `PATH_TO_YOUR_TelescopeML_project` with the actual path to your TelescopeML directory.
+Replace `PATH_TO_YOUR_TelescopeML_project` with the actual path to your *reference_data* folder that you downloaded in step 1.
 
 
 
