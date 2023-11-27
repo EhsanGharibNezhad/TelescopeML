@@ -1,30 +1,22 @@
 # .travis.yml
 
-dist: xenial
-
 language: python
-
-cache: pip
-
 python:
-    - "3.6"
-    - "3.7"
-    - "3.8"
-    - "nightly"
-
-matrix:
-    allow_failures:
-        - python: "nightly"
+  - "3.9"
 
 install:
-    - pip install pipenv --upgrade-strategy=only-if-needed
-    - pipenv install --dev
+  - pip install -r requirements.txt
 
 script:
-    - bash scripts/test.sh
+  - python3.9 setup.py develop
 
-after_script:
-    - bash <(curl -s https://codecov.io/bash)
+branches:
+  only:
+    - main  # Adjust to your main branch name, e.g., master
+
+notifications:
+  email: false
+
 
 
 #language: python
