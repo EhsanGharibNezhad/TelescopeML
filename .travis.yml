@@ -1,31 +1,11 @@
 language: python
-
-matrix:
-  include:
-    - python: 3.9
-
-git:
-    submodules: true
-
-before_install:
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-
+python:
+  - "3.9"
+  # PyPy versions
+  - "pypy3"  # currently Python 3.6.9,  PyPy 7.3.1
+# command to install dependencies
 install:
-  - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
-  - source activate test
-  - python setup.py install
-
-script:
-  - python -c 'import TelescopeML'
-
-after_success:
-  - test $TRAVIS_BRANCH = "main" && conda install conda-build && conda install anaconda-client && bash conda/conda_upload.sh
+  - pip install -r requirements.txt
+  - pip install .
+# command to run tests
+script: pytest
