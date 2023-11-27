@@ -1,7 +1,6 @@
 # TelescopeML
 
 [![PyPI - Latest Release](https://img.shields.io/pypi/v/TelescopeML.svg?logo=pypi&logoColor=white&label=PyPI)](https://pypi.python.org/pypi/TelescopeML)
-[![PyPI - Python Versions](https://img.shields.io/pypi/pyversions/TelescopeML.svg?logo=python&logoColor=white&label=Python)](https://pypi.python.org/pypi/TelescopeML)
 [![Build Status](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML.svg?branch=main)](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML)
 
 ``TelescopeML`` is a Python package comprising a series of modules, each equipped with specialized machine learning and

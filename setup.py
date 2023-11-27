@@ -4,13 +4,19 @@ from setuptools import setup, find_packages
 # read the contents of your README file
 from pathlib import Path
 this_directory = Path(__file__).parent
+
 long_description = (this_directory / "README.md").read_text()
 
+with open("requirements.txt", 'r') as fh:
+    requirements = fh.read().splitlines()
 
+# Read the __version__.py file
+with open('TelescopeML/__version__.py', 'r') as f:
+    ver = f.read()
 
 setup(
     name='TelescopeML',
-    version = '0.0.2',  # MAJOR.MINOR.PATCH
+    version = ver,  # MAJOR.MINOR.PATCH
     description = 'An End-to-End Python Package for Interpreting Telescope Datasets through Training Machine Learning Models, Generating Statistical Reports, and Visualizing Results',
     long_description = long_description,
     long_description_content_type='text/markdown',
@@ -29,21 +35,6 @@ setup(
                   'Topic :: Software Development :: Libraries :: Python Modules'
   ],
   packages=find_packages(exclude=('tests', 'docs')),
-  install_requires=[
-                  'numpy==1.26.1',
-                  'bokeh',
-                  'pandas',
-                  'astropy',
-                  'matplotlib',
-                  'seaborn==0.12.2',
-                  'sphinx==7.2.6',
-                  'scipy==1.11.1',
-                  'keras==2.14.0',
-                  'tensorflow==2.14.0',
-                  'jupyterlab',
-                  'sphinx',
-                  'spectres==2.2.0',
-                  'scikit-learn==1.3.0',
-  ],
+  install_requires=requirements,
     zip_safe = False,
 )

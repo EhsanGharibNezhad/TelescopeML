@@ -1,43 +1,31 @@
+# .travis.yml
+
+dist: xenial
+
 language: python
 
+cache: pip
+
+python:
+    - "3.6"
+    - "3.7"
+    - "3.8"
+    - "nightly"
+
 matrix:
-  include:
-    - python: 3.8
+    allow_failures:
+        - python: "nightly"
 
-git:
-    submodules: true
+install:
+    - pip install pipenv --upgrade-strategy=only-if-needed
+    - pipenv install --dev
 
-jobs:
-  include:
-    - name: "Python 3.9 on macOS"
-      os: osx
-      language: python
-      python: 3.9
-      git:
-          submodules: true
-      install:
-        - pip install TelescopeML
-      script:
-        - python3.9 setup.py develop
-      branches:
-        only:
-          - main  # Adjust to your main branch name, e.g., master
-      notifications:
-        email: false
+script:
+    - bash scripts/test.sh
 
+after_script:
+    - bash <(curl -s https://codecov.io/bash)
 
-    - name: "Python 3.9 on Xenial Linux"
-      language: python
-      python: 3.9
-      install:
-        - pip install TelescopeML
-      script:
-        - python3.9 setup.py develop
-      branches:
-        only:
-          - main  # Adjust to your main branch name, e.g., master
-      notifications:
-        email: false
 
 #language: python
 #python:
