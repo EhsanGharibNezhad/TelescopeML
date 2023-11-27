@@ -6,8 +6,8 @@ python:
 # Define the build stages
 jobs:
   include:
-    - stage: "Test with Linux"
-      name: "Test with Linux"
+    - stage: "Test on Linux with conda env and requirements.txt"
+      name: "Test on Linux with conda env  and requirements.txt"
       before_install:
         - sudo apt-get update
         - sudo apt-get install -y wget
@@ -24,6 +24,23 @@ jobs:
       script:
         - python setup.py develop
 
+    - stage: "Test on Linux with conda env and pip TelescopeML"
+      name: "Test on Mac with conda env and pip TelescopeML"
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get install -y wget
+        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+      install:
+        - conda create -q -n test python=3.9
+        - source activate test
+        - pip install TelescopeML
+      script:
+        - python setup.py develop
 # Define additional configurations
 branches:
   only:
