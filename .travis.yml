@@ -10,7 +10,7 @@ jobs:
     - stage: "Test with Linux"
       name: "Test with Linux"
       install:
-        - conda create -n test python=3.9
+        - conda create -q -n test python=3.9
         - conda activate test
         - pip install -r requirements.txt
       script:
