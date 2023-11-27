@@ -2,16 +2,19 @@ language: python
 python:
   - "3.9"
 
+os:
+  - linux
+  - osx
+
 install:
   - pip install TelescopeML
 
 script:
-  - python3.9 setup.py develop
+  - python setup.py develop
 
 branches:
   only:
-    - main  # Adjust to your main branch name, e.g., master
+    - main  # Adjust to your main branch name, e.g., dev, main
 
 notifications:
   email: false
-
