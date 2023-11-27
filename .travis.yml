@@ -1,46 +1,68 @@
 # .travis.yml
 language: python
-python:
-  - 3.9
+
+env:
+  global:
+    - PYTHON_VERSION=3.9
 
 # Define the build stages
 jobs:
   include:
-    - stage: "Test on Linux with conda env and requirements.txt"
-      name: "Test on Linux with conda env  and requirements.txt"
+    - stage: "Test on macOS with Conda env and pip TelescopeML"
+      name: "macOS: Conda env and pip TelescopeML"
+      os: osx
       before_install:
-        - sudo apt-get update
-        - sudo apt-get install -y wget
-        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
         - export PATH="$HOME/miniconda/bin:$PATH"
         - hash -r
         - conda config --set always_yes yes --set changeps1 no
         - conda update -q conda
       install:
-        - conda create -q -n test python=3.9
-        - source activate test
-        - pip install -r requirements.txt
-      script:
-        - python setup.py develop
-
-    - stage: "Test on Linux with conda env and pip TelescopeML"
-      name: "Test on Mac with conda env and pip TelescopeML"
-      before_install:
-        - sudo apt-get update
-        - sudo apt-get install -y wget
-        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-        - bash miniconda.sh -b -p $HOME/miniconda
-        - export PATH="$HOME/miniconda/bin:$PATH"
-        - hash -r
-        - conda config --set always_yes yes --set changeps1 no
-        - conda update -q conda
-      install:
-        - conda create -q -n test python=3.9
+        - conda create -q -n test python=$PYTHON_VERSION
         - source activate test
         - pip install TelescopeML
       script:
         - python setup.py develop
+
+#
+#    - stage: "Test on Linux with conda env and requirements.txt"
+#      name: "Test on Linux with conda env  and requirements.txt"
+#      before_install:
+#        - sudo apt-get update
+#        - sudo apt-get install -y wget
+#        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+#        - bash miniconda.sh -b -p $HOME/miniconda
+#        - export PATH="$HOME/miniconda/bin:$PATH"
+#        - hash -r
+#        - conda config --set always_yes yes --set changeps1 no
+#        - conda update -q conda
+#      install:
+#        - conda create -q -n test python=3.9
+#        - source activate test
+#        - pip install -r requirements.txt
+#      script:
+#        - python setup.py develop
+#
+#
+#    - stage: "Test on Linux with conda env and pip TelescopeML"
+#      name: "Test on Mac with conda env and pip TelescopeML"
+#      before_install:
+#        - sudo apt-get update
+#        - sudo apt-get install -y wget
+#        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+#        - bash miniconda.sh -b -p $HOME/miniconda
+#        - export PATH="$HOME/miniconda/bin:$PATH"
+#        - hash -r
+#        - conda config --set always_yes yes --set changeps1 no
+#        - conda update -q conda
+#      install:
+#        - conda create -q -n test python=3.9
+#        - source activate test
+#        - pip install TelescopeML
+#      script:
+#        - python setup.py develop
+
 # Define additional configurations
 branches:
   only:
