@@ -8,9 +8,18 @@ jobs:
   include:
     - stage: "Test with Linux"
       name: "Test with Linux"
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get install -y wget
+        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
       install:
         - conda create -q -n test python=3.9
-        - source activate test  # Use `source activate` to activate the Conda environment
+        - source activate test
         - pip install -r requirements.txt
       script:
         - python setup.py develop
@@ -22,7 +31,6 @@ branches:
 
 notifications:
   email: false
-
 
 
 #
