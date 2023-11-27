@@ -1,11 +1,17 @@
 language: python
 python:
   - "3.9"
-  # PyPy versions
-  - "pypy3"  # currently Python 3.6.9,  PyPy 7.3.1
-# command to install dependencies
+
 install:
-  - pip install -r TelescopeML
-  - pip install .
-# command to run test
-script: pytest
+  - pip install TelescopeML
+
+script:
+  - python setup install
+
+branches:
+  only:
+    - main  # Adjust to your main branch name, e.g., master
+
+notifications:
+  email: false
+
