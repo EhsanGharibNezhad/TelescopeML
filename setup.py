@@ -11,7 +11,7 @@ with open("requirements.txt", 'r') as fh:
     requirements = fh.read().splitlines()
 
 # Read the __version__.py file
-with open('TelescopeML/__version__.py', 'r') as f:
+with open('TelescopeML/__version__.txt', 'r') as f:
     ver = f.read()
 
 setup(
