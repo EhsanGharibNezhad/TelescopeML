@@ -15,16 +15,22 @@ jobs:
       name: "Test on Linux"
       script:
         - pip install -r requirements.txt
-        - python3.9 setup.py develop
-        - python3.9 -m unittest discover
+        - python setup.py develop
 
     - stage: Test
       name: "Test on macOS"
       os: osx
       script:
         - pip install -r requirements.txt
-        - python3.9 setup.py develop
-        - python3.9 -m unittest discover
+        - python setup.py develop
+
+    - stage: Test
+      name: "Test with Conda"
+      script:
+        - conda create --yes -n test-env python=$TRAVIS_PYTHON_VERSION
+        - conda activate test-env
+        - pip install -r requirements.txt
+        - python setup.py develop
 
 # Define additional configurations
 branches:
