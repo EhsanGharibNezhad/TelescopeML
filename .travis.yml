@@ -1,24 +1,20 @@
 # .travis.yml
 language: python
 python:
-  - "3.8"
+  - 3.9
 
-# Specify the operating systems for testing
-os:
-  - linux
-  - osx
 
 # Define the build stages
 jobs:
   include:
-    - stage: "Test with conda"
-      name: "Test with Conda"
+    - stage: "Test with Linux"
+      name: "Test with Linux"
       install:
-        - conda create -q -n test python=$TRAVIS_PYTHON_VERSION
+        - conda create -n test python=3.9
         - conda activate test
         - pip install -r requirements.txt
       script:
-        - python setup.py develop
+        - python3.9 setup.py develop
 
 # Define additional configurations
 branches:
