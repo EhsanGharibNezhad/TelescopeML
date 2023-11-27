@@ -6,7 +6,7 @@ install:
   - pip install TelescopeML
 
 script:
-  - python setup install
+  - python3.9 setup.py develop
 
 branches:
   only:
