@@ -1,20 +1,45 @@
 language: python
-python:
-  - "3.9"
 
-git:
-    submodules: true
+jobs:
+  include:
+    - name: "Python 3.9 on macOS"
+      os: osx
+      language: python
+      python: 3.9
 
-install:
-  - pip install TelescopeML
+      git:
+          submodules: true
 
-script:
-  - python3.9 setup.py develop
+      install:
+        - pip install TelescopeML
 
-branches:
-  only:
-    - main  # Adjust to your main branch name, e.g., master
+      script:
+        - python3.9 setup.py develop
 
-notifications:
-  email: false
+      branches:
+        only:
+          - main  # Adjust to your main branch name, e.g., master
+
+      notifications:
+        email: false
+
+#language: python
+#python:
+#  - "3.9"
+#
+#git:
+#    submodules: true
+#
+#install:
+#  - pip install TelescopeML
+#
+#script:
+#  - python3.9 setup.py develop
+#
+#branches:
+#  only:
+#    - main  # Adjust to your main branch name, e.g., master
+#
+#notifications:
+#  email: false
 
