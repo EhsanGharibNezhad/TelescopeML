@@ -1,8 +1,7 @@
 # TelescopeML
 
 
-.. image:: https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML.svg?branch=main
-  :target: https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML
+[![Build Status](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML.svg?branch=main)](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML)
 
 ``TelescopeML`` is a Python package comprising a series of modules, each equipped with specialized machine learning and
 statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on
