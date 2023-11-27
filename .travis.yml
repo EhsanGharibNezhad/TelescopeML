@@ -3,7 +3,6 @@ language: python
 python:
   - 3.9
 
-
 # Define the build stages
 jobs:
   include:
@@ -11,10 +10,10 @@ jobs:
       name: "Test with Linux"
       install:
         - conda create -q -n test python=3.9
-        - conda activate test
+        - source activate test  # Use `source activate` to activate the Conda environment
         - pip install -r requirements.txt
       script:
-        - python3.9 setup.py develop
+        - python setup.py develop
 
 # Define additional configurations
 branches:
