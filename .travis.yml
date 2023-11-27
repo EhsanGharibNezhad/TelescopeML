@@ -1,21 +1,48 @@
 # .travis.yml
 
 language: python
-python:
-  - "3.9"
+
+matrix:
+  include:
+    - python: 3.9
+
+git:
+    submodules: true
+
+before_install:
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
 
 install:
-  - pip install -r requirements.txt
+  - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
+  - source activate test
+  - python setup.py develop
 
-script:
-  - python3.9 setup.py develop
-
-branches:
-  only:
-    - main  # Adjust to your main branch name, e.g., master
-
-notifications:
-  email: false
+#
+#language: python
+#python:
+#  - "3.9"
+#
+#install:
+#  - pip install -r requirements.txt
+#
+#script:
+#  - python3.9 setup.py develop
+#
+#branches:
+#  only:
+#    - main  # Adjust to your main branch name, e.g., master
+#
+#notifications:
+#  email: false
 
 
 
