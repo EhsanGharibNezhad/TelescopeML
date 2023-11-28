@@ -1,31 +1,51 @@
 language: python
+python:
+  - 3.9
 
-matrix:
+# Define the build stages
+jobs:
   include:
-    - python: 3.9
+    - stage: "Test on Linux with Conda env and requirements.txt"
+      name: "Linux: Conda env and requirements.txt"
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get install -y wget
+        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+      install:
+        - conda create -q -n test python=3.9
+        - source activate test
+        - pip install -r requirements.txt
+      script:
+        - python setup.py develop
 
-git:
-    submodules: true
+    - stage: "Test on Linux with Conda env and pip TelescopeML"
+      name: "Linux: Conda env and pip TelescopeML"
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get install -y wget
+        - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+      install:
+        - conda create -q -n test python=3.9
+        - source activate test
+        - pip install TelescopeML
+      script:
+        - python setup.py develop
 
-before_install:
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
+# Define additional configurations
+branches:
+  only:
+    - main  # Adjust to your main branch name, e.g., master
 
-install:
-  - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
-  - source activate test
-  - python setup.py install
+notifications:
+  email: false
 
-script:
-  - python -c 'import TelescopeML'
-
-after_success:
-  - test $TRAVIS_BRANCH = "main" && conda install conda-build && conda install anaconda-client && bash conda/conda_upload.sh

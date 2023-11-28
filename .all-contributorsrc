@@ -1,0 +1,72 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "ehsangharibnezhad",
+      "name": "Ehsan Gharib-Nezhad",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22139918?v=4",
+      "profile": "https://github.com/EhsanGharibNezhad",
+      "contributions": [
+        "code",
+        "mentoring",
+        "maintenance"
+      ]
+    },
+        {
+      "login": "natashabatalha",
+      "name": "Natasha Batalha",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6554465?v=4",
+      "profile": "http://natashabatalha.github.io",
+      "contributions": [
+        "ideas",
+        "research",
+        "bug"
+      ]
+    },
+        {
+      "login": "hvalizad",
+      "name": "Hamed Valizadegan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/52180694?v=4",
+      "profile": "https://github.com/hvalizad",
+      "contributions": [
+        "ideas",
+        "research",
+      ]
+    },
+        {
+      "login": "migmartinho",
+      "name": "Miguel Martinho",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47117139?v=4",
+      "profile": "https://github.com/migmartinho",
+      "contributions": [
+        "ideas",
+        "research",
+      ]
+    },
+
+        {
+      "login": "letgotopal",
+      "name": "Gopal Nookula",
+      "avatar_url": "https://avatars.githubusercontent.com/u/89670109?v=4",
+      "profile": "https://github.com/letgotopal",
+      "contributions": [
+        "tutorial",
+        "userTesting",
+      ]
+    },
+
+
+
+  ],
+  "contributorsPerLine": 5,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "TelescopeML",
+  "projectOwner": "ehsangharibnezhad"
+}
