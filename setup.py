@@ -1,17 +1,16 @@
 
 from setuptools import setup, find_packages
 import re
+# from codecs import open
 
 # read the contents of your README file
 from pathlib import Path
 this_directory = Path(__file__).parent
 
 long_description = (this_directory / "README.md").read_text()
-
-with open("requirements.txt", 'r') as fh:
-    requirements = fh.read().splitlines()
-
-# print(requirements)
+#
+# with open(this_directory/"requirements.txt", "r") as fh:
+#     install_requires = fh.readlines()
 
 # Read the __version__.py file
 with open('TelescopeML/__version__.py', 'r') as f:
@@ -42,6 +41,20 @@ setup(
                   'Topic :: Software Development :: Libraries :: Python Modules'
   ],
   packages=find_packages(exclude=('tests', 'docs')),
-  install_requires=requirements,
+  install_requires=['numpy==1.26.1',
+                    'bokeh',
+                    'pandas',
+                    'astropy',
+                    'matplotlib',
+                    'seaborn==0.12.2',
+                    'sphinx==7.2.6',
+                    'scipy==1.11.1',
+                    'keras==2.14.0',
+                    'tensorflow==2.14.0',
+                    'jupyterlab',
+                    'sphinx',
+                    'spectres==2.2.0',
+                    'scikit-learn==1.3.0',
+                    ],
     zip_safe = False,
 )
