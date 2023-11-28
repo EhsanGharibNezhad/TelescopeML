@@ -11,7 +11,7 @@ long_description = (this_directory / "README.md").read_text()
 with open("requirements.txt", 'r') as fh:
     requirements = fh.read().splitlines()
 
-print(requirements)
+# print(requirements)
 
 # Read the __version__.py file
 with open('TelescopeML/__version__.py', 'r') as f:
