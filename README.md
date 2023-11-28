@@ -1,5 +1,7 @@
 # TelescopeML
 
+[![PyPI - Latest Release](https://img.shields.io/pypi/v/TelescopeML.svg?logo=pypi&logoColor=white&label=PyPI)](https://pypi.python.org/pypi/TelescopeML)
+[![Build Status](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML.svg?branch=main)](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML)
 
 ``TelescopeML`` is a Python package comprising a series of modules, each equipped with specialized machine learning and
 statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on
@@ -54,3 +56,68 @@ or simply...
 - Tutorials: https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html
 - The code: https://ehsangharibnezhad.github.io/TelescopeML/code.html
 
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="20%">
+        <a href="https://github.com/EhsanGharibNezhad">
+          <img src="https://avatars.githubusercontent.com/u/22139918?v=4?s=100" width="100px;" alt="Ehsan Gharib-Nezhad"/><br />
+          <sub><b>Ehsan Gharib-Nezhad</b></sub>
+        </a><br/>
+        <a href="https://github.com/EhsanGharibNezhad/TelescopeML/commits?author=EhsanGharibNezhad" title="Code">💻</a> 
+        <a href="#ideas" title="Ideas, Leading ">🤔</a>
+        <a href="https://pypi.org/project/TelescopeML/" title="Maintenance">🚧</a>
+        <a href="https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html" title="tutorial">📚</a>
+      </td>
+      <td align="center" valign="top" width="20%">
+        <a href="http://natashabatalha.github.io">
+          <img src="https://avatars.githubusercontent.com/u/6554465?v=4?s=100" width="100px;" alt="Natasha Batalha"/><br />
+          <sub><b>Natasha Batalha</b></sub>
+        </a><br/>
+        <a href="#mentoring-astro" title="mentoring">🧑‍🏫</a> 
+        <a href="https://github.com/EhsanGharibNezhad/TelescopeML/commits?author=natashabatalha" title="bug">🐛</a>
+        <a href="#ideas" title="Ideas & Feedback">🤔</a>
+      </td>
+      <td align="center" valign="top" width="20%">
+        <a href="https://github.com/hvalizad">
+          <img src="https://avatars.githubusercontent.com/u/52180694?v=4?s=100" width="100px;" alt="Hamed Valizadegan"/><br />
+          <sub><b>Hamed Valizadegan</b></sub>
+        </a><br/>
+        <a href="#mentoring-ML" title="mentoring">🧑‍🏫</a> 
+        <a href="#ideas" title="Ideas & Feedback">🤔</a>
+      </td>
+      <td align="center" valign="top" width="20%">
+        <a href="https://github.com/migmartinho">
+          <img src="https://avatars.githubusercontent.com/u/47117139?v=4?s=100" width="100px;" alt="Miguel Martinho"/><br />
+          <sub><b>Miguel Martinho</b></sub>
+        </a><br/>
+        <a href="" title="mentoring-CNNTuning-BOHB" title="Mentoring">🧑‍🏫</a>
+        <a href="#ideas" title="Ideas & Feedback">🤔</a>
+      </td>
+      <td align="center" valign="top" width="20%">
+        <a href="https://github.com/letgotopal">
+          <img src="https://avatars.githubusercontent.com/u/89670109?v=4?s=100" width="100px;" alt="Gopal Nookula"/><br />
+          <sub><b>Gopal Nookula</b></sub>
+        </a><br/>
+        <a href="https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html" title="tutorial">📚</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
