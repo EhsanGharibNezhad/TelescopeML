@@ -88,7 +88,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
         </a><br/>
         <a href="#mentoring-astro" title="mentoring">🧑‍🏫</a> 
         <a href="https://github.com/EhsanGharibNezhad/TelescopeML/commits?author=natashabatalha" title="bug">🐛</a>
-        <a href="#ideas" title="Ideas, Planning, & Feedback">🤔</a>
+        <a href="#ideas" title="Ideas & Feedback">🤔</a>
       </td>
       <td align="center" valign="top" width="20%">
         <a href="https://github.com/hvalizad">
@@ -96,7 +96,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
           <sub><b>Hamed Valizadegan</b></sub>
         </a><br/>
         <a href="#mentoring-ML" title="mentoring">🧑‍🏫</a> 
-        <a href="#ideas" title="Ideas, Planning, & Feedback">🤔</a>
+        <a href="#ideas" title="Ideas & Feedback">🤔</a>
       </td>
       <td align="center" valign="top" width="20%">
         <a href="https://github.com/migmartinho">
