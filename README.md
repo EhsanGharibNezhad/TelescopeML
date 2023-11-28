@@ -80,6 +80,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
         <a href="https://github.com/EhsanGharibNezhad/TelescopeML/commits?author=EhsanGharibNezhad" title="Code">💻</a> 
         <a href="#mentoring-EhsanGharibNezhad" title="Mentoring">🧑‍🏫</a> 
         <a href="https://pypi.org/project/TelescopeML/" title="Maintenance">🚧</a>
+        <a href="https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html" title="tutorial">📚</a>
       </td>
       <td align="center" valign="top" width="20%">
         <a href="http://natashabatalha.github.io">
