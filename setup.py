@@ -1,5 +1,6 @@
 
 from setuptools import setup, find_packages
+import re
 
 # read the contents of your README file
 from pathlib import Path
@@ -10,13 +11,19 @@ long_description = (this_directory / "README.md").read_text()
 with open("requirements.txt", 'r') as fh:
     requirements = fh.read().splitlines()
 
+print(requirements)
+
 # Read the __version__.py file
-with open('TelescopeML/__version__.txt', 'r') as f:
-    ver = f.read()
+with open('TelescopeML/__version__.py', 'r') as f:
+    vf = f.read()
+
+# Obtain version from read-in __version__.py file
+version = re.search(r"^_*version_* = ['\"]([^'\"]*)['\"]", vf, re.M).group(1)
+
 
 setup(
     name='TelescopeML',
-    version = ver,  # MAJOR.MINOR.PATCH
+    version = version,  # MAJOR.MINOR.PATCH
     description = 'An End-to-End Python Package for Interpreting Telescope Datasets through Training Machine Learning Models, Generating Statistical Reports, and Visualizing Results',
     long_description = long_description,
     long_description_content_type='text/markdown',
