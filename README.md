@@ -56,3 +56,15 @@ or simply...
 - Tutorials: https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html
 - The code: https://ehsangharibnezhad.github.io/TelescopeML/code.html
 
+## Contributors
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
