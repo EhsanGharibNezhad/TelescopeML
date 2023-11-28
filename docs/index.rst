@@ -64,8 +64,7 @@ or simply...
    Installation <installation>
    Tutorials <tutorials>
    The Code <code>
-   Github <https://github.com/ehsangharibnezhad>
-
+   GitHub <https://github.com/EhsanGharibNezhad/TelescopeML>
 
 .. KnowledgeBase <knowledgebase>
 .. Publications <publications>
