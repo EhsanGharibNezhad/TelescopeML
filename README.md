@@ -78,7 +78,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
           <sub><b>Ehsan Gharib-Nezhad</b></sub>
         </a><br/>
         <a href="https://github.com/EhsanGharibNezhad/TelescopeML/commits?author=EhsanGharibNezhad" title="Code">💻</a> 
-        <a href="#mentoring-EhsanGharibNezhad" title="Mentoring">🧑‍🏫</a> 
+        <a href="#ideas" title="Ideas, Leading ">🤔</a>
         <a href="https://pypi.org/project/TelescopeML/" title="Maintenance">🚧</a>
         <a href="https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html" title="tutorial">📚</a>
       </td>
@@ -105,6 +105,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
           <sub><b>Miguel Martinho</b></sub>
         </a><br/>
         <a href="" title="mentoring-CNNTuning-BOHB" title="Mentoring">🧑‍🏫</a>
+        <a href="#ideas" title="Ideas & Feedback">🤔</a>
       </td>
       <td align="center" valign="top" width="20%">
         <a href="https://github.com/letgotopal">
@@ -112,7 +113,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
           <sub><b>Gopal Nookula</b></sub>
         </a><br/>
         <a href="https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html" title="tutorial">📚</a>
-        <a href="https://ehsangharibnezhad.github.io/TelescopeML/installation.html" title="userTesting">🧑‍🔬</a>
       </td>
     </tr>
   </tbody>
