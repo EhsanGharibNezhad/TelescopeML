@@ -60,6 +60,34 @@ or simply...
 
 ## Contributors
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/EhsanGharibNezhad"><img src="https://avatars.githubusercontent.com/u/22139918?v=4?s=100" width="100px;" alt="Ehsan Gharib-Nezhad"/><br /><sub><b>Ehsan Gharib-Nezhad</b></sub></a><br /><a href="https://github.com/example/repo/commits?author=ehsangharibnezhad" title="Code">💻</a> <a href="#mentoring-EhsanGharibNezhad" title="Mentoring">🧑‍🏫</a> <a href="#maintenance-EhsanGharibNezhad" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="20%"><a href="http://natashabatalha.github.io"><img src="https://avatars.githubusercontent.com/u/6554465?v=4?s=100" width="100px;" alt="Natasha Batalha"/><br /><sub><b>Natasha Batalha</b></sub></a><br /><a href="https://github.com/natashabatalha/picaso/commits?author=natashabatalha" title="Code">💻</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/hvalizad"><img src="https://avatars.githubusercontent.com/u/52180694?v=4?s=100" width="100px;" alt="Hamed Valizadegan"/><br /><sub><b>Hamed Valizadegan</b></sub></a><br /><a href="https://github.com/natashabatalha/picaso/issues?q=author%3Ahvalizad" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/migmartinho"><img src="https://avatars.githubusercontent.com/u/47117139?v=4?s=100" width="100px;" alt="Miguel Martinho"/><br /><sub><b>Miguel Martinho</b></sub></a><br /><a href="https://github.com/example/repo/issues?q=author%3Amigmartinho" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/letgotopal"><img src="https://avatars.githubusercontent.com/u/89670109?v=4?s=100" width="100px;" alt="Gopal Nookula"/><br /><sub><b>Gopal Nookula</b></sub></a><br /><a href="https://github.com/example/repo/issues?q=author%3Aletgotopal" title="Bug reports">🐛</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

@@ -36,10 +36,29 @@
       "contributions": [
         "ideas",
         "research",
-        "bug"
+      ]
+    },
+        {
+      "login": "migmartinho",
+      "name": "Miguel Martinho",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47117139?v=4",
+      "profile": "https://github.com/migmartinho",
+      "contributions": [
+        "ideas",
+        "research",
       ]
     },
 
+        {
+      "login": "letgotopal",
+      "name": "Gopal Nookula",
+      "avatar_url": "https://avatars.githubusercontent.com/u/89670109?v=4",
+      "profile": "https://github.com/letgotopal",
+      "contributions": [
+        "tutorial",
+        "userTesting",
+      ]
+    },
 
 
 
