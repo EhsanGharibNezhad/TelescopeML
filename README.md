@@ -3,6 +3,7 @@
 [![PyPI - Latest Release](https://img.shields.io/pypi/v/TelescopeML.svg?logo=pypi&logoColor=white&label=PyPI)](https://pypi.python.org/pypi/TelescopeML)
 [![Build Status](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML.svg?branch=main)](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML)
 [![.github/workflows/draft-pdf.yml](https://github.com/EhsanGharibNezhad/TelescopeML/actions/workflows/draft-pdf.yml/badge.svg)](https://github.com/EhsanGharibNezhad/TelescopeML/actions/workflows/draft-pdf.yml)
+[![pages-build-deployment](https://github.com/EhsanGharibNezhad/TelescopeML/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/EhsanGharibNezhad/TelescopeML/actions/workflows/pages/pages-build-deployment)
 
 ``TelescopeML`` is a Python package comprising a series of modules, each equipped with specialized machine learning and
 statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on
