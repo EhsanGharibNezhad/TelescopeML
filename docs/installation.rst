@@ -56,7 +56,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/" ' >>~/.zshrc
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/" ' >>~/.zshrc
         source ~/.zshrc
         echo $TelescopeML_reference_data
 
@@ -65,7 +65,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/"' >>~/.bash_profile
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/"' >>~/.bash_profile
         source ~/.bash_profile
         echo $TelescopeML_reference_data
 
@@ -73,14 +73,14 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/"' >>~/.profile
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/"' >>~/.profile
         source ~/.profile
         echo $TelescopeML_reference_data
 
 
 .. note::
-    - Replace `PATH_TO_YOUR_TelescopeML_project` with the actual path to your *reference_data* folder
-        that you downloaded in step 1.
+    - Replace `PATH_TO_YOUR_reference_data` with the actual path to your *reference_data* folder
+      that you downloaded in step 1.
     - *echo* command is used to check that your variable has been defined properly.
 
 
