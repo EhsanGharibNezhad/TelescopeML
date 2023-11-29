@@ -1,10 +1,14 @@
 # TelescopeML
 
 [![PyPI - Latest Release](https://img.shields.io/pypi/v/TelescopeML.svg?logo=pypi&logoColor=white&label=PyPI)](https://pypi.python.org/pypi/TelescopeML)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10183099.svg)](https://doi.org/10.5281/zenodo.10183099)
+
 [![Build Status](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML.svg?branch=main)](https://app.travis-ci.com/EhsanGharibNezhad/TelescopeML)
 [![.github/workflows/draft-pdf.yml](https://github.com/EhsanGharibNezhad/TelescopeML/actions/workflows/draft-pdf.yml/badge.svg)](https://github.com/EhsanGharibNezhad/TelescopeML/actions/workflows/draft-pdf.yml)
 [![pages-build-deployment](https://github.com/EhsanGharibNezhad/TelescopeML/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/EhsanGharibNezhad/TelescopeML/actions/workflows/pages/pages-build-deployment)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10183099.svg)](https://doi.org/10.5281/zenodo.10183099)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![Python](https://img.shields.io/badge/python-3.9-blue.svg)
+[![Downloads](https://static.pepy.tech/badge/telescopeml)](https://pepy.tech/project/telescopeml)
 
 ``TelescopeML`` is a Python package comprising a series of modules, each equipped with specialized machine learning and
 statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on

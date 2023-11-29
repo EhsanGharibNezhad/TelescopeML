@@ -43,7 +43,7 @@ setup(
   packages=find_packages(exclude=('tests', 'docs')),
   install_requires=['numpy==1.26.1',
                     'bokeh',
-                    'pandas',
+                    'pandas==2.0.3',
                     'astropy',
                     'matplotlib',
                     'seaborn==0.12.2',
