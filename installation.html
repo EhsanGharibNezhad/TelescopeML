@@ -105,7 +105,7 @@
 <p>Let’s start by creating the folder structure as follow, named <em>TelescopeML_project</em>. While you are inside this parent
 <em>TelescopeML_project</em> directory, download the <em>reference_data</em> folder which include the following sub-directories:
 <em>training_datasets</em>, <em>tutorials</em>, <em>observational_datasets</em>,  <em>figures</em>, <em>trained_ML_models</em>.</p>
-<p>Download link for <strong>reference_data</strong> folder is: <a class="reference external" href="https://doi.org/10.5281/zenodo.10183099">Link</a></p>
+<p>Download link for <strong>reference_data</strong> folder is: <a class="reference external" href="https://zenodo.org/doi/10.5281/zenodo.10183098">Link</a></p>
 <div class="line-block">
 <div class="line">TelescopeML_project</div>
 <div class="line">├── reference_data</div>
@@ -136,7 +136,7 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <div><ul class="simple">
 <li><p>If your shell is <cite>/bin/zsh</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.zshrc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_reference_data/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.zshrc
 <span class="nb">source</span><span class="w"> </span>~/.zshrc
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
@@ -144,7 +144,7 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <ul class="simple">
 <li><p>if your shell is <cite>/bin/bash</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.bash_profile
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_reference_data/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.bash_profile
 <span class="nb">source</span><span class="w"> </span>~/.bash_profile
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
@@ -152,7 +152,7 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <ul class="simple">
 <li><p>if your sell is <cite>/bin/sh</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.profile
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_reference_data/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.profile
 <span class="nb">source</span><span class="w"> </span>~/.profile
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
@@ -163,11 +163,8 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><dl class="simple">
-<dt>Replace <cite>PATH_TO_YOUR_TelescopeML_project</cite> with the actual path to your <em>reference_data</em> folder</dt><dd><p>that you downloaded in step 1.</p>
-</dd>
-</dl>
-</li>
+<li><p>Replace <cite>PATH_TO_YOUR_reference_data</cite> with the actual path to your <em>reference_data</em> folder
+that you downloaded in step 1.</p></li>
 <li><p><em>echo</em> command is used to check that your variable has been defined properly.</p></li>
 </ul>
 </div>
@@ -177,7 +174,7 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <p>In Linux, the choice between <cite>~/.bashrc</cite> and <cite>~/.bash_profile</cite> depends on your specific use case and how
 you want environment variables to be set, but <cite>~/.bashrc</cite> is a common and practical choice for
 modern Linux system.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_TelescopeML_project/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.bashrc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_reference_data/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.bashrc
 <span class="nb">source</span><span class="w"> </span>~/.bashrc
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
@@ -231,7 +228,7 @@ conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> <
 but do not forget that you still need to create a virtual environment using the <a class="reference external" href="https://www.anaconda.com/download/">Anaconda distribution</a>
 and then install <code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code> there by the following steps:</p>
 <ol class="arabic simple">
-<li><p>Create a conda virtual environment using <cite>python&gt;=3.8</cite>:</p></li>
+<li><p>Create a conda virtual environment using <cite>python&gt;=3.9</cite>:</p></li>
 </ol>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w">  </span>TelescopeML<span class="w">  </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
 </pre></div>
