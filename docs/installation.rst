@@ -17,7 +17,7 @@ Let’s start by creating the folder structure as follow, named *TelescopeML_pro
 *TelescopeML_project* directory, download the *reference_data* folder which include the following sub-directories:
 *training_datasets*, *tutorials*, *observational_datasets*,  *figures*, *trained_ML_models*.
 
-Download link for **reference_data** folder is: `Link <https://doi.org/10.5281/zenodo.10183099>`_
+Download link for **reference_data** folder is: `Link <https://zenodo.org/doi/10.5281/zenodo.10183098>`_
 
 | TelescopeML_project
 | ├── reference_data
@@ -56,7 +56,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/" ' >>~/.zshrc
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/" ' >>~/.zshrc
         source ~/.zshrc
         echo $TelescopeML_reference_data
 
@@ -65,7 +65,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/"' >>~/.bash_profile
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/"' >>~/.bash_profile
         source ~/.bash_profile
         echo $TelescopeML_reference_data
 
@@ -73,14 +73,14 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/"' >>~/.profile
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/"' >>~/.profile
         source ~/.profile
         echo $TelescopeML_reference_data
 
 
 .. note::
-    - Replace `PATH_TO_YOUR_TelescopeML_project` with the actual path to your *reference_data* folder
-        that you downloaded in step 1.
+    - Replace `PATH_TO_YOUR_reference_data` with the actual path to your *reference_data* folder
+      that you downloaded in step 1.
     - *echo* command is used to check that your variable has been defined properly.
 
 
