@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Train ConvNN Model: Regression Method &mdash; TelescopeML 0.0.3 documentation</title>
+      <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../../../../_static/documentation_options.js?v=47de8214"></script>
+        <script src="../../../../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../../../../../../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../../../../index.html" class="icon icon-home">
+            TelescopeML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../code.html">The Code</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/EhsanGharibNezhad/TelescopeML">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">TelescopeML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">4. Train ConvNN Model: Regression Method</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/_build/doctrees/nbsphinx/_build/html/_build/html/tutorials/4__Train_CNN_Model.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://github.com/EhsanGharibNezhad/TelescopeML/tree/master/docs/_build/doctrees/nbsphinx/_build/html/_build/html/tutorials/4__Train_CNN_Model.ipynb">Download full notebook here</a></p>
+</div>
+<section id="4.-Train-ConvNN-Model:-Regression-Method">
+<h1>4. Train ConvNN Model: Regression Method<a class="headerlink" href="#4.-Train-ConvNN-Model:-Regression-Method" title="Link to this heading">¶</a></h1>
+<p>In the following steps, you will:</p>
+<ul class="simple">
+<li><p>Load the brown dwarf dataset used to train the ML models</p></li>
+<li><p>Prepare the X and y variables to deploy the trained ML models</p></li>
+<li><p>Visualize them for few cases</p></li>
+</ul>
+<p>We will need the following modules from <code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code>:</p>
+<ul class="simple">
+<li><p><em>DeepBuilder</em>: to prepare the syntheric brown dwarf dataset, load the trained machine learning (ML) models</p></li>
+<li><p><em>Predictor</em>: to prepare the observatinal brown dwarf dataset and deploy the trained ML models</p></li>
+<li><p><em>StatVisAnalyzer</em>: provide statistical-test and plotting function</p></li>
+<li><p><em>IO_utils</em>: provide functions to load the trained ML models</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">TelescopeML.DataMaster</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">TelescopeML.DeepTrainer</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">TelescopeML.Predictor</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">TelescopeML.IO_utils</span> <span class="kn">import</span> <span class="n">load_or_dump_trained_model_CNN</span>
+<span class="kn">from</span> <span class="nn">TelescopeML.StatVisAnalyzer</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+No Bottleneck unit testing available.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="bk-root">
+    <a href="https://bokeh.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
+    <span id="1001">Loading BokehJS ...</span>
+</div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="output_javascript"></div>
+<script type="text/javascript">
+var element = document.currentScript.previousSibling.previousSibling;
+
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  var force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+  var JS_MIME_TYPE = 'application/javascript';
+  var HTML_MIME_TYPE = 'text/html';
+  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  var CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    var script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    var cell = handle.cell;
+
+    var id = cell.output_area._bokeh_element_id;
+    var server_id = cell.output_area._bokeh_server_id;
+    // Clean up Bokeh references
+    if (id != null && id in Bokeh.index) {
+      Bokeh.index[id].model.document.clear();
+      delete Bokeh.index[id];
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd, {
+        iopub: {
+          output: function(msg) {
+            var id = msg.content.text.trim();
+            if (id in Bokeh.index) {
+              Bokeh.index[id].model.document.clear();
+              delete Bokeh.index[id];
+            }
+          }
+        }
+      });
+      // Destroy server and session
+      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    var output_area = handle.output_area;
+    var output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {
+      return
+    }
+
+    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      var bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      var script_attrs = bk_div.children[0].attributes;
+      for (var i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      var toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    var events = require('base/js/events');
+    var OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+
+
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  var NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded() {
+    var el = document.getElementById("1001");
+    if (el != null) {
+      el.textContent = "BokehJS is loading...";
+    }
+    if (root.Bokeh !== undefined) {
+      if (el != null) {
+        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(display_loaded, 100)
+    }
+  }
+
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error(url) {
+      console.error("failed to load " + url);
+    }
+
+    for (let i = 0; i < css_urls.length; i++) {
+      const url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    const hashes = {"https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js": "XypntL49z55iwGVUW4qsEu83zKL3XEcz0MjuGOQ9SlaaQ68X/g+k1FcioZi7oQAc", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js": "bEsM86IHGDTLCS0Zod8a8WM6Y4+lafAL/eSiyQcuPzinmWNgNO2/olUF0Z2Dkn5i", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js": "TX0gSQTdXTTeScqxj6PVQxTiRW8DOoGVwinyi1D3kxv7wuxQ02XkOxv0xwiypcAH"};
+
+    for (let i = 0; i < js_urls.length; i++) {
+      const url = js_urls[i];
+      const element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.async = false;
+      element.src = url;
+      if (url in hashes) {
+        element.crossOrigin = "anonymous";
+        element.integrity = "sha384-" + hashes[url];
+      }
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+
+  var js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js"];
+  var css_urls = [];
+
+
+  var inline_js = [
+    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+    function(Bokeh) {
+
+
+    }
+  ];
+
+  function run_inline_js() {
+
+    if (root.Bokeh !== undefined || force === true) {
+
+    for (var i = 0; i < inline_js.length; i++) {
+      inline_js[i].call(root, root.Bokeh);
+    }
+    if (force === true) {
+        display_loaded();
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      var cell = $(document.getElementById("1001")).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="bk-root">
+    <a href="https://bokeh.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
+    <span id="1003">Loading BokehJS ...</span>
+</div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="output_javascript"></div>
+<script type="text/javascript">
+var element = document.currentScript.previousSibling.previousSibling;
+
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  var force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+  var JS_MIME_TYPE = 'application/javascript';
+  var HTML_MIME_TYPE = 'text/html';
+  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  var CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    var script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    var cell = handle.cell;
+
+    var id = cell.output_area._bokeh_element_id;
+    var server_id = cell.output_area._bokeh_server_id;
+    // Clean up Bokeh references
+    if (id != null && id in Bokeh.index) {
+      Bokeh.index[id].model.document.clear();
+      delete Bokeh.index[id];
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd, {
+        iopub: {
+          output: function(msg) {
+            var id = msg.content.text.trim();
+            if (id in Bokeh.index) {
+              Bokeh.index[id].model.document.clear();
+              delete Bokeh.index[id];
+            }
+          }
+        }
+      });
+      // Destroy server and session
+      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    var output_area = handle.output_area;
+    var output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {
+      return
+    }
+
+    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      var bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      var script_attrs = bk_div.children[0].attributes;
+      for (var i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      var toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    var events = require('base/js/events');
+    var OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+
+
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  var NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded() {
+    var el = document.getElementById("1003");
+    if (el != null) {
+      el.textContent = "BokehJS is loading...";
+    }
+    if (root.Bokeh !== undefined) {
+      if (el != null) {
+        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(display_loaded, 100)
+    }
+  }
+
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error(url) {
+      console.error("failed to load " + url);
+    }
+
+    for (let i = 0; i < css_urls.length; i++) {
+      const url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    const hashes = {"https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js": "XypntL49z55iwGVUW4qsEu83zKL3XEcz0MjuGOQ9SlaaQ68X/g+k1FcioZi7oQAc", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js": "bEsM86IHGDTLCS0Zod8a8WM6Y4+lafAL/eSiyQcuPzinmWNgNO2/olUF0Z2Dkn5i", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js": "TX0gSQTdXTTeScqxj6PVQxTiRW8DOoGVwinyi1D3kxv7wuxQ02XkOxv0xwiypcAH"};
+
+    for (let i = 0; i < js_urls.length; i++) {
+      const url = js_urls[i];
+      const element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.async = false;
+      element.src = url;
+      if (url in hashes) {
+        element.crossOrigin = "anonymous";
+        element.integrity = "sha384-" + hashes[url];
+      }
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+
+  var js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js"];
+  var css_urls = [];
+
+
+  var inline_js = [
+    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+    function(Bokeh) {
+
+
+    }
+  ];
+
+  function run_inline_js() {
+
+    if (root.Bokeh !== undefined || force === true) {
+
+    for (var i = 0; i < inline_js.length; i++) {
+      inline_js[i].call(root, root.Bokeh);
+    }
+    if (force === true) {
+        display_loaded();
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      var cell = $(document.getElementById("1003")).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));
+</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="bk-root">
+    <a href="https://bokeh.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
+    <span id="1004">Loading BokehJS ...</span>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="output_javascript"></div>
+<script type="text/javascript">
+var element = document.currentScript.previousSibling.previousSibling;
+
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  var force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+  var JS_MIME_TYPE = 'application/javascript';
+  var HTML_MIME_TYPE = 'text/html';
+  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  var CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    var script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    var cell = handle.cell;
+
+    var id = cell.output_area._bokeh_element_id;
+    var server_id = cell.output_area._bokeh_server_id;
+    // Clean up Bokeh references
+    if (id != null && id in Bokeh.index) {
+      Bokeh.index[id].model.document.clear();
+      delete Bokeh.index[id];
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd, {
+        iopub: {
+          output: function(msg) {
+            var id = msg.content.text.trim();
+            if (id in Bokeh.index) {
+              Bokeh.index[id].model.document.clear();
+              delete Bokeh.index[id];
+            }
+          }
+        }
+      });
+      // Destroy server and session
+      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    var output_area = handle.output_area;
+    var output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {
+      return
+    }
+
+    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      var bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      var script_attrs = bk_div.children[0].attributes;
+      for (var i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      var toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    var events = require('base/js/events');
+    var OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+
+
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  var NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded() {
+    var el = document.getElementById("1004");
+    if (el != null) {
+      el.textContent = "BokehJS is loading...";
+    }
+    if (root.Bokeh !== undefined) {
+      if (el != null) {
+        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(display_loaded, 100)
+    }
+  }
+
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error(url) {
+      console.error("failed to load " + url);
+    }
+
+    for (let i = 0; i < css_urls.length; i++) {
+      const url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    const hashes = {"https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js": "XypntL49z55iwGVUW4qsEu83zKL3XEcz0MjuGOQ9SlaaQ68X/g+k1FcioZi7oQAc", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js": "bEsM86IHGDTLCS0Zod8a8WM6Y4+lafAL/eSiyQcuPzinmWNgNO2/olUF0Z2Dkn5i", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js": "TX0gSQTdXTTeScqxj6PVQxTiRW8DOoGVwinyi1D3kxv7wuxQ02XkOxv0xwiypcAH"};
+
+    for (let i = 0; i < js_urls.length; i++) {
+      const url = js_urls[i];
+      const element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.async = false;
+      element.src = url;
+      if (url in hashes) {
+        element.crossOrigin = "anonymous";
+        element.integrity = "sha384-" + hashes[url];
+      }
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+
+  var js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js"];
+  var css_urls = [];
+
+
+  var inline_js = [
+    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+    function(Bokeh) {
+
+
+    }
+  ];
+
+  function run_inline_js() {
+
+    if (root.Bokeh !== undefined || force === true) {
+
+    for (var i = 0; i < inline_js.length; i++) {
+      inline_js[i].call(root, root.Bokeh);
+    }
+    if (force === true) {
+        display_loaded();
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      var cell = $(document.getElementById("1004")).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));
+</script></div>
+</div>
+<section id="3.1-Data-Preperation">
+<h2>3.1 Data Preperation<a class="headerlink" href="#3.1-Data-Preperation" title="Link to this heading">¶</a></h2>
+<section id="3.1.1-Load-the-Synthetic-spectra---training-dataset">
+<h3>3.1.1 Load the Synthetic spectra - training dataset<a class="headerlink" href="#3.1.1-Load-the-Synthetic-spectra---training-dataset" title="Link to this heading">¶</a></h3>
+<p>We computed a low-resolution spectrum (<span class="math notranslate nohighlight">\(R\)</span>=200) utilizing atmopshric brown dwarfs grid model, <a class="reference external" href="https://arxiv.org/pdf/2107.07434.pdf">Sonora-Bobcat</a> for spectral range $:nbsphinx-math:<cite>sim`$0.9-2.4 :math:</cite>mu m`. An open-source atmospheric radiative transfer Python package, <a class="reference external" href="https://natashabatalha.github.io/picaso/">PICASO</a> was employed for generating these datasets. This dataset encompass 30,888 synthetic spectra (or instances or rows).</p>
+<p>Each spectrum has 104 features (or wavelengths in the astrophysics context, i.e., 0.897, 0.906, …, 2.512~<span class="math notranslate nohighlight">\(\mu\)</span>m) and 4 parameters: - gravity ( log<span class="math notranslate nohighlight">\(g\)</span> ) - temperature ( T<span class="math notranslate nohighlight">\(_{eff}\)</span> ) - carbon-to-oxygen ratio ( C/O ) - metallicity ( [M/H] )</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the `TelescopeML_reference_data` path</span>
+
+<span class="kn">import</span> <span class="nn">os</span>  <span class="c1"># to check the path</span>
+
+<span class="n">__reference_data_path__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TelescopeML_reference_data&quot;</span><span class="p">)</span>
+<span class="n">__reference_data_path__</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;/Users/egharibn/RESEARCH/ml/projects/TelescopeML_project/reference_data/&#39;
+</pre></div></div>
+</div>
+<p>Load the dataset and check few instances</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_BD</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__reference_data_path__</span><span class="p">,</span>
+                                    <span class="s1">&#39;training_datasets&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;browndwarf_R100_v4_newWL_v2.csv.bz2&#39;</span><span class="p">),</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;bz2&#39;</span><span class="p">)</span>
+<span class="n">train_BD</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>temperature</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+      <th>2.512</th>
+      <th>2.487</th>
+      <th>2.462</th>
+      <th>2.438</th>
+      <th>2.413</th>
+      <th>2.389</th>
+      <th>...</th>
+      <th>0.971</th>
+      <th>0.962</th>
+      <th>0.952</th>
+      <th>0.943</th>
+      <th>0.933</th>
+      <th>0.924</th>
+      <th>0.915</th>
+      <th>0.906</th>
+      <th>0.897</th>
+      <th>is_augmented</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>0.0</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 109 columns</p>
+</div></div>
+</div>
+</section>
+<section id="3.1.2-Check-atmospheric-parameters">
+<h3>3.1.2 Check atmospheric parameters<a class="headerlink" href="#3.1.2-Check-atmospheric-parameters" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>gravity ( log<span class="math notranslate nohighlight">\(g\)</span> )</p></li>
+<li><p>temperature ( T<span class="math notranslate nohighlight">\(_{eff}\)</span> )</p></li>
+<li><p>carbon-to-oxygen ratio ( C/O )</p></li>
+<li><p>metallicity ( [M/H] )</p></li>
+</ul>
+<p>Note: one of the columns, <em>is_augmented</em>, is indicating whether this is a native dataset or an augmented one. let’s just ignore it for now!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">]</span>
+<span class="n">train_BD</span><span class="p">[</span><span class="n">target_features</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>temperature</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># training_features_labels: they are Wavelengths variables in string format</span>
+
+<span class="n">training_features_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
+<span class="n">training_features_labels</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;2.512&#39;, &#39;2.487&#39;, &#39;2.462&#39;, &#39;2.438&#39;, &#39;2.413&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># training_features_wl: they are Wavelengths variables</span>
+
+<span class="n">training_features_wl</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
+<span class="n">training_features_wl</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2.512, 2.487, 2.462, 2.438, 2.413]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wl_synthetic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__reference_data_path__</span><span class="p">,</span>
+                                        <span class="s1">&#39;training_datasets&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;wl.csv&#39;</span><span class="p">))</span>
+<span class="n">wl_synthetic</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>wl</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.511960</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.486966</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.462220</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="3.1.3-Prepare-Inputs-and-outputs-for-ML-models-(X,y)">
+<h3>3.1.3 Prepare Inputs and outputs for ML models (X,y)<a class="headerlink" href="#3.1.3-Prepare-Inputs-and-outputs-for-ML-models-(X,y)" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>X: 104 column variables or fluxes</p></li>
+<li><p>y: output variables: ‘gravity’, ‘temperature’, ‘c_o_ratio’, ‘metallicity’</p></li>
+</ul>
+<p>Note: one of the columns, <em>is_augmented</em>, is indicating whether this is a native dataset or an augmented one. let’s just ignore it for now!</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># to assure we are only training the module with the native non-augmented BD training dataset</span>
+<span class="n">train_BD</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">[</span><span class="n">train_BD</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;no&#39;</span><span class="p">])]</span>
+
+
+<span class="c1"># Training feature variables</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;is_augmented&#39;</span><span class="p">])</span><span class="c1">#.astype(np.float32)</span>
+
+
+<span class="c1"># Target/Output feature variables</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">[[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="p">]]</span><span class="c1">#.astype(np.float32)</span>
+<br/></pre></div>
+</div>
+</div>
+<p>log-transform the ‘temperature’ variable toreduce the skewness of the data, making it more symmetric and normal-like for the ML model</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the output variables</span>
+<span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+      <th>temperature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+      <td>3.041393</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+      <td>3.041393</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+      <td>3.041393</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+      <td>3.041393</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>0.25</td>
+      <td>0.0</td>
+      <td>3.041393</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+<section id="3.2-Build-the-CNN-model-and-Processing-the-Data">
+<h2>3.2 Build the CNN model and Processing the Data<a class="headerlink" href="#3.2-Build-the-CNN-model-and-Processing-the-Data" title="Link to this heading">¶</a></h2>
+<p>Here we instintiate BuildRegressorCNN class from DeepBuilder module to prepare the datasets and take the trained CNN (Convolutional Neural Networks) for us:</p>
+<ul class="simple">
+<li><p>Take the synthetic datasets</p></li>
+<li><p>Process them, e.g.</p>
+<ul>
+<li><p>Divide them to three sets: train, validation, and test sets</p></li>
+<li><p>Scale y variables</p></li>
+<li><p>Scale X variables</p></li>
+<li><p>Create new features</p></li>
+</ul>
+</li>
+</ul>
+<section id="3.2.1-Instintiate-BuildRegressorCNN-class-from-DeepBuilder-module">
+<h3>3.2.1 Instintiate BuildRegressorCNN class from DeepBuilder module<a class="headerlink" href="#3.2.1-Instintiate-BuildRegressorCNN-class-from-DeepBuilder-module" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span> <span class="o">=</span> <span class="n">DataProcessor</span><span class="p">(</span>
+                             <span class="n">feature_values</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                             <span class="n">feature_names</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                             <span class="n">target_values</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                             <span class="n">target_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
+                             <span class="n">is_tuned</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span>
+                             <span class="n">param_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">spectral_resolution</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                             <span class="n">is_feature_improved</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span>
+                             <span class="n">is_augmented</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span>
+                             <span class="n">ml_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">ml_model_str</span><span class="o">=</span><span class="s1">&#39;CNN&#39;</span><span class="p">,</span>
+                                <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="3.2.2-Split-the-dataset-into-train,-validate-and-test-sets">
+<h3>3.2.2 Split the dataset into train, validate and test sets<a class="headerlink" href="#3.2.2-Split-the-dataset-into-train,-validate-and-test-sets" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">split_train_validation_test</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                 <span class="n">val_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                 <span class="n">random_state_</span><span class="o">=</span><span class="mi">100</span><span class="p">,)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="3.2.3-Standardize-X-Variables-Row-wise">
+<h3>3.2.3 Standardize X Variables Row-wise<a class="headerlink" href="#3.2.3-Standardize-X-Variables-Row-wise" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scale the X features using MinMax Scaler</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">standardize_X_row_wise</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">,</span>
+                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="n">training_features_labels</span><span class="p">,</span>
+                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled main 104 Features&#39;</span><span class="p">,</span>
+                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                                                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_24_0.png" src="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_24_0.png" />
+</div>
+</div>
+</section>
+<section id="3.2.4-Standardize-y-Variables-Column-wise">
+<h3>3.2.4 Standardize y Variables Column-wise<a class="headerlink" href="#3.2.4-Standardize-y-Variables-Column-wise" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Standardize the y features using Standard Scaler</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">standardize_y_column_wise</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">,</span>
+                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;$\log g$&#39;</span><span class="p">,</span> <span class="s1">&#39;T$_</span><span class="si">{eff}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;C/O ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;[M/H]&#39;</span><span class="p">],</span>
+                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled target Features - ColumnWise&#39;</span><span class="p">,</span>
+                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                                                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_27_0.png" src="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_27_0.png" />
+</div>
+</div>
+</section>
+<section id="3.2.5-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)">
+<h3>3.2.5 Feature engeenering: Take Min and Max of each row (BD spectra)<a class="headerlink" href="#3.2.5-Feature-engeenering:-Take-Min-and-Max-of-each-row-(BD-spectra)" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># train</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_min</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_max</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># validation</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_min</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_max</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># test</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_min</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_max</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_min</span><span class="p">,</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">df_MinMax_val</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_min</span><span class="p">,</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">df_MinMax_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_min</span><span class="p">,</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="s1">&#39;max&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>min</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.984493e-18</td>
+      <td>4.560593e-11</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6.833671e-15</td>
+      <td>2.317328e-09</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.870361e-14</td>
+      <td>5.564836e-09</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.696652e-19</td>
+      <td>5.071436e-11</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.321553e-10</td>
+      <td>1.636513e-07</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="3.2.6-Scale-Min-Max-features---ColumnWise">
+<h3>3.2.6 Scale Min Max features - ColumnWise<a class="headerlink" href="#3.2.6-Scale-Min-Max-features---ColumnWise" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">standardize_X_column_wise</span><span class="p">(</span>
+                                                <span class="n">X_train</span> <span class="o">=</span> <span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                                <span class="n">X_val</span>   <span class="o">=</span> <span class="n">df_MinMax_val</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                                <span class="n">X_test</span>  <span class="o">=</span> <span class="n">df_MinMax_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                                <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">,</span>
+                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;Min&#39;</span><span class="p">,</span><span class="s1">&#39;Max&#39;</span><span class="p">],</span>
+                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled Min Max Features - ColumnWise&#39;</span><span class="p">,</span>
+                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                                                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_35_0.png" src="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_35_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="3.3-Train-CNN-model">
+<h2>3.3 Train CNN model<a class="headerlink" href="#3.3-Train-CNN-model" title="Link to this heading">¶</a></h2>
+<section id="3.3.1-Instintiate-TrainRegressorCNN-class-from-DeepTrainer-Module">
+<h3>3.3.1 Instintiate <em>TrainRegressorCNN</em> class from <em>DeepTrainer</em> Module<a class="headerlink" href="#3.3.1-Instintiate-TrainRegressorCNN-class-from-DeepTrainer-Module" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span> <span class="o">=</span> <span class="n">TrainRegressorCNN</span><span class="p">(</span>
+            <span class="c1"># input dataset: StandardScaled instances</span>
+            <span class="n">X1_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">,</span>
+            <span class="n">X1_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_standardized_rowwise</span><span class="p">,</span>
+            <span class="n">X1_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_rowwise</span><span class="p">,</span>
+
+            <span class="c1"># input dataset: Min Max of each instance</span>
+            <span class="n">X2_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_columnwise</span><span class="p">,</span>
+            <span class="n">X2_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_standardized_columnwise</span><span class="p">,</span>
+            <span class="n">X2_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">,</span>
+<span class="c1">#             X2_train = trained_Data_Processor.X_train_normalized_columnwise,</span>
+<span class="c1">#             X2_val   = trained_Data_Processor.X_val_normalized_columnwise,</span>
+<span class="c1">#             X2_test  = trained_Data_Processor.X_test_normalized_columnwise,</span>
+
+            <span class="c1"># 1st target</span>
+            <span class="n">y1_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y1_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y1_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+
+            <span class="c1"># 2nd target</span>
+            <span class="n">y2_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">y2_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">y2_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+
+            <span class="c1"># 3rd target</span>
+            <span class="n">y3_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">y3_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">y3_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+
+            <span class="c1"># 4th target</span>
+            <span class="n">y4_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">y4_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">y4_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="3.3.2-Define-the-Hyperparameters">
+<h3>3.3.2 Define the Hyperparameters<a class="headerlink" href="#3.3.2-Define-the-Hyperparameters" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Conv__MaxPooling1D&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                 <span class="s1">&#39;Conv__num_blocks&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="s1">&#39;Conv__num_layers_per_block&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                 <span class="s1">&#39;Conv__num_filters&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                 <span class="s1">&#39;Conv__kernel_size&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+
+                 <span class="s1">&#39;FC2__num_blocks&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                 <span class="s1">&#39;FC2_num_layers_per_block&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                 <span class="s1">&#39;FC__dropout&#39;</span><span class="p">:</span> <span class="mf">0.0024609140719442646</span><span class="p">,</span>
+                 <span class="s1">&#39;FC2__dropout&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+                 <span class="s1">&#39;FC2__units&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+<span class="c1">#                  &#39;FC__units_gravity&#39;: 16,</span>
+<span class="c1">#                  &#39;FC__units_metallicity&#39;: 256,</span>
+<span class="c1">#                  &#39;FC__units_temperature&#39;: 8,</span>
+
+                 <span class="s1">&#39;FC1__num_blocks&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="s1">&#39;FC1_num_layers_per_block&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                 <span class="s1">&#39;FC2__dropout&#39;</span><span class="p">:</span> <span class="mf">0.09889223768186726</span><span class="p">,</span>
+                 <span class="s1">&#39;FC1__units&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+                 <span class="s1">&#39;FC1__dropout&#39;</span><span class="p">:</span> <span class="mf">0.002185843015008406</span><span class="p">,</span>
+
+                 <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">4.9946842008422193e-05</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hyperparameters = {</span>
+<span class="c1">#      &#39;Conv__MaxPooling1D&#39;: 2,</span>
+<span class="c1">#      &#39;Conv__num_blocks&#39;: 1,</span>
+<span class="c1">#      &#39;Conv__num_layers_per_block&#39;: 3,</span>
+<span class="c1">#      &#39;Conv__num_filters&#39;: 4,</span>
+<span class="c1">#      &#39;Conv__kernel_size&#39;: 6,</span>
+<span class="c1">#      &#39;FC__NumberLayers&#39;: 4,</span>
+
+<span class="c1">#      &#39;FC1__num_blocks&#39; : 1,</span>
+<span class="c1">#      &#39;FC1_num_layers_per_block&#39;: 2,</span>
+<span class="c1">#      &#39;FC1__dropout&#39;: 0.09889223768186726,</span>
+<span class="c1">#      &#39;FC1__units&#39;: 128,</span>
+
+<span class="c1">#      &#39;FC2__num_blocks&#39; : 1,</span>
+<span class="c1">#      &#39;FC2_num_layers_per_block&#39;:2,</span>
+<span class="c1">#      &#39;FC2__dropout&#39;: 0.0024609140719442646,</span>
+<span class="c1">#      &#39;FC2__units&#39;: 64,</span>
+
+
+<span class="c1">#      &#39;learning_rate&#39;: 4.9946842008422193e-05}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="3.3.3-Build-a-CNN-model">
+<h3>3.3.3 Build a CNN model<a class="headerlink" href="#3.3.3-Build-a-CNN-model" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">build_model</span><span class="p">(</span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="p">,</span>
+                     <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Model: &#34;model&#34;
+__________________________________________________________________________________________________
+ Layer (type)                Output Shape                 Param #   Connected to
+==================================================================================================
+ input_1 (InputLayer)        [(None, 104, 1)]             0         []
+
+ Conv__B1_L1 (Conv1D)        (None, 104, 16)              112       [&#39;input_1[0][0]&#39;]
+
+ Conv__B1_L2 (Conv1D)        (None, 104, 64)              6208      [&#39;Conv__B1_L1[0][0]&#39;]
+
+ Conv__B1_L3 (Conv1D)        (None, 104, 144)             55440     [&#39;Conv__B1_L2[0][0]&#39;]
+
+ MaxPool1D__B1_L3 (MaxPooli  (None, 52, 144)              0         [&#39;Conv__B1_L3[0][0]&#39;]
+ ng1D)
+
+ flatten (Flatten)           (None, 7488)                 0         [&#39;MaxPool1D__B1_L3[0][0]&#39;]
+
+ FC1__B1_L1 (Dense)          (None, 512)                  3834368   [&#39;flatten[0][0]&#39;]
+
+ FC1__B1_L2 (Dense)          (None, 2048)                 1050624   [&#39;FC1__B1_L1[0][0]&#39;]
+
+ FC1__B1_L3 (Dense)          (None, 4608)                 9441792   [&#39;FC1__B1_L2[0][0]&#39;]
+
+ FC1__B1_L4 (Dense)          (None, 8192)                 3775692   [&#39;FC1__B1_L3[0][0]&#39;]
+                                                          8
+
+ FC1__Dropout__B1_L4 (Dropo  (None, 8192)                 0         [&#39;FC1__B1_L4[0][0]&#39;]
+ ut)
+
+ input_2 (InputLayer)        [(None, 2)]                  0         []
+
+ Concatenated_Layer (Concat  (None, 8194)                 0         [&#39;FC1__Dropout__B1_L4[0][0]&#39;,
+ enate)                                                              &#39;input_2[0][0]&#39;]
+
+ FC2__B1_L1 (Dense)          (None, 256)                  2097920   [&#39;Concatenated_Layer[0][0]&#39;]
+
+ FC2__B1_L2 (Dense)          (None, 1024)                 263168    [&#39;FC2__B1_L1[0][0]&#39;]
+
+ FC2__Dropout__B1_L2 (Dropo  (None, 1024)                 0         [&#39;FC2__B1_L2[0][0]&#39;]
+ ut)
+
+ FC2__B2_L1 (Dense)          (None, 1024)                 1049600   [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+ FC2__B2_L2 (Dense)          (None, 2304)                 2361600   [&#39;FC2__B2_L1[0][0]&#39;]
+
+ FC2__Dropout__B2_L2 (Dropo  (None, 2304)                 0         [&#39;FC2__B2_L2[0][0]&#39;]
+ ut)
+
+ FC2__B3_L1 (Dense)          (None, 2304)                 5310720   [&#39;FC2__Dropout__B2_L2[0][0]&#39;]
+
+ FC2__B3_L2 (Dense)          (None, 4096)                 9441280   [&#39;FC2__B3_L1[0][0]&#39;]
+
+ FC2__Dropout__B3_L2 (Dropo  (None, 4096)                 0         [&#39;FC2__B3_L2[0][0]&#39;]
+ ut)
+
+ FC2__B4_L1 (Dense)          (None, 4096)                 1678131   [&#39;FC2__Dropout__B3_L2[0][0]&#39;]
+                                                          2
+
+ FC2__B4_L2 (Dense)          (None, 6400)                 2622080   [&#39;FC2__B4_L1[0][0]&#39;]
+                                                          0
+
+ FC2__Dropout__B4_L2 (Dropo  (None, 6400)                 0         [&#39;FC2__B4_L2[0][0]&#39;]
+ ut)
+
+ gravity (Dense)             (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+
+ c_o_ratio (Dense)           (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+
+ metallicity (Dense)         (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+
+ temperature (Dense)         (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+
+==================================================================================================
+Total params: 115697476 (441.35 MB)
+Trainable params: 115697476 (441.35 MB)
+Non-trainable params: 0 (0.00 Byte)
+__________________________________________________________________________________________________
+None
+</pre></div></div>
+</div>
+</section>
+<section id="3.3.4-Train-the-CNN-model-using-the-datasets">
+<h3>3.3.4 Train the CNN model using the datasets<a class="headerlink" href="#3.3.4-Train-the-CNN-model-using-the-datasets" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span>  <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">fit_cnn_model</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">11</span><span class="p">,</span>
+                                                <span class="n">budget</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 1/4
+13/13 [==============================] - 53s 4s/step - loss: 1.5001 - gravity_loss: 0.4292 - c_o_ratio_loss: 0.4482 - metallicity_loss: 0.3372 - temperature_loss: 0.2855 - gravity_mae: 0.8225 - c_o_ratio_mae: 0.8608 - metallicity_mae: 0.7009 - temperature_mae: 0.6217 - val_loss: 1.1518 - val_gravity_loss: 0.3945 - val_c_o_ratio_loss: 0.3942 - val_metallicity_loss: 0.2398 - val_temperature_loss: 0.1233 - val_gravity_mae: 0.7802 - val_c_o_ratio_mae: 0.7979 - val_metallicity_mae: 0.5803 - val_temperature_mae: 0.4099
+Epoch 2/4
+13/13 [==============================] - 51s 4s/step - loss: 0.9851 - gravity_loss: 0.3604 - c_o_ratio_loss: 0.3259 - metallicity_loss: 0.2244 - temperature_loss: 0.0744 - gravity_mae: 0.7345 - c_o_ratio_mae: 0.7000 - metallicity_mae: 0.5535 - temperature_mae: 0.3033 - val_loss: 0.7643 - val_gravity_loss: 0.3097 - val_c_o_ratio_loss: 0.2270 - val_metallicity_loss: 0.1902 - val_temperature_loss: 0.0375 - val_gravity_mae: 0.6653 - val_c_o_ratio_mae: 0.5554 - val_metallicity_mae: 0.4980 - val_temperature_mae: 0.2195
+Epoch 3/4
+13/13 [==============================] - 56s 4s/step - loss: 0.6896 - gravity_loss: 0.3161 - c_o_ratio_loss: 0.1630 - metallicity_loss: 0.1829 - temperature_loss: 0.0276 - gravity_mae: 0.6749 - c_o_ratio_mae: 0.4546 - metallicity_mae: 0.4938 - temperature_mae: 0.1844 - val_loss: 0.6300 - val_gravity_loss: 0.2952 - val_c_o_ratio_loss: 0.1562 - val_metallicity_loss: 0.1610 - val_temperature_loss: 0.0178 - val_gravity_mae: 0.6438 - val_c_o_ratio_mae: 0.4399 - val_metallicity_mae: 0.4602 - val_temperature_mae: 0.1501
+Epoch 4/4
+13/13 [==============================] - 54s 4s/step - loss: 0.5808 - gravity_loss: 0.2958 - c_o_ratio_loss: 0.1074 - metallicity_loss: 0.1604 - temperature_loss: 0.0171 - gravity_mae: 0.6449 - c_o_ratio_mae: 0.3603 - metallicity_mae: 0.4605 - temperature_mae: 0.1432 - val_loss: 0.5020 - val_gravity_loss: 0.2673 - val_c_o_ratio_loss: 0.0759 - val_metallicity_loss: 0.1482 - val_temperature_loss: 0.0106 - val_gravity_mae: 0.6135 - val_c_o_ratio_mae: 0.2943 - val_metallicity_mae: 0.4428 - val_temperature_mae: 0.1142
+</pre></div></div>
+</div>
+</section>
+<section id="3.3.5-Check-the-Trained-CNN-Archeticture-and-Summary">
+<h3>3.3.5 Check the Trained CNN Archeticture and Summary<a class="headerlink" href="#3.3.5-Check-the-Trained-CNN-Archeticture-and-Summary" title="Link to this heading">¶</a></h3>
+<p>Checking the architecture of a CNN and its summary is importnat because it provide insights about: - Model Design and Structure - Model complexity - Hyperparameter Tuning:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">trained_model</span> <span class="o">=</span> <span class="n">model</span>
+<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="n">history</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span>
+                <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                <span class="n">to_file</span><span class="o">=</span><span class="s2">&quot;model.png&quot;</span><span class="p">,</span>
+                <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">show_layer_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">rankdir</span><span class="o">=</span><span class="s2">&quot;TB&quot;</span><span class="p">,</span>
+                <span class="n">expand_nested</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">dpi</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+                <span class="n">layer_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="c1">#                 show_layer_activations=False,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) for plot_model to work.
+</pre></div></div>
+</div>
+</section>
+<section id="3.3.6-Trained-Model-Outcomes">
+<h3>3.3.6 Trained Model Outcomes<a class="headerlink" href="#3.3.6-Trained-Model-Outcomes" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_or_dump_trained_model_CNN</span><span class="p">(</span> <span class="n">trained_model</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="p">,</span>
+                                                        <span class="n">output_indicator</span><span class="o">=</span><span class="s1">&#39;Toy_parameters_v4_1000epoch_v2_test&#39;</span><span class="p">,</span>
+                                                        <span class="n">load_or_dump</span> <span class="o">=</span> <span class="s1">&#39;dump&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/usr/local/anaconda3/envs/dl2/lib/python3.9/site-packages/keras/src/engine/training.py:3079: UserWarning: You are saving your model as an HDF5 file via `model.save()`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save(&#39;my_model.keras&#39;)`.
+  saving_api.save_model(
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="3.4-Check-the-performance-of-the-Trained-Model">
+<h2>3.4 Check the performance of the Trained Model<a class="headerlink" href="#3.4-Check-the-performance-of-the-Trained-Model" title="Link to this heading">¶</a></h2>
+<section id="3.4.1-Load-the-Saved-Trained-CNN-Models">
+<h3>3.4.1 Load the Saved Trained CNN Models<a class="headerlink" href="#3.4.1-Load-the-Saved-Trained-CNN-Models" title="Link to this heading">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">load_or_dump_trained_model_CNN</span><span class="p">(</span><span class="n">output_indicator</span><span class="o">=</span><span class="s1">&#39;Toy_parameters_v4_1000epoch_v2_test&#39;</span><span class="p">,</span>
+                                                      <span class="n">load_or_dump</span> <span class="o">=</span> <span class="s1">&#39;load&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span> <span class="o">=</span> <span class="n">model</span><span class="c1">#loaded_model</span>
+<span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model_history</span> <span class="o">=</span> <span class="n">history</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="3.4.2-Double-check-the-Trained-CNN-Archeticture-and-Summary">
+<h3>3.4.2 Double-check the Trained CNN Archeticture and Summary<a class="headerlink" href="#3.4.2-Double-check-the-Trained-CNN-Archeticture-and-Summary" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span>
+                <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span><span class="p">,</span>
+                <span class="c1"># to_file=&quot;model.png&quot;,</span>
+                <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">show_layer_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">rankdir</span><span class="o">=</span><span class="s2">&quot;TB&quot;</span><span class="p">,</span>
+                <span class="n">expand_nested</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">dpi</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+                <span class="n">layer_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="c1">#                 show_layer_activations=False,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) for plot_model to work.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Model: &#34;model&#34;
+__________________________________________________________________________________________________
+ Layer (type)                Output Shape                 Param #   Connected to
+==================================================================================================
+ input_1 (InputLayer)        [(None, 104, 1)]             0         []
+
+ Conv__B1_L1 (Conv1D)        (None, 104, 16)              112       [&#39;input_1[0][0]&#39;]
+
+ Conv__B1_L2 (Conv1D)        (None, 104, 64)              6208      [&#39;Conv__B1_L1[0][0]&#39;]
+
+ Conv__B1_L3 (Conv1D)        (None, 104, 144)             55440     [&#39;Conv__B1_L2[0][0]&#39;]
+
+ MaxPool1D__B1_L3 (MaxPooli  (None, 52, 144)              0         [&#39;Conv__B1_L3[0][0]&#39;]
+ ng1D)
+
+ flatten (Flatten)           (None, 7488)                 0         [&#39;MaxPool1D__B1_L3[0][0]&#39;]
+
+ FC1__B1_L1 (Dense)          (None, 512)                  3834368   [&#39;flatten[0][0]&#39;]
+
+ FC1__B1_L2 (Dense)          (None, 2048)                 1050624   [&#39;FC1__B1_L1[0][0]&#39;]
+
+ FC1__B1_L3 (Dense)          (None, 4608)                 9441792   [&#39;FC1__B1_L2[0][0]&#39;]
+
+ FC1__B1_L4 (Dense)          (None, 8192)                 3775692   [&#39;FC1__B1_L3[0][0]&#39;]
+                                                          8
+
+ FC1__Dropout__B1_L4 (Dropo  (None, 8192)                 0         [&#39;FC1__B1_L4[0][0]&#39;]
+ ut)
+
+ input_2 (InputLayer)        [(None, 2)]                  0         []
+
+ Concatenated_Layer (Concat  (None, 8194)                 0         [&#39;FC1__Dropout__B1_L4[0][0]&#39;,
+ enate)                                                              &#39;input_2[0][0]&#39;]
+
+ FC2__B1_L1 (Dense)          (None, 256)                  2097920   [&#39;Concatenated_Layer[0][0]&#39;]
+
+ FC2__B1_L2 (Dense)          (None, 1024)                 263168    [&#39;FC2__B1_L1[0][0]&#39;]
+
+ FC2__Dropout__B1_L2 (Dropo  (None, 1024)                 0         [&#39;FC2__B1_L2[0][0]&#39;]
+ ut)
+
+ FC2__B2_L1 (Dense)          (None, 1024)                 1049600   [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+
+ FC2__B2_L2 (Dense)          (None, 2304)                 2361600   [&#39;FC2__B2_L1[0][0]&#39;]
+
+ FC2__Dropout__B2_L2 (Dropo  (None, 2304)                 0         [&#39;FC2__B2_L2[0][0]&#39;]
+ ut)
+
+ FC2__B3_L1 (Dense)          (None, 2304)                 5310720   [&#39;FC2__Dropout__B2_L2[0][0]&#39;]
+
+ FC2__B3_L2 (Dense)          (None, 4096)                 9441280   [&#39;FC2__B3_L1[0][0]&#39;]
+
+ FC2__Dropout__B3_L2 (Dropo  (None, 4096)                 0         [&#39;FC2__B3_L2[0][0]&#39;]
+ ut)
+
+ FC2__B4_L1 (Dense)          (None, 4096)                 1678131   [&#39;FC2__Dropout__B3_L2[0][0]&#39;]
+                                                          2
+
+ FC2__B4_L2 (Dense)          (None, 6400)                 2622080   [&#39;FC2__B4_L1[0][0]&#39;]
+                                                          0
+
+ FC2__Dropout__B4_L2 (Dropo  (None, 6400)                 0         [&#39;FC2__B4_L2[0][0]&#39;]
+ ut)
+
+ gravity (Dense)             (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+
+ c_o_ratio (Dense)           (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+
+ metallicity (Dense)         (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+
+ temperature (Dense)         (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+
+==================================================================================================
+Total params: 115697476 (441.35 MB)
+Trainable params: 115697476 (441.35 MB)
+Non-trainable params: 0 (0.00 Byte)
+__________________________________________________________________________________________________
+</pre></div></div>
+</div>
+</section>
+<section id="3.4.3-Check-the-training-history-through-Loss-metric">
+<h3>3.4.3 Check the training history through <em>Loss</em> metric<a class="headerlink" href="#3.4.3-Check-the-training-history-through-Loss-metric" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model_loss</span><span class="p">(</span><span class="n">history</span> <span class="o">=</span> <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model_history</span><span class="p">,</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;RandState=100: X:StandRow, y:StandCol - MinMax:StandCol, ToyCNNmodel&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div class="bk-root" id="01859362-c2cf-4439-b2ad-df2b92c915ca" data-root-id="1005"></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="output_javascript"></div>
+<script type="text/javascript">
+var element = document.currentScript.previousSibling.previousSibling;
+(function(root) {
+  function embed_document(root) {
+
+  var docs_json = {"1cb2631d-b1dd-4e28-8384-2179e87b1756":{"defs":[],"roots":{"references":[{"attributes":{"below":[{"id":"1016"}],"center":[{"id":"1019"},{"id":"1023"},{"id":"1053"}],"height":300,"left":[{"id":"1020"}],"renderers":[{"id":"1041"},{"id":"1058"},{"id":"1063"},{"id":"1083"},{"id":"1088"},{"id":"1112"},{"id":"1117"},{"id":"1145"},{"id":"1150"},{"id":"1182"}],"title":{"id":"1006"},"toolbar":{"id":"1031"},"width":1000,"x_range":{"id":"1008"},"x_scale":{"id":"1012"},"y_range":{"id":"1010"},"y_scale":{"id":"1014"}},"id":"1005","subtype":"Figure","type":"Plot"},{"attributes":{"data_source":{"id":"1109"},"glyph":{"id":"1110"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1111"},"view":{"id":"1113"}},"id":"1112","type":"GlyphRenderer"},{"attributes":{},"id":"1173","type":"Selection"},{"attributes":{"axis_label":"Loss","axis_label_text_font_size":"12pt","formatter":{"id":"1048"},"major_label_policy":{"id":"1047"},"major_label_text_font_size":"12pt","ticker":{"id":"1021"}},"id":"1020","type":"LogAxis"},{"attributes":{"source":{"id":"1114"}},"id":"1118","type":"CDSView"},{"attributes":{},"id":"1174","type":"UnionRenderers"},{"attributes":{"source":{"id":"1109"}},"id":"1113","type":"CDSView"},{"attributes":{"data_source":{"id":"1114"},"glyph":{"id":"1115"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1116"},"view":{"id":"1118"}},"id":"1117","type":"GlyphRenderer"},{"attributes":{"line_color":"#9467bd","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1115","type":"Line"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.33719873428344727,0.22440649569034576,0.18291908502578735,0.16040349006652832]},"selected":{"id":"1138"},"selection_policy":{"id":"1139"}},"id":"1114","type":"ColumnDataSource"},{"attributes":{},"id":"1008","type":"DataRange1d"},{"attributes":{"line_alpha":0.1,"line_color":"#9467bd","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1116","type":"Line"},{"attributes":{"label":{"value":"metallicity"},"renderers":[{"id":"1117"}]},"id":"1141","type":"LegendItem"},{"attributes":{},"id":"1175","type":"Selection"},{"attributes":{},"id":"1012","type":"LinearScale"},{"attributes":{},"id":"1176","type":"UnionRenderers"},{"attributes":{},"id":"1136","type":"Selection"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{},"id":"1137","type":"UnionRenderers"},{"attributes":{"axis_label":"Epochs","axis_label_text_font_size":"12pt","formatter":{"id":"1045"},"major_label_policy":{"id":"1044"},"major_label_text_font_size":"12pt","ticker":{"id":"1017"}},"id":"1016","type":"LinearAxis"},{"attributes":{},"id":"1010","type":"DataRange1d"},{"attributes":{},"id":"1025","type":"WheelZoomTool"},{"attributes":{"data":{"x":[0,1,2,3],"y":[1.500084638595581,0.9850859642028809,0.6896489858627319,0.5807661414146423]},"selected":{"id":"1050"},"selection_policy":{"id":"1051"}},"id":"1038","type":"ColumnDataSource"},{"attributes":{"text":"RandState=100: X:StandRow, y:StandCol - MinMax:StandCol, ToyCNNmodel","text_font_size":"14pt"},"id":"1006","type":"Title"},{"attributes":{},"id":"1138","type":"Selection"},{"attributes":{},"id":"1029","type":"HelpTool"},{"attributes":{},"id":"1139","type":"UnionRenderers"},{"attributes":{},"id":"1027","type":"SaveTool"},{"attributes":{"source":{"id":"1179"}},"id":"1183","type":"CDSView"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.12333111464977264,0.03752976655960083,0.01775473542511463,0.010616186074912548]},"selected":{"id":"1209"},"selection_policy":{"id":"1210"}},"id":"1179","type":"ColumnDataSource"},{"attributes":{"data_source":{"id":"1179"},"glyph":{"id":"1180"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1181"},"view":{"id":"1183"}},"id":"1182","type":"GlyphRenderer"},{"attributes":{},"id":"1077","type":"UnionRenderers"},{"attributes":{"line_alpha":0.1,"line_color":"#8c564b","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1181","type":"Line"},{"attributes":{},"id":"1209","type":"Selection"},{"attributes":{},"id":"1210","type":"UnionRenderers"},{"attributes":{"data":{"x":[0,1,2,3],"y":[1.1518487930297852,0.7643226385116577,0.6300278902053833,0.5020037293434143]},"selected":{"id":"1074"},"selection_policy":{"id":"1075"}},"id":"1055","type":"ColumnDataSource"},{"attributes":{"line_color":"#9467bd","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1143","type":"Line"},{"attributes":{"line_color":"#8c564b","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1148","type":"Line"},{"attributes":{"overlay":{"id":"1030"}},"id":"1026","type":"BoxZoomTool"},{"attributes":{"source":{"id":"1142"}},"id":"1146","type":"CDSView"},{"attributes":{"active_multi":null,"tools":[{"id":"1024"},{"id":"1025"},{"id":"1026"},{"id":"1027"},{"id":"1028"},{"id":"1029"}]},"id":"1031","type":"Toolbar"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.23983004689216614,0.19015836715698242,0.16096456348896027,0.1481856405735016]},"selected":{"id":"1173"},"selection_policy":{"id":"1174"}},"id":"1142","type":"ColumnDataSource"},{"attributes":{},"id":"1076","type":"Selection"},{"attributes":{"data_source":{"id":"1147"},"glyph":{"id":"1148"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1149"},"view":{"id":"1151"}},"id":"1150","type":"GlyphRenderer"},{"attributes":{},"id":"1074","type":"Selection"},{"attributes":{"data_source":{"id":"1142"},"glyph":{"id":"1143"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1144"},"view":{"id":"1146"}},"id":"1145","type":"GlyphRenderer"},{"attributes":{},"id":"1075","type":"UnionRenderers"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.2854829430580139,0.07435949891805649,0.0276449266821146,0.01714206486940384]},"selected":{"id":"1175"},"selection_policy":{"id":"1176"}},"id":"1147","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#9467bd","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1144","type":"Line"},{"attributes":{},"id":"1028","type":"ResetTool"},{"attributes":{},"id":"1024","type":"PanTool"},{"attributes":{"source":{"id":"1147"}},"id":"1151","type":"CDSView"},{"attributes":{"label":{"value":"temperature"},"renderers":[{"id":"1150"}]},"id":"1178","type":"LegendItem"},{"attributes":{"line_alpha":0.1,"line_color":"#8c564b","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1149","type":"Line"},{"attributes":{"axis":{"id":"1016"},"ticker":null},"id":"1019","type":"Grid"},{"attributes":{"line_color":"#8c564b","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1180","type":"Line"},{"attributes":{},"id":"1014","type":"LogScale"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","syncable":false,"top_units":"screen"},"id":"1030","type":"BoxAnnotation"},{"attributes":{"source":{"id":"1060"}},"id":"1064","type":"CDSView"},{"attributes":{},"id":"1045","type":"BasicTickFormatter"},{"attributes":{"ticker":null},"id":"1048","type":"LogTickFormatter"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.4292135238647461,0.36038705706596375,0.31607553362846375,0.2957748472690582]},"selected":{"id":"1076"},"selection_policy":{"id":"1077"}},"id":"1060","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#ff7f0e","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1062","type":"Line"},{"attributes":{"source":{"id":"1080"}},"id":"1084","type":"CDSView"},{"attributes":{"line_color":"#ff7f0e","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1061","type":"Line"},{"attributes":{"label":{"value":"Total loss"},"renderers":[{"id":"1041"}]},"id":"1054","type":"LegendItem"},{"attributes":{"background_fill_alpha":0.5,"background_fill_color":"white","items":[{"id":"1054"},{"id":"1079"},{"id":"1108"},{"id":"1141"},{"id":"1178"}],"location":"bottom_left"},"id":"1053","type":"Legend"},{"attributes":{"line_color":"#2ca02c","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1086","type":"Line"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.3944548964500427,0.30966606736183167,0.29515013098716736,0.26730334758758545]},"selected":{"id":"1103"},"selection_policy":{"id":"1104"}},"id":"1080","type":"ColumnDataSource"},{"attributes":{"data_source":{"id":"1085"},"glyph":{"id":"1086"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1087"},"view":{"id":"1089"}},"id":"1088","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"1080"},"glyph":{"id":"1081"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1082"},"view":{"id":"1084"}},"id":"1083","type":"GlyphRenderer"},{"attributes":{"label":{"value":"gravity"},"renderers":[{"id":"1063"}]},"id":"1079","type":"LegendItem"},{"attributes":{"data_source":{"id":"1055"},"glyph":{"id":"1056"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1057"},"view":{"id":"1059"}},"id":"1058","type":"GlyphRenderer"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.4481894075870514,0.32593297958374023,0.1630094349384308,0.10744574666023254]},"selected":{"id":"1105"},"selection_policy":{"id":"1106"}},"id":"1085","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#ff7f0e","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1082","type":"Line"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.39423269033432007,0.2269684076309204,0.156158447265625,0.07589858025312424]},"selected":{"id":"1136"},"selection_policy":{"id":"1137"}},"id":"1109","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1085"}},"id":"1089","type":"CDSView"},{"attributes":{"label":{"value":"c_o_ratio"},"renderers":[{"id":"1088"}]},"id":"1108","type":"LegendItem"},{"attributes":{"num_minor_ticks":10},"id":"1021","type":"LogTicker"},{"attributes":{"line_alpha":0.1,"line_color":"#2ca02c","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1087","type":"Line"},{"attributes":{},"id":"1047","type":"AllLabels"},{"attributes":{"line_alpha":0.1,"line_color":"#d62728","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1057","type":"Line"},{"attributes":{"line_alpha":0.1,"line_color":"#2ca02c","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1111","type":"Line"},{"attributes":{"line_color":"#d62728","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1056","type":"Line"},{"attributes":{"data_source":{"id":"1060"},"glyph":{"id":"1061"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1062"},"view":{"id":"1064"}},"id":"1063","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"1038"},"glyph":{"id":"1039"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1040"},"view":{"id":"1042"}},"id":"1041","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1038"}},"id":"1042","type":"CDSView"},{"attributes":{},"id":"1103","type":"Selection"},{"attributes":{},"id":"1104","type":"UnionRenderers"},{"attributes":{},"id":"1051","type":"UnionRenderers"},{"attributes":{},"id":"1105","type":"Selection"},{"attributes":{},"id":"1106","type":"UnionRenderers"},{"attributes":{},"id":"1050","type":"Selection"},{"attributes":{"axis":{"id":"1020"},"dimension":1,"ticker":null},"id":"1023","type":"Grid"},{"attributes":{},"id":"1044","type":"AllLabels"},{"attributes":{"source":{"id":"1055"}},"id":"1059","type":"CDSView"},{"attributes":{"line_color":"#ff7f0e","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1081","type":"Line"},{"attributes":{"line_color":"#d62728","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1039","type":"Line"},{"attributes":{"line_alpha":0.1,"line_color":"#d62728","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1040","type":"Line"},{"attributes":{"line_color":"#2ca02c","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1110","type":"Line"}],"root_ids":["1005"]},"title":"Bokeh Application","version":"2.3.2"}};
+  var render_items = [{"docid":"1cb2631d-b1dd-4e28-8384-2179e87b1756","root_ids":["1005"],"roots":{"1005":"01859362-c2cf-4439-b2ad-df2b92c915ca"}}];
+  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+
+  }
+  if (root.Bokeh !== undefined) {
+    embed_document(root);
+  } else {
+    var attempts = 0;
+    var timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined) {
+        clearInterval(timer);
+        embed_document(root);
+      } else {
+        attempts++;
+        if (attempts > 100) {
+          clearInterval(timer);
+          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        }
+      }
+    }, 10, root)
+  }
+})(window);
+</script></div>
+</div>
+</section>
+<section id="3.4.4-Plot-the-Performance-of-the-trained-CNN-models---Regression-metrics">
+<h3>3.4.4 Plot the Performance of the trained CNN models - Regression metrics<a class="headerlink" href="#3.4.4-Plot-the-Performance-of-the-trained-CNN-models---Regression-metrics" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Plot predicted against actual scatter plots for all parameters</p></li>
+<li><p>Plot Residual histograms (predicted - Actual)</p></li>
+<li><p>Report regression metrics: R<span class="math notranslate nohighlight">\(^2\)</span> and skewness for training and test sets</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;TelescopeML.DeepTrainer.TrainRegressorCNN at 0x7fefcb969dc0&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">regression_report</span><span class="p">(</span>
+        <span class="n">trained_model</span> <span class="o">=</span> <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span><span class="p">,</span>
+        <span class="n">trained_data_processor</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="p">,</span>
+        <span class="n">Xtrain</span> <span class="o">=</span> <span class="p">[</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+                  <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">]],</span>
+
+        <span class="n">Xtest</span>  <span class="o">=</span> <span class="p">[</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_rowwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+                  <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">]],</span>
+
+        <span class="n">ytrain</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+
+        <span class="n">ytest</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+
+        <span class="n">target_i</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+
+        <span class="n">xy_top</span>   <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+        <span class="n">xy_bottom</span><span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">],</span>
+<span class="c1">#         print_results = False,</span>
+                 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+782/782 [==============================] - 45s 57ms/step
+97/97 [==============================] - 6s 59ms/step
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_61_1.png" src="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_61_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_61_2.png" src="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_61_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_61_3.png" src="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_61_3.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_61_4.png" src="../../../../../../../../_images/_build_doctrees_nbsphinx__build_html__build_html_tutorials_4__Train_CNN_Model_61_4.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Ehsan (Sam) Gharib-Nezhad.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
