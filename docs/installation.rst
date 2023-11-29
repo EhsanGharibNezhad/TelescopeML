@@ -92,7 +92,7 @@ modern Linux system.
 
 .. code-block:: bash
 
-    echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_TelescopeML_project/" ' >>~/.bashrc
+    echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/" ' >>~/.bashrc
     source ~/.bashrc
     echo $TelescopeML_reference_data
 
@@ -148,7 +148,7 @@ The easiest way to install the most stable version is with *pip*, the Python pac
 but do not forget that you still need to create a virtual environment using the `Anaconda distribution <https://www.anaconda.com/download/>`_
 and then install ``TelescopeML`` there by the following steps:
 
-1. Create a conda virtual environment using `python>=3.8`:
+1. Create a conda virtual environment using `python>=3.9`:
 
 .. code-block:: bash
 
