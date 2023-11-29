@@ -17,7 +17,7 @@ Let’s start by creating the folder structure as follow, named *TelescopeML_pro
 *TelescopeML_project* directory, download the *reference_data* folder which include the following sub-directories:
 *training_datasets*, *tutorials*, *observational_datasets*,  *figures*, *trained_ML_models*.
 
-Download link for **reference_data** folder is: `Link <https://doi.org/10.5281/zenodo.10183099>`_
+Download link for **reference_data** folder is: `Link <https://zenodo.org/doi/10.5281/zenodo.10183098>`_
 
 | TelescopeML_project
 | ├── reference_data
