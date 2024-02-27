@@ -6,7 +6,7 @@ from .StatVisAnalyzer import boxplot_hist, plot_spectra_errorbar, \
     plot_pred_vs_obs_errorbar
 from .StatVisAnalyzer import interpolate_df, print_results_fun
 from .StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, \
-    plot_pred_vs_obs_errorbar_stat
+    plot_pred_vs_obs_errorbar_stat, plot_pred_vs_obs_errorbar_stat_matplotlib
 
 # ======= Import Python libraries ========================================
 
@@ -14,6 +14,8 @@ from .StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_inter
 # import os
 import pandas as pd
 import numpy as np
+np.random.seed(100)  # You can use any integer as the seed value
+
 # import pickle as pk
 # from scipy import stats
 # from uncertainties import ufloat
@@ -454,6 +456,7 @@ class ObserveParameterPredictor:
             # __plot_predicted_vs_observed__=False,
             __plot_pred_vs_obs_errorbar__=False,
             __plot_pred_vs_obs_errorbar_stat__=False,
+            __plot_pred_vs_obs_errorbar_stat_matplotlib__=False,
             __calculate_confidence_intervals_std_df__=False,
             ):
         """
@@ -630,10 +633,10 @@ class ObserveParameterPredictor:
             plt.show()
 
         if __plot_boxplot_hist__:
-            boxplot_hist(self.df_random_pred['logg'], x_label=r'$\log g$', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['T'], x_label=r'$T_{eff}$', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
+            boxplot_hist(self.object_name, self.df_random_pred['logg'], x_label=r'$\log g$', xy_loc=[0.05, 0.98])
+            boxplot_hist(self.object_name, self.df_random_pred['T'], x_label=r'$T_{eff}$', xy_loc=[0.05, 0.98])
+            boxplot_hist(self.object_name, self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
+            boxplot_hist(self.object_name, self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
 
 
 
@@ -658,6 +661,21 @@ class ObserveParameterPredictor:
 
         if __plot_pred_vs_obs_errorbar_stat__:
             plot_pred_vs_obs_errorbar_stat(
+                stat_df=self.confidence_intervals_std_df,
+                confidence_level=0.95,
+                object_name=self.object_name,
+                x_obs=self.obs_data_df['wl'],
+                y_obs=self.obs_data_df['Fnu_obs_absolute'], #self.obs_data_df['Fnu_obs_absolute'],# self.Fnu_obs_absolute,
+                y_obs_err=self.obs_data_df['Fnu_obs_absolute_err'], #self.obs_data_df['Fnu_obs_absolute_err'],#self.Fnu_obs_absolute_err,
+                training_datasets=self.training_dataset_df,
+                x_pred=self.wl_synthetic,
+                predicted_targets_dic=self.dic_random_pred_mean,  # self.dic_random_pred_mean,
+                radius = self.bd_literature_dic['bd_radius_Rjup'],
+                __print_results__=False,
+            )
+
+        if __plot_pred_vs_obs_errorbar_stat__:
+            plot_pred_vs_obs_errorbar_stat_matplotlib(
                 stat_df=self.confidence_intervals_std_df,
                 confidence_level=0.95,
                 object_name=self.object_name,
