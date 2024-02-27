@@ -226,8 +226,8 @@ class TrainRegressorCNN_v2:
                           # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
                           name='FC1__B1_L' + str(l + 1))(model)
 
-            model = Dropout(FC2__dropout,
-                            name='FC1__B1_L' + str(l + 1) + '__Dropout')(model)
+        model = Dropout(FC2__dropout,
+                        name='FC1__B1_L' + str(l + 1) + '__Dropout')(model)
 
         ######### Concatenation Layer  ###############################
         # Concatenate the outputs from the convolutional layers and dense layer
