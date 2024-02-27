@@ -21,12 +21,22 @@ import pprint
 # ******* Data Visulaization Libraries ****************************
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 
 
 from bokeh.plotting import output_notebook
 
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
+from bokeh.io import export_svg
+
+import json
+import pandas as pd
+
+import warnings
+
+# Filter out the specific FutureWarning
+warnings.filterwarnings("ignore", category=FutureWarning, module="seaborn._oldcore")
 
 
 def print_results_fun(targets, print_title=None):
@@ -146,7 +156,7 @@ def regression_report(trained_model,
                 r2_score_train, rmse_score_test, mean_train, std_train))
 
         # Plot histograms of residuals
-        axs[0].set_title(['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i], fontsize=14)
+        axs[0].set_title([r'$\log g$', 'C/O', '[M/H]', '$T_{\rm eff}$'][i], fontsize=14)
         sns.histplot(data=residual_train_list, ax=axs[0], label='train', alpha=0.7, bins=19,
                      log_scale=False, stat='percent', legend=True, linewidth=0)
         sns.histplot(data=residual_test_list, label='test', ax=axs[0], alpha=0.3, bins=19,
@@ -176,7 +186,7 @@ def regression_report(trained_model,
 
         f.tight_layout()
         target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-        # plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
+        plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
         plt.show()
 
 def filter_dataset_range(dataset, filter_params):
@@ -505,7 +515,8 @@ def filter_dataframe(training_datasets, predicted_targets_dic):
     return nearest_value_list, filtered_df
 
 
-def boxplot_hist(data,
+def boxplot_hist_old(object_name,
+                 data,
                  x_label,
                  xy_loc):
 
@@ -529,15 +540,77 @@ def boxplot_hist(data,
 
     mean = np.round(np.mean(data),2)
     std = np.round(np.std(data),2)
-    plt.annotate(f'{x_label}='+str(np.round(mean,2))+'$\pm$'+str(np.round(std,2)), fontsize=11,
+    plt.annotate(f'{x_label}='+str(np.round(mean,2))+'$\pm$'+str(np.round(std,2)), fontsize=13,
                  xy=(xy_loc[0], xy_loc[1]), xycoords='axes fraction')
 
-    plt.xlabel(x_label, fontsize = 12)
+    plt.xlabel(x_label, fontsize = 14)
+    plt.ylabel(fontsize = 14)
     if x_label == 'C/O':
         x_label = 'c_o_ratio'
     if x_label == '[M/H]':
         x_label = 'metallicity'
-    # plt.savefig(f'../outputs/figures/boxplot_hist_{x_label}.pdf', format='pdf')
+    if x_label == '$T_{\rm eff}$':
+        x_label = 'Teff'
+    if x_label == '$\log g$':
+        x_label = 'logg'
+    plt.tight_layout()
+    plt.savefig(f'../../../outputs/figures/{object_name}__boxplot_hist_{x_label}.pdf', format='pdf')
+
+    plt.show()
+
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def boxplot_hist(object_name,
+                 data,
+                 x_label,
+                 xy_loc):
+    fig, (ax_box, ax_hist) = plt.subplots(2, sharex=True, gridspec_kw={"height_ratios": (.15, .85)})
+
+    sns.histplot(data, ax=ax_hist, kde=True, stat='probability')
+    sns.boxplot(x=data, ax=ax_box, showmeans=True, meanline=True,
+                meanprops={"marker": "|",
+                           "markeredgecolor": "white",
+                           "markersize": "30",
+                           },
+                boxprops=dict(linewidth=2),  # Adjust the box linewidth
+                whiskerprops=dict(linewidth=2),  # Adjust the whisker linewidth
+                capprops=dict(linewidth=2),  # Adjust the cap linewidth
+                medianprops=dict(linewidth=2, color='red'),  # Adjust the median line properties
+                flierprops=dict(markerfacecolor='green', markeredgecolor='green', markersize=8)
+                # Adjust the flier properties
+                )
+
+    fig.set_figheight(3)
+    fig.set_figwidth(3)
+
+    ax_box.set(xlabel='')
+    sns.despine(ax=ax_hist)
+    sns.despine(ax=ax_box, left=True)
+    ax_box.set_yticks([])
+
+    mean = np.round(np.mean(data), 2)
+    std = np.round(np.std(data), 2)
+    plt.annotate(f'{x_label}=' + str(np.round(mean, 2)) + '$\pm$' + str(np.round(std, 2)), fontsize=12,
+                 xy=(xy_loc[0], xy_loc[1]), xycoords='axes fraction')
+
+    plt.xlabel(x_label, fontsize=14)  # Adjust the x-axis label fontsize
+    ax_box.tick_params(axis='both', labelsize=12)  # Adjust tick label size
+
+    if x_label == 'C/O':
+        x_label = 'c_o_ratio'
+    if x_label == '[M/H]':
+        x_label = 'metallicity'
+    if x_label == '$T_{\rm eff}$':
+        x_label = 'Teff'
+    if x_label == '$\log g$':
+        x_label = 'logg'
+
+    plt.tight_layout()
+    plt.savefig(f'../../../outputs/figures/{object_name}__boxplot_hist_{x_label}.pdf', format='pdf')
 
     plt.show()
 
@@ -550,8 +623,8 @@ def plot_spectra_errorbar(object_name,
                           title_label = None,
                           data_type='x_y_yerr'):
     # Create the figure
-    p = figure(title=f"{object_name}: Calibrated Observational Spectra" if title_label is None else title_label,
-               x_axis_label="Features (Wavelength [𝜇m])",
+    p = figure(title=f"{object_name}: Observational Spectra" if title_label is None else title_label,
+               x_axis_label="Wavelength [𝜇m]",
                y_axis_label=y_label,
                width=800, height=300,
                y_axis_type="log",
@@ -663,8 +736,8 @@ def plot_pred_vs_obs_errorbar(object_name,
     source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
 
     # Create the Observational figure
-    p = figure(title=f"{object_name}: Calibrated Observational VS. Predicted Spectra",
-               x_axis_label="Features (Wavelength [𝜇m])",
+    p = figure(title=f"{object_name}: Observational VS. Predicted Spectra",
+               x_axis_label="Wavelength [𝜇m]",
                y_axis_label="Flux (F𝜈) [erg/s/cm2/Hz]",
                width=800, height=300,
                y_axis_type="log",
@@ -767,9 +840,9 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
 
     # Create ML figure
     p = figure(
-        title=object_name+': Observational vs. ML Predicted Spectra'+' [𝛘2='+str(chi2_stat)+', p-value='+ str(p_value)+']',
-        x_axis_label='Features (Wavelength [μm])',
-        y_axis_label='Absolute Flux (F𝜈) [erg/s/cm2/Hz]',
+        title=object_name+': Observational vs. ML Predicted Spectra'+' [𝛘2='+str(chi2_stat)+']',
+        x_axis_label='Wavelength [μm]',
+        y_axis_label='TOA Flux (F𝜈) [erg/s/cm2/Hz]',
         y_axis_type="log",
         width=1000,
         height=400
@@ -786,7 +859,7 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
     source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
 
     # Add the scatter plot
-    p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2,
+    p.scatter('x', 'y', source=source, size=4, fill_color='blue', line_color=None, line_alpha=0.2,
               legend_label=f"{object_name}: Observational data")
 
     # Add the error bars using segment
@@ -799,21 +872,22 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
 
     p.line(x=stat_df['wl'][::-1],
            y=stat_df['mean'],
-           color='blue', line_width=2,
-           legend_label='ML Predicted:' + ', '.join(
-               [['log𝑔= ', 'C/O= ', '[M/H]= ', 'T= '][i] + str(np.round(list(predicted_targets_dic.values())[i], 2)) for i in range(4)])+
-                ', R='+str(np.round(radius,2))+' Rjup'
-          )
+           color='red', line_width=2,
+           # legend_label='ML Predicted:' + ', '.join(
+           #     [['log𝑔= ', 'C/O= ', '[M/H]= ', 'T= '][i] + str(np.round(list(predicted_targets_dic.values())[i], 2)) for i in range(4)])+
+           #      ', R='+str(np.round(radius,2))+' Rjup'
+           legend_label='ML Predicted'
+           )
 
-    # Plot the shaded regions for confidence intervals
-    p.varea(
-        x=stat_df['wl'][::-1],
-        y1=stat_df['confidence_level_lower'],
-        y2=stat_df['confidence_level_upper'],
-        fill_color='red',
-        fill_alpha=0.8,
-        legend_label='Confidence Level: {}%'.format(confidence_level)
-    )
+    # # Plot the shaded regions for confidence intervals
+    # p.varea(
+    #     x=stat_df['wl'][::-1],
+    #     y1=stat_df['confidence_level_lower'],
+    #     y2=stat_df['confidence_level_upper'],
+    #     fill_color='red',
+    #     fill_alpha=0.8,
+    #     legend_label='Confidence Level: {}%'.format(confidence_level)
+    # )
 
     # Plot the shaded regions for 1 sigma
     p.varea(
@@ -846,8 +920,222 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
         print("Printing results:")
         print(stat_df.head(5))
 
+    # option two
+    p.output_backend = "svg"
+    export_svg(p, filename=f"../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.svg")
+
     show(p)
 
+
+
+
+def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
+                                confidence_level,
+                                object_name,
+                                x_obs,
+                                y_obs,
+                                y_obs_err,
+                                training_datasets,
+                                x_pred,
+                                predicted_targets_dic,
+                                radius,
+                                __print_results__ = False):
+    """
+    Plot observed spectra with error bars and predicted spectra with confidence intervals.
+
+    Parameters
+    ----------
+    stat_df : DataFrame
+        DataFrame containing the calculated statistics.
+    confidence_level : float
+        Confidence level for the confidence intervals.
+    object_name : str
+        Name of the object being plotted.
+    x_obs : list
+        List of x-axis values for the observed spectra.
+    y_obs : list
+        List of y-axis values for the observed spectra.
+    y_obs_err : list
+        List of error values corresponding to the observed spectra.
+    training_datasets : optional
+        Training datasets used for prediction. Default is None.
+    predicted_targets_dic : optional
+        Dictionary of predicted targets. Default is None.
+    # bd_object_class : optional
+    #     Object class. Default is None.
+    __print_results__ : bool
+        True or False.
+    """
+
+    chi2_stat, p_value = chi_square_test(
+                            x_obs=x_obs,
+                            y_obs=y_obs,
+                            yerr_obs=y_obs_err,
+
+                            x_pre=stat_df['wl'][::-1],
+                            y_pre=stat_df['mean'],
+                            yerr_pre=stat_df['std_values'],
+                            radius=radius,
+                            __plot_results__=False,
+                            __print_results__=True)
+
+    if __print_results__:
+        print('*'*10+ ' Predicted Targets dic ' + '*'*10 )
+        print(predicted_targets_dic)
+
+    X = stat_df['wl'][::-1]
+    Y = stat_df['mean']
+    std = stat_df['std_values']
+
+    # Create a figure
+
+    # Create the figure and axis
+    # Create the figure and axis
+    plt.figure(figsize=(12, 6))
+    ax = plt.gca()
+
+    # Plot observational data with error bars
+    # ax.scatter(x_obs, y_obs, color='blue', label=f"Observational data",s=6, marker='o' )
+    # ax.errorbar(x_obs, y_obs, yerr=y_obs_err, color='gray', linestyle='', alpha=0.5, markersize=1)
+    ax.errorbar(x_obs, y_obs, yerr=y_obs_err,
+                fmt='o', color='blue', alpha=0.8, markersize=2, capsize=3, elinewidth=1, ecolor='gray',label=f"Observational data")
+
+    # # Plot predicted data
+    # ax.plot(stat_df['wl'][::-1], stat_df['mean'], color='blue', linewidth=2, label='ML Predicted')
+    #
+    # # Plot shaded regions for confidence intervals
+    # ax.fill_between(stat_df['wl'][::-1], stat_df['confidence_level_lower'], stat_df['confidence_level_upper'], color='red', alpha=0.5, label=f'Confidence Level: {confidence_level}%')
+    #
+    # # Plot shaded regions for 1 sigma
+    # ax.fill_between(stat_df['wl'][::-1], stat_df['mean'] - stat_df['std_values'], stat_df['mean'] + stat_df['std_values'], color='green', alpha=0.4, label='1σ')
+
+    # Plot data points
+    # ax.errorbar(X, Y, yerr=std, fmt='-', markersize=5, capsize=3, elinewidth=1, label='Data with Error Bars')
+    # ax.errorbar(stat_df['wl'][::-1], stat_df['mean'], yerr=std, fmt='-', markersize=5, capsize=3, elinewidth=1, label='Data with Error Bars')
+    ax.plot(stat_df['wl'][::-1], stat_df['mean'], color='red', label='ML predicted', linewidth=2)
+
+    # Shade the region representing standard deviation
+    # ax.fill_between(stat_df['wl'][::-1], Y - stat_df['confidence_level_lower'], Y + stat_df['confidence_level_lower'],
+    #                 alpha=0.6, color='red', label='Confidence Level: 95%')
+    ax.fill_between(X, Y - std, Y + std, alpha=0.4, color='green', label='1$\sigma$')
+    # ax.fill_between(X, Y - 2*std, Y + 2*std, alpha=0.4, color='green', label='2$\sigma$')
+
+    # Set logarithmic scale for y-axis
+    ax.set_yscale('log')
+
+    # Set labels and title
+    ax.set_xlabel('Wavelength [$\mu$m]',fontsize=14)
+    ax.set_ylabel(r'TOA Flux ($F_{\nu}$) [erg/s/cm2/Hz]',fontsize=14)
+    ax.set_title(f'{object_name}: Observational vs. ML Predicted Spectra'+' [$\chi^2$='+str(chi2_stat)+']',fontsize=16)
+
+    # Display legend
+    ax.legend(loc='lower left',fontsize=12)
+
+    min_mean = np.min(stat_df['mean'])
+    max_mean = np.max(stat_df['mean'])
+    ax.set_ylim((min_mean * 0.1, max_mean * 2))
+    ax.xaxis.set_minor_locator(AutoMinorLocator())
+
+    # Customize the plot
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.grid(True, linestyle="--", alpha=0.5)
+
+    plt.tight_layout()
+
+    # export_svg(p, filename=f"../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.svg")
+    plt.savefig(f'../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.pdf', format='pdf')
+
+    plt.show()
+
+
+    # # Create ML figure
+    # p = figure(
+    #     title=object_name+': Observational vs. ML Predicted Spectra'+' [𝛘2='+str(chi2_stat)+']',
+    #     x_axis_label='Wavelength [μm]',
+    #     y_axis_label='Absolute Flux (F𝜈) [erg/s/cm2/Hz]',
+    #     y_axis_type="log",
+    #     width=1000,
+    #     height=400
+    # )
+    #
+    # # Create the Observationa  figure * * * * * * * * * * * * * * * * *
+    # max_error_threshold = 0.8
+    #
+    # # Calculate adjusted error bar coordinates
+    # upper = np.minimum(y_obs + y_obs_err, y_obs + y_obs * max_error_threshold)
+    # lower = np.maximum(y_obs - y_obs_err, y_obs - y_obs * max_error_threshold)# Sample data
+    #
+    # # Create a ColumnDataSource to store the data
+    # source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
+    #
+    # # Add the scatter plot
+    # p.scatter('x', 'y', source=source, size=4, fill_color='green', line_color=None, line_alpha=0.2,
+    #           legend_label=f"{object_name}: Observational data")
+    #
+    # # Add the error bars using segment
+    # p.segment(x0='x', y0='lower', x1='x', y1='upper', source=source, color='gray', line_alpha=0.7)
+    #
+    #
+    # # Create the ML Predicted figure * * * * * * * * * * * * * * * * *
+    #
+    #
+    #
+    # p.line(x=stat_df['wl'][::-1],
+    #        y=stat_df['mean'],
+    #        color='blue', line_width=2,
+    #        # legend_label='ML Predicted:' + ', '.join(
+    #        #     [['log𝑔= ', 'C/O= ', '[M/H]= ', 'T= '][i] + str(np.round(list(predicted_targets_dic.values())[i], 2)) for i in range(4)])+
+    #        #      ', R='+str(np.round(radius,2))+' Rjup'
+    #        legend_label='ML Predicted'
+    #        )
+    #
+    # # Plot the shaded regions for confidence intervals
+    # p.varea(
+    #     x=stat_df['wl'][::-1],
+    #     y1=stat_df['confidence_level_lower'],
+    #     y2=stat_df['confidence_level_upper'],
+    #     fill_color='red',
+    #     fill_alpha=0.8,
+    #     legend_label='Confidence Level: {}%'.format(confidence_level)
+    # )
+    #
+    # # Plot the shaded regions for 1 sigma
+    # p.varea(
+    #     x=stat_df['wl'][::-1],
+    #     y1=stat_df['mean'] - stat_df['std_values'],
+    #     y2=stat_df['mean'] + stat_df['std_values'],
+    #     fill_color='green',
+    #     fill_alpha=0.4,
+    #     legend_label='1σ'
+    # )
+    #
+    #
+    #
+    #
+    #
+    #
+    # # Customize the plot
+    # p.title.text_font_size = '12pt'
+    # p.xaxis.major_label_text_font_size = '12pt'
+    # p.xaxis.axis_label_text_font_size = '12pt'
+    # p.yaxis.major_label_text_font_size = '12pt'
+    # p.yaxis.axis_label_text_font_size = '12pt'
+    # p.legend.location = "bottom_left"
+    # p.legend.background_fill_color = 'white'
+    # p.legend.background_fill_alpha = 0.5
+    # p.legend.click_policy = 'hide'
+
+    # Print the results if specified
+    if __print_results__:
+        print("Printing results:")
+        print(stat_df.head(5))
+
+    # # option two
+    # p.output_backend = "svg"
+    # export_svg(p, filename=f"../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.svg")
+    #
+    # show(p)
 
 def calculate_confidence_intervals_std_df(dataset_df,
                                           __print_results__ = False,
@@ -874,7 +1162,7 @@ def calculate_confidence_intervals_std_df(dataset_df,
     # Copy the dataset to avoid modifying the original DataFrame
     df3 = dataset_df.copy()
 
-    confidence_level = 0.95  # Confidence level (e.g., 95% confidence)
+    confidence_level = 0.95  # Confidence level (e.g., 95% confidence, 68.27% = 1-sigma)
 
     # Calculate the sample size
     n = len(df3)
@@ -911,7 +1199,7 @@ def calculate_confidence_intervals_std_df(dataset_df,
         x = np.round(df3.columns, 2)
         p = figure(
             title='Mean with Confidence Intervals',
-            x_axis_label='Features (Wavelength [μm])',
+            x_axis_label='Wavelength [μm]',
             y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
             y_axis_type="log",
             width=1000,
@@ -924,14 +1212,14 @@ def calculate_confidence_intervals_std_df(dataset_df,
                line_width = 2,
                legend_label='Mean')#+', '.join([['log𝑔= ','C/O= ', '[M/H]= ', 'T= '][i]+str(np.round(ypred[i],2)) for i in  range(4)])))
 
-        p.varea(
-            x  = stat_df['wl'][::-1],
-            y1 = stat_df['confidence_level_lower'],
-            y2 = stat_df['confidence_level_upper'],
-            fill_color = 'red',
-            fill_alpha=0.8,
-            legend_label='Confidence Level: {}%'.format(confidence_level)
-        )
+        # p.varea(
+        #     x  = stat_df['wl'][::-1],
+        #     y1 = stat_df['confidence_level_lower'],
+        #     y2 = stat_df['confidence_level_upper'],
+        #     fill_color = 'red',
+        #     fill_alpha=0.8,
+        #     legend_label='Confidence Level: {}%'.format(confidence_level)
+        # )
 
         p.varea(
             x  = stat_df['wl'][::-1],
@@ -989,7 +1277,7 @@ def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Dat
     source_pre = ColumnDataSource(data=dict(x_pre=x_pre, y_pre=y_pre, upper_err_pre=upper_err_pre, lower_err_pre=lower_err_pre))
 
     p = figure(
-        x_axis_label='Features (Wavelength [𝜇m])',
+        x_axis_label='Wavelength [𝜇m]',
         y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
         width=800, height=300,
         y_axis_type='log',
@@ -1096,21 +1384,25 @@ def chi_square_test(x_obs, y_obs, yerr_obs,
         data1 = f1(x_pre)
         data2 = f2(x_pre)
 
+
         f_error1 = interp1d(x_obs, error1, kind='cubic', fill_value='extrapolate')
         f_error2 = interp1d(x_pre, error2, kind='cubic', fill_value='extrapolate')
-        error1 = f_error1(x_pre)
-        error2 = f_error2(x_pre)
+        error1 = f_error1(x_pre) #observe
+        error2 = f_error2(x_pre) #predict
 
 
     # Calculate the chi-square test statistic
-    chi2_stat = np.round( np.sum(((data1 - data2) / np.sqrt(error1**2 + error2**2))**2), 2)
-    # print(data1,data2)
+    # print('test modify equation')
+    degrees_of_freedom = len(data1) - 1
+    chi2_stat = np.round( np.sum(  ((data1 - data2)**2 / error1**2) )/degrees_of_freedom, 2)
+    # chi2_stat = np.round( np.sum(((data1 - data2)**2) / error1), 2)
 
     # Calculate the degrees of freedom
-    degrees_of_freedom = len(data1) - 1
+    # print(data1, data2, error1, chi2_stat)
 
     # Calculate the p-value using the chi-square distribution
     p_value = "{:.2e}".format( 1.0 - chi2.cdf(chi2_stat, degrees_of_freedom) )
+    # p_value = "{:.2e}".format( 1.0 - chi2.cdf(chi2_stat, degrees_of_freedom) )
     # p_value = '{:.2e}'.p_value
 
     if __plot_results__:
@@ -1281,6 +1573,72 @@ def plot_scatter_x_y (x, y,
     # Show the plot
     show(p)
 
+import matplotlib.pyplot as plt
+from matplotlib.ticker import AutoMinorLocator
+
+def plot_scatter_x_y_matplotlib(x, y, object_name,
+                                plot_title="Scatter Plot", x_label="X-axis Label", y_label="Y-axis Label",
+                                plot_width=5, plot_height=5):
+    """
+    Create a scatter plot using Matplotlib.
+
+    Parameters
+    ----------
+    x : array-like
+        X-axis values.
+    y : array-like
+        Y-axis values.
+    plot_title : str, optional
+        Title of the plot. Default is "Scatter Plot".
+    x_label : str, optional
+        Label for the X-axis. Default is "X-axis Label".
+    y_label : str, optional
+        Label for the Y-axis. Default is "Y-axis Label".
+    plot_width : int, optional
+        Width of the plot in inches. Default is 5.
+    plot_height : int, optional
+        Height of the plot in inches. Default is 5.
+    """
+    # Create the figure and axis
+    fig, ax = plt.subplots(figsize=(plot_width, plot_height))
+    plt.title(plot_title, fontsize=16)
+    plt.xlabel(x_label, fontsize=12)
+    plt.ylabel(y_label, fontsize=12)
+
+    # Add a scatter plot
+    plt.scatter(
+        x,
+        y,
+        s=10,  # Size of the data points
+        c="blue",
+        label="Data",
+        edgecolors="black",  # Color of the circle border
+        linewidths=1,  # Width of the circle border line
+        alpha=1.0,  # Transparency of the circles (0-1)
+    )
+
+
+    # Customize the appearance
+    # plt.legend(fontsize=12)
+
+    # Set minor ticks on x and y axes
+    ax.xaxis.set_minor_locator(AutoMinorLocator())
+    ax.yaxis.set_minor_locator(AutoMinorLocator())
+
+    # Show grid lines
+    plt.grid(True, which='both', linestyle="--", alpha=0.5)
+    plt.minorticks_on()
+    plt.tight_layout()
+
+    # Save the plot
+    output_path = f'../../../outputs/figures/{object_name}_TunedRadius.pdf'
+    plt.savefig(output_path, format='pdf')
+    print(f"Plot saved at: {output_path}")
+
+    # Show the plot
+    plt.show()
+
+
 
 def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic, __reference_data__):
     """
@@ -1314,7 +1672,7 @@ def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label
                         color=colors[i], alpha=0.7)
 
     # print(filtered_data.T[col][:4].values[0])
-    ax.set_xlabel('Features (Wavelength [$\mu$m])')
+    ax.set_xlabel('Wavelength [$\mu$m]')
     ax.set_ylabel(r'F$_{\nu}$  [erg/cm$^2$/s/Hz]')
     dict_features = {'temperature': 'Effective Temperature', 'gravity': 'Gravity', 'metallicity': 'Metallicity',
                      'c_o_ratio': 'Carbon-to-oxygen ratio'}
@@ -1362,21 +1720,21 @@ def plot_model_loss(history=None, title=None):
            legend_label='Total loss')
     p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
+    p.line(epochs, history['output__gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
            legend_label='gravity')
-    p.line(epochs, history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
+    p.line(epochs, history['val_output__gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
+    p.line(epochs, history['output__c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
            legend_label='c_o_ratio')
-    p.line(epochs, history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
+    p.line(epochs, history['val_output__c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
+    p.line(epochs, history['output__metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
            legend_label='metallicity')
-    p.line(epochs, history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
+    p.line(epochs, history['val_output__metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
+    p.line(epochs, history['output__temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
            legend_label='temperature')
-    p.line(epochs, history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
+    p.line(epochs, history['val_output__temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
 
     # Increase size of x and y ticks
     p.title.text_font_size = '14pt'
@@ -1402,3 +1760,7 @@ def plot_model_loss(history=None, title=None):
 
     # Show the plot
     show(p)
+
+
+
+# def print_bohb_results():
