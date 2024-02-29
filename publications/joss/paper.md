@@ -61,8 +61,6 @@ Python package developed to perform three main tasks:
 
 
 
-
-
 # Statement of Need
 
 We are on in a new era of space exploration, thanks to advancements in ground- and space-based 
@@ -87,9 +85,6 @@ for interpreting observational data captured by telescopes.
 
 
 
-
-
-
 # Functionality and Key Features
 `TelescopeML` is a Python package comprising a series of modules, each equipped with specialized machine learning and 
 statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on datasets 
@@ -97,21 +92,23 @@ captured from the atmospheres of extrasolar planets and brown dwarfs. The tasks 
 outlined below and visualized in following Figure:
 
 - **DataMaster module**: Performs various tasks to process the datasets, including:
-    - Preparing inputs and outputs
-    - Splitting the dataset into training, validation, and test sets
-    - Scaling/normalizing the data
-    - Visualizing the data
-    - Conducting feature engineering
+    - Load the training dataset (i.e., atmospheric fluxes) in CSV format
+    - Split the dataset into training, validation, and test sets to pass it to the CNN model
+    - Scale/normalize the dataset column-wise or row-wise
+    - Visualize the training sets in each of the processing step for more insights 
+    - Perform feature engineering by extracting the Min and Max values from each flux to improve the ML training performance
+
   
 - **DeepTrainer module**: Utilizes different methods/packages such as TensorFlow to:
-  - Build Convolutional Neural Networks (CNNs) model using the training examples
-  - Utilize tuned hyperparameters
-  - Fit/train the ML models
+  - Load the processed dataset from the **DataMaster** module
+  - Build Convolutional Neural Networks (CNNs) model using the tuned hyperparameters
+  - Fit/train the CNN models given the epochs, learning rate, and other parameters
   - Visualize the loss and training history, as well as the trained model's performance
   
 - **Predictor module**: Implements the following tasks to predict atmospheric parameters: 
-  - Processes and predicts the observational datasets 
-  - Deploys the trained ML/CNNs model to predict atmospheric parameters
+  - Perform Scale/normalize processes on the observational fluxes
+  - Deploys the trained CNNs model 
+  - Predict atmospheric parameters, i.e., effective temperature, gravity, carbon-to-oxygen ratio, and metallicity 
   - Visualizes the processed observational dataset and the uncertainty in the predicted results
   
 - **StatVisAnalyzer module**: Provides a set of functions to perform the following tasks: 
@@ -120,8 +117,33 @@ outlined below and visualized in following Figure:
   - Calculates confidence intervals and standard errors
   - Functions to visualize the datasets, including scatter plots, histograms, boxplots
 
+
+
+# Details on the synthetic dataset
+
+The training dataset (or synthetic spectra) in this study is computed using the open-source atmospheric radiative 
+transfer Python package, [`PICASO`](https://natashabatalha.github.io/picaso/) [e.g., @batalha2019picaso], based on the 
+`Sonora-Bobcat` model grid generated for cloudless brown dwarf atmospheres by [@marley2021sonora]. This set encompasses 
+30,888 synthetic spectra, each including 104 wavelengths (i.e., 0.897, 0.906, ..., 2.512 μm) and their corresponding flux 
+values. Each of these spectra has four output variables attached to it: effective temperature, gravity, carbon-to-oxygen ratio, 
+and metallicity. These synthetic spectra are utilized to interpret observational datasets and derive these four atmospheric parameters.
+An example of the synthetic and observational dataset is shown in the following figure.
+
+
+# Details on the CNN methodology for Multi-output Regression problem
+
+Each row in the synthetic spectra has 104 input variables. The order of these data points and their magnitude are crucial 
+to interpret the telescope data. For this purpose, we implemented a Convolutional Neural Network (CNN) method with 1-D convolutional 
+layers. CNN is a powerful technique for this study because it extracts the dominant features from these spectra and then passes them 
+to the fully connected hidden layers to learn the patterns. The output layer predicts the four atmospheric targets.
+An example of the CNN architecture is depicted in the following figure.
+
+
 ![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
 extract the target features from the observational data.](TelescopeML_Modules_Infograph.jpg){height="900pt"}
+
+
+
 
 
 # Documentation
@@ -136,7 +158,6 @@ as follows:
 - **Installation**: [ehsangharibnezhad.github.io/TelescopeML/installation.html](https://ehsangharibnezhad.github.io/TelescopeML/installation.html)
 - **Tutorials and examples**: [ehsangharibnezhad.github.io/TelescopeML/tutorials.html](https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html)
 - **The code**: [ehsangharibnezhad.github.io/TelescopeML/code.html](https://ehsangharibnezhad.github.io/TelescopeML/code.html)
-- **ML Concepts**: [ehsangharibnezhad.github.io/TelescopeML/knowledgebase.html](https://ehsangharibnezhad.github.io/TelescopeML/knowledgebase.html)
 
 
 #  Users  and Future Developments
@@ -159,6 +180,23 @@ be the creation of more advanced models with higher performance and robustness, 
 the package to apply to a wider range of telescope datasets.
 
 
+# Similar Tools
+The following open-source tools are available to either perform forward modeling (χ²-based test) or retrievals 
+(based on Bayesian statistics and posterior distribution):
+[`Starfish`](https://starfish.readthedocs.io/en/latest/index.html) [@Czekala2015starfish], 
+[`petitRADTRANS`](https://gitlab.com/mauricemolli/petitRADTRANS) [@Molliere2019],
+[`petitRADTRANS`](https://gitlab.com/mauricemolli/petitRADTRANS) [@MacDonald2023],
+[`PLATON`](https://github.com/ideasrule/platon) [@Zhang2019], 
+[`CHIMERA`](https://github.com/mrline/CHIMERA) [@Line2013], 
+[`TauRex`](https://github.com/ucl-exoplanets/TauREx3_public) [Waldmann2015],
+[`NEMESIS`](https://github.com/nemesiscode/radtrancode) [@Irwin2008], and 
+[`Pyrat Bay`](https://github.com/pcubillos/pyratbay) [@Cubillos2021].
+
+In addition, the following package implements random forest to predict the atmospheric parameters:
+[`HELA`](https://github.com/exoclime/HELA) [@MarquezNeila2018HELA]
+
+
+
 # Utilized Underlying Packages
 For processing datasets and training ML models in `TelescopeML`, the following software/packages are employed:
 Scikit-learn [@scikit-learn], TensorFlow [@tensorflow2015-whitepaper], AstroPy [@astropy:2022], SpectRes [@SpectRes],
@@ -169,6 +207,6 @@ Picaso [@batalha2019picaso] is implemented.
 
 # Acknowledgements
 EGN and GN would like to thank OSTEM internships and funding through the NASA with contract number 80NSSC22DA010.
-EGN acknowledges ChatGPT 3.5 for proofreading some of the functions and providing helpful suggestions. 
+EGN acknowledges ChatGPT 3.5 for proofreading some of the functions. 
 
 # References
