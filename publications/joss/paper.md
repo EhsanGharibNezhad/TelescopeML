@@ -45,7 +45,23 @@ bibliography: paper.bib
 aas-doi: LINK OF ApJ PAPER
 aas-journal: The Astrophysical Journal 
 
---- 
+---
+
+# Summary
+We are on the verge of a revolutionary era in space exploration, thanks to advancements in telescopes such as the James 
+Webb Space Telescope (*JWST*). High-resolution, high Signal-to-Noise spectra from exoplanet and brown dwarf atmospheres have been 
+collected over the past few decades, requiring the development of accurate and reliable pipelines and tools for their analysis. 
+Accurately and swiftly determining the spectroscopic parameters from the observational spectra of these objects is 
+crucial for understanding their atmospheric composition and guiding future follow-up observations. `TelescopeML` is a 
+Python package developed to perform three main tasks: 
+(i) Process the synthetic astronomical datasets for training a CNN model and prepare the observational dataset for later use for prediction; 
+(ii) Train a CNN model by implementing the optimal hyperparameters; and 
+(iii) Deploy the trained CNN models on the actual observational data to derive the output spectroscopic parameters.
+
+
+
+
+
 
 # Statement of Need
 
