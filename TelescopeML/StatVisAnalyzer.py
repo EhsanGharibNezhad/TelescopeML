@@ -11,7 +11,7 @@ from scipy.interpolate import interp1d
 # import pickle as pk
 
 from scipy import stats
-from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.metrics import r2_score, mean_squared_error,  mean_absolute_error
 from scipy.interpolate import RegularGridInterpolator
 from scipy.stats import chi2
 import os
@@ -127,6 +127,15 @@ def regression_report(trained_model,
         r2_score_train = r2_score(y_pred_train, y_act_train)
         r2_score_test = r2_score(y_pred_test, y_act_test)
 
+        # Calculate  MSE scores
+        mse_score_train = mean_squared_error(y_pred_train, y_act_train)
+        mse_score_test = mean_squared_error(y_pred_test, y_act_test)
+        print('MSE ', "{:.2e}".format(mse_score_train) , "{:.2e}".format(mse_score_test) )
+
+        mae_score_train = mean_absolute_error(y_pred_train, y_act_train)
+        mae_score_test = mean_absolute_error(y_pred_test, y_act_test)
+        print('MAE ', "{:.2e}".format(mae_score_train) , "{:.2e}".format(mae_score_test) )
+
         # Calculate  RMSE scores
         rmse_score_train = np.sqrt(mean_squared_error(y_pred_train, y_act_train))
         rmse_score_test = np.sqrt(mean_squared_error(y_pred_test, y_act_test))
@@ -139,14 +148,14 @@ def regression_report(trained_model,
         if __print_results__:
             print('\n\n----------------------- Test ------------------------')
             print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
-                r2_score_test, rmse_score_train, mean_test, std_test))
+                r2_score_test, rmse_score_train, mean_test, std_test, mse_score_test))
 
             print('\n----------------------- Train ------------------------')
             print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
                 r2_score_train, rmse_score_test, mean_train, std_train))
 
         # Plot histograms of residuals
-        axs[0].set_title(['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i], fontsize=14)
+        axs[0].set_title(['$\log g$', 'C/O', '[M/H]', r'$T_{\rm eff}$'][i], fontsize=14)
         sns.histplot(data=residual_train_list, ax=axs[0], label='train', alpha=0.7, bins=19,
                      log_scale=False, stat='percent', legend=True, linewidth=0)
         sns.histplot(data=residual_test_list, label='test', ax=axs[0], alpha=0.3, bins=19,
@@ -155,6 +164,7 @@ def regression_report(trained_model,
         axs[0].set_ylim((1e-1, 100))
         axs[0].set_yscale('log')
         axs[0].set_ylabel('Probability %', fontsize=12)
+        axs[0].set_xlabel('Residual', fontsize=12)
 
         # Plot scatter figures of predicted vs actual values
         sns.scatterplot(y=y_pred_train, x=y_act_train, label='train', ax=axs[1], alpha=0.7, legend=False)
@@ -163,20 +173,27 @@ def regression_report(trained_model,
         axs[1].set_xlabel('Actual value', fontsize=12)
 
         # Add annotations for skewness and R-squared scores
-        axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, train}}$= ' + f'{np.round(skew_train, 2)}',
-                        fontsize=11, xy=(xy_top[0], xy_top[1] + 0.08), xycoords='axes fraction')
-        axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, test}}$ = ' + f'{np.round(skew_test, 2)}',
-                        fontsize=11, xy=(xy_top[0], xy_top[1] - 0.08), xycoords='axes fraction')
-        axs[1].annotate(r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train} [{"%0.2f" % abs(mean_train)}$\pm${"%0.2f" % std_train}]',
-                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
-        axs[1].annotate(r'R$^2_{\rm test}$ =' + f'{np.round(r2_score_test, 2)} [{"%0.2f" % mean_test}$\pm${"%0.2f" % std_test}]',
-                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] - 0.06), xycoords='axes fraction')
+        axs[1].annotate(
+            r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train}',
+            fontsize=12, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
+        axs[1].annotate(
+            r'R$^2_{\rm test}$ =' + f'{np.round(r2_score_test, 2)}',
+            fontsize=12, xy=(xy_bottom[0], xy_bottom[1] - 0.06), xycoords='axes fraction')
+        # axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, train}}$= ' + f'{np.round(skew_train, 2)}',
+        #                 fontsize=11, xy=(xy_top[0], xy_top[1] + 0.08), xycoords='axes fraction')
+        # axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, test}}$ = ' + f'{np.round(skew_test, 2)}',
+        #                 fontsize=11, xy=(xy_top[0], xy_top[1] - 0.08), xycoords='axes fraction')
+        # axs[1].annotate(r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train} [{"%0.2f" % abs(mean_train)}$\pm${"%0.2f" % std_train}]',
+        #                 fontsize=12, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
+        # axs[1].annotate(r'R$^2_{\rm test}$ =' + f'{np.round(r2_score_test, 2)} [{"%0.2f" % mean_test}$\pm${"%0.2f" % std_test}]',
+        #                 fontsize=12, xy=(xy_bottom[0], xy_bottom[1] - 0.06), xycoords='axes fraction')
 
-        axs[1].legend(loc='lower right', fontsize=11)
+        axs[1].legend(loc='lower right', fontsize=12)
 
         f.tight_layout()
         target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-        # plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
+        plt.savefig(f'../manuscript/2023_ApJ/figures/ML_results_R2_scatter/regression_report_{target_name}.pdf', format='pdf')
+        i += 1
         plt.show()
 
 def filter_dataset_range(dataset, filter_params):
@@ -1402,3 +1419,60 @@ def plot_model_loss(history=None, title=None):
 
     # Show the plot
     show(p)
+
+
+
+import matplotlib.pyplot as plt
+
+def plot_model_loss_plt(history=None, title=None):
+    """
+    Plot the trained model history for all individual target features
+    """
+    # Define the epochs as a list
+    epochs = list(range(len(history['loss'])))
+
+    # Define colorblind-friendly colors
+    colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
+
+    # Create a new figure and axis object using plt.subplots
+    fig, ax = plt.subplots(figsize=(13, 5))
+
+    # Set the plot title
+    if title:
+        ax.set_title(title, fontsize=16)
+
+    # Set the axis labels
+    ax.set_xlabel('Epochs', fontsize=14)
+    ax.set_ylabel('Huber Loss', fontsize=14)
+
+    # Plot the data using plt.plot for each line
+    ax.semilogy(epochs, history['loss'], label='Total loss', color=colors[0], linestyle='-', linewidth=1, alpha = .9)
+    ax.semilogy(epochs, history['val_loss'], label=None, color=colors[0], linestyle='--', linewidth=1, alpha = .7)
+
+    ax.plot(epochs, history['output__gravity_loss'], label=r'$\logg$', color=colors[1], linestyle='-', linewidth=1, alpha = .9)
+    ax.plot(epochs, history['val_output__gravity_loss'], label=None, color=colors[1], linestyle='--', linewidth=1, alpha = .7)
+
+    ax.plot(epochs, history['output__c_o_ratio_loss'], label='C/O', color=colors[2], linestyle='-', linewidth=1, alpha = .9)
+    ax.plot(epochs, history['val_output__c_o_ratio_loss'], label=None, color=colors[2], linestyle='--', linewidth=1, alpha = .7)
+
+    ax.plot(epochs, history['output__metallicity_loss'], label='[M/H]', color=colors[3], linestyle='-', linewidth=1, alpha = .9)
+    ax.plot(epochs, history['val_output__metallicity_loss'], label=None, color=colors[3], linestyle='--', linewidth=1, alpha = .7)
+
+    ax.plot(epochs, history['output__temperature_loss'], label=r'$T_{\rm eff}$', color=colors[4], linestyle='-', linewidth=1, alpha = .9)
+    ax.plot(epochs, history['val_output__temperature_loss'], label=None, color=colors[4], linestyle='--', linewidth=1, alpha = .7)
+
+    # Set the legend
+    ax.legend(loc='lower left', fontsize=12)
+
+    # Increase size of x and y ticks
+    ax.tick_params(axis='both', which='major', labelsize=12)
+
+    # Add grid
+    ax.grid(True)
+
+    plt.savefig(f'../manuscript/2023_ApJ/figures/ML_results_R2_scatter/CNN_Huber_Loss.pdf',
+                format='pdf')
+
+    # Show the plot
+    plt.show()
+
