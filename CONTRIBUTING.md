@@ -29,7 +29,7 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 ## Code of Conduct
 
 This project and everyone participating in it is governed by the
-[TelescopeML Code of Conduct](https://github.com/EhsanGharibNezhad/TelescopeMLblob/master/CODE_OF_CONDUCT.md).
+[TelescopeML Code of Conduct](https://github.com/EhsanGharibNezhad/TelescopeML/blob/main/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior
 to <>.
 
