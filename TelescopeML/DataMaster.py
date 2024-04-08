@@ -56,7 +56,7 @@ class DataProcessor:
     ----------
     feature_values : np.ndarray
         Flux arrays (input data).
-    feature_names : List[str]
+    wavelength_list_str : List[str]
         Name of wavelength in micron.
     target_values : np.ndarray
         Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity).
@@ -83,7 +83,7 @@ class DataProcessor:
     def __init__(
             self,
             feature_values: Union[np.ndarray] = None,
-            feature_names: Union[List[str]] = None,
+            wavelength_list_str: Union[List[str]] = None,
             target_values: Union[np.ndarray] = None,
             target_name: Union[str] = None,
             is_tuned: str = 'no',
@@ -97,7 +97,7 @@ class DataProcessor:
     ):
 
         self.feature_values = feature_values
-        self.feature_names = feature_names
+        self.wavelength_list_str = wavelength_list_str
         self.target_values = target_values
         self.target_name = target_name
         self.is_tuned = is_tuned
