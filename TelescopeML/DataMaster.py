@@ -54,13 +54,13 @@ class DataProcessor:
 
     Parameters
     ----------
-    feature_values : np.ndarray
+    flux_values : np.ndarray
         Flux arrays (input data).
-    wavelength_list_str : List[str]
+    wavelength_names : List[str]
         Name of wavelength in micron.
-    target_values : np.ndarray
+    output_values : np.ndarray
         Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity).
-    target_name : str
+    output_names : str
         Name of the target variable.
     is_hyperparam_tuned : str
         Indicates whether hyperparameters are tuned or not ('yes' or 'no').
@@ -82,10 +82,10 @@ class DataProcessor:
     """
     def __init__(
             self,
-            feature_values: Union[np.ndarray] = None,
-            wavelength_list_str: Union[List[str]] = None,
-            target_values: Union[np.ndarray] = None,
-            target_name: Union[str] = None,
+            flux_values: Union[np.ndarray] = None,
+            wavelength_names: Union[List[str]] = None,
+            output_values: Union[np.ndarray] = None,
+            output_names: Union[str] = None,
             is_tuned: str = 'no',
             param_grid: Union[None, Dict] = None,
             spectral_resolution: Union[None, int] = None,
@@ -96,10 +96,10 @@ class DataProcessor:
             ml_method: str = 'regression',
     ):
 
-        self.feature_values = feature_values
-        self.wavelength_list_str = wavelength_list_str
-        self.target_values = target_values
-        self.target_name = target_name
+        self.flux_values = flux_values
+        self.wavelength_names = wavelength_names
+        self.output_values = output_values
+        self.output_names = output_names
         self.is_tuned = is_tuned
         self.param_grid = param_grid
         self.spectral_resolution = spectral_resolution
@@ -139,8 +139,8 @@ class DataProcessor:
         link: `sklearn.model_selection.train_test_split <https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html>`_
 
         """
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.feature_values,
-                                                                                self.target_values,
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.flux_values,
+                                                                                self.output_values,
                                                                                 test_size=test_size,
                                                                                 shuffle=True,
                                                                                 random_state=42)
@@ -179,8 +179,8 @@ class DataProcessor:
         link: `sklearn.model_selection.train_test_split <https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html>`_
         """
         X_train, X_test, y_train, y_test = train_test_split(
-            self.feature_values,
-            self.target_values,
+            self.flux_values,
+            self.output_values,
             test_size=test_size,
             shuffle=True,
             random_state=random_state_

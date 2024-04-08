@@ -175,8 +175,8 @@ def regression_report(trained_model,
         axs[1].legend(loc='lower right', fontsize=11)
 
         f.tight_layout()
-        target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-        # plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
+        output_names = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
+        # plt.savefig(f'../outputs/figures/regression_report_{output_names}.pdf', format='pdf')
         plt.show()
 
 def filter_dataset_range(dataset, filter_params):
