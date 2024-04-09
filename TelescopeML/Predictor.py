@@ -2,7 +2,7 @@
 
 from .IO_utils import *
 
-from .StatVisAnalyzer import boxplot_hist, plot_spectra_errorbar, \
+from .StatVisAnalyzer import plot_boxplot_hist, plot_spectra_errorbar, \
     plot_pred_vs_obs_errorbar
 from .StatVisAnalyzer import interpolate_df, print_results_fun
 from .StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, \
@@ -636,10 +636,10 @@ class ObserveParameterPredictor:
             plt.show()
 
         if __plot_boxplot_hist__:
-            boxplot_hist(self.df_random_pred['logg'], x_label=r'$\log g$', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['T'], x_label=r'$T_{eff}$', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['logg'], x_label=r'$\log g$', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['T'], x_label=r'$T_{eff}$', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
 
 
 
