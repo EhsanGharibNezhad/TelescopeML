@@ -15,13 +15,13 @@ class LoadSave:
     """
 
     def __init__(self,
-                 ml_model_str,
+                 trained_ML_model_name,
                  ml_method,
                  is_feature_improved = None,
                  is_augmented = None,
                  is_tuned = None,
                  ):
-        self.ml_model_str = ml_model_str
+        self.trained_ML_model_name = trained_ML_model_name
         self.ml_method = ml_method
         self.is_feature_improved = is_feature_improved
         self.is_augmented = is_augmented
@@ -41,7 +41,7 @@ class LoadSave:
         --------
         - generic_path (str): The generic path for saving or loading the model
         """
-        file_name = f'{output_indicator}__{self.ml_model_str}__' \
+        file_name = f'{output_indicator}__{self.trained_ML_model_name}__' \
                     f'{self.ml_method}'
 
         generic_path = os.path.join(self.base_path, file_name)
