@@ -24,7 +24,7 @@ copyright = '2023, Ehsan (Sam) Gharib-Nezhad'
 author = 'Ehsan (Sam) Gharib-Nezhad'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.2'
+release = '0.0.3'
 
 # -- General configuration ---------------------------------------------------
 
@@ -42,6 +42,7 @@ extensions = [  'sphinx_copybutton',
 
 
 nbsphinx_allow_errors = False
+
 
 nbsphinx_execute = 'always'
 
