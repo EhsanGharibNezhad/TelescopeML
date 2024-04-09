@@ -7,6 +7,7 @@ bohb_model_tuner/out*
 store/
 */store
 ../store_tutorials/store
+store/
 	
 __pycache__/
 .ipynb_checkpoints/
@@ -17,6 +18,10 @@ __pycache__/
 *__pycache__/
 TelescopeML.egg-info/*
 dist/*
+_build/
+doctrees/
+
+*/doctrees/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
