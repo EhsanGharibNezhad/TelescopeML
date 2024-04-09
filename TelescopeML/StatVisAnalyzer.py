@@ -15,6 +15,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 from scipy.interpolate import RegularGridInterpolator
 from scipy.stats import chi2
 import os
+from matplotlib.ticker import AutoMinorLocator
 
 import pprint
 
@@ -495,6 +496,7 @@ def interpolate_df(dataset,
     return df_interpolated_final
 
 
+# def filter_dataframe(training_datasets, predicted_targets_dic):
 def filter_dataframe(training_datasets, predicted_targets_dic):
     nearest_value_list = []
     filtered_df = training_datasets.copy()
@@ -712,7 +714,7 @@ def plot_pred_vs_obs_errorbar(object_name,
 
     show(p)
 
-def plot_pred_vs_obs_errorbar_stat(  stat_df,
+def plot_pred_vs_obs_errorbar_stat_bokeh(  stat_df,
                                 confidence_level,
                                 object_name,
                                 x_obs,
@@ -772,7 +774,7 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
     # Create ML figure
     p = figure(
         title=object_name+': Observational vs. ML Predicted Spectra'+' [𝛘2='+str(chi2_stat)+', p-value='+ str(p_value)+']',
-        x_axis_label='Features (Wavelength [μm])',
+        x_axis_label='Wavelength [μm]',
         y_axis_label='Absolute Flux (F𝜈) [erg/s/cm2/Hz]',
         y_axis_type="log",
         width=1000,
@@ -915,7 +917,7 @@ def calculate_confidence_intervals_std_df(dataset_df,
         x = np.round(df3.columns, 2)
         p = figure(
             title='Mean with Confidence Intervals',
-            x_axis_label='Features (Wavelength [μm])',
+            x_axis_label='Wavelength [μm]',
             y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
             y_axis_type="log",
             width=1000,
@@ -1376,7 +1378,7 @@ def plot_filtered_dataframe_notUsed(dataset, filter_bounds, feature_to_plot, tit
                         color=colors[i], alpha=0.7)
 
     # print(filtered_data.T[col][:4].values[0])
-    ax.set_xlabel('Features (Wavelength [$\mu$m])')
+    ax.set_xlabel('Wavelength [$\mu$m]')
     ax.set_ylabel(r'F$_{\nu}$  [erg/cm$^2$/s/Hz]')
     dict_features = {'temperature': 'Effective Temperature', 'gravity': 'Gravity', 'metallicity': 'Metallicity',
                      'c_o_ratio': 'Carbon-to-oxygen ratio'}
@@ -1579,4 +1581,266 @@ def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
                         tuned_ML_R_param_df['bd_name'] + '_TunedRadius_' + target
                         + '_counterplot.pdf',
                         format='pdf', bbox_inches='tight')
+        plt.show()
+
+
+def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
+                                confidence_level,
+                                object_name,
+                                x_obs,
+                                y_obs,
+                                y_obs_err,
+                                training_datasets,
+                                x_pred,
+                                predicted_targets_dic,
+                                radius,
+                                __print_results__ = False):
+    """
+    Plot observed spectra with error bars and predicted spectra with confidence intervals.
+
+    Parameters
+    ----------
+    stat_df : DataFrame
+        DataFrame containing the calculated statistics.
+    confidence_level : float
+        Confidence level for the confidence intervals.
+    object_name : str
+        Name of the object being plotted.
+    x_obs : list
+        List of x-axis values for the observed spectra.
+    y_obs : list
+        List of y-axis values for the observed spectra.
+    y_obs_err : list
+        List of error values corresponding to the observed spectra.
+    training_datasets : optional
+        Training datasets used for prediction. Default is None.
+    predicted_targets_dic : optional
+        Dictionary of predicted targets. Default is None.
+    # bd_object_class : optional
+    #     Object class. Default is None.
+    __print_results__ : bool
+        True or False.
+    """
+
+    chi2_stat, p_value = chi_square_test(
+                            x_obs=x_obs,
+                            y_obs=y_obs,
+                            yerr_obs=y_obs_err,
+
+                            x_pre=stat_df['wl'][::-1],
+                            y_pre=stat_df['mean'],
+                            yerr_pre=stat_df['std_values'],
+                            radius=radius,
+                            __plot_results__=False,
+                            __print_results__=True)
+
+    if __print_results__:
+        print('*'*10+ ' Predicted Targets dic ' + '*'*10 )
+        print(predicted_targets_dic)
+
+    X = stat_df['wl'][::-1]
+    Y = stat_df['mean']
+    std = stat_df['std_values']
+
+    # Create a figure
+
+    # Create the figure and axis
+    # Create the figure and axis
+    plt.figure(figsize=(12, 6))
+    ax = plt.gca()
+
+    # Plot observational data with error bars
+    # ax.scatter(x_obs, y_obs, color='blue', label=f"Observational data",s=6, marker='o' )
+    # ax.errorbar(x_obs, y_obs, yerr=y_obs_err, color='gray', linestyle='', alpha=0.5, markersize=1)
+    ax.errorbar(x_obs, y_obs, yerr=y_obs_err,
+                fmt='o', color='blue', alpha=0.8, markersize=2, capsize=3, elinewidth=1, ecolor='gray',label=f"Observational data")
+
+    # # Plot predicted data
+    # ax.plot(stat_df['wl'][::-1], stat_df['mean'], color='blue', linewidth=2, label='ML Predicted')
+    #
+    # # Plot shaded regions for confidence intervals
+    # ax.fill_between(stat_df['wl'][::-1], stat_df['confidence_level_lower'], stat_df['confidence_level_upper'], color='red', alpha=0.5, label=f'Confidence Level: {confidence_level}%')
+    #
+    # # Plot shaded regions for 1 sigma
+    # ax.fill_between(stat_df['wl'][::-1], stat_df['mean'] - stat_df['std_values'], stat_df['mean'] + stat_df['std_values'], color='green', alpha=0.4, label='1σ')
+
+    # Plot data points
+    # ax.errorbar(X, Y, yerr=std, fmt='-', markersize=5, capsize=3, elinewidth=1, label='Data with Error Bars')
+    # ax.errorbar(stat_df['wl'][::-1], stat_df['mean'], yerr=std, fmt='-', markersize=5, capsize=3, elinewidth=1, label='Data with Error Bars')
+    ax.plot(stat_df['wl'][::-1], stat_df['mean'], color='red', label='ML predicted', linewidth=2)
+
+    # Shade the region representing standard deviation
+    # ax.fill_between(stat_df['wl'][::-1], Y - stat_df['confidence_level_lower'], Y + stat_df['confidence_level_lower'],
+    #                 alpha=0.6, color='red', label='Confidence Level: 95%')
+    ax.fill_between(X, Y - std, Y + std, alpha=0.4, color='green', label='1$\sigma$')
+    # ax.fill_between(X, Y - 2*std, Y + 2*std, alpha=0.4, color='green', label='2$\sigma$')
+
+    # Set logarithmic scale for y-axis
+    ax.set_yscale('log')
+
+    # Set labels and title
+    ax.set_xlabel('Wavelength [$\mu$m]',fontsize=14)
+    ax.set_ylabel(r'TOA Flux ($F_{\nu}$) [erg/s/cm2/Hz]',fontsize=14)
+    ax.set_title(f'{object_name}: Observational vs. ML Predicted Spectra'+' [$\chi^2$='+str(chi2_stat)+']',fontsize=16)
+
+    # Display legend
+    ax.legend(loc='lower left',fontsize=12)
+
+    min_mean = np.min(stat_df['mean'])
+    max_mean = np.max(stat_df['mean'])
+    ax.set_ylim((min_mean * 0.1, max_mean * 2))
+    ax.xaxis.set_minor_locator(AutoMinorLocator())
+
+    # Customize the plot
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.grid(True, linestyle="--", alpha=0.5)
+
+    plt.tight_layout()
+
+    # export_svg(p, filename=f"../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.svg")
+    # plt.savefig(f'../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.pdf', format='pdf')
+
+    plt.show()
+
+
+def plot_regression_report(trained_model,
+                           trained_data_processor,
+                           Xtrain, Xtest, ytrain, ytest,
+                           target_i,
+                           xy_top=None, xy_bottom=None, __print_results__=False):
+    """
+    Generate a regression report for the trained ML/CNN model.
+
+    Parameters
+    -----------
+    trained_model : object
+        Trained regression model.
+    Xtrain : array
+        Training set.
+    Xtest : array
+        Test set.
+    ytrain : array
+        Training target set.
+    ytest : array
+        Test target set.
+    target_i : int
+        Index of the target variable to analyze.
+    xy_top : list, optional
+        Coordinates for annotations in the top plot. Defaults to [0.55, 0.85].
+    xy_bottom : list, optional
+        Coordinates for annotations in the bottom plot. Defaults to [0.05, 0.8].
+    __print_results__ : bool, optional
+        True or False.
+    """
+
+    # Apply the trained ML model on the train set to predict the targets
+    if xy_bottom is None:
+        xy_bottom = [0.05, 0.8]
+    if xy_top is None:
+        xy_top = [0.55, 0.85]
+    y_pred_train = np.array(trained_model.predict(Xtrain))[:, :, 0].T
+    y_pred_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+    y_pred_train_list[:, 3] = 10 ** y_pred_train_list[:, 3]
+
+    y_act_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytrain)
+    y_act_train_list[:, 3] = 10 ** y_act_train_list[:, 3]
+
+    # Apply the trained ML model on the test set to predict the targets
+    y_pred_test = np.array(trained_model.predict(Xtest))[:, :, 0].T
+    y_pred_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_test)
+    y_pred_test_list[:, 3] = 10 ** y_pred_test_list[:, 3]
+
+    y_act_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytest)
+    y_act_test_list[:, 3] = 10 ** y_act_test_list[:, 3]
+
+    for i in range(0, target_i):
+        y_pred_train = y_pred_train_list[:, i]
+        y_act_train = y_act_train_list[:, i]
+        y_pred_test = y_pred_test_list[:, i]
+        y_act_test = y_act_test_list[:, i]
+
+        # Calculate the residual (Predicted - Actual)
+        residual_train_list = y_pred_train - y_act_train
+        residual_test_list = y_pred_test - y_act_test
+
+        # Calculate mean and standard deviation for residuals
+        mean_test = np.round(np.mean(residual_test_list), 2)
+        std_test = np.round(np.std(residual_test_list), 2)
+        mean_train = np.round(np.mean(residual_train_list), 2)
+        std_train = np.round(np.std(residual_train_list), 2)
+
+        # Calculate skewness for residuals
+        skew_test = stats.skew(residual_test_list)
+        skew_train = stats.skew(residual_train_list)
+
+        # Calculate R-squared scores
+        r2_score_train = r2_score(y_pred_train, y_act_train)
+        r2_score_test = r2_score(y_pred_test, y_act_test)
+
+        # Calculate  RMSE scores
+        rmse_score_train = np.sqrt(mean_squared_error(y_pred_train, y_act_train))
+        rmse_score_test = np.sqrt(mean_squared_error(y_pred_test, y_act_test))
+
+        # Create subplots for histograms and scatter plots
+        f, axs = plt.subplots(2, 1, figsize=(5, 5), sharey=False, sharex=False,
+                              gridspec_kw=dict(height_ratios=[1, 3]))
+
+        # Turn on minor ticks
+        axs[0].minorticks_on()
+        axs[1].minorticks_on()
+
+        if __print_results__:
+            print('\n\n----------------------- Test ------------------------')
+            print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
+                r2_score_test, rmse_score_train, mean_test, std_test))
+
+            print('\n----------------------- Train ------------------------')
+            print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
+                r2_score_train, rmse_score_test, mean_train, std_train))
+
+        # Plot histograms of residuals
+        axs[0].set_title(['$\log g$', 'C/O', '[M/H]', '$T_{eff}$'][i], fontsize=14)
+        sns.histplot(data=residual_train_list, ax=axs[0], label='train', alpha=0.7, bins=19,
+                     log_scale=False, stat='percent', legend=True, linewidth=0)
+        sns.histplot(data=residual_test_list, label='test', ax=axs[0], alpha=0.3, bins=19,
+                     stat='percent', legend=True, linewidth=0)
+        axs[0].set_xlim((-(abs(mean_train) + 3 * std_train), (abs(mean_train) + 3 * std_train)))
+        axs[0].set_ylim((1e-1, 100))
+        axs[0].set_yscale('log')
+        axs[0].set_ylabel('Probability %', fontsize=12)
+        axs[0].set_xlabel('Residual', fontsize=12)
+        axs[0].grid(which='major', color='grey', linestyle=':', linewidth=0.5)
+        axs[1].grid(which='major', color='grey', linestyle=':', linewidth=0.5)
+
+        # Plot scatter figures of predicted vs actual values
+        sns.scatterplot(y=y_pred_train, x=y_act_train, label='train', ax=axs[1], alpha=0.7, legend=False)
+        sns.scatterplot(y=y_pred_test, x=y_act_test, label='test', ax=axs[1], alpha=0.7, legend=False)
+        axs[1].set_ylabel('Predicted value', fontsize=12)
+        axs[1].set_xlabel('Actual value', fontsize=12)
+        axs[1].xaxis.set_minor_locator(plt.MultipleLocator(100))  # Adjust the step size as needed
+        axs[1].yaxis.set_minor_locator(plt.MultipleLocator(100))  # Adjust the step size as needed
+        if i < 3:
+            axs[1].xaxis.set_minor_locator(plt.MultipleLocator(0.1))  # Adjust the step size as needed
+            axs[1].yaxis.set_minor_locator(plt.MultipleLocator(0.1))  # Adjust the step size as needed
+
+        # Increase x and y tick font size
+        axs[0].tick_params(axis='both', which='major', labelsize=12)
+        axs[1].tick_params(axis='both', which='major', labelsize=12)
+
+        # Add annotations for skewness and R-squared scores
+        #         axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, train}}$= ' + f'{np.round(skew_train, 2)}',
+        #                         fontsize=11, xy=(xy_top[0], xy_top[1] + 0.08), xycoords='axes fraction')
+        #         axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, test}}$ = ' + f'{np.round(skew_test, 2)}',
+        #                         fontsize=11, xy=(xy_top[0], xy_top[1] - 0.08), xycoords='axes fraction')
+        axs[1].annotate(r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train}',
+                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
+        axs[1].annotate(r'R$^2_{\rm test}$ =' + f'{"%0.2f" % r2_score_test}',
+                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] - 0.06), xycoords='axes fraction')
+
+        axs[1].legend(loc='lower right', fontsize=12)
+
+        plt.tight_layout()
+        target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
+        plt.savefig(f'../../manuscript/2023_ApJ/figures/performance/regression_report_{target_name}_v2.pdf', format='pdf')
         plt.show()
