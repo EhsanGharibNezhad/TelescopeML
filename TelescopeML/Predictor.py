@@ -42,6 +42,12 @@ TOOLTIPS = [
 # from astropy.constants import c
 from astropy.nddata import StdDevUncertainty, NDDataArray
 from bokeh.palettes import viridis
+np.random.seed(100)  # You can use any integer as the seed value
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+
 
 
 __reference_data__ = os.getenv("TelescopeML_reference_data")
@@ -563,7 +569,7 @@ class ObserveParameterPredictor:
             # self.filtered_df4 = filtered_df4
             # print(filtered_df4.iloc[0,0:-5].values)
 
-            spectra_list_pre.append(filtered_df4.iloc[:, 0:-5].div((self.bd_literature_dic['bd_radius_Rjup'])**2).values.flatten())
+            spectra_list_pre.append(filtered_df4.iloc[:, 0:-4].div((self.bd_literature_dic['bd_radius_Rjup'])**2).values.flatten())
             # spectra_list_pre.append(filtered_df4.iloc[:, 0:-5].values.flatten())
 
 
@@ -593,7 +599,7 @@ class ObserveParameterPredictor:
         if __plot_randomly_generated_spectra__:
             p = figure(
                 title=self.object_name + ": Randomly generated spectra within 1σ",
-                x_axis_label='Features (Wavelength [𝜇m])',
+                x_axis_label='Wavelength [𝜇m]',
                 y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
                 width=800,
                 height=300,
@@ -670,3 +676,7 @@ class ObserveParameterPredictor:
                 radius = self.bd_literature_dic['bd_radius_Rjup'],
                 __print_results__=False,
             )
+
+
+
+
