@@ -57,131 +57,6 @@ def print_results_fun(targets, print_title=None):
 
 
 
-def regression_report(trained_model,
-                      trained_data_processor,
-                      Xtrain, Xtest, ytrain, ytest,
-                      target_i,
-                      xy_top=None, xy_bottom=None, __print_results__= False):
-    """
-    Generate a regression report for the trained ML/CNN model.
-
-    Parameters
-    -----------
-    trained_model : object
-        Trained regression model.
-    Xtrain : array
-        Training set.
-    Xtest : array
-        Test set.
-    ytrain : array
-        Training target set.
-    ytest : array
-        Test target set.
-    target_i : int
-        Index of the target variable to analyze.
-    xy_top : list, optional
-        Coordinates for annotations in the top plot. Defaults to [0.55, 0.85].
-    xy_bottom : list, optional
-        Coordinates for annotations in the bottom plot. Defaults to [0.05, 0.8].
-    __print_results__ : bool, optional
-        True or False.
-    """
-
-    # Apply the trained ML model on the train set to predict the targets
-    if xy_bottom is None:
-        xy_bottom = [0.05, 0.8]
-    if xy_top is None:
-        xy_top = [0.55, 0.85]
-    y_pred_train = np.array(trained_model.predict(Xtrain))[:, :, 0].T
-    y_pred_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_train)
-    y_pred_train_list[:, 3] = 10 ** y_pred_train_list[:, 3]
-
-    y_act_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytrain)
-    y_act_train_list[:, 3] = 10 ** y_act_train_list[:, 3]
-
-    # Apply the trained ML model on the test set to predict the targets
-    y_pred_test = np.array(trained_model.predict(Xtest))[:, :, 0].T
-    y_pred_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_test)
-    y_pred_test_list[:, 3] = 10 ** y_pred_test_list[:, 3]
-
-    y_act_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytest)
-    y_act_test_list[:, 3] = 10 ** y_act_test_list[:, 3]
-
-    for i in range(0, target_i):
-        y_pred_train = y_pred_train_list[:, i]
-        y_act_train = y_act_train_list[:, i]
-        y_pred_test = y_pred_test_list[:, i]
-        y_act_test = y_act_test_list[:, i]
-
-        # Calculate the residual (Predicted - Actual)
-        residual_train_list = y_pred_train - y_act_train
-        residual_test_list = y_pred_test - y_act_test
-
-        # Calculate mean and standard deviation for residuals
-        mean_test = np.round(np.mean(residual_test_list), 2)
-        std_test = np.round(np.std(residual_test_list), 2)
-        mean_train = np.round(np.mean(residual_train_list), 2)
-        std_train = np.round(np.std(residual_train_list), 2)
-
-        # Calculate skewness for residuals
-        skew_test = stats.skew(residual_test_list)
-        skew_train = stats.skew(residual_train_list)
-
-        # Calculate R-squared scores
-        r2_score_train = r2_score(y_pred_train, y_act_train)
-        r2_score_test = r2_score(y_pred_test, y_act_test)
-
-        # Calculate  RMSE scores
-        rmse_score_train = np.sqrt(mean_squared_error(y_pred_train, y_act_train))
-        rmse_score_test = np.sqrt(mean_squared_error(y_pred_test, y_act_test))
-
-
-        # Create subplots for histograms and scatter plots
-        f, axs = plt.subplots(2, 1, figsize=(5, 5), sharey=False, sharex=False,
-                              gridspec_kw=dict(height_ratios=[1, 3]))
-
-        if __print_results__:
-            print('\n\n----------------------- Test ------------------------')
-            print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
-                r2_score_test, rmse_score_train, mean_test, std_test))
-
-            print('\n----------------------- Train ------------------------')
-            print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
-                r2_score_train, rmse_score_test, mean_train, std_train))
-
-        # Plot histograms of residuals
-        axs[0].set_title(['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i], fontsize=14)
-        sns.histplot(data=residual_train_list, ax=axs[0], label='train', alpha=0.7, bins=19,
-                     log_scale=False, stat='percent', legend=True, linewidth=0)
-        sns.histplot(data=residual_test_list, label='test', ax=axs[0], alpha=0.3, bins=19,
-                     stat='percent', legend=True, linewidth=0)
-        axs[0].set_xlim((-(abs(mean_train) + 3 * std_train), (abs(mean_train) + 3 * std_train)))
-        axs[0].set_ylim((1e-1, 100))
-        axs[0].set_yscale('log')
-        axs[0].set_ylabel('Probability %', fontsize=12)
-
-        # Plot scatter figures of predicted vs actual values
-        sns.scatterplot(y=y_pred_train, x=y_act_train, label='train', ax=axs[1], alpha=0.7, legend=False)
-        sns.scatterplot(y=y_pred_test, x=y_act_test, label='test', ax=axs[1], alpha=0.7, legend=False)
-        axs[1].set_ylabel('Predicted value', fontsize=12)
-        axs[1].set_xlabel('Actual value', fontsize=12)
-
-        # Add annotations for skewness and R-squared scores
-        axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, train}}$= ' + f'{np.round(skew_train, 2)}',
-                        fontsize=11, xy=(xy_top[0], xy_top[1] + 0.08), xycoords='axes fraction')
-        axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, test}}$ = ' + f'{np.round(skew_test, 2)}',
-                        fontsize=11, xy=(xy_top[0], xy_top[1] - 0.08), xycoords='axes fraction')
-        axs[1].annotate(r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train} [{"%0.2f" % abs(mean_train)}$\pm${"%0.2f" % std_train}]',
-                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
-        axs[1].annotate(r'R$^2_{\rm test}$ =' + f'{np.round(r2_score_test, 2)} [{"%0.2f" % mean_test}$\pm${"%0.2f" % std_test}]',
-                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] - 0.06), xycoords='axes fraction')
-
-        axs[1].legend(loc='lower right', fontsize=11)
-
-        f.tight_layout()
-        output_names = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-        # plt.savefig(f'../outputs/figures/regression_report_{output_names}.pdf', format='pdf')
-        plt.show()
 
 def filter_dataset_range(dataset, filter_params):
     """
@@ -511,7 +386,7 @@ def filter_dataframe(training_datasets, predicted_targets_dic):
     return nearest_value_list, filtered_df
 
 
-def boxplot_hist(data,
+def plot_boxplot_hist(data,
                  x_label,
                  xy_loc):
 
@@ -1467,8 +1342,12 @@ def plot_model_loss(history=None, title=None):
     # Show the plot
     show(p)
 
+import matplotlib.pyplot as plt
+
+import matplotlib.pyplot as plt
+
 def plot_boxplot(data,
-                 title=None, xlabel='Wavelength', ylabel='Scaled Values',
+                 title=None, xlabel='Wavelength [$\mu$m]', ylabel='Scaled Values',
                  xticks_list=None, fig_size=(14, 3)):
     """
     Make a boxplot with the scaled features.
@@ -1481,25 +1360,36 @@ def plot_boxplot(data,
         - Lower quartile: 25% of scores fall below the lower quartile.
     """
 
-    plt.figure(figsize=fig_size)
-    plt.boxplot(data, sym='')
+    fig, ax = plt.subplots(figsize=fig_size)
+    ax.boxplot(data, sym='')
 
     if len(data) > 10:
-        plt.xticks(rotation=45)
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
 
-    plt.xlabel(xlabel, fontsize=12)
-    plt.ylabel(ylabel, fontsize=12)
+    ax.set_xlabel(xlabel, fontsize=12)
+    ax.set_ylabel(ylabel, fontsize=12)
     if title:
-        plt.title(title, fontsize=14)
+        ax.set_title(title, fontsize=14)
+
+    # Increase x and y tick font size
+    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.grid(which='major', color='grey', linestyle=':', linewidth=0.5)
+
 
     # Add custom x-ticks
     # custom_xticks = ['Label 1', 'Label 2', 'Label 3', 'Label 4']
     if xticks_list:
+        i = 1
+        if len(xticks_list) > 100:
+            i = 3
         xtick_positions = range(len(xticks_list))
-        plt.xticks(xtick_positions, xticks_list)
+        ax.set_xticks(xtick_positions[::i])
+        ax.set_xticklabels(xticks_list[::i])
 
     plt.tight_layout()
     plt.show()
+
+
 
 
 def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
@@ -1708,7 +1598,9 @@ def plot_regression_report(trained_model,
                            trained_data_processor,
                            Xtrain, Xtest, ytrain, ytest,
                            target_i,
-                           xy_top=None, xy_bottom=None, __print_results__=False):
+                           xy_top=None, xy_bottom=None,
+                           __print_results__=False,
+                           __save_plots__ = False):
     """
     Generate a regression report for the trained ML/CNN model.
 
@@ -1841,6 +1733,7 @@ def plot_regression_report(trained_model,
         axs[1].legend(loc='lower right', fontsize=12)
 
         plt.tight_layout()
-        target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-        plt.savefig(f'../../manuscript/2023_ApJ/figures/performance/regression_report_{target_name}_v2.pdf', format='pdf')
+        if __save_plots__:
+            target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
+            plt.savefig(f'../../manuscript/2023_ApJ/figures/performance/regression_report_{target_name}_v2.pdf', format='pdf')
         plt.show()
