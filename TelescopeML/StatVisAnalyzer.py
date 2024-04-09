@@ -28,6 +28,9 @@ from bokeh.plotting import output_notebook
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
 
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 def print_results_fun(targets, print_title=None):
     """
@@ -259,7 +262,7 @@ def interpolate_df(dataset,
         print(my_list_g, my_list_c_o, my_list_T, my_list_met)
 
     df_interpolated_ = pd.DataFrame(columns=df_to_interpolate.drop(
-        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity']).columns)
 
     df_interpolated_all = pd.DataFrame(columns=df_to_interpolate.columns)
 
@@ -278,13 +281,13 @@ def interpolate_df(dataset,
                         drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
 
                     data = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
 
                     y = df_to_interpolate_['c_o_ratio'].to_numpy()
 
                     column_grid = data.columns.to_numpy().astype(float)
                     values = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity']).to_numpy()
 
                     interp_func = RegularGridInterpolator((y, column_grid), values)
 
@@ -302,7 +305,7 @@ def interpolate_df(dataset,
                     df_interpolated_['temperature'] = temp
                     df_interpolated_['metallicity'] = met
                     df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
+                    # df_interpolated_['is_augmented'] = 'no'
 
                     df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
@@ -317,7 +320,7 @@ def interpolate_df(dataset,
     df_interpolated_all2.drop_duplicates(inplace=True)
 
     df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity',]).columns)
 
     for c_o in my_list_c_o:
         for temp in my_list_T:
@@ -333,13 +336,13 @@ def interpolate_df(dataset,
                         drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
 
                     data = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ])
 
                     y = df_to_interpolate_['metallicity'].to_numpy()
 
                     column_grid = data.columns.to_numpy().astype(float)
                     values = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).to_numpy()
 
                     interp_func = RegularGridInterpolator((y, column_grid), values)
 
@@ -356,7 +359,7 @@ def interpolate_df(dataset,
                     df_interpolated_['temperature'] = temp
                     df_interpolated_['c_o_ratio'] = c_o
                     df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
+                    # df_interpolated_['is_augmented'] = 'no'
 
                     df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
@@ -375,7 +378,7 @@ def interpolate_df(dataset,
     df_interpolated_all2.drop_duplicates(inplace=True)
 
     df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).columns)
 
     for c_o in my_list_c_o:
         for met in my_list_met:
@@ -393,14 +396,14 @@ def interpolate_df(dataset,
 
                     # print(df_to_interpolate)
                     data = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ])
 
                     y = df_to_interpolate_['temperature'].to_numpy()
                     # print(y)
 
                     column_grid = data.columns.to_numpy().astype(float)
                     values = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).to_numpy()
 
                     interp_func = RegularGridInterpolator((y, column_grid), values)
 
@@ -418,7 +421,7 @@ def interpolate_df(dataset,
                     df_interpolated_['metallicity'] = met
                     df_interpolated_['c_o_ratio'] = c_o
                     df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
+                    # df_interpolated_['is_augmented'] = 'no'
 
                     df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
@@ -433,7 +436,7 @@ def interpolate_df(dataset,
     df_interpolated_all2.drop_duplicates(inplace=True)
 
     df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).columns)
 
     for c_o in my_list_c_o:
         for met in my_list_met:
@@ -450,13 +453,13 @@ def interpolate_df(dataset,
                         drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
 
                     data = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ])
 
                     y = df_to_interpolate_['gravity'].to_numpy()
 
                     column_grid = data.columns.to_numpy().astype(float)
                     values = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).to_numpy()
 
                     interp_func = RegularGridInterpolator((y, column_grid), values)
 
@@ -474,7 +477,7 @@ def interpolate_df(dataset,
                     df_interpolated_['metallicity'] = met
                     df_interpolated_['c_o_ratio'] = c_o
                     df_interpolated_['temperature'] = temp
-                    df_interpolated_['is_augmented'] = 'no'
+                    # df_interpolated_['is_augmented'] = 'no'
 
                     df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
@@ -485,8 +488,9 @@ def interpolate_df(dataset,
         (df_interpolated_all['temperature'] == predicted_targets_dic['temperature']) &
         (df_interpolated_all['c_o_ratio'] == predicted_targets_dic['c_o_ratio']) &
         (df_interpolated_all['metallicity'] == predicted_targets_dic['metallicity']) &
-        (df_interpolated_all['gravity'] == predicted_targets_dic['gravity']) &
-        (df_interpolated_all['is_augmented'] == 'no')]
+        (df_interpolated_all['gravity'] == predicted_targets_dic['gravity']) #&
+        # (df_interpolated_all['is_augmented'] == 'no')
+    ]
 
     return df_interpolated_final
 
@@ -551,7 +555,7 @@ def plot_spectra_errorbar(object_name,
                           data_type='x_y_yerr'):
     # Create the figure
     p = figure(title=f"{object_name}: Calibrated Observational Spectra" if title_label is None else title_label,
-               x_axis_label="Features (Wavelength [𝜇m])",
+               x_axis_label="Wavelength [𝜇m]",
                y_axis_label=y_label,
                width=800, height=300,
                y_axis_type="log",
@@ -664,7 +668,7 @@ def plot_pred_vs_obs_errorbar(object_name,
 
     # Create the Observational figure
     p = figure(title=f"{object_name}: Calibrated Observational VS. Predicted Spectra",
-               x_axis_label="Features (Wavelength [𝜇m])",
+               x_axis_label="Wavelength [𝜇m]",
                y_axis_label="Flux (F𝜈) [erg/s/cm2/Hz]",
                width=800, height=300,
                y_axis_type="log",
@@ -689,7 +693,7 @@ def plot_pred_vs_obs_errorbar(object_name,
     # Add the scatter plot
     p.line(
         x=x_pred['wl'],
-        y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature', 'is_augmented']).values[0],
+        y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature',]).values[0],
         line_width=1,
         legend_label='ML Predicted:' + ', '.join([['log𝑔= ', 'C/O= ', '[M/H]= ', 'T= '][i] + str(np.round(ypred[i], 2)) for i in range(4)])
     )
@@ -989,7 +993,7 @@ def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Dat
     source_pre = ColumnDataSource(data=dict(x_pre=x_pre, y_pre=y_pre, upper_err_pre=upper_err_pre, lower_err_pre=lower_err_pre))
 
     p = figure(
-        x_axis_label='Features (Wavelength [𝜇m])',
+        x_axis_label='Wavelength [𝜇m]',
         y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
         width=800, height=300,
         y_axis_type='log',
@@ -1281,8 +1285,66 @@ def plot_scatter_x_y (x, y,
     # Show the plot
     show(p)
 
+def plot_filtere_data(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic,output_names, __reference_data__):
+    """
+    Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.
 
-def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic, __reference_data__):
+    Parameters:
+        - df (pd.DataFrame): DataFrame containing the data to be plotted.
+    """
+
+    filtered_df = dataset.copy()
+    for feature, bounds in filter_bounds.items():
+        lower_bound, upper_bound = bounds
+        filtered_df = filtered_df[(filtered_df[feature] >= lower_bound) & (filtered_df[feature] <= upper_bound)]
+
+#         filtered_df2 = filtered_df.sort_values(feature_to_plot, ascending=False).iloc[::1, 4:-1][::-1]
+
+    filtered_df2 = filtered_df.sort_values(feature_to_plot, ascending=True).drop(columns=output_names)
+
+    fig, ax = plt.subplots(figsize=(12, 4))
+
+    x = filtered_df2.columns
+    df_transposed = filtered_df2.T  # Transpose the DataFrame
+
+    # Define a color palette
+    num_colors = len(df_transposed.columns)  # Number of colors needed (excluding x-axis)
+    colors = sns.color_palette('magma', num_colors)
+
+    for i, col in enumerate(df_transposed.columns):
+        # print(col)
+        if col != 'x':  # Skip the x-axis column
+            ax.semilogy(wl_synthetic, df_transposed[col],
+                        # label=data[col][:4].values,
+                        color=colors[i], alpha=0.7)
+
+    # print(filtered_data.T[col][:4].values[0])
+    ax.set_xlabel('Wavelength [$\mu$m]', fontsize = 12)
+    ax.set_ylabel(r'F$_{\nu}$  [erg/cm$^2$/s/Hz]', fontsize = 12)
+    dict_features = {'temperature': 'Effective Temperature', 'gravity': 'Gravity', 'metallicity': 'Metallicity',
+                     'c_o_ratio': 'Carbon-to-oxygen ratio'}
+    ax.set_title(dict_features[feature_to_plot] + " " + title_label, fontsize = 14)
+    # ax.legend()
+
+    # Get the minimum and maximum values from the data
+    # vmin = df_transposed.values.min()
+    # vmax = df_transposed.values.max()
+
+    # Add colorbar
+    cmap = sns.color_palette('magma', as_cmap=True)
+    cbar = plt.colorbar(plt.cm.ScalarMappable(cmap=cmap,
+                                              norm=plt.Normalize(vmin=filter_bounds[feature_to_plot][0],
+                                                                 vmax=filter_bounds[feature_to_plot][1])), ax=ax)
+    # dict_features2 = {'temperature':'T [K]', 'gravity':'log$g$', 'metallicity':'[M/H]', 'c_o_ratio':'C/O ratio'}
+    dict_features = {'temperature': 'T$_{eff}$ [K]', 'gravity': 'log$g$', 'metallicity': '[M/H]', 'c_o_ratio': 'C/O'}
+    cbar.set_label(dict_features[feature_to_plot], fontsize = 12)
+
+    # plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_trainin_examples.pdf"), dpi=500,
+    #             bbox_inches='tight')
+
+    plt.show()
+
+def plot_filtered_dataframe_notUsed(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic, __reference_data__):
     """
     Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.
 
@@ -1362,21 +1424,21 @@ def plot_model_loss(history=None, title=None):
            legend_label='Total loss')
     p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
+    p.line(epochs, history['output__gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
            legend_label='gravity')
-    p.line(epochs, history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
+    p.line(epochs, history['val_output__gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
+    p.line(epochs, history['output__c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
            legend_label='c_o_ratio')
-    p.line(epochs, history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
+    p.line(epochs, history['val_output__c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
+    p.line(epochs, history['output__metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
            legend_label='metallicity')
-    p.line(epochs, history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
+    p.line(epochs, history['val_output__metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
+    p.line(epochs, history['output__temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
            legend_label='temperature')
-    p.line(epochs, history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
+    p.line(epochs, history['val_output__temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
 
     # Increase size of x and y ticks
     p.title.text_font_size = '14pt'
@@ -1402,3 +1464,119 @@ def plot_model_loss(history=None, title=None):
 
     # Show the plot
     show(p)
+
+def plot_boxplot(data,
+                 title=None, xlabel='Wavelength', ylabel='Scaled Values',
+                 xticks_list=None, fig_size=(14, 3)):
+    """
+    Make a boxplot with the scaled features.
+
+    Description
+    -----------
+        - Median: middle quartile marks.
+        - Inter-quartile range (The middle “box”): 50% of scores fall within the inter-quartile range.
+        - Upper quartile: 75% of the scores fall below the upper quartile.
+        - Lower quartile: 25% of scores fall below the lower quartile.
+    """
+
+    plt.figure(figsize=fig_size)
+    plt.boxplot(data, sym='')
+
+    if len(data) > 10:
+        plt.xticks(rotation=45)
+
+    plt.xlabel(xlabel, fontsize=12)
+    plt.ylabel(ylabel, fontsize=12)
+    if title:
+        plt.title(title, fontsize=14)
+
+    # Add custom x-ticks
+    # custom_xticks = ['Label 1', 'Label 2', 'Label 3', 'Label 4']
+    if xticks_list:
+        xtick_positions = range(len(xticks_list))
+        plt.xticks(xtick_positions, xticks_list)
+
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
+                                list_=['temperature', 'gravity', 'metallicity', 'c_o_ratio'],
+                                __save_plot__=False):
+    plt.figure(figsize=(6, 4))
+    for target in list_:
+        X = tuned_ML_R_param_df[target]
+        Y = tuned_ML_R_param_df['radius']
+        Z = tuned_ML_R_param_df['chi_square']
+
+        # Levels for contour lines
+        levels = np.linspace(Z.min(), Z.max(), 1001)
+
+        # Set vmin and vmax to customize the color bar range
+        Zmin = float(Z.min() // 10 * 10)
+        Zmax = float(Z.max() // 100 * 100 + 100)
+
+        contour = plt.tricontour(X, Y, Z,
+                                 levels=levels,
+                                 cmap='viridis', linestyles='dashed', linewidths=1, vmin=Zmin - 1, vmax=Zmax + 1)
+
+        # Target value
+        target_value = 1
+
+        # Calculate Euclidean distances
+        distances = np.sqrt((Z - target_value) ** 2)
+
+        # Finding the index of the point with the closest chi-square value to the target
+        min_index = np.argmin(distances)
+        min_X = X[min_index]
+        min_Y = Y[min_index]
+        min_Z = Z[min_index]
+
+        # Plotting a star at the minimum chi-square point
+        plt.scatter(min_X, min_Y, marker='*', color='red', s=300, zorder=10)
+
+        target_dict = {'temperature': '$T_{eff}$',
+                       'gravity': '$\log$g',
+                       'metallicity': '[M/H]',
+                       'c_o_ratio': 'C/O',
+                       }
+        plt.xlabel(target_dict[target], fontsize=16)
+        plt.ylabel('$R_{Jup}$', fontsize=16)
+        plt.xticks(fontsize=14, rotation=45)
+        plt.yticks(fontsize=14)
+        #         plt.gca().xaxis.set_major_formatter(FuncFormatter(lambda x, pos: f'{x:.2f}'))
+
+        # Adding minor ticks and grid
+        plt.minorticks_on()
+        plt.grid(which='major', linestyle='--', linewidth='0.1', color='black')
+        #         plt.grid(which='minor', linestyle=':', linewidth='0.2', color='gray')
+
+        Rstd = np.round(tuned_ML_R_param_df.describe().loc['std']['radius'], 2)
+        Tstd = np.round(tuned_ML_R_param_df.describe().loc['std'][target], 2)
+        chistd = np.round(tuned_ML_R_param_df.describe().loc['std']['chi_square'], 2)
+        print(Rstd, Tstd, chistd)
+        #         plt.suptitle(r'$R_{\mathrm{Jup}}^{\chi^2_\mathrm{min}}$=' + f'{round(min_Y, 2)}$\pm${Rstd}, '
+        #                   + target_dict[target] + f'= {round(min_X, 2) }$\pm${Tstd}, $\chi_{{min}}^2$={round(min_Z, 1)}',
+        #                                                          y=.95, fontsize=15)
+        plt.suptitle(f'$\chi_{{min}}^2$={round(min_Z, 1)}' + r', $R_{\chi^2_\mathrm{min}}$=' + f'{round(min_Y, 2)}, '
+                     + target_dict[target] + f'= {round(min_X, 2)}$\pm${Tstd}',
+                     y=.95, fontsize=15)
+
+        # Using colorbar to fill the color spectrum
+        # cbar = plt.colorbar(contour, label=r'$\chi_r^2$',)
+        cbar = plt.colorbar(contour)
+        cbar.set_label(r'$\chi_r^2$', fontsize=16)
+        cbar.ax.tick_params(labelsize=14)
+
+        # Automatically set better values for colorbar ticks
+        #         cbar.locator = MaxNLocator(nbins=9)
+        cbar.update_ticks()
+
+        plt.tight_layout()
+
+        if __save_plot__:
+            plt.savefig('../../outputs/figures/tuned_bohb_batch32_v3_1000epoch_out10_v2_UsedInPAPER_v5/' +
+                        tuned_ML_R_param_df['bd_name'] + '_TunedRadius_' + target
+                        + '_counterplot.pdf',
+                        format='pdf', bbox_inches='tight')
+        plt.show()
