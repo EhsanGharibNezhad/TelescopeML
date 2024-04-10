@@ -2,11 +2,11 @@
 
 from .IO_utils import *
 
-from .StatVisAnalyzer import boxplot_hist, plot_spectra_errorbar, \
+from .StatVisAnalyzer import plot_boxplot_hist, plot_spectra_errorbar, \
     plot_pred_vs_obs_errorbar
 from .StatVisAnalyzer import interpolate_df, print_results_fun
 from .StatVisAnalyzer import replace_zeros_with_mean, calculate_confidence_intervals_std_df, \
-    plot_pred_vs_obs_errorbar_stat
+    plot_pred_vs_obs_errorbar_stat_bokeh, plot_pred_vs_obs_errorbar_stat_matplotlib
 
 # ======= Import Python libraries ========================================
 
@@ -42,6 +42,12 @@ TOOLTIPS = [
 # from astropy.constants import c
 from astropy.nddata import StdDevUncertainty, NDDataArray
 from bokeh.palettes import viridis
+np.random.seed(100)  # You can use any integer as the seed value
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+
 
 
 __reference_data__ = os.getenv("TelescopeML_reference_data")
@@ -451,9 +457,9 @@ class ObserveParameterPredictor:
             __plot_randomly_generated_spectra__=False,
             __plot_histogram__=False,
             __plot_boxplot_hist__=False,
-            # __plot_predicted_vs_observed__=False,
             __plot_pred_vs_obs_errorbar__=False,
-            __plot_pred_vs_obs_errorbar_stat__=False,
+            __plot_pred_vs_obs_errorbar_stat_bokeh__=False,
+            __plot_pred_vs_obs_errorbar_stat_matplotlib__=False,
             __calculate_confidence_intervals_std_df__=False,
             ):
         """
@@ -474,7 +480,7 @@ class ObserveParameterPredictor:
             True or False.
         __plot_pred_vs_obs_errorbar__ : bool
             True or False.
-        __plot_pred_vs_obs_errorbar_stat__ : bool
+        __plot_pred_vs_obs_errorbar_stat_bokeh__ : bool
             True or False.
         __calculate_confidence_intervals_std_df__ : bool
             True or False.
@@ -563,7 +569,7 @@ class ObserveParameterPredictor:
             # self.filtered_df4 = filtered_df4
             # print(filtered_df4.iloc[0,0:-5].values)
 
-            spectra_list_pre.append(filtered_df4.iloc[:, 0:-5].div((self.bd_literature_dic['bd_radius_Rjup'])**2).values.flatten())
+            spectra_list_pre.append(filtered_df4.iloc[:, 0:-4].div((self.bd_literature_dic['bd_radius_Rjup'])**2).values.flatten())
             # spectra_list_pre.append(filtered_df4.iloc[:, 0:-5].values.flatten())
 
 
@@ -593,7 +599,7 @@ class ObserveParameterPredictor:
         if __plot_randomly_generated_spectra__:
             p = figure(
                 title=self.object_name + ": Randomly generated spectra within 1σ",
-                x_axis_label='Features (Wavelength [𝜇m])',
+                x_axis_label='Wavelength [𝜇m]',
                 y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
                 width=800,
                 height=300,
@@ -630,10 +636,10 @@ class ObserveParameterPredictor:
             plt.show()
 
         if __plot_boxplot_hist__:
-            boxplot_hist(self.df_random_pred['logg'], x_label=r'$\log g$', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['T'], x_label=r'$T_{eff}$', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
-            boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['logg'], x_label=r'$\log g$', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['T'], x_label=r'$T_{eff}$', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
 
 
 
@@ -656,8 +662,8 @@ class ObserveParameterPredictor:
                 __plot_calculate_confidence_intervals_std_df__=False,
             )
 
-        if __plot_pred_vs_obs_errorbar_stat__:
-            plot_pred_vs_obs_errorbar_stat(
+        if __plot_pred_vs_obs_errorbar_stat_bokeh__:
+            plot_pred_vs_obs_errorbar_stat_bokeh(
                 stat_df=self.confidence_intervals_std_df,
                 confidence_level=0.95,
                 object_name=self.object_name,
@@ -670,3 +676,20 @@ class ObserveParameterPredictor:
                 radius = self.bd_literature_dic['bd_radius_Rjup'],
                 __print_results__=False,
             )
+
+        if __plot_pred_vs_obs_errorbar_stat_matplotlib__:
+            plot_pred_vs_obs_errorbar_stat_matplotlib(stat_df=self.confidence_intervals_std_df,
+                                                      confidence_level=0.95,
+                                                      object_name=self.object_name,
+                                                      x_obs=self.obs_data_df['wl'],
+                                                      y_obs=self.obs_data_df['Fnu_obs_absolute'],
+                                                      y_obs_err=self.obs_data_df['Fnu_obs_absolute_err'],
+                                                      training_datasets=self.training_dataset_df,
+                                                      x_pred=self.wl_synthetic,
+                                                      predicted_targets_dic=self.dic_random_pred_mean,
+                                                      radius=self.bd_literature_dic['bd_radius_Rjup'],
+                                                      __print_results__=False)
+
+
+
+

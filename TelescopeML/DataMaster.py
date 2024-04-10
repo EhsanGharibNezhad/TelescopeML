@@ -38,7 +38,7 @@ tf.get_logger().setLevel('ERROR')
 
 # ===============================================================================
 # ==================                                           ==================
-# ==================            Train CNN Regression           ==================
+# ==================            Data Processor                 ==================
 # ==================                                           ==================
 # ===============================================================================
 
@@ -54,27 +54,21 @@ class DataProcessor:
 
     Parameters
     ----------
-    feature_values : np.ndarray
+    flux_values : np.ndarray
         Flux arrays (input data).
-    feature_names : List[str]
+    wavelength_names : List[str]
         Name of wavelength in micron.
-    target_values : np.ndarray
-        Target variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity).
-    target_name : str
-        Name of the target variable.
-    is_hyperparam_tuned : str
-        Indicates whether hyperparameters are tuned or not ('yes' or 'no').
-    param_grid : dict, optional
-        ML hyperparameters to be tuned (used if is_hyperparam_tuned = 'yes').
+    wavelength_values : np.ndarray
+        wavelength array in micron.
+    output_values : np.ndarray
+        output variable array (e.g., Temperature, Gravity, Carbon_to_Oxygen, Metallicity).
+    output_names : List[str]
+        Name of the output variable.
     spectral_resolution : int, optional
         Resolution of the synthetic spectra used to generate the dataset.
-    feature_improvement_method : str
-        Method used for feature improvement ('no', 'pca', 'RFE').
-    augmentation_method : str
-        Indicates if an augmented dataset is used ('no' or method name).
-    ml_model : BaseEstimator, optional
+    trained_ML_model : BaseEstimator, optional
         ML model object from sklearn package.
-    ml_model_str : str, optional
+    trained_ML_model_name : str, optional
         Name of the ML model.
     ml_method : str, optional
         Machine learning method ('regression' or 'classification').
@@ -82,46 +76,38 @@ class DataProcessor:
     """
     def __init__(
             self,
-            feature_values: Union[np.ndarray] = None,
-            feature_names: Union[List[str]] = None,
-            target_values: Union[np.ndarray] = None,
-            target_name: Union[str] = None,
-            is_tuned: str = 'no',
-            param_grid: Union[None, Dict] = None,
+            flux_values: Union[np.ndarray] = None,
+            wavelength_names: Union[List[str]] = None,
+            wavelength_values: Union[np.ndarray] = None,
+            output_values: Union[np.ndarray] = None,
+            output_names: Union[str] = None,
             spectral_resolution: Union[None, int] = None,
-            is_feature_improved: str = 'no',
-            is_augmented: str = 'no',
-            ml_model: Union[None, BaseEstimator] = None,
-            ml_model_str: Union[None, str] = None,
+            trained_ML_model: Union[None, BaseEstimator] = None,
+            trained_ML_model_name: Union[None, str] = None,
             ml_method: str = 'regression',
     ):
 
-        self.feature_values = feature_values
-        self.feature_names = feature_names
-        self.target_values = target_values
-        self.target_name = target_name
-        self.is_tuned = is_tuned
-        self.param_grid = param_grid
+        self.flux_values = flux_values
+        self.wavelength_names = wavelength_names
+        self.wavelength_values = wavelength_values
+        self.output_values = output_values
+        self.output_names = output_names
         self.spectral_resolution = spectral_resolution
-        self.is_feature_improved = is_feature_improved
-        self.is_augmented = is_augmented
-        self.ml_model = ml_model
-        self.ml_model_str = ml_model_str
+        self.trained_ML_model = trained_ML_model
+        self.trained_ML_model_name = trained_ML_model_name
         self.ml_method = ml_method
-        self.LoadSave = LoadSave(ml_model_str,
+        self.LoadSave = LoadSave(trained_ML_model_name,
                                  ml_method,
-                                 is_feature_improved,
-                                 is_augmented,
-                                 is_tuned)
+                                 )
 
     def split_train_test(self, test_size=0.1):
         """
-        Split the loaded set into train and test sets
+        Split the loaded dataset into train and test sets
 
         Parameters
         ----------
         test_size : float
-            The proportion of the dataset to include in the test split.
+            The proportion of the dataset to include in the test split (default = 0.1).
 
         Returns
         -------
@@ -139,8 +125,8 @@ class DataProcessor:
         link: `sklearn.model_selection.train_test_split <https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html>`_
 
         """
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.feature_values,
-                                                                                self.target_values,
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.flux_values,
+                                                                                self.output_values,
                                                                                 test_size=test_size,
                                                                                 shuffle=True,
                                                                                 random_state=42)
@@ -155,9 +141,9 @@ class DataProcessor:
         Parameters
         ----------
         test_size : float
-            Proportion of the dataset to include in the test split.
+            Proportion of the dataset to include in the test split (default = 0.1).
         val_size : float
-            Proportion of the remaining train dataset to include in the validation split.
+            Proportion of the remaining train dataset to include in the validation split (default = 0.1).
 
         Returns
         -------
@@ -168,19 +154,20 @@ class DataProcessor:
         self.X_test : array
             Used to evaluate the machine learning model.
         self.y_train : array
-            Targets used for training the models.
+            Outputs used for training the models.
         self.y_val : array
-            Targets used for validating the models.
+            Outputs used for validating the models.
         self.y_test : array
-            Targets used for testing the models.
+            Outputs used for testing the models.
 
         References
         ----------
         link: `sklearn.model_selection.train_test_split <https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html>`_
         """
+
         X_train, X_test, y_train, y_test = train_test_split(
-            self.feature_values,
-            self.target_values,
+            self.flux_values,
+            self.output_values,
             test_size=test_size,
             shuffle=True,
             random_state=random_state_
