@@ -1,17 +1,17 @@
-import scipy.signal.signaltools
-
-
-def _centered(arr, newsize):
-    # Return the center newsize portion of the array.
-    newsize = np.asarray(newsize)
-    currsize = np.array(arr.shape)
-    startind = (currsize - newsize) // 2
-    endind = startind + newsize
-    myslice = [slice(startind[k], endind[k]) for k in range(len(endind))]
-    return arr[tuple(myslice)]
-
-
-scipy.signal.signaltools._centered = _centered
+# import scipy.signal.signaltools
+#
+#
+# def _centered(arr, newsize):
+#     # Return the center newsize portion of the array.
+#     newsize = np.asarray(newsize)
+#     currsize = np.array(arr.shape)
+#     startind = (currsize - newsize) // 2
+#     endind = startind + newsize
+#     myslice = [slice(startind[k], endind[k]) for k in range(len(endind))]
+#     return arr[tuple(myslice)]
+#
+#
+# scipy.signal.signaltools._centered = _centered
 
 import os
 
@@ -36,7 +36,7 @@ import argparse
 import hpbandster.core.nameserver as hpns
 import hpbandster.core.result as hpres
 
-from hpbandster.optimizers import BOHB as BOHB
+# from hpbandster.optimizers import BOHB as BOHB
 # from hpbandster.examples.commons import MyWorker
 
 # import logging
@@ -371,71 +371,74 @@ class KerasWorker(Worker):
 # Read the `TelescopeML_reference_data` path
 
 import os  # to check the path
-from ConfigSpace.hyperparameters import UniformIntegerHyperparameter, UniformFloatHyperparameter, \
-    CategoricalHyperparameter
 
 __reference_data_path__ = os.getenv("TelescopeML_reference_data")
 __reference_data_path__
 
-# Step 1: Load the dataset
 train_BD = pd.read_csv(os.path.join(__reference_data_path__,
                                     'training_datasets',
-                                    'browndwarf_R100_v4_newWL_v2.csv.bz2'), compression='bz2')
+                                    'browndwarf_R100_v4_newWL_v3.csv.bz2'), compression='bz2')
+train_BD.head(5)
+
+
+output_names = ['gravity', 'temperature', 'c_o_ratio', 'metallicity']
+train_BD[output_names].head()
+
+
+
+wavelength_names = [item for item in train_BD.columns.to_list() if item not in output_names]
+wavelength_names[:5]
+
+
+wavelength_values = [float(item) for item in wavelength_names]
+wavelength_values[:10]
+
 
 wl_synthetic = pd.read_csv(os.path.join(__reference_data_path__,
                                         'training_datasets',
                                         'wl.csv'))
+wl_synthetic.head(3)
 
-## Prepare feature variables (X) and targets (y)
 # to assure we are only training the module with the native non-augmented BD training dataset
-train_BD = train_BD[train_BD['is_augmented'].isin(['no'])]
+train_BD = train_BD
 
-target_features = ['gravity', 'temperature', 'c_o_ratio', 'metallicity']
-training_features_labels = [item for item in train_BD.columns.to_list() if
-                            item not in target_features + ['is_augmented']]
 
 # Training feature variables
 X = train_BD.drop(
     columns=['gravity',
              'temperature',
              'c_o_ratio',
-             'metallicity',
-             'is_augmented'])  # .astype(np.float32)
+             'metallicity'])#.astype(np.float32)
+
 
 # Target/Output feature variables
-y = train_BD[['gravity', 'c_o_ratio', 'metallicity', 'temperature', ]]  # .astype(np.float32)
+y = train_BD[['gravity', 'c_o_ratio', 'metallicity', 'temperature', ]]#.astype(np.float32)
 
-# Log-Transform
+
 y.loc[:, 'temperature'] = np.log10(y['temperature'])
-# df['temperature'] = df['temperature'].apply(lambda x: np.log10(x))
 
-# Create an instance of TrainCNNRegression
 data_processor = DataProcessor(
-    #                              trained_model = None,
-    #                              trained_model_history = None,
-    feature_values=X.to_numpy(),
-    feature_names=X.columns,
-    target_values=y.to_numpy(),
-    target_name=['gravity', 'c_o_ratio', 'metallicity', 'temperature'],
-    is_tuned='yes',
-    param_grid=None,
-    spectral_resolution=100,
-    is_feature_improved='no',
-    is_augmented='no',
-    ml_model=None,
-    ml_model_str='CNN',
-)
+                             flux_values=X.to_numpy(),
+                             wavelength_names=X.columns,
+                             wavelength_values=wavelength_values,
+                             output_values=y.to_numpy(),
+                             output_names=output_names,
+                             spectral_resolution=100,
+                             trained_ML_model=None,
+                             trained_ML_model_name='CNN',
+                                )
 
-# Split the dataset into train and test sets
+
 data_processor.split_train_validation_test(test_size=0.1,
-                                           val_size=0.1,
-                                           random_state_=42, )
+                                             val_size=0.1,
+                                             random_state_=42,)
 
 # Scale the X features using MinMax Scaler
-data_processor.standardize_X_row_wise(output_indicator='Trained_StandardScaler_X_RowWise')
+data_processor.standardize_X_row_wise()
 
 # Standardize the y features using Standard Scaler
-data_processor.standardize_y_column_wise(output_indicator='Trained_StandardScaler_y_ColWise')
+data_processor.standardize_y_column_wise()
+
 
 # train
 data_processor.X_train_min = data_processor.X_train.min(axis=1)
@@ -453,24 +456,22 @@ df_MinMax_train = pd.DataFrame((data_processor.X_train_min, data_processor.X_tra
 df_MinMax_val = pd.DataFrame((data_processor.X_val_min, data_processor.X_val_max)).T
 df_MinMax_test = pd.DataFrame((data_processor.X_test_min, data_processor.X_test_max)).T
 
-df_MinMax_train.rename(columns={0: 'min', 1: 'max'}, inplace=True)
-df_MinMax_val.rename(columns={0: 'min', 1: 'max'}, inplace=True)
-df_MinMax_test.rename(columns={0: 'min', 1: 'max'}, inplace=True)
+
+df_MinMax_train.rename(columns={0:'min', 1:'max'}, inplace=True)
+df_MinMax_val.rename(columns={0:'min', 1:'max'}, inplace=True)
+df_MinMax_test.rename(columns={0:'min', 1:'max'}, inplace=True)
+
 
 data_processor.standardize_X_column_wise(
-    output_indicator='Trained_StandardScaler_X_ColWise_MinMax',
-    X_train=df_MinMax_train.to_numpy(),
-    X_val=df_MinMax_val.to_numpy(),
-    X_test=df_MinMax_test.to_numpy(),
-)
+                                        output_indicator='Trained_StandardScaler_X_ColWise_MinMax',
+                                        X_train = df_MinMax_train.to_numpy(),
+                                        X_val   = df_MinMax_val.to_numpy(),
+                                        X_test  = df_MinMax_test.to_numpy(),
+                                        )
 
-# data_processor.plot_boxplot_scaled_features(scaled_feature= data_processor.X_test_standardized_columnwise,
-#                                               xticks_list = ['','Min','Max'],
-#                                               title = 'Scaled Min Max Features - ColumnWise',
-#                                               fig_size=(4, 3),
-#                                                 )
 
-train_cnn_regression = data_processor
+
+
 
 # =========================================================
 
@@ -484,7 +485,7 @@ import argparse
 import hpbandster.core.nameserver as hpns
 import hpbandster.core.result as hpres
 
-from hpbandster.optimizers import BOHB as BOHB
+# from hpbandster.optimizers import BOHB as BOHB
 # from hpbandster.examples.commons import MyWorker
 
 
@@ -529,34 +530,34 @@ NS.start()
 # where it will wait for incoming configurations to evaluate.
 w = KerasWorker(
     # input dataset: StandardScaled instances
-    X1_train=train_cnn_regression.X_train_standardized_rowwise,
-    X1_val=train_cnn_regression.X_val_standardized_rowwise,
-    X1_test=train_cnn_regression.X_test_standardized_rowwise,
+    X1_train=data_processor.X_train_standardized_rowwise,
+    X1_val=data_processor.X_val_standardized_rowwise,
+    X1_test=data_processor.X_test_standardized_rowwise,
 
     # input dataset: Min Max of each instance
-    X2_train=train_cnn_regression.X_train_standardized_columnwise,
-    X2_val=train_cnn_regression.X_val_standardized_columnwise,
-    X2_test=train_cnn_regression.X_test_standardized_columnwise,
+    X2_train=data_processor.X_train_standardized_columnwise,
+    X2_val=data_processor.X_val_standardized_columnwise,
+    X2_test=data_processor.X_test_standardized_columnwise,
 
     # 1st target
-    y1_train=train_cnn_regression.y_train_standardized_columnwise[:, 0],
-    y1_val=train_cnn_regression.y_val_standardized_columnwise[:, 0],
-    y1_test=train_cnn_regression.y_test_standardized_columnwise[:, 0],
+    y1_train=data_processor.y_train_standardized_columnwise[:, 0],
+    y1_val=data_processor.y_val_standardized_columnwise[:, 0],
+    y1_test=data_processor.y_test_standardized_columnwise[:, 0],
 
     # 2nd target
-    y2_train=train_cnn_regression.y_train_standardized_columnwise[:, 1],
-    y2_val=train_cnn_regression.y_val_standardized_columnwise[:, 1],
-    y2_test=train_cnn_regression.y_test_standardized_columnwise[:, 1],
+    y2_train=data_processor.y_train_standardized_columnwise[:, 1],
+    y2_val=data_processor.y_val_standardized_columnwise[:, 1],
+    y2_test=data_processor.y_test_standardized_columnwise[:, 1],
 
     # 3rd target
-    y3_train=train_cnn_regression.y_train_standardized_columnwise[:, 2],
-    y3_val=train_cnn_regression.y_val_standardized_columnwise[:, 2],
-    y3_test=train_cnn_regression.y_test_standardized_columnwise[:, 2],
+    y3_train=data_processor.y_train_standardized_columnwise[:, 2],
+    y3_val=data_processor.y_val_standardized_columnwise[:, 2],
+    y3_test=data_processor.y_test_standardized_columnwise[:, 2],
 
     # 4th target
-    y4_train=train_cnn_regression.y_train_standardized_columnwise[:, 3],
-    y4_val=train_cnn_regression.y_val_standardized_columnwise[:, 3],
-    y4_test=train_cnn_regression.y_test_standardized_columnwise[:, 3],
+    y4_train=data_processor.y_train_standardized_columnwise[:, 3],
+    y4_val=data_processor.y_val_standardized_columnwise[:, 3],
+    y4_test=data_processor.y_test_standardized_columnwise[:, 3],
     nameserver=ip_address, run_id='example1')
 w.run(background=True)
 
