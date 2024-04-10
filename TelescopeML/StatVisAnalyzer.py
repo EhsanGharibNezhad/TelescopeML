@@ -1594,8 +1594,8 @@ def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
     plt.show()
 
 
-def plot_regression_report(trained_model,
-                           trained_data_processor,
+def plot_regression_report(trained_ML_model,
+                           trained_DataProcessor,
                            Xtrain, Xtest, ytrain, ytest,
                            target_i,
                            xy_top=None, xy_bottom=None,
@@ -1606,8 +1606,10 @@ def plot_regression_report(trained_model,
 
     Parameters
     -----------
-    trained_model : object
+    trained_ML_model : object
         Trained regression model.
+    trained_DataProcessor: object
+        Trained Data Processor Class
     Xtrain : array
         Training set.
     Xtest : array
@@ -1631,19 +1633,19 @@ def plot_regression_report(trained_model,
         xy_bottom = [0.05, 0.8]
     if xy_top is None:
         xy_top = [0.55, 0.85]
-    y_pred_train = np.array(trained_model.predict(Xtrain))[:, :, 0].T
-    y_pred_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+    y_pred_train = np.array(trained_ML_model.predict(Xtrain))[:, :, 0].T
+    y_pred_train_list = trained_DataProcessor.standardize_y_ColumnWise.inverse_transform(y_pred_train)
     y_pred_train_list[:, 3] = 10 ** y_pred_train_list[:, 3]
 
-    y_act_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytrain)
+    y_act_train_list = trained_DataProcessor.standardize_y_ColumnWise.inverse_transform(ytrain)
     y_act_train_list[:, 3] = 10 ** y_act_train_list[:, 3]
 
     # Apply the trained ML model on the test set to predict the targets
-    y_pred_test = np.array(trained_model.predict(Xtest))[:, :, 0].T
-    y_pred_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_test)
+    y_pred_test = np.array(trained_ML_model.predict(Xtest))[:, :, 0].T
+    y_pred_test_list = trained_DataProcessor.standardize_y_ColumnWise.inverse_transform(y_pred_test)
     y_pred_test_list[:, 3] = 10 ** y_pred_test_list[:, 3]
 
-    y_act_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytest)
+    y_act_test_list = trained_DataProcessor.standardize_y_ColumnWise.inverse_transform(ytest)
     y_act_test_list[:, 3] = 10 ** y_act_test_list[:, 3]
 
     for i in range(0, target_i):
