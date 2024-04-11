@@ -189,7 +189,7 @@ class ObserveParameterPredictor:
 
         Return
         -------
-        Fnu_obs , Fnu_obs_err, Fnu_obs_absolute, Fnu_obs_absolute_err
+        Fnu_obs , Fnu_obs_err, Fnu_obs_TOA, Fnu_obs_TOA_err
 
         Example
         -------
@@ -215,13 +215,13 @@ class ObserveParameterPredictor:
                  Flam_errors = self.F_lambda_obs_err,
                  wavelengths = wl_obs,)  # Convert F_lambda_obs to Fnu_obs
 
-        Fnu_obs_absolute, Fnu_obs_absolute_err = self.Fnu_to_Fnu_abs(
+        Fnu_obs_TOA, Fnu_obs_TOA_err = self.Fnu_to_Fnu_abs(
                  Fnu_values = Fnu_obs,
                  Fnu_errors = Fnu_obs_err,
                  bd_literature_dic = bd_literature_dic)
 
 
-        return Fnu_obs , Fnu_obs_err, Fnu_obs_absolute, Fnu_obs_absolute_err
+        return Fnu_obs , Fnu_obs_err, Fnu_obs_TOA, Fnu_obs_TOA_err
 
 
     def Fnu_to_Fnu_abs(self,
@@ -231,7 +231,7 @@ class ObserveParameterPredictor:
                        __plot__ = False
                        ):
 
-        # Calculate the absolute Fnu_obs values
+        # Calculate the TOA Fnu_obs values
         bd_literature_dic = self.bd_literature_dic if bd_literature_dic is None else bd_literature_dic
 
         Fnu_values_abs = Fnu_values * (bd_literature_dic['bd_distance_pc'] * ((u.pc).to(u.jupiterRad)) / (
@@ -289,7 +289,7 @@ class ObserveParameterPredictor:
         return Fnu_values, Fnu_errors
 
     def flux_interpolated(self,
-                          Fnu_obs_absolute,
+                          Fnu_obs_TOA,
                           interpolated_wl = None,
                           __print_results__=False,
                           __plot_spectra_errorbar__=False,
@@ -308,28 +308,28 @@ class ObserveParameterPredictor:
 
         Return
         -------
-        Fnu_obs_absolute_intd, Fnu_obs_absolute_intd_df
+        Fnu_obs_TOA_intd, Fnu_obs_TOA_intd_df
         """
-        Fnu_obs_absolute = self.Fnu_obs_absolute if Fnu_obs_absolute is None else Fnu_obs_absolute
+        Fnu_obs_TOA = self.Fnu_obs_TOA if Fnu_obs_TOA is None else Fnu_obs_TOA
         interpolated_wl = np.sort(self.wl_synthetic.wl.values) if interpolated_wl is None else interpolated_wl
 
         if __use_spectres__:
-            Fnu_obs_absolute_intd = spectres.spectres(interpolated_wl,
+            Fnu_obs_TOA_intd = spectres.spectres(interpolated_wl,
                                                            np.float64(self.wl_obs),
-                                                           np.float64(Fnu_obs_absolute))
+                                                           np.float64(Fnu_obs_TOA))
         else:
-            flux_intd = pchip(self.wl_obs, self.Fnu_obs_absolute)
-            Fnu_obs_absolute_intd = flux_intd(interpolated_wl)
+            flux_intd = pchip(self.wl_obs, self.Fnu_obs_TOA)
+            Fnu_obs_TOA_intd = flux_intd(interpolated_wl)
 
-        Fnu_obs_absolute_intd_df = pd.DataFrame(list(Fnu_obs_absolute_intd),
+        Fnu_obs_TOA_intd_df = pd.DataFrame(list(Fnu_obs_TOA_intd),
                                                      index=[str(x) for x in np.round(interpolated_wl, 3)]).T
 
 
         if __print_results__:
             print('---    Object Flux     ----')
-            print(self.Fnu_obs_absolute_intd_df)
+            print(self.Fnu_obs_TOA_intd_df)
             print('---    Object Flux Interpolate     ----')
-            print(pd.DataFrame(self.Fnu_obs_absolute_intd))
+            print(pd.DataFrame(self.Fnu_obs_TOA_intd))
 
         if __plot_spectra_errorbar__:
             plot_spectra_errorbar(
@@ -351,13 +351,13 @@ class ObserveParameterPredictor:
             plot_spectra_errorbar(
                 object_name=self.object_name,
                 x_obs=self.obs_data_df['wl'],
-                y_obs=self.Fnu_obs_absolute,
-                y_obs_err=self.Fnu_obs_absolute_err,
+                y_obs=self.Fnu_obs_TOA,
+                y_obs_err=self.Fnu_obs_TOA_err,
                 y_label='Flux_abs (F_abs)',
             )
 
 
-        return Fnu_obs_absolute_intd, Fnu_obs_absolute_intd_df
+        return Fnu_obs_TOA_intd, Fnu_obs_TOA_intd_df
 
 
 
@@ -381,7 +381,7 @@ class ObserveParameterPredictor:
         F_lambda_obs = self.obs_data_df['F_lambda_obs'] if F_lambda_obs == None else F_lambda_obs
         F_lambda_obs_err = self.obs_data_df['F_lambda_obs_err'] if F_lambda_obs_err == None else F_lambda_obs_err
 
-        Fnu_obs , Fnu_obs_err, Fnu_obs_absolute, Fnu_obs_absolute_err = self.ProcessObservationalDataset(
+        Fnu_obs , Fnu_obs_err, Fnu_obs_TOA, Fnu_obs_TOA_err = self.ProcessObservationalDataset(
                     F_lambda_obs=F_lambda_obs.values,
                     F_lambda_obs_err=F_lambda_obs_err.values,
                     wl_obs=self.obs_data_df['wl'].values,
@@ -389,29 +389,29 @@ class ObserveParameterPredictor:
                     bd_literature_dic=self.bd_literature_dic,
                    )
 
-        # self.Fnu_obs, Fnu_obs_err, self.Fnu_obs_absolute, self.Fnu_obs_absolute_err = Fnu_obs , Fnu_obs_err, Fnu_obs_absolute, Fnu_obs_absolute_err
+        # self.Fnu_obs, Fnu_obs_err, self.Fnu_obs_TOA, self.Fnu_obs_TOA_err = Fnu_obs , Fnu_obs_err, Fnu_obs_TOA, Fnu_obs_TOA_err
         self.obs_data_df['Fnu_obs'] = Fnu_obs
         self.obs_data_df['Fnu_obs_err'] = Fnu_obs_err
-        self.obs_data_df['Fnu_obs_absolute'] = Fnu_obs_absolute
-        self.obs_data_df['Fnu_obs_absolute_err'] = Fnu_obs_absolute_err
+        self.obs_data_df['Fnu_obs_TOA'] = Fnu_obs_TOA
+        self.obs_data_df['Fnu_obs_TOA_err'] = Fnu_obs_TOA_err
 
         # Extract the original ML features from the observational spectrum
-        self.Fnu_obs_absolute_intd, self.Fnu_obs_absolute_intd_df = \
-                    self.flux_interpolated(Fnu_obs_absolute = Fnu_obs_absolute,
+        self.Fnu_obs_TOA_intd, self.Fnu_obs_TOA_intd_df = \
+                    self.flux_interpolated(Fnu_obs_TOA = Fnu_obs_TOA,
                                            interpolated_wl = None,
                                            __print_results__=False,
                                            __plot_spectra_errorbar__=False,
                                            __use_spectres__=True)
 
         if __print_results__:
-            print('------------  Interpolated Observational Spectra: Absolute F𝜈 ------------')
-            print(self.Fnu_obs_absolute_intd_df)
+            print('------------  Interpolated Observational Spectra: TOA F𝜈 ------------')
+            print(self.Fnu_obs_TOA_intd_df)
 
         # Extract the engineered ML features from the observational spectrum
-        df_Fnu_obs_absolute_intd_min = self.Fnu_obs_absolute_intd_df.min(axis=1)
-        df_Fnu_obs_absolute_intd_max = self.Fnu_obs_absolute_intd_df.max(axis=1)
+        df_Fnu_obs_TOA_intd_min = self.Fnu_obs_TOA_intd_df.min(axis=1)
+        df_Fnu_obs_TOA_intd_max = self.Fnu_obs_TOA_intd_df.max(axis=1)
 
-        self.df_MinMax_obs = pd.DataFrame((df_Fnu_obs_absolute_intd_min, df_Fnu_obs_absolute_intd_max)).T
+        self.df_MinMax_obs = pd.DataFrame((df_Fnu_obs_TOA_intd_min, df_Fnu_obs_TOA_intd_max)).T
 
         if __print_results__:
             print('------------ df_MinMax Single Observational Spectrum ------------')
@@ -422,10 +422,10 @@ class ObserveParameterPredictor:
 
         # XminXmax_Stand = self.trained_data_processor.normalize_X_ColumnWise.transform(self.df_MinMax_obs.values)
 
-        bd_mean = self.Fnu_obs_absolute_intd_df.mean(axis=1)[0]
-        bd_std = self.Fnu_obs_absolute_intd_df.std(axis=1)[0]
+        bd_mean = self.Fnu_obs_TOA_intd_df.mean(axis=1)[0]
+        bd_std = self.Fnu_obs_TOA_intd_df.std(axis=1)[0]
 
-        X_Scaled = (self.Fnu_obs_absolute_intd_df.values[0] - bd_mean) / bd_std
+        X_Scaled = (self.Fnu_obs_TOA_intd_df.values[0] - bd_mean) / bd_std
 
 
         y_pred_train = np.array(
@@ -505,7 +505,7 @@ class ObserveParameterPredictor:
             spectra['F_lambda_obs'].interpolate(inplace=True)
 
             # Process the randomly generated Observational spectra
-            Fnu_obs , Fnu_obs_err, Fnu_obs_absolute, Fnu_obs_absolute_err = self.ProcessObservationalDataset(
+            Fnu_obs , Fnu_obs_err, Fnu_obs_TOA, Fnu_obs_TOA_err = self.ProcessObservationalDataset(
                     F_lambda_obs=spectra['F_lambda_obs'].values,
                     F_lambda_obs_err=self.obs_data_df['F_lambda_obs_err'].values,
                     wl_obs=self.obs_data_df['wl'].values,
@@ -515,35 +515,35 @@ class ObserveParameterPredictor:
 
             # self.obs_data_df['Fnu_obs'] = self.Fnu_obs
             # self.obs_data_df['Fnu_obs_err'] = self.Fnu_obs_err
-            # self.obs_data_df['Fnu_obs_absolute'] = self.Fnu_obs_absolute
-            # self.obs_data_df['Fnu_obs_absolute_err'] = self.Fnu_obs_absolute_err
+            # self.obs_data_df['Fnu_obs_TOA'] = self.Fnu_obs_TOA
+            # self.obs_data_df['Fnu_obs_TOA_err'] = self.Fnu_obs_TOA_err
 
             # Extract the original ML features from the observational spectrum
-            Fnu_obs_absolute_intd, Fnu_obs_absolute_intd_df = \
-                        self.flux_interpolated(Fnu_obs_absolute = Fnu_obs_absolute,
+            Fnu_obs_TOA_intd, Fnu_obs_TOA_intd_df = \
+                        self.flux_interpolated(Fnu_obs_TOA = Fnu_obs_TOA,
                                                interpolated_wl = None,
                                                __print_results__=False,
                                                __plot_spectra_errorbar__=False,
                                                __use_spectres__=True)
 
             # Extract the engineered ML features from the observational spectrum
-            Fnu_obs_absolute_intd_df_min = Fnu_obs_absolute_intd_df.min(axis=1)
-            Fnu_obs_absolute_intd_df_max = Fnu_obs_absolute_intd_df.max(axis=1)
+            Fnu_obs_TOA_intd_df_min = Fnu_obs_TOA_intd_df.min(axis=1)
+            Fnu_obs_TOA_intd_df_max = Fnu_obs_TOA_intd_df.max(axis=1)
 
             df_MinMax_obs = pd.DataFrame(
-                (Fnu_obs_absolute_intd_df_min, Fnu_obs_absolute_intd_df_max)
+                (Fnu_obs_TOA_intd_df_min, Fnu_obs_TOA_intd_df_max)
             ).T
 
             XminXmax_Stand = self.trained_X_ColWise_MinMax[0].transform(df_MinMax_obs.values)
             # XminXmax_Stand = self.trained_data_processor.normalize_X_ColumnWise.transform(df_MinMax_obs.values)
 
 
-            bd_mean = Fnu_obs_absolute_intd_df.mean(axis=1)[0]
-            bd_std = Fnu_obs_absolute_intd_df.std(axis=1)[0]
+            bd_mean = Fnu_obs_TOA_intd_df.mean(axis=1)[0]
+            bd_std = Fnu_obs_TOA_intd_df.std(axis=1)[0]
 
 
-            # X_Scaled = (Fnu_obs_absolute_intd_df.div((self.bd_literature_dic['bd_radius_Rjup'])**2).values[0] - bd_mean) / bd_std
-            X_Scaled = (Fnu_obs_absolute_intd_df.values[0] - bd_mean) / bd_std
+            # X_Scaled = (Fnu_obs_TOA_intd_df.div((self.bd_literature_dic['bd_radius_Rjup'])**2).values[0] - bd_mean) / bd_std
+            X_Scaled = (Fnu_obs_TOA_intd_df.values[0] - bd_mean) / bd_std
 
             y_pred_train = np.array(
                 self.trained_ML_model.predict(
@@ -559,7 +559,7 @@ class ObserveParameterPredictor:
                                       )
 
 
-            spectra_list_obs.append(Fnu_obs_absolute_intd_df.values)
+            spectra_list_obs.append(Fnu_obs_TOA_intd_df.values)
             param_list.append(y_pred_random[0])
 
             filtered_df4 = interpolate_df(dataset=self.training_dataset_df,
@@ -600,7 +600,7 @@ class ObserveParameterPredictor:
             p = figure(
                 title=self.object_name + ": Randomly generated spectra within 1σ",
                 x_axis_label='Wavelength [𝜇m]',
-                y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
+                y_axis_label='TOA Flux (F𝜈) [erg/s/cm2/Hz]',
                 width=800,
                 height=300,
                 y_axis_type="log",
@@ -647,8 +647,8 @@ class ObserveParameterPredictor:
             plot_pred_vs_obs_errorbar(
                 object_name=self.object_name,
                 x_obs=self.obs_data_df['wl'],
-                y_obs=Fnu_obs_absolute,
-                y_obs_error=Fnu_obs_absolute_err,
+                y_obs=Fnu_obs_TOA,
+                y_obs_error=Fnu_obs_TOA_err,
                 training_dataset=self.training_dataset_df,
                 x_pred=self.wl_synthetic,
                 predicted_targets_dic=self.dic_random_pred_mean,
@@ -668,11 +668,11 @@ class ObserveParameterPredictor:
                 confidence_level=0.95,
                 object_name=self.object_name,
                 x_obs=self.obs_data_df['wl'],
-                y_obs=self.obs_data_df['Fnu_obs_absolute'], #self.obs_data_df['Fnu_obs_absolute'],# self.Fnu_obs_absolute,
-                y_obs_err=self.obs_data_df['Fnu_obs_absolute_err'], #self.obs_data_df['Fnu_obs_absolute_err'],#self.Fnu_obs_absolute_err,
+                y_obs=self.obs_data_df['Fnu_obs_TOA'],
+                y_obs_err=self.obs_data_df['Fnu_obs_TOA_err'],
                 training_datasets=self.training_dataset_df,
                 x_pred=self.wl_synthetic,
-                predicted_targets_dic=self.dic_random_pred_mean,  # self.dic_random_pred_mean,
+                predicted_targets_dic=self.dic_random_pred_mean,
                 radius = self.bd_literature_dic['bd_radius_Rjup'],
                 __print_results__=False,
             )
@@ -682,8 +682,8 @@ class ObserveParameterPredictor:
                                                       confidence_level=0.95,
                                                       object_name=self.object_name,
                                                       x_obs=self.obs_data_df['wl'],
-                                                      y_obs=self.obs_data_df['Fnu_obs_absolute'],
-                                                      y_obs_err=self.obs_data_df['Fnu_obs_absolute_err'],
+                                                      y_obs=self.obs_data_df['Fnu_obs_TOA'],
+                                                      y_obs_err=self.obs_data_df['Fnu_obs_TOA_err'],
                                                       training_datasets=self.training_dataset_df,
                                                       x_pred=self.wl_synthetic,
                                                       predicted_targets_dic=self.dic_random_pred_mean,
