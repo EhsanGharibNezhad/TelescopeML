@@ -544,9 +544,9 @@ def plot_pred_vs_obs_errorbar(object_name,
     source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
 
     # Create the Observational figure
-    p = figure(title=f"{object_name}: Calibrated Observational VS. Predicted Spectra",
+    p = figure(title=f"{object_name}: Observational vs. ML Predicted Spectra",
                x_axis_label="Wavelength [𝜇m]",
-               y_axis_label="Flux (F𝜈) [erg/s/cm2/Hz]",
+               y_axis_label="TOA Flux (F𝜈) [erg/s/cm2/Hz]",
                width=800, height=300,
                y_axis_type="log",
                tools="pan,wheel_zoom,box_zoom,reset")
@@ -1109,14 +1109,6 @@ def find_closest_chi_square(df, chi_square_statistic_list):
 
     return closest_chi_square, closest_p_value
 
-# Example usage with df = 103 and chi_square_list containing chi-square statistics
-# df_value = 103
-# chi_square_list = [93, 32,  150.456789123, 120.789123456]  # Replace with actual chi-square statistics
-
-
-
-# check_chi_square(103, chi_square_list)
-
 
 def plot_scatter_x_y (x, y,
                         plot_title="Scatter Plot",
@@ -1279,16 +1271,14 @@ def plot_filtered_dataframe_notUsed(dataset, filter_bounds, feature_to_plot, tit
     plt.show()
 
 
-def plot_model_loss(history=None, title=None):
+def plot_ML_model_loss(trained_ML_model_history=None, title=None):
     """
     Plot the trained model history for all individual target features
     """
-    # from bokeh.plotting import figure, show
-    # from bokeh.models import Legend
 
     # history = self.trained_model_history if history is None else history
     # Define the epochs as a list
-    epochs = list(range(len(history['loss'])))
+    epochs = list(range(len(trained_ML_model_history['loss'])))
 
     # Define colorblind-friendly colors
     colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
@@ -1297,25 +1287,25 @@ def plot_model_loss(history=None, title=None):
     p = figure(title=title, width=1000, height=300, y_axis_type='log', x_axis_label='Epochs', y_axis_label='Loss')
 
     # Add the data lines to the figure with colorblind-friendly colors and increased line width
-    p.line(epochs, history['loss'], line_color=colors[0], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['loss'], line_color=colors[0], line_dash='solid', line_width=2,
            legend_label='Total loss')
-    p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['output__gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['output__gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
            legend_label='gravity')
-    p.line(epochs, history['val_output__gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_output__gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['output__c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['output__c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
            legend_label='c_o_ratio')
-    p.line(epochs, history['val_output__c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_output__c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['output__metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['output__metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
            legend_label='metallicity')
-    p.line(epochs, history['val_output__metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_output__metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['output__temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['output__temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
            legend_label='temperature')
-    p.line(epochs, history['val_output__temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_output__temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
 
     # Increase size of x and y ticks
     p.title.text_font_size = '14pt'
@@ -1326,25 +1316,12 @@ def plot_model_loss(history=None, title=None):
 
     # display legend in top left corner (default is top right corner)
     p.legend.location = "bottom_left"
-
-    # change appearance of legend text
-    # p.legend.label_text_font = "times"
-    # p.legend.label_text_font_style = "italic"
-    # p.legend.label_text_color = "navy"
-
-    # change border and background of legend
-    # p.legend.border_line_width = 3
-    # p.legend.border_line_color = "navy"
-    # p.legend.border_line_alpha = 0.8
     p.legend.background_fill_color = 'white'
     p.legend.background_fill_alpha = 0.5
 
     # Show the plot
     show(p)
 
-import matplotlib.pyplot as plt
-
-import matplotlib.pyplot as plt
 
 def plot_boxplot(data,
                  title=None, xlabel='Wavelength [$\mu$m]', ylabel='Scaled Values',
@@ -1532,38 +1509,18 @@ def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
     Y = stat_df['mean']
     std = stat_df['std_values']
 
-    # Create a figure
-
-    # Create the figure and axis
     # Create the figure and axis
     plt.figure(figsize=(12, 6))
     ax = plt.gca()
 
-    # Plot observational data with error bars
-    # ax.scatter(x_obs, y_obs, color='blue', label=f"Observational data",s=6, marker='o' )
-    # ax.errorbar(x_obs, y_obs, yerr=y_obs_err, color='gray', linestyle='', alpha=0.5, markersize=1)
     ax.errorbar(x_obs, y_obs, yerr=y_obs_err,
                 fmt='o', color='blue', alpha=0.8, markersize=2, capsize=3, elinewidth=1, ecolor='gray',label=f"Observational data")
 
-    # # Plot predicted data
-    # ax.plot(stat_df['wl'][::-1], stat_df['mean'], color='blue', linewidth=2, label='ML Predicted')
-    #
-    # # Plot shaded regions for confidence intervals
-    # ax.fill_between(stat_df['wl'][::-1], stat_df['confidence_level_lower'], stat_df['confidence_level_upper'], color='red', alpha=0.5, label=f'Confidence Level: {confidence_level}%')
-    #
-    # # Plot shaded regions for 1 sigma
-    # ax.fill_between(stat_df['wl'][::-1], stat_df['mean'] - stat_df['std_values'], stat_df['mean'] + stat_df['std_values'], color='green', alpha=0.4, label='1σ')
-
     # Plot data points
-    # ax.errorbar(X, Y, yerr=std, fmt='-', markersize=5, capsize=3, elinewidth=1, label='Data with Error Bars')
-    # ax.errorbar(stat_df['wl'][::-1], stat_df['mean'], yerr=std, fmt='-', markersize=5, capsize=3, elinewidth=1, label='Data with Error Bars')
     ax.plot(stat_df['wl'][::-1], stat_df['mean'], color='red', label='ML predicted', linewidth=2)
 
     # Shade the region representing standard deviation
-    # ax.fill_between(stat_df['wl'][::-1], Y - stat_df['confidence_level_lower'], Y + stat_df['confidence_level_lower'],
-    #                 alpha=0.6, color='red', label='Confidence Level: 95%')
     ax.fill_between(X, Y - std, Y + std, alpha=0.4, color='green', label='1$\sigma$')
-    # ax.fill_between(X, Y - 2*std, Y + 2*std, alpha=0.4, color='green', label='2$\sigma$')
 
     # Set logarithmic scale for y-axis
     ax.set_yscale('log')
