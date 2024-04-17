@@ -15,6 +15,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 from scipy.interpolate import RegularGridInterpolator
 from scipy.stats import chi2
 import os
+from matplotlib.ticker import AutoMinorLocator
 
 import pprint
 
@@ -28,6 +29,9 @@ from bokeh.plotting import output_notebook
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
 
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 def print_results_fun(targets, print_title=None):
     """
@@ -53,131 +57,6 @@ def print_results_fun(targets, print_title=None):
 
 
 
-def regression_report(trained_model,
-                      trained_data_processor,
-                      Xtrain, Xtest, ytrain, ytest,
-                      target_i,
-                      xy_top=None, xy_bottom=None, __print_results__= False):
-    """
-    Generate a regression report for the trained ML/CNN model.
-
-    Parameters
-    -----------
-    trained_model : object
-        Trained regression model.
-    Xtrain : array
-        Training set.
-    Xtest : array
-        Test set.
-    ytrain : array
-        Training target set.
-    ytest : array
-        Test target set.
-    target_i : int
-        Index of the target variable to analyze.
-    xy_top : list, optional
-        Coordinates for annotations in the top plot. Defaults to [0.55, 0.85].
-    xy_bottom : list, optional
-        Coordinates for annotations in the bottom plot. Defaults to [0.05, 0.8].
-    __print_results__ : bool, optional
-        True or False.
-    """
-
-    # Apply the trained ML model on the train set to predict the targets
-    if xy_bottom is None:
-        xy_bottom = [0.05, 0.8]
-    if xy_top is None:
-        xy_top = [0.55, 0.85]
-    y_pred_train = np.array(trained_model.predict(Xtrain))[:, :, 0].T
-    y_pred_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_train)
-    y_pred_train_list[:, 3] = 10 ** y_pred_train_list[:, 3]
-
-    y_act_train_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytrain)
-    y_act_train_list[:, 3] = 10 ** y_act_train_list[:, 3]
-
-    # Apply the trained ML model on the test set to predict the targets
-    y_pred_test = np.array(trained_model.predict(Xtest))[:, :, 0].T
-    y_pred_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(y_pred_test)
-    y_pred_test_list[:, 3] = 10 ** y_pred_test_list[:, 3]
-
-    y_act_test_list = trained_data_processor.standardize_y_ColumnWise.inverse_transform(ytest)
-    y_act_test_list[:, 3] = 10 ** y_act_test_list[:, 3]
-
-    for i in range(0, target_i):
-        y_pred_train = y_pred_train_list[:, i]
-        y_act_train = y_act_train_list[:, i]
-        y_pred_test = y_pred_test_list[:, i]
-        y_act_test = y_act_test_list[:, i]
-
-        # Calculate the residual (Predicted - Actual)
-        residual_train_list = y_pred_train - y_act_train
-        residual_test_list = y_pred_test - y_act_test
-
-        # Calculate mean and standard deviation for residuals
-        mean_test = np.round(np.mean(residual_test_list), 2)
-        std_test = np.round(np.std(residual_test_list), 2)
-        mean_train = np.round(np.mean(residual_train_list), 2)
-        std_train = np.round(np.std(residual_train_list), 2)
-
-        # Calculate skewness for residuals
-        skew_test = stats.skew(residual_test_list)
-        skew_train = stats.skew(residual_train_list)
-
-        # Calculate R-squared scores
-        r2_score_train = r2_score(y_pred_train, y_act_train)
-        r2_score_test = r2_score(y_pred_test, y_act_test)
-
-        # Calculate  RMSE scores
-        rmse_score_train = np.sqrt(mean_squared_error(y_pred_train, y_act_train))
-        rmse_score_test = np.sqrt(mean_squared_error(y_pred_test, y_act_test))
-
-
-        # Create subplots for histograms and scatter plots
-        f, axs = plt.subplots(2, 1, figsize=(5, 5), sharey=False, sharex=False,
-                              gridspec_kw=dict(height_ratios=[1, 3]))
-
-        if __print_results__:
-            print('\n\n----------------------- Test ------------------------')
-            print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
-                r2_score_test, rmse_score_train, mean_test, std_test))
-
-            print('\n----------------------- Train ------------------------')
-            print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
-                r2_score_train, rmse_score_test, mean_train, std_train))
-
-        # Plot histograms of residuals
-        axs[0].set_title(['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i], fontsize=14)
-        sns.histplot(data=residual_train_list, ax=axs[0], label='train', alpha=0.7, bins=19,
-                     log_scale=False, stat='percent', legend=True, linewidth=0)
-        sns.histplot(data=residual_test_list, label='test', ax=axs[0], alpha=0.3, bins=19,
-                     stat='percent', legend=True, linewidth=0)
-        axs[0].set_xlim((-(abs(mean_train) + 3 * std_train), (abs(mean_train) + 3 * std_train)))
-        axs[0].set_ylim((1e-1, 100))
-        axs[0].set_yscale('log')
-        axs[0].set_ylabel('Probability %', fontsize=12)
-
-        # Plot scatter figures of predicted vs actual values
-        sns.scatterplot(y=y_pred_train, x=y_act_train, label='train', ax=axs[1], alpha=0.7, legend=False)
-        sns.scatterplot(y=y_pred_test, x=y_act_test, label='test', ax=axs[1], alpha=0.7, legend=False)
-        axs[1].set_ylabel('Predicted value', fontsize=12)
-        axs[1].set_xlabel('Actual value', fontsize=12)
-
-        # Add annotations for skewness and R-squared scores
-        axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, train}}$= ' + f'{np.round(skew_train, 2)}',
-                        fontsize=11, xy=(xy_top[0], xy_top[1] + 0.08), xycoords='axes fraction')
-        axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, test}}$ = ' + f'{np.round(skew_test, 2)}',
-                        fontsize=11, xy=(xy_top[0], xy_top[1] - 0.08), xycoords='axes fraction')
-        axs[1].annotate(r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train} [{"%0.2f" % abs(mean_train)}$\pm${"%0.2f" % std_train}]',
-                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
-        axs[1].annotate(r'R$^2_{\rm test}$ =' + f'{np.round(r2_score_test, 2)} [{"%0.2f" % mean_test}$\pm${"%0.2f" % std_test}]',
-                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] - 0.06), xycoords='axes fraction')
-
-        axs[1].legend(loc='lower right', fontsize=11)
-
-        f.tight_layout()
-        target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-        # plt.savefig(f'../outputs/figures/regression_report_{target_name}.pdf', format='pdf')
-        plt.show()
 
 def filter_dataset_range(dataset, filter_params):
     """
@@ -259,7 +138,7 @@ def interpolate_df(dataset,
         print(my_list_g, my_list_c_o, my_list_T, my_list_met)
 
     df_interpolated_ = pd.DataFrame(columns=df_to_interpolate.drop(
-        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity']).columns)
 
     df_interpolated_all = pd.DataFrame(columns=df_to_interpolate.columns)
 
@@ -278,13 +157,13 @@ def interpolate_df(dataset,
                         drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
 
                     data = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
 
                     y = df_to_interpolate_['c_o_ratio'].to_numpy()
 
                     column_grid = data.columns.to_numpy().astype(float)
                     values = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity']).to_numpy()
 
                     interp_func = RegularGridInterpolator((y, column_grid), values)
 
@@ -302,7 +181,7 @@ def interpolate_df(dataset,
                     df_interpolated_['temperature'] = temp
                     df_interpolated_['metallicity'] = met
                     df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
+                    # df_interpolated_['is_augmented'] = 'no'
 
                     df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
@@ -317,7 +196,7 @@ def interpolate_df(dataset,
     df_interpolated_all2.drop_duplicates(inplace=True)
 
     df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity',]).columns)
 
     for c_o in my_list_c_o:
         for temp in my_list_T:
@@ -333,13 +212,13 @@ def interpolate_df(dataset,
                         drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
 
                     data = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ])
 
                     y = df_to_interpolate_['metallicity'].to_numpy()
 
                     column_grid = data.columns.to_numpy().astype(float)
                     values = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).to_numpy()
 
                     interp_func = RegularGridInterpolator((y, column_grid), values)
 
@@ -356,7 +235,7 @@ def interpolate_df(dataset,
                     df_interpolated_['temperature'] = temp
                     df_interpolated_['c_o_ratio'] = c_o
                     df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
+                    # df_interpolated_['is_augmented'] = 'no'
 
                     df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
@@ -375,7 +254,7 @@ def interpolate_df(dataset,
     df_interpolated_all2.drop_duplicates(inplace=True)
 
     df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).columns)
 
     for c_o in my_list_c_o:
         for met in my_list_met:
@@ -393,14 +272,14 @@ def interpolate_df(dataset,
 
                     # print(df_to_interpolate)
                     data = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ])
 
                     y = df_to_interpolate_['temperature'].to_numpy()
                     # print(y)
 
                     column_grid = data.columns.to_numpy().astype(float)
                     values = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).to_numpy()
 
                     interp_func = RegularGridInterpolator((y, column_grid), values)
 
@@ -418,7 +297,7 @@ def interpolate_df(dataset,
                     df_interpolated_['metallicity'] = met
                     df_interpolated_['c_o_ratio'] = c_o
                     df_interpolated_['gravity'] = grav
-                    df_interpolated_['is_augmented'] = 'no'
+                    # df_interpolated_['is_augmented'] = 'no'
 
                     df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
@@ -433,7 +312,7 @@ def interpolate_df(dataset,
     df_interpolated_all2.drop_duplicates(inplace=True)
 
     df_interpolated_ = pd.DataFrame(columns=df_interpolated_all2.drop(
-        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).columns)
+        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).columns)
 
     for c_o in my_list_c_o:
         for met in my_list_met:
@@ -450,13 +329,13 @@ def interpolate_df(dataset,
                         drop=True)  # .drop_duplicates(subset=['gravity', 'temperature', 'c_o_ratio', 'metallicity'])
 
                     data = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented'])
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ])
 
                     y = df_to_interpolate_['gravity'].to_numpy()
 
                     column_grid = data.columns.to_numpy().astype(float)
                     values = df_to_interpolate_.drop(
-                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', 'is_augmented']).to_numpy()
+                        columns=['gravity', 'temperature', 'c_o_ratio', 'metallicity', ]).to_numpy()
 
                     interp_func = RegularGridInterpolator((y, column_grid), values)
 
@@ -474,7 +353,7 @@ def interpolate_df(dataset,
                     df_interpolated_['metallicity'] = met
                     df_interpolated_['c_o_ratio'] = c_o
                     df_interpolated_['temperature'] = temp
-                    df_interpolated_['is_augmented'] = 'no'
+                    # df_interpolated_['is_augmented'] = 'no'
 
                     df_interpolated_all = pd.concat([df_interpolated_, df_interpolated_all], ignore_index=True)
 
@@ -485,12 +364,14 @@ def interpolate_df(dataset,
         (df_interpolated_all['temperature'] == predicted_targets_dic['temperature']) &
         (df_interpolated_all['c_o_ratio'] == predicted_targets_dic['c_o_ratio']) &
         (df_interpolated_all['metallicity'] == predicted_targets_dic['metallicity']) &
-        (df_interpolated_all['gravity'] == predicted_targets_dic['gravity']) &
-        (df_interpolated_all['is_augmented'] == 'no')]
+        (df_interpolated_all['gravity'] == predicted_targets_dic['gravity']) #&
+        # (df_interpolated_all['is_augmented'] == 'no')
+    ]
 
     return df_interpolated_final
 
 
+# def filter_dataframe(training_datasets, predicted_targets_dic):
 def filter_dataframe(training_datasets, predicted_targets_dic):
     nearest_value_list = []
     filtered_df = training_datasets.copy()
@@ -505,7 +386,7 @@ def filter_dataframe(training_datasets, predicted_targets_dic):
     return nearest_value_list, filtered_df
 
 
-def boxplot_hist(data,
+def plot_boxplot_hist(data,
                  x_label,
                  xy_loc):
 
@@ -551,7 +432,7 @@ def plot_spectra_errorbar(object_name,
                           data_type='x_y_yerr'):
     # Create the figure
     p = figure(title=f"{object_name}: Calibrated Observational Spectra" if title_label is None else title_label,
-               x_axis_label="Features (Wavelength [𝜇m])",
+               x_axis_label="Wavelength [𝜇m]",
                y_axis_label=y_label,
                width=800, height=300,
                y_axis_type="log",
@@ -663,9 +544,9 @@ def plot_pred_vs_obs_errorbar(object_name,
     source = ColumnDataSource(data=dict(x=x_obs, y=y_obs, upper=upper, lower=lower))
 
     # Create the Observational figure
-    p = figure(title=f"{object_name}: Calibrated Observational VS. Predicted Spectra",
-               x_axis_label="Features (Wavelength [𝜇m])",
-               y_axis_label="Flux (F𝜈) [erg/s/cm2/Hz]",
+    p = figure(title=f"{object_name}: Observational vs. ML Predicted Spectra",
+               x_axis_label="Wavelength [𝜇m]",
+               y_axis_label="TOA Flux (F𝜈) [erg/s/cm2/Hz]",
                width=800, height=300,
                y_axis_type="log",
                tools="pan,wheel_zoom,box_zoom,reset")
@@ -689,7 +570,7 @@ def plot_pred_vs_obs_errorbar(object_name,
     # Add the scatter plot
     p.line(
         x=x_pred['wl'],
-        y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature', 'is_augmented']).values[0],
+        y=filtered_df.drop(columns=['gravity', 'c_o_ratio', 'metallicity', 'temperature',]).values[0],
         line_width=1,
         legend_label='ML Predicted:' + ', '.join([['log𝑔= ', 'C/O= ', '[M/H]= ', 'T= '][i] + str(np.round(ypred[i], 2)) for i in range(4)])
     )
@@ -708,7 +589,7 @@ def plot_pred_vs_obs_errorbar(object_name,
 
     show(p)
 
-def plot_pred_vs_obs_errorbar_stat(  stat_df,
+def plot_pred_vs_obs_errorbar_stat_bokeh(  stat_df,
                                 confidence_level,
                                 object_name,
                                 x_obs,
@@ -768,7 +649,7 @@ def plot_pred_vs_obs_errorbar_stat(  stat_df,
     # Create ML figure
     p = figure(
         title=object_name+': Observational vs. ML Predicted Spectra'+' [𝛘2='+str(chi2_stat)+', p-value='+ str(p_value)+']',
-        x_axis_label='Features (Wavelength [μm])',
+        x_axis_label='Wavelength [μm]',
         y_axis_label='Absolute Flux (F𝜈) [erg/s/cm2/Hz]',
         y_axis_type="log",
         width=1000,
@@ -911,7 +792,7 @@ def calculate_confidence_intervals_std_df(dataset_df,
         x = np.round(df3.columns, 2)
         p = figure(
             title='Mean with Confidence Intervals',
-            x_axis_label='Features (Wavelength [μm])',
+            x_axis_label='Wavelength [μm]',
             y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
             y_axis_type="log",
             width=1000,
@@ -989,7 +870,7 @@ def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Dat
     source_pre = ColumnDataSource(data=dict(x_pre=x_pre, y_pre=y_pre, upper_err_pre=upper_err_pre, lower_err_pre=lower_err_pre))
 
     p = figure(
-        x_axis_label='Features (Wavelength [𝜇m])',
+        x_axis_label='Wavelength [𝜇m]',
         y_axis_label='Flux (F𝜈) [erg/s/cm2/Hz]',
         width=800, height=300,
         y_axis_type='log',
@@ -1228,14 +1109,6 @@ def find_closest_chi_square(df, chi_square_statistic_list):
 
     return closest_chi_square, closest_p_value
 
-# Example usage with df = 103 and chi_square_list containing chi-square statistics
-# df_value = 103
-# chi_square_list = [93, 32,  150.456789123, 120.789123456]  # Replace with actual chi-square statistics
-
-
-
-# check_chi_square(103, chi_square_list)
-
 
 def plot_scatter_x_y (x, y,
                         plot_title="Scatter Plot",
@@ -1281,8 +1154,66 @@ def plot_scatter_x_y (x, y,
     # Show the plot
     show(p)
 
+def plot_filtere_data(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic,output_names, __reference_data__):
+    """
+    Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.
 
-def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic, __reference_data__):
+    Parameters:
+        - df (pd.DataFrame): DataFrame containing the data to be plotted.
+    """
+
+    filtered_df = dataset.copy()
+    for feature, bounds in filter_bounds.items():
+        lower_bound, upper_bound = bounds
+        filtered_df = filtered_df[(filtered_df[feature] >= lower_bound) & (filtered_df[feature] <= upper_bound)]
+
+#         filtered_df2 = filtered_df.sort_values(feature_to_plot, ascending=False).iloc[::1, 4:-1][::-1]
+
+    filtered_df2 = filtered_df.sort_values(feature_to_plot, ascending=True).drop(columns=output_names)
+
+    fig, ax = plt.subplots(figsize=(12, 4))
+
+    x = filtered_df2.columns
+    df_transposed = filtered_df2.T  # Transpose the DataFrame
+
+    # Define a color palette
+    num_colors = len(df_transposed.columns)  # Number of colors needed (excluding x-axis)
+    colors = sns.color_palette('magma', num_colors)
+
+    for i, col in enumerate(df_transposed.columns):
+        # print(col)
+        if col != 'x':  # Skip the x-axis column
+            ax.semilogy(wl_synthetic, df_transposed[col],
+                        # label=data[col][:4].values,
+                        color=colors[i], alpha=0.7)
+
+    # print(filtered_data.T[col][:4].values[0])
+    ax.set_xlabel('Wavelength [$\mu$m]', fontsize = 12)
+    ax.set_ylabel(r'F$_{\nu}$  [erg/cm$^2$/s/Hz]', fontsize = 12)
+    dict_features = {'temperature': 'Effective Temperature', 'gravity': 'Gravity', 'metallicity': 'Metallicity',
+                     'c_o_ratio': 'Carbon-to-oxygen ratio'}
+    ax.set_title(dict_features[feature_to_plot] + " " + title_label, fontsize = 14)
+    # ax.legend()
+
+    # Get the minimum and maximum values from the data
+    # vmin = df_transposed.values.min()
+    # vmax = df_transposed.values.max()
+
+    # Add colorbar
+    cmap = sns.color_palette('magma', as_cmap=True)
+    cbar = plt.colorbar(plt.cm.ScalarMappable(cmap=cmap,
+                                              norm=plt.Normalize(vmin=filter_bounds[feature_to_plot][0],
+                                                                 vmax=filter_bounds[feature_to_plot][1])), ax=ax)
+    # dict_features2 = {'temperature':'T [K]', 'gravity':'log$g$', 'metallicity':'[M/H]', 'c_o_ratio':'C/O ratio'}
+    dict_features = {'temperature': 'T$_{eff}$ [K]', 'gravity': 'log$g$', 'metallicity': '[M/H]', 'c_o_ratio': 'C/O'}
+    cbar.set_label(dict_features[feature_to_plot], fontsize = 12)
+
+    # plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_trainin_examples.pdf"), dpi=500,
+    #             bbox_inches='tight')
+
+    plt.show()
+
+def plot_filtered_dataframe_notUsed(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic, __reference_data__):
     """
     Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.
 
@@ -1314,7 +1245,7 @@ def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label
                         color=colors[i], alpha=0.7)
 
     # print(filtered_data.T[col][:4].values[0])
-    ax.set_xlabel('Features (Wavelength [$\mu$m])')
+    ax.set_xlabel('Wavelength [$\mu$m]')
     ax.set_ylabel(r'F$_{\nu}$  [erg/cm$^2$/s/Hz]')
     dict_features = {'temperature': 'Effective Temperature', 'gravity': 'Gravity', 'metallicity': 'Metallicity',
                      'c_o_ratio': 'Carbon-to-oxygen ratio'}
@@ -1340,16 +1271,14 @@ def plot_filtered_dataframe(dataset, filter_bounds, feature_to_plot, title_label
     plt.show()
 
 
-def plot_model_loss(history=None, title=None):
+def plot_ML_model_loss(trained_ML_model_history=None, title=None):
     """
     Plot the trained model history for all individual target features
     """
-    # from bokeh.plotting import figure, show
-    # from bokeh.models import Legend
 
     # history = self.trained_model_history if history is None else history
     # Define the epochs as a list
-    epochs = list(range(len(history['loss'])))
+    epochs = list(range(len(trained_ML_model_history['loss'])))
 
     # Define colorblind-friendly colors
     colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
@@ -1358,25 +1287,25 @@ def plot_model_loss(history=None, title=None):
     p = figure(title=title, width=1000, height=300, y_axis_type='log', x_axis_label='Epochs', y_axis_label='Loss')
 
     # Add the data lines to the figure with colorblind-friendly colors and increased line width
-    p.line(epochs, history['loss'], line_color=colors[0], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['loss'], line_color=colors[0], line_dash='solid', line_width=2,
            legend_label='Total loss')
-    p.line(epochs, history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_loss'], line_color=colors[0], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['output__gravity_loss'], line_color=colors[1], line_dash='solid', line_width=2,
            legend_label='gravity')
-    p.line(epochs, history['val_gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_output__gravity_loss'], line_color=colors[1], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['output__c_o_ratio_loss'], line_color=colors[2], line_dash='solid', line_width=2,
            legend_label='c_o_ratio')
-    p.line(epochs, history['val_c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_output__c_o_ratio_loss'], line_color=colors[2], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['output__metallicity_loss'], line_color=colors[3], line_dash='solid', line_width=2,
            legend_label='metallicity')
-    p.line(epochs, history['val_metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_output__metallicity_loss'], line_color=colors[3], line_dash='dotted', line_width=2)
 
-    p.line(epochs, history['temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
+    p.line(epochs, trained_ML_model_history['output__temperature_loss'], line_color=colors[4], line_dash='solid', line_width=2,
            legend_label='temperature')
-    p.line(epochs, history['val_temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
+    p.line(epochs, trained_ML_model_history['val_output__temperature_loss'], line_color=colors[4], line_dash='dotted', line_width=2)
 
     # Increase size of x and y ticks
     p.title.text_font_size = '14pt'
@@ -1387,18 +1316,383 @@ def plot_model_loss(history=None, title=None):
 
     # display legend in top left corner (default is top right corner)
     p.legend.location = "bottom_left"
-
-    # change appearance of legend text
-    # p.legend.label_text_font = "times"
-    # p.legend.label_text_font_style = "italic"
-    # p.legend.label_text_color = "navy"
-
-    # change border and background of legend
-    # p.legend.border_line_width = 3
-    # p.legend.border_line_color = "navy"
-    # p.legend.border_line_alpha = 0.8
     p.legend.background_fill_color = 'white'
     p.legend.background_fill_alpha = 0.5
 
     # Show the plot
     show(p)
+
+
+def plot_boxplot(data,
+                 title=None, xlabel='Wavelength [$\mu$m]', ylabel='Scaled Values',
+                 xticks_list=None, fig_size=(14, 3)):
+    """
+    Make a boxplot with the scaled features.
+
+    Description
+    -----------
+        - Median: middle quartile marks.
+        - Inter-quartile range (The middle “box”): 50% of scores fall within the inter-quartile range.
+        - Upper quartile: 75% of the scores fall below the upper quartile.
+        - Lower quartile: 25% of scores fall below the lower quartile.
+    """
+
+    fig, ax = plt.subplots(figsize=fig_size)
+    ax.boxplot(data, sym='')
+
+    if len(data) > 10:
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
+
+    ax.set_xlabel(xlabel, fontsize=12)
+    ax.set_ylabel(ylabel, fontsize=12)
+    if title:
+        ax.set_title(title, fontsize=14)
+
+    # Increase x and y tick font size
+    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.grid(which='major', color='grey', linestyle=':', linewidth=0.5)
+
+
+    # Add custom x-ticks
+    # custom_xticks = ['Label 1', 'Label 2', 'Label 3', 'Label 4']
+    if xticks_list:
+        i = 1
+        if len(xticks_list) > 100:
+            i = 3
+        xtick_positions = range(len(xticks_list))
+        ax.set_xticks(xtick_positions[::i])
+        ax.set_xticklabels(xticks_list[::i])
+
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
+                                list_=['temperature', 'gravity', 'metallicity', 'c_o_ratio'],
+                                __save_plot__=False):
+    plt.figure(figsize=(6, 4))
+    for target in list_:
+        X = tuned_ML_R_param_df[target]
+        Y = tuned_ML_R_param_df['radius']
+        Z = tuned_ML_R_param_df['chi_square']
+
+        # Levels for contour lines
+        levels = np.linspace(Z.min(), Z.max(), 1001)
+
+        # Set vmin and vmax to customize the color bar range
+        Zmin = float(Z.min() // 10 * 10)
+        Zmax = float(Z.max() // 100 * 100 + 100)
+
+        contour = plt.tricontour(X, Y, Z,
+                                 levels=levels,
+                                 cmap='viridis', linestyles='dashed', linewidths=1, vmin=Zmin - 1, vmax=Zmax + 1)
+
+        # Target value
+        target_value = 1
+
+        # Calculate Euclidean distances
+        distances = np.sqrt((Z - target_value) ** 2)
+
+        # Finding the index of the point with the closest chi-square value to the target
+        min_index = np.argmin(distances)
+        min_X = X[min_index]
+        min_Y = Y[min_index]
+        min_Z = Z[min_index]
+
+        # Plotting a star at the minimum chi-square point
+        plt.scatter(min_X, min_Y, marker='*', color='red', s=300, zorder=10)
+
+        target_dict = {'temperature': '$T_{eff}$',
+                       'gravity': '$\log$g',
+                       'metallicity': '[M/H]',
+                       'c_o_ratio': 'C/O',
+                       }
+        plt.xlabel(target_dict[target], fontsize=16)
+        plt.ylabel('$R_{Jup}$', fontsize=16)
+        plt.xticks(fontsize=14, rotation=45)
+        plt.yticks(fontsize=14)
+        #         plt.gca().xaxis.set_major_formatter(FuncFormatter(lambda x, pos: f'{x:.2f}'))
+
+        # Adding minor ticks and grid
+        plt.minorticks_on()
+        plt.grid(which='major', linestyle='--', linewidth='0.1', color='black')
+        #         plt.grid(which='minor', linestyle=':', linewidth='0.2', color='gray')
+
+        Rstd = np.round(tuned_ML_R_param_df.describe().loc['std']['radius'], 2)
+        Tstd = np.round(tuned_ML_R_param_df.describe().loc['std'][target], 2)
+        chistd = np.round(tuned_ML_R_param_df.describe().loc['std']['chi_square'], 2)
+        print(Rstd, Tstd, chistd)
+        #         plt.suptitle(r'$R_{\mathrm{Jup}}^{\chi^2_\mathrm{min}}$=' + f'{round(min_Y, 2)}$\pm${Rstd}, '
+        #                   + target_dict[target] + f'= {round(min_X, 2) }$\pm${Tstd}, $\chi_{{min}}^2$={round(min_Z, 1)}',
+        #                                                          y=.95, fontsize=15)
+        plt.suptitle(f'$\chi_{{min}}^2$={round(min_Z, 1)}' + r', $R_{\chi^2_\mathrm{min}}$=' + f'{round(min_Y, 2)}, '
+                     + target_dict[target] + f'= {round(min_X, 2)}$\pm${Tstd}',
+                     y=.95, fontsize=15)
+
+        # Using colorbar to fill the color spectrum
+        # cbar = plt.colorbar(contour, label=r'$\chi_r^2$',)
+        cbar = plt.colorbar(contour)
+        cbar.set_label(r'$\chi_r^2$', fontsize=16)
+        cbar.ax.tick_params(labelsize=14)
+
+        # Automatically set better values for colorbar ticks
+        #         cbar.locator = MaxNLocator(nbins=9)
+        cbar.update_ticks()
+
+        plt.tight_layout()
+
+        if __save_plot__:
+            plt.savefig('../../outputs/figures/tuned_bohb_batch32_v3_1000epoch_out10_v2_UsedInPAPER_v5/' +
+                        tuned_ML_R_param_df['bd_name'] + '_TunedRadius_' + target
+                        + '_counterplot.pdf',
+                        format='pdf', bbox_inches='tight')
+        plt.show()
+
+
+def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
+                                confidence_level,
+                                object_name,
+                                x_obs,
+                                y_obs,
+                                y_obs_err,
+                                training_datasets,
+                                x_pred,
+                                predicted_targets_dic,
+                                radius,
+                                __print_results__ = False):
+    """
+    Plot observed spectra with error bars and predicted spectra with confidence intervals.
+
+    Parameters
+    ----------
+    stat_df : DataFrame
+        DataFrame containing the calculated statistics.
+    confidence_level : float
+        Confidence level for the confidence intervals.
+    object_name : str
+        Name of the object being plotted.
+    x_obs : list
+        List of x-axis values for the observed spectra.
+    y_obs : list
+        List of y-axis values for the observed spectra.
+    y_obs_err : list
+        List of error values corresponding to the observed spectra.
+    training_datasets : optional
+        Training datasets used for prediction. Default is None.
+    predicted_targets_dic : optional
+        Dictionary of predicted targets. Default is None.
+    # bd_object_class : optional
+    #     Object class. Default is None.
+    __print_results__ : bool
+        True or False.
+    """
+
+    chi2_stat, p_value = chi_square_test(
+                            x_obs=x_obs,
+                            y_obs=y_obs,
+                            yerr_obs=y_obs_err,
+
+                            x_pre=stat_df['wl'][::-1],
+                            y_pre=stat_df['mean'],
+                            yerr_pre=stat_df['std_values'],
+                            radius=radius,
+                            __plot_results__=False,
+                            __print_results__=True)
+
+    if __print_results__:
+        print('*'*10+ ' Predicted Targets dic ' + '*'*10 )
+        print(predicted_targets_dic)
+
+    X = stat_df['wl'][::-1]
+    Y = stat_df['mean']
+    std = stat_df['std_values']
+
+    # Create the figure and axis
+    plt.figure(figsize=(12, 6))
+    ax = plt.gca()
+
+    ax.errorbar(x_obs, y_obs, yerr=y_obs_err,
+                fmt='o', color='blue', alpha=0.8, markersize=2, capsize=3, elinewidth=1, ecolor='gray',label=f"Observational data")
+
+    # Plot data points
+    ax.plot(stat_df['wl'][::-1], stat_df['mean'], color='red', label='ML predicted', linewidth=2)
+
+    # Shade the region representing standard deviation
+    ax.fill_between(X, Y - std, Y + std, alpha=0.4, color='green', label='1$\sigma$')
+
+    # Set logarithmic scale for y-axis
+    ax.set_yscale('log')
+
+    # Set labels and title
+    ax.set_xlabel('Wavelength [$\mu$m]',fontsize=14)
+    ax.set_ylabel(r'TOA Flux ($F_{\nu}$) [erg/s/cm2/Hz]',fontsize=14)
+    ax.set_title(f'{object_name}: Observational vs. ML Predicted Spectra'+' [$\chi^2$='+str(chi2_stat)+']',fontsize=16)
+
+    # Display legend
+    ax.legend(loc='lower left',fontsize=12)
+
+    min_mean = np.min(stat_df['mean'])
+    max_mean = np.max(stat_df['mean'])
+    ax.set_ylim((min_mean * 0.1, max_mean * 2))
+    ax.xaxis.set_minor_locator(AutoMinorLocator())
+
+    # Customize the plot
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.grid(True, linestyle="--", alpha=0.5)
+
+    plt.tight_layout()
+
+    # export_svg(p, filename=f"../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.svg")
+    # plt.savefig(f'../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.pdf', format='pdf')
+
+    plt.show()
+
+
+def plot_regression_report(trained_ML_model,
+                           trained_DataProcessor,
+                           Xtrain, Xtest, ytrain, ytest,
+                           target_i,
+                           xy_top=None, xy_bottom=None,
+                           __print_results__=False,
+                           __save_plots__ = False):
+    """
+    Generate a regression report for the trained ML/CNN model.
+
+    Parameters
+    -----------
+    trained_ML_model : object
+        Trained regression model.
+    trained_DataProcessor: object
+        Trained Data Processor Class
+    Xtrain : array
+        Training set.
+    Xtest : array
+        Test set.
+    ytrain : array
+        Training target set.
+    ytest : array
+        Test target set.
+    target_i : int
+        Index of the target variable to analyze.
+    xy_top : list, optional
+        Coordinates for annotations in the top plot. Defaults to [0.55, 0.85].
+    xy_bottom : list, optional
+        Coordinates for annotations in the bottom plot. Defaults to [0.05, 0.8].
+    __print_results__ : bool, optional
+        True or False.
+    """
+
+    # Apply the trained ML model on the train set to predict the targets
+    if xy_bottom is None:
+        xy_bottom = [0.05, 0.8]
+    if xy_top is None:
+        xy_top = [0.55, 0.85]
+    y_pred_train = np.array(trained_ML_model.predict(Xtrain))[:, :, 0].T
+    y_pred_train_list = trained_DataProcessor.standardize_y_ColumnWise.inverse_transform(y_pred_train)
+    y_pred_train_list[:, 3] = 10 ** y_pred_train_list[:, 3]
+
+    y_act_train_list = trained_DataProcessor.standardize_y_ColumnWise.inverse_transform(ytrain)
+    y_act_train_list[:, 3] = 10 ** y_act_train_list[:, 3]
+
+    # Apply the trained ML model on the test set to predict the targets
+    y_pred_test = np.array(trained_ML_model.predict(Xtest))[:, :, 0].T
+    y_pred_test_list = trained_DataProcessor.standardize_y_ColumnWise.inverse_transform(y_pred_test)
+    y_pred_test_list[:, 3] = 10 ** y_pred_test_list[:, 3]
+
+    y_act_test_list = trained_DataProcessor.standardize_y_ColumnWise.inverse_transform(ytest)
+    y_act_test_list[:, 3] = 10 ** y_act_test_list[:, 3]
+
+    for i in range(0, target_i):
+        y_pred_train = y_pred_train_list[:, i]
+        y_act_train = y_act_train_list[:, i]
+        y_pred_test = y_pred_test_list[:, i]
+        y_act_test = y_act_test_list[:, i]
+
+        # Calculate the residual (Predicted - Actual)
+        residual_train_list = y_pred_train - y_act_train
+        residual_test_list = y_pred_test - y_act_test
+
+        # Calculate mean and standard deviation for residuals
+        mean_test = np.round(np.mean(residual_test_list), 2)
+        std_test = np.round(np.std(residual_test_list), 2)
+        mean_train = np.round(np.mean(residual_train_list), 2)
+        std_train = np.round(np.std(residual_train_list), 2)
+
+        # Calculate skewness for residuals
+        skew_test = stats.skew(residual_test_list)
+        skew_train = stats.skew(residual_train_list)
+
+        # Calculate R-squared scores
+        r2_score_train = r2_score(y_pred_train, y_act_train)
+        r2_score_test = r2_score(y_pred_test, y_act_test)
+
+        # Calculate  RMSE scores
+        rmse_score_train = np.sqrt(mean_squared_error(y_pred_train, y_act_train))
+        rmse_score_test = np.sqrt(mean_squared_error(y_pred_test, y_act_test))
+
+        # Create subplots for histograms and scatter plots
+        f, axs = plt.subplots(2, 1, figsize=(5, 5), sharey=False, sharex=False,
+                              gridspec_kw=dict(height_ratios=[1, 3]))
+
+        # Turn on minor ticks
+        axs[0].minorticks_on()
+        axs[1].minorticks_on()
+
+        if __print_results__:
+            print('\n\n----------------------- Test ------------------------')
+            print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
+                r2_score_test, rmse_score_train, mean_test, std_test))
+
+            print('\n----------------------- Train ------------------------')
+            print('R2: {:2.2f} \t  RMSE: {:2.2f} \t Mean+/-STD: {:2.2f}+/-{:2.2f}'.format(
+                r2_score_train, rmse_score_test, mean_train, std_train))
+
+        # Plot histograms of residuals
+        axs[0].set_title(['$\log g$', 'C/O', '[M/H]', '$T_{eff}$'][i], fontsize=14)
+        sns.histplot(data=residual_train_list, ax=axs[0], label='train', alpha=0.7, bins=19,
+                     log_scale=False, stat='percent', legend=True, linewidth=0)
+        sns.histplot(data=residual_test_list, label='test', ax=axs[0], alpha=0.3, bins=19,
+                     stat='percent', legend=True, linewidth=0)
+        axs[0].set_xlim((-(abs(mean_train) + 3 * std_train), (abs(mean_train) + 3 * std_train)))
+        axs[0].set_ylim((1e-1, 100))
+        axs[0].set_yscale('log')
+        axs[0].set_ylabel('Probability %', fontsize=12)
+        axs[0].set_xlabel('Residual', fontsize=12)
+        axs[0].grid(which='major', color='grey', linestyle=':', linewidth=0.5)
+        axs[1].grid(which='major', color='grey', linestyle=':', linewidth=0.5)
+
+        # Plot scatter figures of predicted vs actual values
+        sns.scatterplot(y=y_pred_train, x=y_act_train, label='train', ax=axs[1], alpha=0.7, legend=False)
+        sns.scatterplot(y=y_pred_test, x=y_act_test, label='test', ax=axs[1], alpha=0.7, legend=False)
+        axs[1].set_ylabel('Predicted value', fontsize=12)
+        axs[1].set_xlabel('Actual value', fontsize=12)
+        axs[1].xaxis.set_minor_locator(plt.MultipleLocator(100))  # Adjust the step size as needed
+        axs[1].yaxis.set_minor_locator(plt.MultipleLocator(100))  # Adjust the step size as needed
+        if i < 3:
+            axs[1].xaxis.set_minor_locator(plt.MultipleLocator(0.1))  # Adjust the step size as needed
+            axs[1].yaxis.set_minor_locator(plt.MultipleLocator(0.1))  # Adjust the step size as needed
+
+        # Increase x and y tick font size
+        axs[0].tick_params(axis='both', which='major', labelsize=12)
+        axs[1].tick_params(axis='both', which='major', labelsize=12)
+
+        # Add annotations for skewness and R-squared scores
+        #         axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, train}}$= ' + f'{np.round(skew_train, 2)}',
+        #                         fontsize=11, xy=(xy_top[0], xy_top[1] + 0.08), xycoords='axes fraction')
+        #         axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, test}}$ = ' + f'{np.round(skew_test, 2)}',
+        #                         fontsize=11, xy=(xy_top[0], xy_top[1] - 0.08), xycoords='axes fraction')
+        axs[1].annotate(r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train}',
+                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
+        axs[1].annotate(r'R$^2_{\rm test}$ =' + f'{"%0.2f" % r2_score_test}',
+                        fontsize=11, xy=(xy_bottom[0], xy_bottom[1] - 0.06), xycoords='axes fraction')
+
+        axs[1].legend(loc='lower right', fontsize=12)
+
+        plt.tight_layout()
+        if __save_plots__:
+            target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
+            plt.savefig(f'../../manuscript/2023_ApJ/figures/performance/regression_report_{target_name}_v2.pdf', format='pdf')
+        plt.show()

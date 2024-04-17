@@ -37,6 +37,7 @@ from tensorflow import keras
 from tensorflow.keras.models import save_model
 
 
+
 class TrainRegressorCNN:
     """
     Train Convolutional Neural Networks model using regression approach
@@ -86,27 +87,15 @@ class TrainRegressorCNN:
         Col-StandardScaled target feature 4 for testing.
     """
     def __init__(self,
-                 X1_train: Union[np.ndarray, list],
-                 X1_val: Union[np.ndarray, list],
-                 X1_test: Union[np.ndarray, list],
-                 X2_train: Union[np.ndarray, list],
-                 X2_val: Union[np.ndarray, list],
-                 X2_test: Union[np.ndarray, list],
-                 y1_train: Union[np.ndarray, list],
-                 y1_val: Union[np.ndarray, list],
-                 y1_test: Union[np.ndarray, list],
-                 y2_train: Union[np.ndarray, list],
-                 y2_val: Union[np.ndarray, list],
-                 y2_test: Union[np.ndarray, list],
-                 y3_train: Union[np.ndarray, list],
-                 y3_val: Union[np.ndarray, list],
-                 y3_test: Union[np.ndarray, list],
-                 y4_train: Union[np.ndarray, list],
-                 y4_val: Union[np.ndarray, list],
-                 y4_test: Union[np.ndarray, list]
+                 X1_train, X1_val, X1_test,  # Row-StandardScaled input spectra
+                 X2_train, X2_val, X2_test,  # Col-StandardScaled Mix Max of all rows of input spetra
+                 y1_train, y1_val, y1_test,  # Col-StandardScaled target feature 1
+                 y2_train, y2_val, y2_test,  # Col-StandardScaled target feature 2
+                 y3_train, y3_val, y3_test,  # Col-StandardScaled target feature 3
+                 y4_train, y4_val, y4_test,  # Col-StandardScaled target feature 4
                  ):
 
-        # train, val, test sets for main features (104 wavelengths)
+        # train, val, test sets for input 1 (main 104 spectral features)
         self.X1_train, self.X1_val, self.X1_test = X1_train, X1_val, X1_test
 
         # train, val, test sets for input 2 (Min and Max 2 features)
@@ -119,7 +108,7 @@ class TrainRegressorCNN:
         self.y4_train, self.y4_val, self.y4_test = y4_train, y4_val, y4_test
 
     def build_model(self,
-                    hyperparameters, # dic
+                    config, # dic
                     ):
         """
         Build a CNN model with the given hyperparameters.
@@ -174,101 +163,121 @@ class TrainRegressorCNN:
 
         """
 
-        Conv__num_blocks = hyperparameters['Conv__num_blocks']
-        Conv__num_layers_per_block = hyperparameters['Conv__num_layers_per_block']
-        Conv__num_filters = hyperparameters['Conv__num_filters']
-        Conv__kernel_size = hyperparameters['Conv__kernel_size']
-        Conv__MaxPooling1D = hyperparameters['Conv__MaxPooling1D']
+        """
+        Convolution Neural Networks to be optimized by BOHB package.
+        The input parameter "config" (dictionary) contains the sampled configurations passed by the bohb optimizer
+        """
 
-        FC1__num_blocks = hyperparameters['FC1__num_blocks']
-        FC1_num_layers_per_block = hyperparameters['FC1_num_layers_per_block']
-        FC1__units = hyperparameters['FC1__units']
-        FC1__dropout = hyperparameters['FC1__dropout']
+        Conv__filters = config['Conv__filters']
+        Conv__kernel_size = config['Conv__kernel_size']
+        Conv__MaxPooling1D = config['Conv__MaxPooling1D']
+        Conv__NumberLayers = config['Conv__NumberLayers']
+        Conv__NumberBlocks = config['Conv__NumberBlocks']
 
-        FC2__num_blocks = hyperparameters['FC2__num_blocks']
-        FC2_num_layers_per_block = hyperparameters['FC2_num_layers_per_block']
-        FC2__units = hyperparameters['FC2__units']
-        FC2__dropout = hyperparameters['FC2__dropout']
+        FC1__units = config['FC1__units']
+        FC1__dropout = config['FC1__dropout']
+        FC1__NumberLayers = config['FC1__NumberLayers']
 
-        self.learning_rate = hyperparameters['learning_rate']
+        FC2__units = config['FC2__units']
+        FC2__NumberLayers = config['FC2__NumberLayers']
+        FC2__dropout = config['FC2__dropout']
+        FC2__NumberBlocks = config['FC2__NumberBlocks']
 
-        # Define the input layer
-        input_layer_1 = tf.keras.layers.Input(shape=(104, 1))
-        input_layer_2 = tf.keras.layers.Input(shape=(2,))
+        # FC3__units_temperature = config['FC3__units_temperature']
+        # FC3__units_c_o_ratio = config['FC3__units_c_o_ratio']
+        # FC3__units_gravity = config['FC3__units_gravity']
+        # FC3__units_metallicity = config['FC3__units_metallicity']
 
-        # Start building the model using the input layer
-        x = input_layer_1
+        lr = config['lr']
+        self.lr = lr
 
-        # Build the specified number of blocks using for loops
-        for block in range(Conv__num_blocks):
-            # Build the specified number of layers in each block using for loops
-            for layer in range(Conv__num_layers_per_block):
-                x = Conv1D(filters=Conv__num_filters * ((block + layer + 1) * 2) ** 2,
-                           kernel_size=Conv__kernel_size,
-                           activation='relu',
-                           padding='same',
-                           kernel_initializer='he_normal',
-                           name='Conv__B' + str(block + 1) + '_L' + str(layer + 1)
-                           )(x)
+        # for key, value in zip(config.keys(), config.values()):
+        #     print(f'{key}: {value}')
 
-            # Add a MaxPooling layer at the end of each block
-            x = MaxPooling1D(pool_size=(Conv__MaxPooling1D),
-                             name='MaxPool1D__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+        ######### Shape of the inputs
+        input_1 = tf.keras.layers.Input(shape=(104, 1))
+        input_2 = tf.keras.layers.Input(shape=(2,))
 
-        # Flatten the output of the last block
-        x = Flatten()(x)
+        ######### Conv Blocks  ####################################
+        model = input_1
+        for b in range(0, Conv__NumberBlocks):
+            for l in range(0, Conv__NumberLayers):
+                model = Conv1D(filters=Conv__filters * (b + l + 1) ** 2,
+                               kernel_size=Conv__kernel_size,
+                               strides = 1,
+                               padding ='same',
+                               activation='relu',
+                               kernel_initializer='he_normal',
+                               # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
+                               name='Conv__B' + str(b + 1) + '_L' + str(l + 1))(
+                    model)  # (model if l!= 0 and b!= 0 else input_1)
 
-        for block in range(FC1__num_blocks):
-            for layer in range(FC1_num_layers_per_block):
-                x = Dense(FC1__units * ((block + layer + 1) * 2) ** 2,
+            model = MaxPooling1D(pool_size=(Conv__MaxPooling1D),
+                                 name='Conv__B' + str(b + 1) + '__MaxPooling1D')(model)
+
+        ######### Flatten Layer   ####################################
+        model = Flatten()(model)
+
+        ######### FC Layer before the Concatenation   ################
+        for l in range(FC1__NumberLayers):
+            model = Dense(FC1__units * (l + 1) ** 2,
                           activation='relu',
-                          name='FC1__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+                          kernel_initializer='he_normal',
+                          # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
+                          name='FC1__B1_L' + str(l + 1))(model)
 
-            x = Dropout(FC1__dropout,
-                        name='FC1__Dropout__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+        model = Dropout(FC2__dropout,
+                        name='FC1__B1_L' + str(l + 1) + '__Dropout')(model)
 
+        ######### Concatenation Layer  ###############################
         # Concatenate the outputs from the convolutional layers and dense layer
-        x = tf.keras.layers.concatenate([x, input_layer_2],
-                                        name='Concatenated_Layer')
+        model = tf.keras.layers.concatenate([model, input_2],
+                                            name='Concatenated_Layer')
 
-        # Add a dense layer for classification
-        for block in range(FC2__num_blocks):
-            for layer in range(FC2_num_layers_per_block):
-                x = Dense(FC2__units * ((block + layer + 1) * 2) ** 2,
-                          activation='relu',
-                          name='FC2__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+        ######### FC Block  ####################################
+        for b in range(0, FC2__NumberBlocks):
+            for l in range(0, FC2__NumberLayers):
+                model = Dense(FC2__units * (b + l + 1) ** 2,
+                              activation='relu',
+                              kernel_initializer='he_normal',
+                              # kernel_regularizer=tf.keras.regularizers.l2(Conv__regularizer),
+                              name='FC2__B' + str(b + 1) + '_L' + str(l + 1))(
+                    model)  # (model if l!= 0 and b!= 0 else input_1)
 
-            x = Dropout(FC2__dropout,
-                        name='FC2__Dropout__B' + str(block + 1) + '_L' + str(layer + 1))(x)
+            model = Dropout(FC2__dropout,
+                            name='FC2__B'+ str(b + 1) + '_L' + str(l + 1) + '__Dropout')(model)
 
-        ######### 3rd FC Block: gravity  ##############################
+        ######### 3rd FC Block: gravity  #############################
 
         out__gravity = Dense(1,
                              activation='linear',
                              # kernel_initializer = 'he_normal',
-                             name='gravity')(x)
+                             name='output__gravity')(model)
 
         ######### 3rd FC Block: c_o_ratio  ##############################
         out__c_o_ratio = Dense(1,
                                activation='linear',
                                # kernel_initializer = 'he_normal',
-                               name='c_o_ratio')(x)
+                               # kernel_regularizer=tf.keras.regularizers.l2(0.003/2),
+                               name='output__c_o_ratio')(model)
 
         ######### 3rd FC Block: metallicity  ##############################
+
         out__metallicity = Dense(1,
                                  activation='linear',
                                  # kernel_initializer = 'he_normal',
-                                 name='metallicity')(x)
+                                 name='output__metallicity')(model)
 
         ######### 3rd FC Block: temperature  ##############################
         out__temperature = Dense(1,
                                  activation='linear',
-                                 name='temperature')(x)
+                                 name='output__temperature')(model)
 
         ######### OUTPUT   ################################################
         # Create the model with two inputs and two outputs
-        model = tf.keras.Model(inputs=[input_layer_1, input_layer_2],
+        model = tf.keras.Model(inputs=[input_1, input_2],
                                outputs=[out__gravity, out__c_o_ratio, out__metallicity, out__temperature])
+
 
         self.model = model
 
@@ -287,7 +296,7 @@ class TrainRegressorCNN:
         model = self.model
         # Compile the model with an optimizer, loss function, and metrics
         model.compile(loss='huber_loss',
-                           optimizer=keras.optimizers.Adam(learning_rate=self.learning_rate),
+                           optimizer=keras.optimizers.Adam(learning_rate=self.lr),
                            metrics=['mae'])
 
         early_stop = EarlyStopping(monitor='loss', min_delta=4e-4, patience=50, mode='auto', \
