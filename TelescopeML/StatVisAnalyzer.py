@@ -1154,7 +1154,14 @@ def plot_scatter_x_y (x, y,
     # Show the plot
     show(p)
 
-def plot_filtere_data(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic,output_names, __reference_data__):
+def plot_filtere_data(dataset,
+                      filter_bounds,
+                      feature_to_plot,
+                      title_label,
+                      wl_synthetic,
+                      output_names,
+                      __reference_data__,
+                      __save_plots__=False):
     """
     Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.
 
@@ -1189,7 +1196,7 @@ def plot_filtere_data(dataset, filter_bounds, feature_to_plot, title_label, wl_s
 
     # print(filtered_data.T[col][:4].values[0])
     ax.set_xlabel('Wavelength [$\mu$m]', fontsize = 12)
-    ax.set_ylabel(r'F$_{\nu}$  [erg/cm$^2$/s/Hz]', fontsize = 12)
+    ax.set_ylabel(r'TOA F$_{\nu}^{\rm Syn}$  [erg/cm$^2$/s/Hz]', fontsize = 12)
     dict_features = {'temperature': 'Effective Temperature', 'gravity': 'Gravity', 'metallicity': 'Metallicity',
                      'c_o_ratio': 'Carbon-to-oxygen ratio'}
     ax.set_title(dict_features[feature_to_plot] + " " + title_label, fontsize = 14)
@@ -1208,8 +1215,9 @@ def plot_filtere_data(dataset, filter_bounds, feature_to_plot, title_label, wl_s
     dict_features = {'temperature': 'T$_{eff}$ [K]', 'gravity': 'log$g$', 'metallicity': '[M/H]', 'c_o_ratio': 'C/O'}
     cbar.set_label(dict_features[feature_to_plot], fontsize = 12)
 
-    # plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_trainin_examples.pdf"), dpi=500,
-    #             bbox_inches='tight')
+    if __save_plots__:
+        plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_training_examples.pdf"), dpi=500,
+                    bbox_inches='tight')
 
     plt.show()
 
