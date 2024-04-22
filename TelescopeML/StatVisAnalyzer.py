@@ -1333,7 +1333,8 @@ def plot_ML_model_loss(trained_ML_model_history=None, title=None):
 
 def plot_boxplot(data,
                  title=None, xlabel='Wavelength [$\mu$m]', ylabel='Scaled Values',
-                 xticks_list=None, fig_size=(14, 3)):
+                 xticks_list=None, fig_size=(14, 3),
+                 __save_plots__=False):
     """
     Make a boxplot with the scaled features.
 
@@ -1370,6 +1371,11 @@ def plot_boxplot(data,
         xtick_positions = range(len(xticks_list))
         ax.set_xticks(xtick_positions[::i])
         ax.set_xticklabels(xticks_list[::i])
+
+    # if __save_plots__:
+    #     plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_training_examples.pdf"),
+    #                 dpi=500,
+    #                 bbox_inches='tight')
 
     plt.tight_layout()
     plt.show()
