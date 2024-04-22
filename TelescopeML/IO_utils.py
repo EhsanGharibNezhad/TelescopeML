@@ -100,8 +100,8 @@ def load_or_dump_trained_model_CNN(
     # weights_path = self.create_generic_path(f'{indicator}_weights')
 
     if load_or_dump == 'dump':
-        trained_model.trained_model.save(path_architecture)
-        trained_model.trained_model.save_weights(path_weights)
+        trained_model.trained_ML_model.save(path_architecture)
+        trained_model.trained_ML_model.save_weights(path_weights)
 
         with open(path_history, 'wb') as file:
             pk.dump(trained_model.history.history, file)
