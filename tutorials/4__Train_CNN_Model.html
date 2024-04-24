@@ -1108,7 +1108,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_BD</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__reference_data_path__</span><span class="p">,</span>
                                     <span class="s1">&#39;training_datasets&#39;</span><span class="p">,</span>
-                                    <span class="s1">&#39;browndwarf_R100_v4_newWL_v2.csv.bz2&#39;</span><span class="p">),</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;bz2&#39;</span><span class="p">)</span>
+                                    <span class="s1">&#39;browndwarf_R100_v4_newWL_v3.csv.bz2&#39;</span><span class="p">),</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;bz2&#39;</span><span class="p">)</span>
 <span class="n">train_BD</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1147,6 +1147,7 @@ var element = document.currentScript.previousSibling.previousSibling;
       <th>2.413</th>
       <th>2.389</th>
       <th>...</th>
+      <th>0.981</th>
       <th>0.971</th>
       <th>0.962</th>
       <th>0.952</th>
@@ -1156,7 +1157,6 @@ var element = document.currentScript.previousSibling.previousSibling;
       <th>0.915</th>
       <th>0.906</th>
       <th>0.897</th>
-      <th>is_augmented</th>
     </tr>
   </thead>
   <tbody>
@@ -1173,6 +1173,7 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>1.159179e-07</td>
       <td>8.925110e-08</td>
       <td>...</td>
+      <td>1.257751e-07</td>
       <td>9.640859e-08</td>
       <td>7.612550e-08</td>
       <td>6.901364e-08</td>
@@ -1182,7 +1183,6 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>4.897355e-08</td>
       <td>4.087795e-08</td>
       <td>2.791689e-08</td>
-      <td>no</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1197,6 +1197,7 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>1.159179e-07</td>
       <td>8.925110e-08</td>
       <td>...</td>
+      <td>1.257751e-07</td>
       <td>9.640859e-08</td>
       <td>7.612550e-08</td>
       <td>6.901364e-08</td>
@@ -1206,7 +1207,6 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>4.897355e-08</td>
       <td>4.087795e-08</td>
       <td>2.791689e-08</td>
-      <td>no</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1221,6 +1221,7 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>1.159179e-07</td>
       <td>8.925110e-08</td>
       <td>...</td>
+      <td>1.257751e-07</td>
       <td>9.640859e-08</td>
       <td>7.612550e-08</td>
       <td>6.901364e-08</td>
@@ -1230,7 +1231,6 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>4.897355e-08</td>
       <td>4.087795e-08</td>
       <td>2.791689e-08</td>
-      <td>no</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1245,6 +1245,7 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>1.159179e-07</td>
       <td>8.925110e-08</td>
       <td>...</td>
+      <td>1.257751e-07</td>
       <td>9.640859e-08</td>
       <td>7.612550e-08</td>
       <td>6.901364e-08</td>
@@ -1254,7 +1255,6 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>4.897355e-08</td>
       <td>4.087795e-08</td>
       <td>2.791689e-08</td>
-      <td>no</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1269,6 +1269,7 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>1.159179e-07</td>
       <td>8.925110e-08</td>
       <td>...</td>
+      <td>1.257751e-07</td>
       <td>9.640859e-08</td>
       <td>7.612550e-08</td>
       <td>6.901364e-08</td>
@@ -1278,11 +1279,10 @@ var element = document.currentScript.previousSibling.previousSibling;
       <td>4.897355e-08</td>
       <td>4.087795e-08</td>
       <td>2.791689e-08</td>
-      <td>no</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 109 columns</p>
+<p>5 rows × 108 columns</p>
 </div></div>
 </div>
 </section>
@@ -1299,8 +1299,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">]</span>
-<span class="n">train_BD</span><span class="p">[</span><span class="n">target_features</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">]</span>
+<span class="n">train_BD</span><span class="p">[</span><span class="n">output_names</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1379,8 +1379,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># training_features_labels: they are Wavelengths variables in string format</span>
 
-<span class="n">training_features_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
-<span class="n">training_features_labels</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">wavelength_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_names</span><span class="p">]</span>
+<span class="n">wavelength_names</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1399,8 +1399,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># training_features_wl: they are Wavelengths variables</span>
 
-<span class="n">training_features_wl</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_features</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]]</span>
-<span class="n">training_features_wl</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">wavelength_values</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">wavelength_names</span><span class="p">]</span>
+<span class="n">wavelength_values</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1410,7 +1410,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[2.512, 2.487, 2.462, 2.438, 2.413]
+[2.512, 2.487, 2.462, 2.438, 2.413, 2.389, 2.366, 2.342, 2.319, 2.296]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1480,7 +1480,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># to assure we are only training the module with the native non-augmented BD training dataset</span>
-<span class="n">train_BD</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">[</span><span class="n">train_BD</span><span class="p">[</span><span class="s1">&#39;is_augmented&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;no&#39;</span><span class="p">])]</span>
+<span class="n">train_BD</span> <span class="o">=</span> <span class="n">train_BD</span>
 
 
 <span class="c1"># Training feature variables</span>
@@ -1488,8 +1488,7 @@ var element = document.currentScript.previousSibling.previousSibling;
     <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span>
              <span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
              <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;is_augmented&#39;</span><span class="p">])</span><span class="c1">#.astype(np.float32)</span>
+             <span class="s1">&#39;metallicity&#39;</span><span class="p">])</span><span class="c1">#.astype(np.float32)</span>
 
 
 <span class="c1"># Target/Output feature variables</span>
@@ -1607,18 +1606,15 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span> <span class="o">=</span> <span class="n">DataProcessor</span><span class="p">(</span>
-                             <span class="n">feature_values</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-                             <span class="n">feature_names</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
-                             <span class="n">target_values</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-                             <span class="n">target_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">],</span>
-                             <span class="n">is_tuned</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span>
-                             <span class="n">param_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_processor</span> <span class="o">=</span> <span class="n">DataProcessor</span><span class="p">(</span>
+                             <span class="n">flux_values</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                             <span class="n">wavelength_names</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                             <span class="n">wavelength_values</span><span class="o">=</span><span class="n">wavelength_values</span><span class="p">,</span>
+                             <span class="n">output_values</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                             <span class="n">output_names</span><span class="o">=</span><span class="n">output_names</span><span class="p">,</span>
                              <span class="n">spectral_resolution</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                             <span class="n">is_feature_improved</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span>
-                             <span class="n">is_augmented</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">,</span>
-                             <span class="n">ml_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                             <span class="n">ml_model_str</span><span class="o">=</span><span class="s1">&#39;CNN&#39;</span><span class="p">,</span>
+                             <span class="n">trained_ML_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">trained_ML_model_name</span><span class="o">=</span><span class="s1">&#39;CNN&#39;</span><span class="p">,</span>
                                 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1630,9 +1626,9 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">split_train_validation_test</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-                                                 <span class="n">val_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-                                                 <span class="n">random_state_</span><span class="o">=</span><span class="mi">100</span><span class="p">,)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_processor</span><span class="o">.</span><span class="n">split_train_validation_test</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                             <span class="n">val_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                             <span class="n">random_state_</span><span class="o">=</span><span class="mi">42</span><span class="p">,)</span>
 </pre></div>
 </div>
 </div>
@@ -1644,7 +1640,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scale the X features using MinMax Scaler</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">standardize_X_row_wise</span><span class="p">()</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">standardize_X_row_wise</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1652,11 +1648,14 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">,</span>
-                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="n">training_features_labels</span><span class="p">,</span>
-                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled main 104 Features&#39;</span><span class="p">,</span>
-                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-                                                    <span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_boxplot</span><span class="p">(</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Scaled main 104 Features&#39;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Wavelength [$\mu$m]&#39;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Scaled Values&#39;</span><span class="p">,</span>
+    <span class="n">xticks_list</span><span class="o">=</span><span class="n">wavelength_names</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1675,7 +1674,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Standardize the y features using Standard Scaler</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">standardize_y_column_wise</span><span class="p">()</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">standardize_y_column_wise</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1683,11 +1682,14 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">,</span>
-                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;$\log g$&#39;</span><span class="p">,</span> <span class="s1">&#39;T$_</span><span class="si">{eff}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;C/O ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;[M/H]&#39;</span><span class="p">],</span>
-                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled target Features - ColumnWise&#39;</span><span class="p">,</span>
-                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-                                                    <span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_boxplot</span><span class="p">(</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Scaled main 104 Features&#39;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Wavelength&#39;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Scaled Output Values&#39;</span><span class="p">,</span>
+    <span class="n">xticks_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;$\log g$&#39;</span><span class="p">,</span> <span class="s1">&#39;T$_</span><span class="si">{eff}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;C/O ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;[M/H]&#39;</span><span class="p">],</span>
+    <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1706,16 +1708,16 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># train</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_min</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_max</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_min</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_max</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_train</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># validation</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_min</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_max</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">X_val_min</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_val</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">X_val_max</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_val</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># test</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_min</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_max</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_min</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_max</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_test</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1723,9 +1725,9 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_min</span><span class="p">,</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
-<span class="n">df_MinMax_val</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_min</span><span class="p">,</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
-<span class="n">df_MinMax_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_min</span><span class="p">,</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_min</span><span class="p">,</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">df_MinMax_val</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">data_processor</span><span class="o">.</span><span class="n">X_val_min</span><span class="p">,</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_val_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">df_MinMax_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_min</span><span class="p">,</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 </div>
 </div>
@@ -1734,6 +1736,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="s1">&#39;max&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_MinMax_val</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="s1">&#39;max&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_MinMax_test</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="s1">&#39;max&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1775,28 +1779,28 @@ var element = document.currentScript.previousSibling.previousSibling;
   <tbody>
     <tr>
       <th>0</th>
-      <td>2.984493e-18</td>
-      <td>4.560593e-11</td>
+      <td>8.265340e-12</td>
+      <td>3.445259e-08</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>6.833671e-15</td>
-      <td>2.317328e-09</td>
+      <td>8.080712e-22</td>
+      <td>8.397132e-14</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2.870361e-14</td>
-      <td>5.564836e-09</td>
+      <td>2.734403e-07</td>
+      <td>8.632182e-06</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>5.696652e-19</td>
-      <td>5.071436e-11</td>
+      <td>4.414951e-16</td>
+      <td>3.373262e-10</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>1.321553e-10</td>
-      <td>1.636513e-07</td>
+      <td>3.722576e-07</td>
+      <td>6.859888e-06</td>
     </tr>
   </tbody>
 </table>
@@ -1809,11 +1813,12 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">standardize_X_column_wise</span><span class="p">(</span>
-                                                <span class="n">X_train</span> <span class="o">=</span> <span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-                                                <span class="n">X_val</span>   <span class="o">=</span> <span class="n">df_MinMax_val</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-                                                <span class="n">X_test</span>  <span class="o">=</span> <span class="n">df_MinMax_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-                                                <span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_processor</span><span class="o">.</span><span class="n">standardize_X_column_wise</span><span class="p">(</span>
+                                        <span class="n">output_indicator</span><span class="o">=</span><span class="s1">&#39;Trained_StandardScaler_X_ColWise_MinMax&#39;</span><span class="p">,</span>
+                                        <span class="n">X_train</span> <span class="o">=</span> <span class="n">df_MinMax_train</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                        <span class="n">X_val</span>   <span class="o">=</span> <span class="n">df_MinMax_val</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                        <span class="n">X_test</span>  <span class="o">=</span> <span class="n">df_MinMax_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                        <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1821,11 +1826,14 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">plot_boxplot_scaled_features</span><span class="p">(</span><span class="n">scaled_feature</span><span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">,</span>
-                                                  <span class="n">xticks_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;Min&#39;</span><span class="p">,</span><span class="s1">&#39;Max&#39;</span><span class="p">],</span>
-                                                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Scaled Min Max Features - ColumnWise&#39;</span><span class="p">,</span>
-                                                  <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-                                                    <span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_boxplot</span><span class="p">(</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Scaled Min Max Inputs - ColumnWise&#39;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Wavelength&#39;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Scaled Output Values&#39;</span><span class="p">,</span>
+    <span class="n">xticks_list</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;Min&#39;</span><span class="p">,</span><span class="s1">&#39;Max&#39;</span><span class="p">],</span>
+    <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1842,43 +1850,42 @@ var element = document.currentScript.previousSibling.previousSibling;
 <h2>3.3 Train CNN model<a class="headerlink" href="#3.3-Train-CNN-model" title="Link to this heading">¶</a></h2>
 <section id="3.3.1-Instintiate-TrainRegressorCNN-class-from-DeepTrainer-Module">
 <h3>3.3.1 Instintiate <em>TrainRegressorCNN</em> class from <em>DeepTrainer</em> Module<a class="headerlink" href="#3.3.1-Instintiate-TrainRegressorCNN-class-from-DeepTrainer-Module" title="Link to this heading">¶</a></h3>
+<p><img alt="ML pipeline" src="../_images/ML_model.jpg" /></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span> <span class="o">=</span> <span class="n">TrainRegressorCNN</span><span class="p">(</span>
             <span class="c1"># input dataset: StandardScaled instances</span>
-            <span class="n">X1_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">,</span>
-            <span class="n">X1_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_standardized_rowwise</span><span class="p">,</span>
-            <span class="n">X1_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_rowwise</span><span class="p">,</span>
+            <span class="n">X1_train</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">,</span>
+            <span class="n">X1_val</span>   <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_val_standardized_rowwise</span><span class="p">,</span>
+            <span class="n">X1_test</span>  <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_standardized_rowwise</span><span class="p">,</span>
 
             <span class="c1"># input dataset: Min Max of each instance</span>
-            <span class="n">X2_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_columnwise</span><span class="p">,</span>
-            <span class="n">X2_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_val_standardized_columnwise</span><span class="p">,</span>
-            <span class="n">X2_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">,</span>
-<span class="c1">#             X2_train = trained_Data_Processor.X_train_normalized_columnwise,</span>
-<span class="c1">#             X2_val   = trained_Data_Processor.X_val_normalized_columnwise,</span>
-<span class="c1">#             X2_test  = trained_Data_Processor.X_test_normalized_columnwise,</span>
+            <span class="n">X2_train</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_standardized_columnwise</span><span class="p">,</span>
+            <span class="n">X2_val</span>   <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_val_standardized_columnwise</span><span class="p">,</span>
+            <span class="n">X2_test</span>  <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">,</span>
+
 
             <span class="c1"># 1st target</span>
-            <span class="n">y1_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">y1_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">y1_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y1_train</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y1_val</span>   <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">y1_test</span>  <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
 
             <span class="c1"># 2nd target</span>
-            <span class="n">y2_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">y2_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">y2_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">y2_train</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">y2_val</span>   <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">y2_test</span>  <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
 
             <span class="c1"># 3rd target</span>
-            <span class="n">y3_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
-            <span class="n">y3_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
-            <span class="n">y3_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">y3_train</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">y3_val</span>   <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">y3_test</span>  <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span>
 
             <span class="c1"># 4th target</span>
-            <span class="n">y4_train</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
-            <span class="n">y4_val</span>   <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
-            <span class="n">y4_test</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">y4_train</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">y4_val</span>   <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_val_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">y4_test</span>  <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span>
             <span class="p">)</span>
 </pre></div>
 </div>
@@ -1890,55 +1897,21 @@ var element = document.currentScript.previousSibling.previousSibling;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Conv__MaxPooling1D&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-                 <span class="s1">&#39;Conv__num_blocks&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="s1">&#39;Conv__num_layers_per_block&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-                 <span class="s1">&#39;Conv__num_filters&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-                 <span class="s1">&#39;Conv__kernel_size&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-
-                 <span class="s1">&#39;FC2__num_blocks&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-                 <span class="s1">&#39;FC2_num_layers_per_block&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-                 <span class="s1">&#39;FC__dropout&#39;</span><span class="p">:</span> <span class="mf">0.0024609140719442646</span><span class="p">,</span>
-                 <span class="s1">&#39;FC2__dropout&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
-                 <span class="s1">&#39;FC2__units&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
-<span class="c1">#                  &#39;FC__units_gravity&#39;: 16,</span>
-<span class="c1">#                  &#39;FC__units_metallicity&#39;: 256,</span>
-<span class="c1">#                  &#39;FC__units_temperature&#39;: 8,</span>
-
-                 <span class="s1">&#39;FC1__num_blocks&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="s1">&#39;FC1_num_layers_per_block&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-                 <span class="s1">&#39;FC2__dropout&#39;</span><span class="p">:</span> <span class="mf">0.09889223768186726</span><span class="p">,</span>
-                 <span class="s1">&#39;FC1__units&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
-                 <span class="s1">&#39;FC1__dropout&#39;</span><span class="p">:</span> <span class="mf">0.002185843015008406</span><span class="p">,</span>
-
-                 <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">4.9946842008422193e-05</span><span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hyperparameters = {</span>
-<span class="c1">#      &#39;Conv__MaxPooling1D&#39;: 2,</span>
-<span class="c1">#      &#39;Conv__num_blocks&#39;: 1,</span>
-<span class="c1">#      &#39;Conv__num_layers_per_block&#39;: 3,</span>
-<span class="c1">#      &#39;Conv__num_filters&#39;: 4,</span>
-<span class="c1">#      &#39;Conv__kernel_size&#39;: 6,</span>
-<span class="c1">#      &#39;FC__NumberLayers&#39;: 4,</span>
-
-<span class="c1">#      &#39;FC1__num_blocks&#39; : 1,</span>
-<span class="c1">#      &#39;FC1_num_layers_per_block&#39;: 2,</span>
-<span class="c1">#      &#39;FC1__dropout&#39;: 0.09889223768186726,</span>
-<span class="c1">#      &#39;FC1__units&#39;: 128,</span>
-
-<span class="c1">#      &#39;FC2__num_blocks&#39; : 1,</span>
-<span class="c1">#      &#39;FC2_num_layers_per_block&#39;:2,</span>
-<span class="c1">#      &#39;FC2__dropout&#39;: 0.0024609140719442646,</span>
-<span class="c1">#      &#39;FC2__units&#39;: 64,</span>
-
-
-<span class="c1">#      &#39;learning_rate&#39;: 4.9946842008422193e-05}</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="p">{</span>
+ <span class="s1">&#39;Conv__MaxPooling1D&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+ <span class="s1">&#39;Conv__NumberBlocks&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+ <span class="s1">&#39;Conv__NumberLayers&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+ <span class="s1">&#39;Conv__filters&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+ <span class="s1">&#39;Conv__kernel_size&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+ <span class="s1">&#39;FC1__NumberLayers&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+ <span class="s1">&#39;FC1__dropout&#39;</span><span class="p">:</span> <span class="mf">0.0013358917126831819</span><span class="p">,</span>
+ <span class="s1">&#39;FC1__units&#39;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
+ <span class="s1">&#39;FC2__NumberBlocks&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="s1">&#39;FC2__NumberLayers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+ <span class="s1">&#39;FC2__dropout&#39;</span><span class="p">:</span> <span class="mf">0.0018989744374361271</span><span class="p">,</span>
+ <span class="s1">&#39;FC2__units&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+ <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">0.00018890368162236508</span>
+ <span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1946,10 +1919,10 @@ var element = document.currentScript.previousSibling.previousSibling;
 <section id="3.3.3-Build-a-CNN-model">
 <h3>3.3.3 Build a CNN model<a class="headerlink" href="#3.3.3-Build-a-CNN-model" title="Link to this heading">¶</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">build_model</span><span class="p">(</span><span class="n">hyperparameters</span> <span class="o">=</span> <span class="n">hyperparameters</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">build_model</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">hyperparameters</span><span class="p">,</span>
                      <span class="p">)</span>
 </pre></div>
 </div>
@@ -1965,75 +1938,66 @@ ________________________________________________________________________________
 ==================================================================================================
  input_1 (InputLayer)        [(None, 104, 1)]             0         []
 
- Conv__B1_L1 (Conv1D)        (None, 104, 16)              112       [&#39;input_1[0][0]&#39;]
+ Conv__B1_L1 (Conv1D)        (None, 104, 32)              160       [&#39;input_1[0][0]&#39;]
 
- Conv__B1_L2 (Conv1D)        (None, 104, 64)              6208      [&#39;Conv__B1_L1[0][0]&#39;]
+ Conv__B1_L2 (Conv1D)        (None, 104, 128)             16512     [&#39;Conv__B1_L1[0][0]&#39;]
 
- Conv__B1_L3 (Conv1D)        (None, 104, 144)             55440     [&#39;Conv__B1_L2[0][0]&#39;]
+ Conv__B1_L3 (Conv1D)        (None, 104, 288)             147744    [&#39;Conv__B1_L2[0][0]&#39;]
 
- MaxPool1D__B1_L3 (MaxPooli  (None, 52, 144)              0         [&#39;Conv__B1_L3[0][0]&#39;]
- ng1D)
+ Conv__B1__MaxPooling1D (Ma  (None, 34, 288)              0         [&#39;Conv__B1_L3[0][0]&#39;]
+ xPooling1D)
 
- flatten (Flatten)           (None, 7488)                 0         [&#39;MaxPool1D__B1_L3[0][0]&#39;]
+ Conv__B2_L1 (Conv1D)        (None, 34, 128)              147584    [&#39;Conv__B1__MaxPooling1D[0][0]
+                                                                    &#39;]
 
- FC1__B1_L1 (Dense)          (None, 512)                  3834368   [&#39;flatten[0][0]&#39;]
+ Conv__B2_L2 (Conv1D)        (None, 34, 288)              147744    [&#39;Conv__B2_L1[0][0]&#39;]
 
- FC1__B1_L2 (Dense)          (None, 2048)                 1050624   [&#39;FC1__B1_L1[0][0]&#39;]
+ Conv__B2_L3 (Conv1D)        (None, 34, 512)              590336    [&#39;Conv__B2_L2[0][0]&#39;]
 
- FC1__B1_L3 (Dense)          (None, 4608)                 9441792   [&#39;FC1__B1_L2[0][0]&#39;]
+ Conv__B2__MaxPooling1D (Ma  (None, 11, 512)              0         [&#39;Conv__B2_L3[0][0]&#39;]
+ xPooling1D)
 
- FC1__B1_L4 (Dense)          (None, 8192)                 3775692   [&#39;FC1__B1_L3[0][0]&#39;]
-                                                          8
+ flatten (Flatten)           (None, 5632)                 0         [&#39;Conv__B2__MaxPooling1D[0][0]
+                                                                    &#39;]
 
- FC1__Dropout__B1_L4 (Dropo  (None, 8192)                 0         [&#39;FC1__B1_L4[0][0]&#39;]
+ FC1__B1_L1 (Dense)          (None, 256)                  1442048   [&#39;flatten[0][0]&#39;]
+
+ FC1__B1_L2 (Dense)          (None, 1024)                 263168    [&#39;FC1__B1_L1[0][0]&#39;]
+
+ FC1__B1_L3 (Dense)          (None, 2304)                 2361600   [&#39;FC1__B1_L2[0][0]&#39;]
+
+ FC1__B1_L3__Dropout (Dropo  (None, 2304)                 0         [&#39;FC1__B1_L3[0][0]&#39;]
  ut)
 
  input_2 (InputLayer)        [(None, 2)]                  0         []
 
- Concatenated_Layer (Concat  (None, 8194)                 0         [&#39;FC1__Dropout__B1_L4[0][0]&#39;,
+ Concatenated_Layer (Concat  (None, 2306)                 0         [&#39;FC1__B1_L3__Dropout[0][0]&#39;,
  enate)                                                              &#39;input_2[0][0]&#39;]
 
- FC2__B1_L1 (Dense)          (None, 256)                  2097920   [&#39;Concatenated_Layer[0][0]&#39;]
+ FC2__B1_L1 (Dense)          (None, 128)                  295296    [&#39;Concatenated_Layer[0][0]&#39;]
 
- FC2__B1_L2 (Dense)          (None, 1024)                 263168    [&#39;FC2__B1_L1[0][0]&#39;]
+ FC2__B1_L2 (Dense)          (None, 512)                  66048     [&#39;FC2__B1_L1[0][0]&#39;]
 
- FC2__Dropout__B1_L2 (Dropo  (None, 1024)                 0         [&#39;FC2__B1_L2[0][0]&#39;]
+ FC2__B1_L3 (Dense)          (None, 1152)                 590976    [&#39;FC2__B1_L2[0][0]&#39;]
+
+ FC2__B1_L4 (Dense)          (None, 2048)                 2361344   [&#39;FC2__B1_L3[0][0]&#39;]
+
+ FC2__B1_L4__Dropout (Dropo  (None, 2048)                 0         [&#39;FC2__B1_L4[0][0]&#39;]
  ut)
 
- FC2__B2_L1 (Dense)          (None, 1024)                 1049600   [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+ output__gravity (Dense)     (None, 1)                    2049      [&#39;FC2__B1_L4__Dropout[0][0]&#39;]
 
- FC2__B2_L2 (Dense)          (None, 2304)                 2361600   [&#39;FC2__B2_L1[0][0]&#39;]
+ output__c_o_ratio (Dense)   (None, 1)                    2049      [&#39;FC2__B1_L4__Dropout[0][0]&#39;]
 
- FC2__Dropout__B2_L2 (Dropo  (None, 2304)                 0         [&#39;FC2__B2_L2[0][0]&#39;]
- ut)
+ output__metallicity (Dense  (None, 1)                    2049      [&#39;FC2__B1_L4__Dropout[0][0]&#39;]
+ )
 
- FC2__B3_L1 (Dense)          (None, 2304)                 5310720   [&#39;FC2__Dropout__B2_L2[0][0]&#39;]
-
- FC2__B3_L2 (Dense)          (None, 4096)                 9441280   [&#39;FC2__B3_L1[0][0]&#39;]
-
- FC2__Dropout__B3_L2 (Dropo  (None, 4096)                 0         [&#39;FC2__B3_L2[0][0]&#39;]
- ut)
-
- FC2__B4_L1 (Dense)          (None, 4096)                 1678131   [&#39;FC2__Dropout__B3_L2[0][0]&#39;]
-                                                          2
-
- FC2__B4_L2 (Dense)          (None, 6400)                 2622080   [&#39;FC2__B4_L1[0][0]&#39;]
-                                                          0
-
- FC2__Dropout__B4_L2 (Dropo  (None, 6400)                 0         [&#39;FC2__B4_L2[0][0]&#39;]
- ut)
-
- gravity (Dense)             (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
-
- c_o_ratio (Dense)           (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
-
- metallicity (Dense)         (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
-
- temperature (Dense)         (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+ output__temperature (Dense  (None, 1)                    2049      [&#39;FC2__B1_L4__Dropout[0][0]&#39;]
+ )
 
 ==================================================================================================
-Total params: 115697476 (441.35 MB)
-Trainable params: 115697476 (441.35 MB)
+Total params: 8438756 (32.19 MB)
+Trainable params: 8438756 (32.19 MB)
 Non-trainable params: 0 (0.00 Byte)
 __________________________________________________________________________________________________
 None
@@ -2043,11 +2007,11 @@ None
 <section id="3.3.4-Train-the-CNN-model-using-the-datasets">
 <h3>3.3.4 Train the CNN model using the datasets<a class="headerlink" href="#3.3.4-Train-the-CNN-model-using-the-datasets" title="Link to this heading">¶</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span>  <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">fit_cnn_model</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">11</span><span class="p">,</span>
-                                                <span class="n">budget</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span>  <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">fit_cnn_model</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                                                <span class="n">budget</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2056,31 +2020,62 @@ None
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Epoch 1/4
-13/13 [==============================] - 52s 4s/step - loss: 1.4959 - gravity_loss: 0.4314 - c_o_ratio_loss: 0.4410 - metallicity_loss: 0.3535 - temperature_loss: 0.2700 - gravity_mae: 0.8281 - c_o_ratio_mae: 0.8555 - metallicity_mae: 0.7204 - temperature_mae: 0.6066 - val_loss: 1.0244 - val_gravity_loss: 0.3597 - val_c_o_ratio_loss: 0.3406 - val_metallicity_loss: 0.2216 - val_temperature_loss: 0.1025 - val_gravity_mae: 0.7403 - val_c_o_ratio_mae: 0.7303 - val_metallicity_mae: 0.5394 - val_temperature_mae: 0.3922
-Epoch 2/4
-13/13 [==============================] - 51s 4s/step - loss: 0.8615 - gravity_loss: 0.3463 - c_o_ratio_loss: 0.2607 - metallicity_loss: 0.2000 - temperature_loss: 0.0545 - gravity_mae: 0.7165 - c_o_ratio_mae: 0.6038 - metallicity_mae: 0.5173 - temperature_mae: 0.2559 - val_loss: 0.6750 - val_gravity_loss: 0.3072 - val_c_o_ratio_loss: 0.1600 - val_metallicity_loss: 0.1797 - val_temperature_loss: 0.0280 - val_gravity_mae: 0.6646 - val_c_o_ratio_mae: 0.4470 - val_metallicity_mae: 0.4888 - val_temperature_mae: 0.1813
-Epoch 3/4
-13/13 [==============================] - 58s 4s/step - loss: 0.6467 - gravity_loss: 0.3085 - c_o_ratio_loss: 0.1431 - metallicity_loss: 0.1704 - temperature_loss: 0.0247 - gravity_mae: 0.6639 - c_o_ratio_mae: 0.4207 - metallicity_mae: 0.4734 - temperature_mae: 0.1670 - val_loss: 0.5648 - val_gravity_loss: 0.2754 - val_c_o_ratio_loss: 0.1106 - val_metallicity_loss: 0.1638 - val_temperature_loss: 0.0150 - val_gravity_mae: 0.6176 - val_c_o_ratio_mae: 0.3625 - val_metallicity_mae: 0.4618 - val_temperature_mae: 0.1332
-Epoch 4/4
-13/13 [==============================] - 56s 4s/step - loss: 0.5370 - gravity_loss: 0.2725 - c_o_ratio_loss: 0.0966 - metallicity_loss: 0.1519 - temperature_loss: 0.0161 - gravity_mae: 0.6135 - c_o_ratio_mae: 0.3386 - metallicity_mae: 0.4461 - temperature_mae: 0.1385 - val_loss: 0.4498 - val_gravity_loss: 0.2301 - val_c_o_ratio_loss: 0.0698 - val_metallicity_loss: 0.1395 - val_temperature_loss: 0.0102 - val_gravity_mae: 0.5616 - val_c_o_ratio_mae: 0.2799 - val_metallicity_mae: 0.4283 - val_temperature_mae: 0.1105
+Epoch 1/2
+26/26 [==============================] - 29s 1s/step - loss: 2.1660 - output__gravity_loss: 0.5974 - output__c_o_ratio_loss: 0.3667 - output__metallicity_loss: 0.5937 - output__temperature_loss: 0.6082 - output__gravity_mae: 0.9776 - output__c_o_ratio_mae: 0.7235 - output__metallicity_mae: 0.9523 - output__temperature_mae: 0.8923 - val_loss: 0.7617 - val_output__gravity_loss: 0.3644 - val_output__c_o_ratio_loss: 0.1931 - val_output__metallicity_loss: 0.1778 - val_output__temperature_loss: 0.0265 - val_output__gravity_mae: 0.7242 - val_output__c_o_ratio_mae: 0.5170 - val_output__metallicity_mae: 0.4843 - val_output__temperature_mae: 0.1804
+Epoch 2/2
+26/26 [==============================] - 28s 1s/step - loss: 0.5219 - output__gravity_loss: 0.2231 - output__c_o_ratio_loss: 0.1211 - output__metallicity_loss: 0.1577 - output__temperature_loss: 0.0199 - output__gravity_mae: 0.5483 - output__c_o_ratio_mae: 0.3842 - output__metallicity_mae: 0.4516 - output__temperature_mae: 0.1509 - val_loss: 0.7936 - val_output__gravity_loss: 0.4762 - val_output__c_o_ratio_loss: 0.1578 - val_output__metallicity_loss: 0.1403 - val_output__temperature_loss: 0.0192 - val_output__gravity_mae: 0.8995 - val_output__c_o_ratio_mae: 0.4742 - val_output__metallicity_mae: 0.4172 - val_output__temperature_mae: 0.1534
 </pre></div></div>
 </div>
 </section>
 <section id="3.3.5-Check-the-Trained-CNN-Archeticture-and-Summary">
 <h3>3.3.5 Check the Trained CNN Archeticture and Summary<a class="headerlink" href="#3.3.5-Check-the-Trained-CNN-Archeticture-and-Summary" title="Link to this heading">¶</a></h3>
 <p>Checking the architecture of a CNN and its summary is importnat because it provide insights about: - Model Design and Structure - Model complexity - Hyperparameter Tuning:</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span><span class="p">,</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;keras.src.callbacks.History at 0x7fa14bdaeb20&gt;,
+ &lt;keras.src.engine.functional.Functional at 0x7fa16a5ba040&gt;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">trained_model</span> <span class="o">=</span> <span class="n">model</span>
-<span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="n">history</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;keras.src.callbacks.History at 0x7fa14bdaeb20&gt;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_processor</span><span class="o">.</span><span class="n">trained_ML_model</span> <span class="o">=</span> <span class="n">model</span>
+<span class="n">data_processor</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="n">history</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span>
@@ -2099,22 +2094,22 @@ Epoch 4/4
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) for plot_model to work.
-</pre></div></div>
+<img alt="../_images/tutorials_4__Train_CNN_Model_49_0.png" src="../_images/tutorials_4__Train_CNN_Model_49_0.png" />
+</div>
 </div>
 </section>
 <section id="3.3.6-Trained-Model-Outcomes">
 <h3>3.3.6 Trained Model Outcomes<a class="headerlink" href="#3.3.6-Trained-Model-Outcomes" title="Link to this heading">¶</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_or_dump_trained_model_CNN</span><span class="p">(</span> <span class="n">trained_model</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="p">,</span>
-                                                        <span class="n">output_indicator</span><span class="o">=</span><span class="s1">&#39;Toy_parameters_v4_1000epoch_v2_test&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_or_dump_trained_model_CNN</span><span class="p">(</span> <span class="n">trained_model</span> <span class="o">=</span> <span class="n">data_processor</span><span class="p">,</span>
+                                                        <span class="n">output_indicator</span><span class="o">=</span><span class="s1">&#39;tuned_bohb_batch32_v3_1000epoch_out10_test&#39;</span><span class="p">,</span>
                                                         <span class="n">load_or_dump</span> <span class="o">=</span> <span class="s1">&#39;dump&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2135,20 +2130,28 @@ You must install pydot (`pip install pydot`) and install graphviz (see instructi
 <section id="3.4.1-Load-the-Saved-Trained-CNN-Models">
 <h3>3.4.1 Load the Saved Trained CNN Models<a class="headerlink" href="#3.4.1-Load-the-Saved-Trained-CNN-Models" title="Link to this heading">¶</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">load_or_dump_trained_model_CNN</span><span class="p">(</span><span class="n">output_indicator</span><span class="o">=</span><span class="s1">&#39;Toy_parameters_v4_1000epoch_v2_test&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">load_or_dump_trained_model_CNN</span><span class="p">(</span><span class="n">output_indicator</span><span class="o">=</span><span class="s1">&#39;tuned_bohb_batch32_v3_1000epoch_out10_test&#39;</span><span class="p">,</span>
                                                       <span class="n">load_or_dump</span> <span class="o">=</span> <span class="s1">&#39;load&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span> <span class="o">=</span> <span class="n">model</span><span class="c1">#loaded_model</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span> <span class="o">=</span> <span class="n">loaded_model</span>
 <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model_history</span> <span class="o">=</span> <span class="n">history</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># history</span>
 </pre></div>
 </div>
 </div>
@@ -2156,7 +2159,7 @@ You must install pydot (`pip install pydot`) and install graphviz (see instructi
 <section id="3.4.2-Double-check-the-Trained-CNN-Archeticture-and-Summary">
 <h3>3.4.2 Double-check the Trained CNN Archeticture and Summary<a class="headerlink" href="#3.4.2-Double-check-the-Trained-CNN-Archeticture-and-Summary" title="Link to this heading">¶</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span>
@@ -2175,15 +2178,15 @@ You must install pydot (`pip install pydot`) and install graphviz (see instructi
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) for plot_model to work.
-</pre></div></div>
+<img alt="../_images/tutorials_4__Train_CNN_Model_58_0.png" src="../_images/tutorials_4__Train_CNN_Model_58_0.png" />
+</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -2201,88 +2204,88 @@ ________________________________________________________________________________
 ==================================================================================================
  input_1 (InputLayer)        [(None, 104, 1)]             0         []
 
- Conv__B1_L1 (Conv1D)        (None, 104, 16)              112       [&#39;input_1[0][0]&#39;]
+ Conv__B1_L1 (Conv1D)        (None, 104, 32)              160       [&#39;input_1[0][0]&#39;]
 
- Conv__B1_L2 (Conv1D)        (None, 104, 64)              6208      [&#39;Conv__B1_L1[0][0]&#39;]
+ Conv__B1_L2 (Conv1D)        (None, 104, 128)             16512     [&#39;Conv__B1_L1[0][0]&#39;]
 
- Conv__B1_L3 (Conv1D)        (None, 104, 144)             55440     [&#39;Conv__B1_L2[0][0]&#39;]
+ Conv__B1_L3 (Conv1D)        (None, 104, 288)             147744    [&#39;Conv__B1_L2[0][0]&#39;]
 
- MaxPool1D__B1_L3 (MaxPooli  (None, 52, 144)              0         [&#39;Conv__B1_L3[0][0]&#39;]
- ng1D)
+ Conv__B1__MaxPooling1D (Ma  (None, 34, 288)              0         [&#39;Conv__B1_L3[0][0]&#39;]
+ xPooling1D)
 
- flatten (Flatten)           (None, 7488)                 0         [&#39;MaxPool1D__B1_L3[0][0]&#39;]
+ Conv__B2_L1 (Conv1D)        (None, 34, 128)              147584    [&#39;Conv__B1__MaxPooling1D[0][0]
+                                                                    &#39;]
 
- FC1__B1_L1 (Dense)          (None, 512)                  3834368   [&#39;flatten[0][0]&#39;]
+ Conv__B2_L2 (Conv1D)        (None, 34, 288)              147744    [&#39;Conv__B2_L1[0][0]&#39;]
 
- FC1__B1_L2 (Dense)          (None, 2048)                 1050624   [&#39;FC1__B1_L1[0][0]&#39;]
+ Conv__B2_L3 (Conv1D)        (None, 34, 512)              590336    [&#39;Conv__B2_L2[0][0]&#39;]
 
- FC1__B1_L3 (Dense)          (None, 4608)                 9441792   [&#39;FC1__B1_L2[0][0]&#39;]
+ Conv__B2__MaxPooling1D (Ma  (None, 11, 512)              0         [&#39;Conv__B2_L3[0][0]&#39;]
+ xPooling1D)
 
- FC1__B1_L4 (Dense)          (None, 8192)                 3775692   [&#39;FC1__B1_L3[0][0]&#39;]
-                                                          8
+ flatten (Flatten)           (None, 5632)                 0         [&#39;Conv__B2__MaxPooling1D[0][0]
+                                                                    &#39;]
 
- FC1__Dropout__B1_L4 (Dropo  (None, 8192)                 0         [&#39;FC1__B1_L4[0][0]&#39;]
+ FC1__B1_L1 (Dense)          (None, 256)                  1442048   [&#39;flatten[0][0]&#39;]
+
+ FC1__B1_L2 (Dense)          (None, 1024)                 263168    [&#39;FC1__B1_L1[0][0]&#39;]
+
+ FC1__B1_L3 (Dense)          (None, 2304)                 2361600   [&#39;FC1__B1_L2[0][0]&#39;]
+
+ FC1__B1_L3__Dropout (Dropo  (None, 2304)                 0         [&#39;FC1__B1_L3[0][0]&#39;]
  ut)
 
  input_2 (InputLayer)        [(None, 2)]                  0         []
 
- Concatenated_Layer (Concat  (None, 8194)                 0         [&#39;FC1__Dropout__B1_L4[0][0]&#39;,
+ Concatenated_Layer (Concat  (None, 2306)                 0         [&#39;FC1__B1_L3__Dropout[0][0]&#39;,
  enate)                                                              &#39;input_2[0][0]&#39;]
 
- FC2__B1_L1 (Dense)          (None, 256)                  2097920   [&#39;Concatenated_Layer[0][0]&#39;]
+ FC2__B1_L1 (Dense)          (None, 128)                  295296    [&#39;Concatenated_Layer[0][0]&#39;]
 
- FC2__B1_L2 (Dense)          (None, 1024)                 263168    [&#39;FC2__B1_L1[0][0]&#39;]
+ FC2__B1_L2 (Dense)          (None, 512)                  66048     [&#39;FC2__B1_L1[0][0]&#39;]
 
- FC2__Dropout__B1_L2 (Dropo  (None, 1024)                 0         [&#39;FC2__B1_L2[0][0]&#39;]
+ FC2__B1_L3 (Dense)          (None, 1152)                 590976    [&#39;FC2__B1_L2[0][0]&#39;]
+
+ FC2__B1_L4 (Dense)          (None, 2048)                 2361344   [&#39;FC2__B1_L3[0][0]&#39;]
+
+ FC2__B1_L4__Dropout (Dropo  (None, 2048)                 0         [&#39;FC2__B1_L4[0][0]&#39;]
  ut)
 
- FC2__B2_L1 (Dense)          (None, 1024)                 1049600   [&#39;FC2__Dropout__B1_L2[0][0]&#39;]
+ output__gravity (Dense)     (None, 1)                    2049      [&#39;FC2__B1_L4__Dropout[0][0]&#39;]
 
- FC2__B2_L2 (Dense)          (None, 2304)                 2361600   [&#39;FC2__B2_L1[0][0]&#39;]
+ output__c_o_ratio (Dense)   (None, 1)                    2049      [&#39;FC2__B1_L4__Dropout[0][0]&#39;]
 
- FC2__Dropout__B2_L2 (Dropo  (None, 2304)                 0         [&#39;FC2__B2_L2[0][0]&#39;]
- ut)
+ output__metallicity (Dense  (None, 1)                    2049      [&#39;FC2__B1_L4__Dropout[0][0]&#39;]
+ )
 
- FC2__B3_L1 (Dense)          (None, 2304)                 5310720   [&#39;FC2__Dropout__B2_L2[0][0]&#39;]
-
- FC2__B3_L2 (Dense)          (None, 4096)                 9441280   [&#39;FC2__B3_L1[0][0]&#39;]
-
- FC2__Dropout__B3_L2 (Dropo  (None, 4096)                 0         [&#39;FC2__B3_L2[0][0]&#39;]
- ut)
-
- FC2__B4_L1 (Dense)          (None, 4096)                 1678131   [&#39;FC2__Dropout__B3_L2[0][0]&#39;]
-                                                          2
-
- FC2__B4_L2 (Dense)          (None, 6400)                 2622080   [&#39;FC2__B4_L1[0][0]&#39;]
-                                                          0
-
- FC2__Dropout__B4_L2 (Dropo  (None, 6400)                 0         [&#39;FC2__B4_L2[0][0]&#39;]
- ut)
-
- gravity (Dense)             (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
-
- c_o_ratio (Dense)           (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
-
- metallicity (Dense)         (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
-
- temperature (Dense)         (None, 1)                    6401      [&#39;FC2__Dropout__B4_L2[0][0]&#39;]
+ output__temperature (Dense  (None, 1)                    2049      [&#39;FC2__B1_L4__Dropout[0][0]&#39;]
+ )
 
 ==================================================================================================
-Total params: 115697476 (441.35 MB)
-Trainable params: 115697476 (441.35 MB)
+Total params: 8438756 (32.19 MB)
+Trainable params: 8438756 (32.19 MB)
 Non-trainable params: 0 (0.00 Byte)
 __________________________________________________________________________________________________
 </pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># history.history</span>
+</pre></div>
+</div>
 </div>
 </section>
 <section id="3.4.3-Check-the-training-history-through-Loss-metric">
 <h3>3.4.3 Check the training history through <em>Loss</em> metric<a class="headerlink" href="#3.4.3-Check-the-training-history-through-Loss-metric" title="Link to this heading">¶</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_model_loss</span><span class="p">(</span><span class="n">history</span> <span class="o">=</span> <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model_history</span><span class="p">,</span>
-                <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;RandState=100: X:StandRow, y:StandCol - MinMax:StandCol, ToyCNNmodel&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># train_cnn_model.trained_model_history</span>
+<span class="n">plot_ML_model_loss</span><span class="p">(</span><span class="n">trained_ML_model_history</span> <span class="o">=</span> <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model_history</span><span class="p">,</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Hyperparameter-Tuned CNN model&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2290,7 +2293,7 @@ ________________________________________________________________________________
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
-<div class="bk-root" id="54843501-02c2-4025-929e-064a4630d045" data-root-id="1005"></div></div>
+<div class="bk-root" id="ab27b597-d46c-4b12-8548-c58980ba8af3" data-root-id="1005"></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -2302,8 +2305,8 @@ var element = document.currentScript.previousSibling.previousSibling;
 (function(root) {
   function embed_document(root) {
 
-  var docs_json = {"bfeb4e40-21bd-4c0f-bf40-ecf3085b0484":{"defs":[],"roots":{"references":[{"attributes":{"below":[{"id":"1016"}],"center":[{"id":"1019"},{"id":"1023"},{"id":"1053"}],"height":300,"left":[{"id":"1020"}],"renderers":[{"id":"1041"},{"id":"1058"},{"id":"1063"},{"id":"1083"},{"id":"1088"},{"id":"1112"},{"id":"1117"},{"id":"1145"},{"id":"1150"},{"id":"1182"}],"title":{"id":"1006"},"toolbar":{"id":"1031"},"width":1000,"x_range":{"id":"1008"},"x_scale":{"id":"1012"},"y_range":{"id":"1010"},"y_scale":{"id":"1014"}},"id":"1005","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"1078","type":"UnionRenderers"},{"attributes":{},"id":"1106","type":"Selection"},{"attributes":{},"id":"1075","type":"Selection"},{"attributes":{},"id":"1107","type":"UnionRenderers"},{"attributes":{"ticker":null},"id":"1046","type":"LogTickFormatter"},{"attributes":{},"id":"1076","type":"UnionRenderers"},{"attributes":{"axis_label":"Epochs","axis_label_text_font_size":"12pt","formatter":{"id":"1049"},"major_label_policy":{"id":"1048"},"major_label_text_font_size":"12pt","ticker":{"id":"1017"}},"id":"1016","type":"LinearAxis"},{"attributes":{"line_alpha":0.1,"line_color":"#d62728","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1040","type":"Line"},{"attributes":{},"id":"1014","type":"LogScale"},{"attributes":{"text":"RandState=100: X:StandRow, y:StandCol - MinMax:StandCol, ToyCNNmodel","text_font_size":"14pt"},"id":"1006","type":"Title"},{"attributes":{},"id":"1010","type":"DataRange1d"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{"axis":{"id":"1016"},"ticker":null},"id":"1019","type":"Grid"},{"attributes":{},"id":"1048","type":"AllLabels"},{"attributes":{},"id":"1077","type":"Selection"},{"attributes":{"data_source":{"id":"1060"},"glyph":{"id":"1061"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1062"},"view":{"id":"1064"}},"id":"1063","type":"GlyphRenderer"},{"attributes":{"axis_label":"Loss","axis_label_text_font_size":"12pt","formatter":{"id":"1046"},"major_label_policy":{"id":"1045"},"major_label_text_font_size":"12pt","ticker":{"id":"1021"}},"id":"1020","type":"LogAxis"},{"attributes":{"num_minor_ticks":10},"id":"1021","type":"LogTicker"},{"attributes":{"line_color":"#9467bd","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1115","type":"Line"},{"attributes":{"data":{"x":[0,1,2,3],"y":[1.4958714246749878,0.8614786267280579,0.6467142105102539,0.5369889140129089]},"selected":{"id":"1051"},"selection_policy":{"id":"1052"}},"id":"1038","type":"ColumnDataSource"},{"attributes":{"data_source":{"id":"1109"},"glyph":{"id":"1110"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1111"},"view":{"id":"1113"}},"id":"1112","type":"GlyphRenderer"},{"attributes":{},"id":"1051","type":"Selection"},{"attributes":{"line_color":"#d62728","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1056","type":"Line"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.3406396508216858,0.16004838049411774,0.11061842739582062,0.06984598934650421]},"selected":{"id":"1137"},"selection_policy":{"id":"1138"}},"id":"1109","type":"ColumnDataSource"},{"attributes":{},"id":"1049","type":"BasicTickFormatter"},{"attributes":{"source":{"id":"1114"}},"id":"1118","type":"CDSView"},{"attributes":{"source":{"id":"1109"}},"id":"1113","type":"CDSView"},{"attributes":{"source":{"id":"1055"}},"id":"1059","type":"CDSView"},{"attributes":{"line_alpha":0.1,"line_color":"#2ca02c","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1111","type":"Line"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.3534746468067169,0.20000450313091278,0.1703997105360031,0.15185041725635529]},"selected":{"id":"1139"},"selection_policy":{"id":"1140"}},"id":"1114","type":"ColumnDataSource"},{"attributes":{},"id":"1012","type":"LinearScale"},{"attributes":{"data_source":{"id":"1114"},"glyph":{"id":"1115"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1116"},"view":{"id":"1118"}},"id":"1117","type":"GlyphRenderer"},{"attributes":{"data":{"x":[0,1,2,3],"y":[1.0244139432907104,0.6750247478485107,0.5647684335708618,0.4497695565223694]},"selected":{"id":"1075"},"selection_policy":{"id":"1076"}},"id":"1055","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#ff7f0e","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1062","type":"Line"},{"attributes":{"line_alpha":0.1,"line_color":"#9467bd","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1116","type":"Line"},{"attributes":{"label":{"value":"metallicity"},"renderers":[{"id":"1117"}]},"id":"1141","type":"LegendItem"},{"attributes":{"axis":{"id":"1020"},"dimension":1,"ticker":null},"id":"1023","type":"Grid"},{"attributes":{"line_color":"#9467bd","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1143","type":"Line"},{"attributes":{"line_color":"#d62728","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1039","type":"Line"},{"attributes":{"data_source":{"id":"1080"},"glyph":{"id":"1081"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1082"},"view":{"id":"1084"}},"id":"1083","type":"GlyphRenderer"},{"attributes":{"line_color":"#2ca02c","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1086","type":"Line"},{"attributes":{},"id":"1052","type":"UnionRenderers"},{"attributes":{},"id":"1137","type":"Selection"},{"attributes":{"source":{"id":"1060"}},"id":"1064","type":"CDSView"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.35969996452331543,0.3072304129600525,0.2753649353981018,0.2301410287618637]},"selected":{"id":"1104"},"selection_policy":{"id":"1105"}},"id":"1080","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1085"}},"id":"1089","type":"CDSView"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.4409596025943756,0.26070529222488403,0.14306220412254333,0.09657345712184906]},"selected":{"id":"1106"},"selection_policy":{"id":"1107"}},"id":"1085","type":"ColumnDataSource"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.4314285218715668,0.34626221656799316,0.3085435926914215,0.272478312253952]},"selected":{"id":"1077"},"selection_policy":{"id":"1078"}},"id":"1060","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1080"}},"id":"1084","type":"CDSView"},{"attributes":{},"id":"1138","type":"UnionRenderers"},{"attributes":{"active_multi":null,"tools":[{"id":"1024"},{"id":"1025"},{"id":"1026"},{"id":"1027"},{"id":"1028"},{"id":"1029"}]},"id":"1031","type":"Toolbar"},{"attributes":{"line_alpha":0.1,"line_color":"#ff7f0e","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1082","type":"Line"},{"attributes":{},"id":"1028","type":"ResetTool"},{"attributes":{"label":{"value":"c_o_ratio"},"renderers":[{"id":"1088"}]},"id":"1108","type":"LegendItem"},{"attributes":{"overlay":{"id":"1030"}},"id":"1026","type":"BoxZoomTool"},{"attributes":{"data_source":{"id":"1085"},"glyph":{"id":"1086"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1087"},"view":{"id":"1089"}},"id":"1088","type":"GlyphRenderer"},{"attributes":{},"id":"1025","type":"WheelZoomTool"},{"attributes":{"line_alpha":0.1,"line_color":"#2ca02c","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1087","type":"Line"},{"attributes":{"line_color":"#2ca02c","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1110","type":"Line"},{"attributes":{"line_color":"#ff7f0e","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1081","type":"Line"},{"attributes":{"line_color":"#ff7f0e","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1061","type":"Line"},{"attributes":{},"id":"1139","type":"Selection"},{"attributes":{},"id":"1008","type":"DataRange1d"},{"attributes":{},"id":"1029","type":"HelpTool"},{"attributes":{},"id":"1104","type":"Selection"},{"attributes":{},"id":"1140","type":"UnionRenderers"},{"attributes":{},"id":"1105","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1055"},"glyph":{"id":"1056"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1057"},"view":{"id":"1059"}},"id":"1058","type":"GlyphRenderer"},{"attributes":{},"id":"1027","type":"SaveTool"},{"attributes":{"label":{"value":"gravity"},"renderers":[{"id":"1063"}]},"id":"1079","type":"LegendItem"},{"attributes":{},"id":"1024","type":"PanTool"},{"attributes":{"line_alpha":0.1,"line_color":"#d62728","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1057","type":"Line"},{"attributes":{},"id":"1210","type":"Selection"},{"attributes":{},"id":"1211","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1142"},"glyph":{"id":"1143"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1144"},"view":{"id":"1146"}},"id":"1145","type":"GlyphRenderer"},{"attributes":{"line_color":"#8c564b","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1148","type":"Line"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.22156165540218353,0.179728701710701,0.16376718878746033,0.13953295350074768]},"selected":{"id":"1174"},"selection_policy":{"id":"1175"}},"id":"1142","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1147"}},"id":"1151","type":"CDSView"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.27000856399536133,0.054506607353687286,0.024708684533834457,0.016086753457784653]},"selected":{"id":"1176"},"selection_policy":{"id":"1177"}},"id":"1147","type":"ColumnDataSource"},{"attributes":{},"id":"1045","type":"AllLabels"},{"attributes":{"source":{"id":"1142"}},"id":"1146","type":"CDSView"},{"attributes":{"line_alpha":0.1,"line_color":"#9467bd","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1144","type":"Line"},{"attributes":{"source":{"id":"1179"}},"id":"1183","type":"CDSView"},{"attributes":{"label":{"value":"temperature"},"renderers":[{"id":"1150"}]},"id":"1178","type":"LegendItem"},{"attributes":{"data_source":{"id":"1147"},"glyph":{"id":"1148"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1149"},"view":{"id":"1151"}},"id":"1150","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#8c564b","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1149","type":"Line"},{"attributes":{},"id":"1174","type":"Selection"},{"attributes":{},"id":"1175","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1038"},"glyph":{"id":"1039"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1040"},"view":{"id":"1042"}},"id":"1041","type":"GlyphRenderer"},{"attributes":{},"id":"1176","type":"Selection"},{"attributes":{"source":{"id":"1038"}},"id":"1042","type":"CDSView"},{"attributes":{"background_fill_alpha":0.5,"background_fill_color":"white","items":[{"id":"1054"},{"id":"1079"},{"id":"1108"},{"id":"1141"},{"id":"1178"}],"location":"bottom_left"},"id":"1053","type":"Legend"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","syncable":false,"top_units":"screen"},"id":"1030","type":"BoxAnnotation"},{"attributes":{},"id":"1177","type":"UnionRenderers"},{"attributes":{"label":{"value":"Total loss"},"renderers":[{"id":"1041"}]},"id":"1054","type":"LegendItem"},{"attributes":{"line_color":"#8c564b","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1180","type":"Line"},{"attributes":{"data_source":{"id":"1179"},"glyph":{"id":"1180"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1181"},"view":{"id":"1183"}},"id":"1182","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#8c564b","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1181","type":"Line"},{"attributes":{"data":{"x":[0,1,2,3],"y":[0.10251267999410629,0.028017275035381317,0.015017909929156303,0.010249601677060127]},"selected":{"id":"1210"},"selection_policy":{"id":"1211"}},"id":"1179","type":"ColumnDataSource"}],"root_ids":["1005"]},"title":"Bokeh Application","version":"2.3.2"}};
-  var render_items = [{"docid":"bfeb4e40-21bd-4c0f-bf40-ecf3085b0484","root_ids":["1005"],"roots":{"1005":"54843501-02c2-4025-929e-064a4630d045"}}];
+  var docs_json = {"b0ae1626-fd31-4787-8c6e-338f79b9b4d8":{"defs":[],"roots":{"references":[{"attributes":{"below":[{"id":"1016"}],"center":[{"id":"1019"},{"id":"1023"},{"id":"1053"}],"height":300,"left":[{"id":"1020"}],"renderers":[{"id":"1041"},{"id":"1058"},{"id":"1063"},{"id":"1083"},{"id":"1088"},{"id":"1112"},{"id":"1117"},{"id":"1145"},{"id":"1150"},{"id":"1182"}],"title":{"id":"1006"},"toolbar":{"id":"1031"},"width":1000,"x_range":{"id":"1008"},"x_scale":{"id":"1012"},"y_range":{"id":"1010"},"y_scale":{"id":"1014"}},"id":"1005","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"1076","type":"UnionRenderers"},{"attributes":{},"id":"1077","type":"Selection"},{"attributes":{},"id":"1050","type":"UnionRenderers"},{"attributes":{},"id":"1051","type":"Selection"},{"attributes":{},"id":"1173","type":"UnionRenderers"},{"attributes":{},"id":"1174","type":"Selection"},{"attributes":{"source":{"id":"1080"}},"id":"1084","type":"CDSView"},{"attributes":{"line_color":"#2ca02c","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1086","type":"Line"},{"attributes":{"data":{"x":[0,1],"y":[0.3643828332424164,0.4762297570705414]},"selected":{"id":"1104"},"selection_policy":{"id":"1103"}},"id":"1080","type":"ColumnDataSource"},{"attributes":{},"id":"1175","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1080"},"glyph":{"id":"1081"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1082"},"view":{"id":"1084"}},"id":"1083","type":"GlyphRenderer"},{"attributes":{},"id":"1176","type":"Selection"},{"attributes":{"data":{"x":[0,1],"y":[0.3667396008968353,0.12114211916923523]},"selected":{"id":"1106"},"selection_policy":{"id":"1105"}},"id":"1085","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#ff7f0e","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1082","type":"Line"},{"attributes":{"source":{"id":"1085"}},"id":"1089","type":"CDSView"},{"attributes":{"line_color":"#d62728","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1056","type":"Line"},{"attributes":{"label":{"value":"c_o_ratio"},"renderers":[{"id":"1088"}]},"id":"1108","type":"LegendItem"},{"attributes":{"data_source":{"id":"1085"},"glyph":{"id":"1086"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1087"},"view":{"id":"1089"}},"id":"1088","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#2ca02c","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1087","type":"Line"},{"attributes":{"line_color":"#2ca02c","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1110","type":"Line"},{"attributes":{"line_color":"#ff7f0e","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1061","type":"Line"},{"attributes":{"source":{"id":"1055"}},"id":"1059","type":"CDSView"},{"attributes":{"data":{"x":[0,1],"y":[0.7617373466491699,0.7936265468597412]},"selected":{"id":"1075"},"selection_policy":{"id":"1074"}},"id":"1055","type":"ColumnDataSource"},{"attributes":{"data_source":{"id":"1055"},"glyph":{"id":"1056"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1057"},"view":{"id":"1059"}},"id":"1058","type":"GlyphRenderer"},{"attributes":{"data":{"x":[0,1],"y":[0.5973619222640991,0.2231477051973343]},"selected":{"id":"1077"},"selection_policy":{"id":"1076"}},"id":"1060","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#d62728","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1057","type":"Line"},{"attributes":{"source":{"id":"1060"}},"id":"1064","type":"CDSView"},{"attributes":{"label":{"value":"gravity"},"renderers":[{"id":"1063"}]},"id":"1079","type":"LegendItem"},{"attributes":{},"id":"1103","type":"UnionRenderers"},{"attributes":{},"id":"1104","type":"Selection"},{"attributes":{"data_source":{"id":"1060"},"glyph":{"id":"1061"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1062"},"view":{"id":"1064"}},"id":"1063","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1179"}},"id":"1183","type":"CDSView"},{"attributes":{"line_alpha":0.1,"line_color":"#ff7f0e","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1062","type":"Line"},{"attributes":{"line_color":"#ff7f0e","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1081","type":"Line"},{"attributes":{"data":{"x":[0,1],"y":[0.026473959907889366,0.019242648035287857]},"selected":{"id":"1210"},"selection_policy":{"id":"1209"}},"id":"1179","type":"ColumnDataSource"},{"attributes":{"data_source":{"id":"1179"},"glyph":{"id":"1180"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1181"},"view":{"id":"1183"}},"id":"1182","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#8c564b","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1181","type":"Line"},{"attributes":{},"id":"1105","type":"UnionRenderers"},{"attributes":{},"id":"1106","type":"Selection"},{"attributes":{},"id":"1074","type":"UnionRenderers"},{"attributes":{},"id":"1075","type":"Selection"},{"attributes":{},"id":"1209","type":"UnionRenderers"},{"attributes":{},"id":"1210","type":"Selection"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","syncable":false,"top_units":"screen"},"id":"1030","type":"BoxAnnotation"},{"attributes":{"source":{"id":"1109"}},"id":"1113","type":"CDSView"},{"attributes":{"line_color":"#9467bd","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1115","type":"Line"},{"attributes":{"source":{"id":"1114"}},"id":"1118","type":"CDSView"},{"attributes":{"data":{"x":[0,1],"y":[0.19311583042144775,0.15782776474952698]},"selected":{"id":"1137"},"selection_policy":{"id":"1136"}},"id":"1109","type":"ColumnDataSource"},{"attributes":{"data_source":{"id":"1109"},"glyph":{"id":"1110"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1111"},"view":{"id":"1113"}},"id":"1112","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#2ca02c","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1111","type":"Line"},{"attributes":{"data":{"x":[0,1],"y":[0.593693733215332,0.15769068896770477]},"selected":{"id":"1139"},"selection_policy":{"id":"1138"}},"id":"1114","type":"ColumnDataSource"},{"attributes":{"data_source":{"id":"1114"},"glyph":{"id":"1115"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1116"},"view":{"id":"1118"}},"id":"1117","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#9467bd","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1116","type":"Line"},{"attributes":{"label":{"value":"metallicity"},"renderers":[{"id":"1117"}]},"id":"1141","type":"LegendItem"},{"attributes":{"data_source":{"id":"1038"},"glyph":{"id":"1039"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1040"},"view":{"id":"1042"}},"id":"1041","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#d62728","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1040","type":"Line"},{"attributes":{"source":{"id":"1038"}},"id":"1042","type":"CDSView"},{"attributes":{"label":{"value":"Total loss"},"renderers":[{"id":"1041"}]},"id":"1054","type":"LegendItem"},{"attributes":{"data":{"x":[0,1],"y":[2.1659908294677734,0.521864652633667]},"selected":{"id":"1051"},"selection_policy":{"id":"1050"}},"id":"1038","type":"ColumnDataSource"},{"attributes":{},"id":"1136","type":"UnionRenderers"},{"attributes":{"background_fill_alpha":0.5,"background_fill_color":"white","items":[{"id":"1054"},{"id":"1079"},{"id":"1108"},{"id":"1141"},{"id":"1178"}],"location":"bottom_left"},"id":"1053","type":"Legend"},{"attributes":{},"id":"1137","type":"Selection"},{"attributes":{"text":"Hyperparameter-Tuned CNN model","text_font_size":"14pt"},"id":"1006","type":"Title"},{"attributes":{"axis_label":"Epochs","axis_label_text_font_size":"12pt","formatter":{"id":"1047"},"major_label_policy":{"id":"1048"},"major_label_text_font_size":"12pt","ticker":{"id":"1017"}},"id":"1016","type":"LinearAxis"},{"attributes":{},"id":"1008","type":"DataRange1d"},{"attributes":{"ticker":null},"id":"1044","type":"LogTickFormatter"},{"attributes":{"line_color":"#d62728","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1039","type":"Line"},{"attributes":{},"id":"1012","type":"LinearScale"},{"attributes":{},"id":"1045","type":"AllLabels"},{"attributes":{},"id":"1138","type":"UnionRenderers"},{"attributes":{},"id":"1014","type":"LogScale"},{"attributes":{},"id":"1047","type":"BasicTickFormatter"},{"attributes":{},"id":"1139","type":"Selection"},{"attributes":{},"id":"1010","type":"DataRange1d"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{"axis":{"id":"1016"},"ticker":null},"id":"1019","type":"Grid"},{"attributes":{},"id":"1048","type":"AllLabels"},{"attributes":{},"id":"1029","type":"HelpTool"},{"attributes":{"axis_label":"Loss","axis_label_text_font_size":"12pt","formatter":{"id":"1044"},"major_label_policy":{"id":"1045"},"major_label_text_font_size":"12pt","ticker":{"id":"1021"}},"id":"1020","type":"LogAxis"},{"attributes":{"axis":{"id":"1020"},"dimension":1,"ticker":null},"id":"1023","type":"Grid"},{"attributes":{"num_minor_ticks":10},"id":"1021","type":"LogTicker"},{"attributes":{"active_multi":null,"tools":[{"id":"1024"},{"id":"1025"},{"id":"1026"},{"id":"1027"},{"id":"1028"},{"id":"1029"}]},"id":"1031","type":"Toolbar"},{"attributes":{},"id":"1025","type":"WheelZoomTool"},{"attributes":{},"id":"1024","type":"PanTool"},{"attributes":{"overlay":{"id":"1030"}},"id":"1026","type":"BoxZoomTool"},{"attributes":{},"id":"1027","type":"SaveTool"},{"attributes":{},"id":"1028","type":"ResetTool"},{"attributes":{"line_color":"#9467bd","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1143","type":"Line"},{"attributes":{"line_color":"#8c564b","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1148","type":"Line"},{"attributes":{"source":{"id":"1142"}},"id":"1146","type":"CDSView"},{"attributes":{"data":{"x":[0,1],"y":[0.17776483297348022,0.14032642543315887]},"selected":{"id":"1174"},"selection_policy":{"id":"1173"}},"id":"1142","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#8c564b","line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1149","type":"Line"},{"attributes":{"data_source":{"id":"1142"},"glyph":{"id":"1143"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1144"},"view":{"id":"1146"}},"id":"1145","type":"GlyphRenderer"},{"attributes":{"data":{"x":[0,1],"y":[0.6081957817077637,0.01988416723906994]},"selected":{"id":"1176"},"selection_policy":{"id":"1175"}},"id":"1147","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#9467bd","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1144","type":"Line"},{"attributes":{"data_source":{"id":"1147"},"glyph":{"id":"1148"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1149"},"view":{"id":"1151"}},"id":"1150","type":"GlyphRenderer"},{"attributes":{"line_color":"#8c564b","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1180","type":"Line"},{"attributes":{"source":{"id":"1147"}},"id":"1151","type":"CDSView"},{"attributes":{"label":{"value":"temperature"},"renderers":[{"id":"1150"}]},"id":"1178","type":"LegendItem"}],"root_ids":["1005"]},"title":"Bokeh Application","version":"2.3.2"}};
+  var render_items = [{"docid":"b0ae1626-fd31-4787-8c6e-338f79b9b4d8","root_ids":["1005"],"roots":{"1005":"ab27b597-d46c-4b12-8548-c58980ba8af3"}}];
   root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
 
   }
@@ -2336,7 +2339,7 @@ var element = document.currentScript.previousSibling.previousSibling;
 <li><p>Report regression metrics: R<span class="math notranslate nohighlight">\(^2\)</span> and skewness for training and test sets</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_cnn_model</span>
@@ -2344,37 +2347,38 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;TelescopeML.DeepTrainer.TrainRegressorCNN at 0x7fdc19e5cbb0&gt;
+&lt;TelescopeML.DeepTrainer.TrainRegressorCNN at 0x7fa16a502a30&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">regression_report</span><span class="p">(</span>
-        <span class="n">trained_model</span> <span class="o">=</span> <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span><span class="p">,</span>
-        <span class="n">trained_data_processor</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="p">,</span>
-        <span class="n">Xtrain</span> <span class="o">=</span> <span class="p">[</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
-                  <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_train_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">]],</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">plot_regression_report</span><span class="p">(</span>
+        <span class="n">trained_ML_model</span> <span class="o">=</span> <span class="n">train_cnn_model</span><span class="o">.</span><span class="n">trained_model</span><span class="p">,</span>
+        <span class="n">trained_DataProcessor</span> <span class="o">=</span> <span class="n">data_processor</span><span class="p">,</span>
+        <span class="n">Xtrain</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_standardized_rowwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+                  <span class="n">data_processor</span><span class="o">.</span><span class="n">X_train_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">]],</span>
 
-        <span class="n">Xtest</span>  <span class="o">=</span> <span class="p">[</span><span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_rowwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
-                  <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">]],</span>
+        <span class="n">Xtest</span>  <span class="o">=</span> <span class="p">[</span><span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_standardized_rowwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+                  <span class="n">data_processor</span><span class="o">.</span><span class="n">X_test_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">]],</span>
 
-        <span class="n">ytrain</span> <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+        <span class="n">ytrain</span> <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_train_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
 
-        <span class="n">ytest</span>  <span class="o">=</span> <span class="n">trained_Data_Processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
+        <span class="n">ytest</span>  <span class="o">=</span> <span class="n">data_processor</span><span class="o">.</span><span class="n">y_test_standardized_columnwise</span><span class="p">[::</span><span class="n">i</span><span class="p">],</span>
 
         <span class="n">target_i</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
 
         <span class="n">xy_top</span>   <span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
         <span class="n">xy_bottom</span><span class="o">=</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">],</span>
-<span class="c1">#         print_results = False,</span>
+        <span class="n">__print_results__</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">__save_plots__</span> <span class="o">=</span> <span class="kc">False</span>
                  <span class="p">)</span>
 </pre></div>
 </div>
@@ -2384,36 +2388,52 @@ var element = document.currentScript.previousSibling.previousSibling;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-782/782 [==============================] - 40s 50ms/step
-97/97 [==============================] - 5s 50ms/step
+131/131 [==============================] - 5s 38ms/step
+17/17 [==============================] - 1s 35ms/step
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_4__Train_CNN_Model_61_1.png" src="../_images/tutorials_4__Train_CNN_Model_61_1.png" />
+<img alt="../_images/tutorials_4__Train_CNN_Model_65_1.png" src="../_images/tutorials_4__Train_CNN_Model_65_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_4__Train_CNN_Model_61_2.png" src="../_images/tutorials_4__Train_CNN_Model_61_2.png" />
+<img alt="../_images/tutorials_4__Train_CNN_Model_65_2.png" src="../_images/tutorials_4__Train_CNN_Model_65_2.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_4__Train_CNN_Model_61_3.png" src="../_images/tutorials_4__Train_CNN_Model_61_3.png" />
+<img alt="../_images/tutorials_4__Train_CNN_Model_65_3.png" src="../_images/tutorials_4__Train_CNN_Model_65_3.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_4__Train_CNN_Model_61_4.png" src="../_images/tutorials_4__Train_CNN_Model_61_4.png" />
+<img alt="../_images/tutorials_4__Train_CNN_Model_65_4.png" src="../_images/tutorials_4__Train_CNN_Model_65_4.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
 </div>
 </div>
 </section>

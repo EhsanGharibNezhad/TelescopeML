@@ -36,10 +36,17 @@ Step 2: Set input file environment variables
 ---------------------------------------------
 
 
+.. note::
+
+    - Navigate to the *reference_data* directory in your terminal and use the `pwd` command to find its path.
+    - Replace `PATH_TO_YOUR_REFERENCE_DATA` with the actual path to your *reference_data* folder.
+    - To confirm that your variable has been defined properly, use the command *echo $TelescopeML_reference_data*.
+
+
 For Mac OS
 ++++++++++++++++++++++++++++++++++++++++++++
 
-follow the following steps to set the link to the input data:
+Follow the following steps to set the link to the input data:
 
 1. Check your default shell in your terminal:
 
@@ -56,7 +63,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/" ' >>~/.zshrc
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_REFERENCE_DATA/" ' >>~/.zshrc
         source ~/.zshrc
         echo $TelescopeML_reference_data
 
@@ -65,7 +72,7 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/"' >>~/.bash_profile
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_REFERENCE_DATA/"' >>~/.bash_profile
         source ~/.bash_profile
         echo $TelescopeML_reference_data
 
@@ -73,15 +80,10 @@ like `/bin/bash` or `/bin/zsh`, or `/bin/sh`.
 
     .. code-block:: bash
 
-        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/"' >>~/.profile
+        echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_REFERENCE_DATA/"' >>~/.profile
         source ~/.profile
         echo $TelescopeML_reference_data
 
-
-.. note::
-    - Replace `PATH_TO_YOUR_reference_data` with the actual path to your *reference_data* folder
-      that you downloaded in step 1.
-    - *echo* command is used to check that your variable has been defined properly.
 
 
 For Linux
@@ -92,7 +94,7 @@ modern Linux system.
 
 .. code-block:: bash
 
-    echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_reference_data/" ' >>~/.bashrc
+    echo 'export TelescopeML_reference_data="/PATH_TO_YOUR_REFERENCE_DATA/" ' >>~/.bashrc
     source ~/.bashrc
     echo $TelescopeML_reference_data
 
@@ -142,29 +144,6 @@ Now, you should have the latest version of the package installed alongside the r
 
 4. Test the package by going to the *docs/tutorials/* directory and run all notebooks there using *jupyter-lab*.
 
-Method 2: Install though Pip (Straightforward)
-++++++++++++++++++++++++++++++++++++++++++++++
-The easiest way to install the most stable version is with *pip*, the Python package manager,
-but do not forget that you still need to create a virtual environment using the `Anaconda distribution <https://www.anaconda.com/download/>`_
-and then install ``TelescopeML`` there by the following steps:
-
-1. Create a conda virtual environment using `python>=3.9`:
-
-.. code-block:: bash
-
-    conda create --name  TelescopeML  python=3.9
-
-2. Activate the new environment:
-
-.. code-block:: bash
-
-    conda activate TelescopeML
-
-3. Now install the latest PyPI version of `TelescopeML` via pip:
-
-.. code-block:: bash
-
-    pip install TelescopeML
 
 
 4. Test the package by going into the *reference_data/tutorials/* directory and run all notebooks there using *jupyter-lab*.
