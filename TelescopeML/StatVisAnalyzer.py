@@ -1586,6 +1586,7 @@ def plot_regression_report(trained_ML_model,
                            Xtrain, Xtest, ytrain, ytest,
                            target_i,
                            xy_top=None, xy_bottom=None,
+                           __reference_data__ = None,
                            __print_results__=False,
                            __save_plots__ = False):
     """
@@ -1724,5 +1725,7 @@ def plot_regression_report(trained_ML_model,
         plt.tight_layout()
         if __save_plots__:
             target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-            plt.savefig(f'../../manuscript/2023_ApJ/figures/performance/regression_report_{target_name}_v2.pdf', format='pdf')
+            plt.savefig(os.path.join(__reference_data__, 'figures',  f"regression_report_{target_name}.pdf"), dpi=500,
+                        bbox_inches='tight')
+            # plt.savefig(f'../../manuscript/2023_ApJ/figures/performance/regression_report_{target_name}_v2.pdf', format='pdf')
         plt.show()
