@@ -1274,10 +1274,84 @@ def plot_ML_model_loss(trained_ML_model_history=None, title=None):
     show(p)
 
 
+def plot_ML_model_loss_plt(trained_ML_model_history=None,
+                            title=None,
+                            __reference_data__=None,
+                            __save_plots__=False):
+    """
+    Plot the trained model history for all individual target features
+    """
+
+    # Define the epochs as a list
+    epochs = list(range(len(trained_ML_model_history['loss'])))
+
+    # Define colorblind-friendly colors
+    colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
+
+    # Set Seaborn style and context
+
+    # Create a new figure
+    fig, ax = plt.subplots(figsize=(14, 4))
+    ax.set_title(title, fontsize=16)
+    ax.set_xlabel('Epochs', fontsize=14)
+    ax.set_ylabel('Huber Loss', fontsize=14)
+    ax.set_yscale('log')
+
+    # Add the data lines to the figure with colorblind-friendly colors and increased line width
+    ax.plot(epochs, trained_ML_model_history['loss'], color=colors[0], linestyle='-', linewidth=1,
+             label='Total loss')
+    ax.plot(epochs, trained_ML_model_history['val_loss'], color=colors[0], linestyle=':', linewidth=1)
+
+    ax.plot(epochs, trained_ML_model_history['output__gravity_loss'], color=colors[1], linestyle='-', linewidth=1,
+             label=r'$\log g$')
+    ax.plot(epochs, trained_ML_model_history['val_output__gravity_loss'], color=colors[1], linestyle=':', linewidth=1)
+
+    ax.plot(epochs, trained_ML_model_history['output__c_o_ratio_loss'], color=colors[2], linestyle='-', linewidth=1,
+             label='C/O')
+    ax.plot(epochs, trained_ML_model_history['val_output__c_o_ratio_loss'], color=colors[2], linestyle=':', linewidth=1)
+
+    ax.plot(epochs, trained_ML_model_history['output__metallicity_loss'], color=colors[3], linestyle='-', linewidth=1,
+             label='[M/H]')
+    ax.plot(epochs, trained_ML_model_history['val_output__metallicity_loss'], color=colors[3], linestyle=':', linewidth=1)
+
+    ax.plot(epochs, trained_ML_model_history['output__temperature_loss'], color=colors[4], linestyle='-', linewidth=1,
+             label=r'$T_{\rm eff}$')
+    ax.plot(epochs, trained_ML_model_history['val_output__temperature_loss'], color=colors[4], linestyle=':', linewidth=1)
+
+    # Increase size of ticks
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+
+    # Set grid color and linestyle
+    ax.grid(which='major', linestyle='--', linewidth=0.5, color='gray', alpha=.9)
+
+    # Enable minor ticks for both x and y axes
+    ax.minorticks_on()
+
+    # Set minor ticks format
+    ax.tick_params(axis='both', which='minor', direction='out', length=3)
+    ax.tick_params(axis='both', which='major', direction='out', length=5)
+
+
+    # Display legend in top left corner
+    ax.legend(loc='lower left', fontsize=12)
+
+    plt.tight_layout()
+    # Show the plot
+    if __save_plots__:
+        plt.savefig(os.path.join(__reference_data__, 'figures', "Trained_CNN_Huber_Loss.pdf"), dpi=500,
+                    bbox_inches='tight')
+
+    plt.show()
+
+
 def plot_boxplot(data,
                  title=None, xlabel='Wavelength [$\mu$m]', ylabel='Scaled Values',
                  xticks_list=None, fig_size=(14, 3),
-                 __save_plots__=False):
+                 saved_file_name = None,
+                 __reference_data__ = None,
+                 __save_plots__=False,
+                ):
     """
     Make a boxplot with the scaled features.
 
@@ -1315,10 +1389,9 @@ def plot_boxplot(data,
         ax.set_xticks(xtick_positions[::i])
         ax.set_xticklabels(xticks_list[::i])
 
-    # if __save_plots__:
-    #     plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_training_examples.pdf"),
-    #                 dpi=500,
-    #                 bbox_inches='tight')
+    if __save_plots__:
+        plt.savefig(os.path.join(__reference_data__, 'figures', saved_file_name+ "_.pdf"), dpi=500,
+                    bbox_inches='tight')
 
     plt.tight_layout()
     plt.show()
