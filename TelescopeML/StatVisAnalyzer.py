@@ -22,6 +22,8 @@ import pprint
 # ******* Data Visulaization Libraries ****************************
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
+from matplotlib.cm import ScalarMappable
 
 
 from bokeh.plotting import output_notebook
@@ -1699,325 +1701,328 @@ def plot_regression_report(trained_ML_model,
 
 
 # SpectrumVisualizer for LIMEXplainer Module
-class SpectrumVisualizer:
-    def __init__(self, explainer=None, wavelengths=None):
-        """
-        Initializes the SpectrumVisualizer with
-        an optional LIMEXplainer instance.
+def plot_spectrum_instance(explainer):
+    """
+    Plots the selected spectrum.
 
-        Parameters:
-        - explainer (LIMEXplainer, optional): An instance of LIMEXplainer class
-          for accessing spectrum, segments, and perturbations.
-        """
-        self.explainer = explainer
-        if wavelengths is not None:
-            self.wavelengths = np.array(wavelengths)
-        else:
-            self.wavelengths = None
+    Parameters:
+    - explainer: An instance of LIMEXplainer containing the spectrum and
+      wavelength data.
+    """
+    spectrum = explainer.spectrum_instance
+    wavelengths = explainer.wavelengths
+    indices = np.arange(len(spectrum))
 
-    def set_explainer(self, explainer):
-        """
-        Sets the LIMEXplainer instance for the visualizer.
+    plt.figure(figsize=(12, 4))
+    plt.plot(indices, spectrum, label='Spectrum Instance', color='royalblue',
+             linestyle='-', linewidth=2)
+    plt.title('Spectrum Analysis', fontsize=15)
+    plt.xlabel('Wavelength (μm)', fontsize=15)
+    plt.ylabel('Scaled Values', fontsize=15)
+    plt.xticks(indices[::10], [f"{w:.2f}" for w in wavelengths[::10]],
+               rotation=45, fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)
+    plt.legend(fontsize=14)
+    plt.tight_layout()
+    plt.show()
 
-        Parameters:
-        - explainer (LIMEXplainer): An instance of LIMEXplainer class.
-        """
-        self.explainer = explainer
 
-    def plot_spectrum_instance(self, instance_id=None):
-        """
-        Plots the selected instance of a spectrum or the instance
-        specified by an ID if provided.
+def plot_perturbed_spectrum(spectrum,
+                            perturbed_spectrum,
+                            wavelengths,
+                            num_segments,
+                            perturbation):
+    """
+    Plots the spectrum divided into the specified number of segments,
+    highlighting inactive segments based on a given perturbation pattern,
+    using index-based plotting with wavelength labels.
 
-        Parameters:
-        - instance_id (int, optional): The ID of the spectrum instance to plot.
-          If not specified, uses the instance from the explainer.
-        """
-        if instance_id is not None and self.explainer:
-            spectrum = self.explainer.get_spectrum_instance_by_id(instance_id)
-        elif self.explainer:
-            spectrum = self.explainer.spectrum_instance
-        else:
-            raise ValueError(
-                "Spectrum instance not provided or set in explainer."
-            )
+    Parameters:
+    - explainer: An instance of LIMEXplainer containing all relevant
+      data and methods.
+    """
 
-        plt.figure(figsize=(12, 4))
-        if self.wavelengths is not None:
-            plt.plot(self.wavelengths, spectrum,
-                     label='Selected Spectrum Instance',
-                     color='blue', linestyle='-')
-        else:
-            plt.plot(spectrum, label='Selected Spectrum Instance',
-                     color='blue', linestyle='-')
-        plt.title('Instance Spectrum Signal for Analysis')
-        label_text = (
-            'Wavelength (μm)' if self.wavelengths is not None else 'Index'
-        )
-        plt.xlabel(label_text, fontsize=15)
-        plt.ylabel('Flux (arbitrary units)', fontsize=15)
-        plt.grid(False)
-        plt.legend()
-        plt.tight_layout()
-        plt.show()
+    # Calculate the indices for each segment
+    indices = np.linspace(0, len(spectrum) - 1, num_segments + 1, dtype=int)
 
-    def plot_segmented_spectrum(self, instance_id=None):
-        """
-        Plots the spectrum divided into the specified number of segments.
-        If an instance ID is provided, plots that specific instance's spectrum;
-        otherwise, plots the spectrum from the explainer.
+    plt.figure(figsize=(12, 4))
 
-        Parameters:
-        - instance_id (int, optional): The ID of the spectrum instance to plot.
-        If not specified, uses the instance from the explainer.
-        """
-        if instance_id is not None and self.explainer:
-            spectrum = self.explainer.get_spectrum_instance_by_id(instance_id)
-            num_segments = self.explainer.num_segments
-        elif self.explainer:
-            spectrum = self.explainer.spectrum_instance
-            num_segments = self.explainer.num_segments
-        else:
-            raise ValueError(
-                "Spectrum instance not provided or set in explainer."
-            )
+    # Plot original and perturbed spectrum using indices
+    plt.plot(spectrum, label='Spectrum Instance', color='royalblue',
+             linestyle='--', linewidth=2)
+    plt.plot(perturbed_spectrum, label='Perturbed Spectrum', color='green',
+             linestyle='-', linewidth=2)
 
-        plt.figure(figsize=(12, 4))
-        if self.wavelengths is not None:
-            plt.plot(self.wavelengths, spectrum,
-                     label='Selected Spectrum Instance',
-                     color='blue', linestyle='-')
-            segment_boundaries = np.linspace(self.wavelengths[0],
-                                             self.wavelengths[-1],
-                                             num_segments + 1)
+    # Highlight inactive segments
+    for i in range(num_segments):
+        if i < len(perturbation) and perturbation[i] == 0:
+            start_idx, end_idx = indices[i], indices[i + 1]
+            plt.axvspan(start_idx, end_idx, color='gray', alpha=0.5)
 
-        else:
-            plt.plot(spectrum,
-                     label='Selected Spectrum Instance',
-                     color='blue', linestyle='-')
-            total_length = len(spectrum)
-            segment_boundaries = np.linspace(0, total_length - 1,
-                                             num_segments + 1, dtype=int)
+    # Add vertical lines for segment boundaries
+    for idx in indices:
+        plt.axvline(x=idx, color='red', linestyle='--', alpha=0.75,
+                    label='Segment Boundary' if idx == indices[0] else None)
 
-        for boundary in segment_boundaries:
-            plt.axvline(x=boundary, color='red', linestyle='--')
+    plt.title('Perturbed Spectrum with Inactive Segments Highlighted',
+              fontsize=15)
+    plt.xlabel('Wavelength (μm)', fontsize=15)
+    plt.ylabel('Scaled Values', fontsize=15)
+    # Set x-ticks to show corresponding wavelengths
+    plt.xticks(indices, [f"{wavelengths[i]:.2f}" for i in indices],
+               rotation=45, fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)
+    plt.legend(fontsize=14)
+    plt.tight_layout()
+    plt.show()
 
-        plt.title('Segmented Spectrum Instance')
-        label_text = (
-            'Wavelength (μm)' if self.wavelengths is not None else 'Index'
-        )
-        plt.xlabel(label_text, fontsize=15)
-        plt.ylabel('Scaled Values', fontsize=15)
-        plt.grid(False)
-        plt.legend()
-        plt.tight_layout()
-        plt.show()
 
-    def plot_perturbed_spectrum(self, perturbation_index=-1, instance_id=None):
-        """
-        Plots the original and perturbed spectrum of a given instance,
-        highlighting the segments that were deactivated during
-        the perturbation process.
+def plot_most_influential_segments(spectrum, wavelengths,
+                                   number_of_top_features,
+                                   top_segments_list, num_segments):
+    """
+    Plots the original spectrum of a given instance,
+    highlighting the segments that were most influential
+    according to the LIME analysis.
 
-        Parameters:
-        - perturbation_index (int, optional): The index of the perturbation
-          to visualize.
-        - instance_id (int, optional): The ID of the spectrum instance to plot.
+    Parameters:
+    - explainer: An instance of LIMEXplainer containing all relevant
+      data and methods.
+    """
 
-        """
-        if instance_id is not None and self.explainer:
-            spectrum = self.explainer.get_spectrum_instance_by_id(instance_id)
-        elif self.explainer:
-            spectrum = self.explainer.spectrum_instance
-        else:
-            raise ValueError(
-                "Spectrum instance not provided or set in explainer."
-            )
+    # Calculate the indices for each segment
+    indices = np.linspace(0, len(spectrum) - 1, num_segments + 1, dtype=int)
 
-        if (perturbation_index == -1 or
-                perturbation_index >= len(self.explainer.perturbed_spectra)):
-            perturbation_index = len(self.explainer.perturbed_spectra) - 1
-
-        perturbed_spectrum = \
-            self.explainer.perturbed_spectra[perturbation_index]
-        perturbation = self.explainer.random_perturbations[perturbation_index]
-
+    for output_index, top_segments in enumerate(top_segments_list, start=1):   # noqa: E501
         plt.figure(figsize=(12, 4))
 
-        if self.wavelengths is not None:
-            sorted_indices = np.argsort(self.wavelengths)
-            sorted_wavelengths = self.wavelengths[sorted_indices]
-            plt.plot(sorted_wavelengths, spectrum, label='Original Spectrum',
-                     color='blue', linestyle='--', alpha=0.5)
-            plt.plot(sorted_wavelengths, perturbed_spectrum,
-                     label='Perturbed Spectrum',
-                     color='green', linestyle='-')
-            segment_boundaries = np.linspace(sorted_wavelengths[0],
-                                             sorted_wavelengths[-1],
-                                             self.explainer.num_segments + 1)
-        else:
-            plt.plot(spectrum, label='Original Spectrum',
-                     color='blue', linestyle='--', alpha=0.5)
-            plt.plot(perturbed_spectrum, label='Perturbed Spectrum',
-                     color='green', linestyle='-')
-            total_length = len(spectrum)
-            segment_boundaries = np.linspace(0, total_length - 1,
-                                             self.explainer.num_segments + 1,
-                                             dtype=int)
+        plt.plot(spectrum, label='Spectrum Instance', color='royalblue',
+                 linestyle='-', linewidth=2)
+        total_length = len(spectrum)
+        segment_boundaries = np.linspace(0, total_length - 1,
+                                         num_segments
+                                         + 1, dtype=int)
 
-        for boundary in segment_boundaries:
-            plt.axvline(x=boundary, color='red', linestyle='--')
-
-        for i in range(self.explainer.num_segments):
-            if perturbation[i] == 0:
-                plt.axvspan(segment_boundaries[i], segment_boundaries[i+1],
-                            color='gray', alpha=0.3)
-
-        plt.xlabel(r'Wavelength [$\mu$ m]', fontsize=15)
-        plt.ylabel('Scaled Values', fontsize=15)
-        plt.legend()
-        plt.tight_layout()
-        plt.show()
-
-    def plot_influential_segments(self, instance_id=None,
-                                  number_of_top_features=5):
-        """
-        Plots the original spectrum of a given instance,
-        highlighting the segments that were most influential
-        according to the LIME analysis.
-
-        Parameters:
-        - perturbation_index (int, optional): The index of the perturbation
-          to visualize.
-        - instance_id (int, optional): The ID of the spectrum instance to plot.
-        - number_of_top_features (int): Number of top features to highlight.
-        """
-        if instance_id is not None and self.explainer:
-            spectrum = self.explainer.get_spectrum_instance_by_id(instance_id)
-        elif self.explainer:
-            spectrum = self.explainer.spectrum_instance
-        else:
-            raise ValueError(
-                "Spectrum instance not provided or set in explainer."
-            )
-
-        top_segments_list =\
-            self.explainer.find_top_segments(number_of_top_features)
-
-        for output_index, top_segments in enumerate(top_segments_list, start=1):   # noqa: E501
-            plt.figure(figsize=(18, 5))
-
-            if self.wavelengths is not None:
-                sorted_indices = np.argsort(self.wavelengths)
-                sorted_wavelengths = self.wavelengths[sorted_indices]
-                plt.plot(sorted_wavelengths, spectrum,
-                         label='Original Spectrum',
-                         color='blue', linestyle='-', alpha=0.5)
-                segment_boundaries = np.linspace(sorted_wavelengths[0],
-                                                 sorted_wavelengths[-1],
-                                                 self.explainer.num_segments
-                                                 + 1)
+        for segment_index in top_segments:
+            start_boundary = segment_boundaries[segment_index]
+            # Calculate end boundary based on conditions
+            if segment_index + 1 < len(segment_boundaries):
+                end_boundary = segment_boundaries[segment_index + 1]
             else:
-                plt.plot(spectrum, label='Original Spectrum',
-                         color='blue', linestyle='--', alpha=0.5)
-                total_length = len(spectrum)
-                segment_boundaries = np.linspace(0, total_length - 1,
-                                                 self.explainer.num_segments
-                                                 + 1, dtype=int)
+                end_boundary = segment_boundaries[-1]
 
-            for segment_index in top_segments:
-                start_boundary = segment_boundaries[segment_index]
-                # Calculate end boundary based on conditions
-                if segment_index + 1 < len(segment_boundaries):
-                    end_boundary = segment_boundaries[segment_index + 1]
-                else:
-                    end_boundary = segment_boundaries[-1]
+            is_first_segment = segment_index == top_segments[0]
+            label = 'Top Influential Segment' if is_first_segment else ""
 
-                is_first_segment = segment_index == top_segments[0]
-                label = 'Top Influential Segment' if is_first_segment else ""
+            # Use axvspan to highlight segments
+            plt.axvspan(start_boundary, end_boundary,
+                        color='yellow', alpha=0.3, label=label)
 
-                # Use axvspan to highlight segments
-                plt.axvspan(start_boundary, end_boundary,
-                            color='red', alpha=0.3, label=label)
+        for boundary in segment_boundaries:
+            plt.axvline(x=boundary, color='red', linestyle='--')
 
-            for boundary in segment_boundaries:
-                plt.axvline(x=boundary, color='red', linestyle='--')
+        plt.title(
+            f"Output {output_index}: Top {number_of_top_features} "
+            "Influential Spectrum Segments", fontsize=15)
 
-            plt.title(
-                f"Output {output_index}: Top {number_of_top_features}\
-                Influential Spectrum Segments", fontsize=15)
-
-            label_text = (
-                'Wavelength [$\\mu$m]'
-                if self.wavelengths is not None else 'Index'
-            )
-            plt.xlabel(label_text, fontsize=15)
-            plt.ylabel('Scaled Values', fontsize=15)
-            plt.legend()
-            plt.tight_layout()
-            plt.show()
-
-    def plot_weighted_influential_segments(self, instance_id=None):
-        """
-        Plots the original spectrum of a given instance,
-        highlighting the segments according to their importance
-        weights from the LIME analysis.
-
-        Parameters:
-        - instance_id (int, optional): The ID of the spectrum instance to plot.
-        - number_of_top_features (int): The number of
-          top influential segments to highlight.
-        """
-        if instance_id is not None and self.explainer:
-            spectrum = self.explainer.get_spectrum_instance_by_id(instance_id)
-        elif self.explainer:
-            spectrum = self.explainer.spectrum_instance
-        else:
-            raise ValueError(
-                "Spectrum instance not provided or set in explainer."
-            )
-
-        _, importance_coefficients = self.explainer.fit_surrogate_models()
-
-        plt.figure(figsize=(18, 5))
-
-        if self.wavelengths is not None:
-            sorted_indices = np.argsort(self.wavelengths)
-            sorted_wavelengths = self.wavelengths[sorted_indices]
-            plt.plot(sorted_wavelengths, spectrum, label='Original Spectrum',
-                     color='blue', linestyle='-', alpha=0.5)
-            segment_boundaries = np.linspace(sorted_wavelengths[0],
-                                             sorted_wavelengths[-1],
-                                             self.explainer.num_segments + 1)
-        else:
-            plt.plot(spectrum, label='Original Spectrum',
-                     color='blue', linestyle='--', alpha=0.5)
-            total_length = len(spectrum)
-            segment_boundaries = np.linspace(0, total_length - 1,
-                                             self.explainer.num_segments + 1,
-                                             dtype=int)
-
-        importance_norm = (
-            np.abs(importance_coefficients[0]) /
-            np.max(np.abs(importance_coefficients[0]))
-        )
-
-        for i, coeff in enumerate(importance_norm):
-            start_boundary = segment_boundaries[i]
-            end_boundary = (
-                segment_boundaries[i + 1] if i + 1 < len(segment_boundaries)
-                else segment_boundaries[-1]
-            )
-            plt.axvspan(start_boundary,
-                        end_boundary, color='red', alpha=coeff * 0.8 + 0.2)
-
-        plt.title("Spectrum Segments Highlighted by Importance", fontsize=15)
-        label_text = (
-                'Wavelength [$\\mu$m]'
-                if self.wavelengths is not None else 'Index'
-            )
-        plt.xlabel(label_text, fontsize=15)
+        plt.xlabel('Wavelength (μm)', fontsize=15)
         plt.ylabel('Scaled Values', fontsize=15)
-        plt.legend()
+        # Set x-ticks to show corresponding wavelengths
+        plt.xticks(indices, [f"{wavelengths[i]:.2f}" for i in indices],
+                   rotation=45, fontsize=12)
+        plt.yticks(fontsize=12)
+        plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)
+        plt.legend(fontsize=14)
         plt.tight_layout()
         plt.show()
+
+
+def plot_all_influential_segments(spectrum, wavelengths, num_segments,
+                                  coeff_segments):
+    """
+    Each plot highlights all segments based on their influence as determined
+    by the LIME analysis for that particular output.
+    The color intensity represents the magnitude of influence, with red
+    indicating negative influence and green indicating positive influence.
+
+    Parameters:
+    - explainer: An instance of LIMEXplainer containing all relevant
+      data and methods.
+    """
+
+    # Calculate the indices for each segment
+    indices = np.linspace(0, len(spectrum) - 1, num_segments + 1, dtype=int)
+
+    for output_index, coefficients in enumerate(coeff_segments):
+        plt.figure(figsize=(13, 4))
+
+        plt.plot(spectrum, label='Spectrum Instance', color='royalblue',
+                 linestyle='-', linewidth=2)
+        total_length = len(spectrum)
+        segment_boundaries = np.linspace(0, total_length - 1,
+                                         num_segments
+                                         + 1, dtype=int)
+        # Assigne color to each segment
+        norm = Normalize(vmin=min(coefficients), vmax=max(coefficients))
+        smap = ScalarMappable(norm=norm, cmap='RdYlGn')
+
+        # Apply colors to each segment
+        for segment_index in range(len(coeff_segments[output_index])):
+            start_boundary = segment_boundaries[segment_index]
+            # Calculate end boundary based on conditions
+            if segment_index + 1 < len(segment_boundaries):
+                end_boundary = segment_boundaries[segment_index + 1]
+            else:
+                end_boundary = segment_boundaries[-1]
+            # Handle case if segments > coefficients
+            coef = (coefficients[segment_index]
+                    if segment_index < len(coefficients) else 0)
+            color = smap.to_rgba(coef)
+            # Use axvspan to highlight segments
+            plt.axvspan(start_boundary, end_boundary,
+                        color=color, alpha=0.7)
+
+        plt.colorbar(smap, label='Coefficient Influence')
+        plt.title(f"Influence of Spectrum Segments for Output "
+                  f"{output_index + 1}", fontsize=15)
+
+        plt.xlabel('Wavelength (μm)', fontsize=15)
+        plt.ylabel('Scaled Values', fontsize=15)
+        # Set x-ticks to show corresponding wavelengths
+        plt.xticks(indices, [f"{wavelengths[i]:.2f}" for i in indices],
+                   rotation=45, fontsize=12)
+        plt.yticks(fontsize=12)
+        plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)
+        plt.tight_layout()
+        plt.show()
+
+
+def plot_ave_influential_segments(spectrum, wavelengths, num_segments,
+                                  coeff_segments):
+    """
+    Plots the spectrum of a given instance, highlighting all segments
+    based on their average influence as determined by the LIME analysis across
+    all outputs. The color intensity represents the magnitude of influence,
+    with red indicating negative and green indicating positive influence.
+
+    Parameters:
+    - explainer: An instance of LIMEXplainer containing all
+      relevant data and methods.
+    """
+
+    average_coefficients = np.mean(np.stack(coeff_segments), axis=0)
+
+    # Calculate the indices for each segment
+    indices = np.linspace(0, len(spectrum) - 1, num_segments + 1, dtype=int)
+
+    # Calculate the indices for each segment
+    segment_boundaries = np.linspace(0, len(spectrum),
+                                     num_segments + 1, dtype=int)
+
+    plt.figure(figsize=(13, 4))
+    plt.plot(spectrum, label='Spectrum Instance',
+             color='royalblue', linestyle='-', linewidth=2)
+
+    # Normalize the color scale based on the coefficients' values
+    norm = Normalize(vmin=np.min(average_coefficients),
+                     vmax=np.max(average_coefficients))
+    smap = ScalarMappable(norm=norm, cmap='RdYlGn')
+
+    # Apply colors to each segment
+    for i in range(num_segments):
+        start_boundary = segment_boundaries[i]
+        end_boundary = segment_boundaries[i + 1]
+        color = smap.to_rgba(average_coefficients[i])
+        plt.axvspan(start_boundary, end_boundary, color=color, alpha=0.7)
+
+    plt.colorbar(smap, label='Coefficient Influence')
+    plt.title("Average Influence of Spectrum Segments", fontsize=15)
+    plt.xlabel('Wavelength (μm)', fontsize=15)
+    plt.ylabel('Scaled Values', fontsize=15)
+    # Set x-ticks to show corresponding wavelengths
+    plt.xticks(indices, [f"{wavelengths[i]:.2f}" for i in indices],
+               rotation=45, fontsize=12)
+
+    plt.yticks(fontsize=12)
+    plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)  # Light grid
+    plt.legend(fontsize=14)
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_average_influence_per_output(average_coefficients,
+                                      num_segments,
+                                      wavelengths):
+    """
+    Plots the average influence of segments for each output.
+
+    Parameters:
+    - average_coefficients (np.ndarray): Array of average coefficients
+      for each segment and output.
+    - num_segments (int): Number of segments.
+    - wavelengths (np.ndarray): Array of wavelengths corresponding
+      to spectrum data points.
+    """
+    seg_bound = np.linspace(0, len(wavelengths) - 1,
+                            num_segments + 1, dtype=int)
+
+    for output_index, coefficients in enumerate(average_coefficients):
+        plt.figure(figsize=(13, 4))
+        norm = Normalize(vmin=min(coefficients), vmax=max(coefficients))
+        smap = ScalarMappable(norm=norm, cmap='RdYlGn')
+
+        for segment_index, coef in enumerate(coefficients):
+            start_boundary = seg_bound[segment_index]
+            end_boundary = seg_bound[segment_index + 1]
+            color = smap.to_rgba(coef)
+            plt.axvspan(start_boundary, end_boundary, color=color, alpha=0.7)
+
+        plt.colorbar(smap, label='Coefficient Influence')
+        plt.title(f"Average Influence of Spectrum Segments for Output "
+                  f"{output_index + 1}", fontsize=15)
+        plt.xlabel('Segment Index', fontsize=15)
+        plt.ylabel('Average Coefficient', fontsize=15)
+        plt.xticks(seg_bound, [f"{wavelengths[i]:.2f}" for i in seg_bound],
+                   rotation=45, fontsize=12)
+
+        plt.yticks(fontsize=12)
+        plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)
+        plt.tight_layout()
+        plt.show()
+
+
+def plot_overall_average_influence(overall_average, num_segments, wavelengths):
+    """
+    Plots the overall average influence of segments across all outputs.
+
+    Parameters:
+    - overall_average (np.ndarray): Array of overall average coefficients
+      for each segment.
+    - num_segments (int): Number of segments.
+    - wavelengths (np.ndarray): Array of wavelengths corresponding to
+      spectrum data points.
+    """
+    seg_bound = np.linspace(0, len(wavelengths) - 1, num_segments + 1,
+                            dtype=int)
+    norm = Normalize(vmin=min(overall_average), vmax=max(overall_average))
+    smap = ScalarMappable(norm=norm, cmap='RdYlGn')
+
+    plt.figure(figsize=(13, 4))
+    for segment_index, coef in enumerate(overall_average):
+        start_boundary = seg_bound[segment_index]
+        end_boundary = seg_bound[segment_index + 1]
+        color = smap.to_rgba(coef)
+        plt.axvspan(start_boundary, end_boundary, color=color, alpha=0.7)
+
+    plt.colorbar(smap, label='Coefficient Influence')
+    plt.title("Overall Average Influence of Spectrum Segments", fontsize=15)
+    plt.xlabel('Segment Index', fontsize=15)
+    plt.ylabel('Average Coefficient', fontsize=15)
+    plt.xticks(seg_bound, [f"{wavelengths[i]:.2f}" for i in seg_bound],
+               rotation=45, fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)
+    plt.tight_layout()
+    plt.show()
