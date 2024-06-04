@@ -4,7 +4,7 @@ from tensorflow.keras.models import load_model
 
 # from tensorflow.keras.models import model_from_json
 
-__reference_data__ = os.getenv("TelescopeML_reference_data")
+# __reference_data__ = os.getenv("TelescopeML_reference_data")
 # print(__reference_data__)
 
 
@@ -20,13 +20,19 @@ class LoadSave:
                  is_feature_improved = None,
                  is_augmented = None,
                  is_tuned = None,
+                 __reference_data__ = None
                  ):
         self.trained_ML_model_name = trained_ML_model_name
         self.ml_method = ml_method
         self.is_feature_improved = is_feature_improved
         self.is_augmented = is_augmented
         self.is_tuned = is_tuned
-        self.base_path = os.path.join(__reference_data__,'trained_ML_models')
+        if __reference_data__:
+            self.base_path = os.path.join(__reference_data__,'trained_ML_models')
+        else:
+            __reference_data__ = os.getenv("TelescopeML_reference_data")
+            self.base_path = os.path.join(__reference_data__,'trained_ML_models')
+
         # '../outputs/trained_models/'
 
     def create_generic_path(self, output_indicator):
@@ -73,7 +79,12 @@ class LoadSave:
 def load_or_dump_trained_model_CNN(
                                    trained_model = None,
                                    output_indicator='TrainedCNN',
-                                   load_or_dump='dump'):
+                                   load_or_dump='dump',
+                                   __reference_data__ = None,
+                                  ):
+
+    if __reference_data__ == None:
+        __reference_data__ = os.getenv("TelescopeML_reference_data")
 
     path_architecture = os.path.join(__reference_data__,
                          'trained_ML_models/trained_CNN_architecture_'+output_indicator+'.h5',

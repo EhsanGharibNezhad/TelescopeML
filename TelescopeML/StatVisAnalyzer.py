@@ -509,7 +509,10 @@ def plot_pred_vs_obs_errorbar(object_name,
                                        training_dataset,
                                        x_pred,
                                        predicted_targets_dic,
-                                       __print_results__= False):
+                                      __reference_data__=None,
+                                      __print_results__=False,
+                                      __save_plots__=None,
+                              ):
     """
     Plot predicted spectra along with observed spectra and error bars.
 
@@ -599,7 +602,10 @@ def plot_pred_vs_obs_errorbar_stat_bokeh(  stat_df,
                                 x_pred,
                                 predicted_targets_dic,
                                 radius,
-                                __print_results__ = False):
+                                # __reference_data__=None,
+                                __print_results__=False,
+                                # __save_plots__=None,
+                                ):
     """
     Plot observed spectra with error bars and predicted spectra with confidence intervals.
 
@@ -726,6 +732,8 @@ def plot_pred_vs_obs_errorbar_stat_bokeh(  stat_df,
     if __print_results__:
         print("Printing results:")
         print(stat_df.head(5))
+
+
 
     show(p)
 
@@ -1154,7 +1162,7 @@ def plot_scatter_x_y (x, y,
     # Show the plot
     show(p)
 
-def plot_filtere_data(dataset,
+def plot_filtered_spectra(dataset,
                       filter_bounds,
                       feature_to_plot,
                       title_label,
@@ -1221,63 +1229,6 @@ def plot_filtere_data(dataset,
 
     plt.show()
 
-def plot_filtered_dataframe_notUsed(dataset, filter_bounds, feature_to_plot, title_label, wl_synthetic, __reference_data__):
-    """
-    Plot a DataFrame with a single x-axis (using column names) and multiple y-axes.
-
-    Parameters:
-        - df (pd.DataFrame): DataFrame containing the data to be plotted.
-    """
-
-    filtered_df = dataset.copy()
-    for feature, bounds in filter_bounds.items():
-        lower_bound, upper_bound = bounds
-        filtered_df = filtered_df[(filtered_df[feature] >= lower_bound) & (filtered_df[feature] <= upper_bound)]
-
-    filtered_df2 = filtered_df.sort_values(feature_to_plot, ascending=False).iloc[::1, 4:-1][::-1]
-
-    fig, ax = plt.subplots(figsize=(10, 3))
-
-    x = filtered_df2.columns
-    df_transposed = filtered_df2.T  # Transpose the DataFrame
-
-    # Define a color palette
-    num_colors = len(df_transposed.columns)  # Number of colors needed (excluding x-axis)
-    colors = sns.color_palette('magma', num_colors)
-
-    for i, col in enumerate(df_transposed.columns):
-        # print(col)
-        if col != 'x':  # Skip the x-axis column
-            ax.semilogy(wl_synthetic, df_transposed[col],
-                        # label=data[col][:4].values,
-                        color=colors[i], alpha=0.7)
-
-    # print(filtered_data.T[col][:4].values[0])
-    ax.set_xlabel('Wavelength [$\mu$m]')
-    ax.set_ylabel(r'F$_{\nu}$  [erg/cm$^2$/s/Hz]')
-    dict_features = {'temperature': 'Effective Temperature', 'gravity': 'Gravity', 'metallicity': 'Metallicity',
-                     'c_o_ratio': 'Carbon-to-oxygen ratio'}
-    ax.set_title(dict_features[feature_to_plot] + " " + title_label)
-    # ax.legend()
-
-    # Get the minimum and maximum values from the data
-    # vmin = df_transposed.values.min()
-    # vmax = df_transposed.values.max()
-
-    # Add colorbar
-    cmap = sns.color_palette('magma', as_cmap=True)
-    cbar = plt.colorbar(plt.cm.ScalarMappable(cmap=cmap,
-                                              norm=plt.Normalize(vmin=filter_bounds[feature_to_plot][0],
-                                                                 vmax=filter_bounds[feature_to_plot][1])), ax=ax)
-    # dict_features2 = {'temperature':'T [K]', 'gravity':'log$g$', 'metallicity':'[M/H]', 'c_o_ratio':'C/O ratio'}
-    dict_features = {'temperature': 'T$_{eff}$ [K]', 'gravity': 'log$g$', 'metallicity': '[M/H]', 'c_o_ratio': 'C/O'}
-    cbar.set_label(dict_features[feature_to_plot])
-
-    # plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_trainin_examples.pdf"), dpi=500,
-    #             bbox_inches='tight')
-
-    plt.show()
-
 
 def plot_ML_model_loss(trained_ML_model_history=None, title=None):
     """
@@ -1331,10 +1282,84 @@ def plot_ML_model_loss(trained_ML_model_history=None, title=None):
     show(p)
 
 
+def plot_ML_model_loss_plt(trained_ML_model_history=None,
+                            title=None,
+                            __reference_data__=None,
+                            __save_plots__=False):
+    """
+    Plot the trained model history for all individual target features
+    """
+
+    # Define the epochs as a list
+    epochs = list(range(len(trained_ML_model_history['loss'])))
+
+    # Define colorblind-friendly colors
+    colors = ['#d62728', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b']
+
+    # Set Seaborn style and context
+
+    # Create a new figure
+    fig, ax = plt.subplots(figsize=(14, 4))
+    ax.set_title(title, fontsize=16)
+    ax.set_xlabel('Epochs', fontsize=14)
+    ax.set_ylabel('Huber Loss', fontsize=14)
+    ax.set_yscale('log')
+
+    # Add the data lines to the figure with colorblind-friendly colors and increased line width
+    ax.plot(epochs, trained_ML_model_history['loss'], color=colors[0], linestyle='-', linewidth=1,
+             label='Total loss')
+    ax.plot(epochs, trained_ML_model_history['val_loss'], color=colors[0], linestyle=':', linewidth=1)
+
+    ax.plot(epochs, trained_ML_model_history['output__gravity_loss'], color=colors[1], linestyle='-', linewidth=1,
+             label=r'$\log g$')
+    ax.plot(epochs, trained_ML_model_history['val_output__gravity_loss'], color=colors[1], linestyle=':', linewidth=1)
+
+    ax.plot(epochs, trained_ML_model_history['output__c_o_ratio_loss'], color=colors[2], linestyle='-', linewidth=1,
+             label='C/O')
+    ax.plot(epochs, trained_ML_model_history['val_output__c_o_ratio_loss'], color=colors[2], linestyle=':', linewidth=1)
+
+    ax.plot(epochs, trained_ML_model_history['output__metallicity_loss'], color=colors[3], linestyle='-', linewidth=1,
+             label='[M/H]')
+    ax.plot(epochs, trained_ML_model_history['val_output__metallicity_loss'], color=colors[3], linestyle=':', linewidth=1)
+
+    ax.plot(epochs, trained_ML_model_history['output__temperature_loss'], color=colors[4], linestyle='-', linewidth=1,
+             label=r'$T_{\rm eff}$')
+    ax.plot(epochs, trained_ML_model_history['val_output__temperature_loss'], color=colors[4], linestyle=':', linewidth=1)
+
+    # Increase size of ticks
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+
+    # Set grid color and linestyle
+    ax.grid(which='major', linestyle='--', linewidth=0.5, color='gray', alpha=.9)
+
+    # Enable minor ticks for both x and y axes
+    ax.minorticks_on()
+
+    # Set minor ticks format
+    ax.tick_params(axis='both', which='minor', direction='out', length=3)
+    ax.tick_params(axis='both', which='major', direction='out', length=5)
+
+
+    # Display legend in top left corner
+    ax.legend(loc='lower left', fontsize=12)
+
+    plt.tight_layout()
+    # Show the plot
+    if __save_plots__:
+        plt.savefig(os.path.join(__reference_data__, 'figures', "Trained_CNN_Huber_Loss.pdf"), dpi=500,
+                    bbox_inches='tight')
+
+    plt.show()
+
+
 def plot_boxplot(data,
                  title=None, xlabel='Wavelength [$\mu$m]', ylabel='Scaled Values',
                  xticks_list=None, fig_size=(14, 3),
-                 __save_plots__=False):
+                 saved_file_name = None,
+                 __reference_data__ = None,
+                 __save_plots__=False,
+                ):
     """
     Make a boxplot with the scaled features.
 
@@ -1372,10 +1397,9 @@ def plot_boxplot(data,
         ax.set_xticks(xtick_positions[::i])
         ax.set_xticklabels(xticks_list[::i])
 
-    # if __save_plots__:
-    #     plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_training_examples.pdf"),
-    #                 dpi=500,
-    #                 bbox_inches='tight')
+    if __save_plots__:
+        plt.savefig(os.path.join(__reference_data__, 'figures', saved_file_name+ "_.pdf"), dpi=500,
+                    bbox_inches='tight')
 
     plt.tight_layout()
     plt.show()
@@ -1384,8 +1408,11 @@ def plot_boxplot(data,
 
 
 def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
+                                literature_info,
                                 list_=['temperature', 'gravity', 'metallicity', 'c_o_ratio'],
+                                __reference_data__=None,
                                 __save_plot__=False):
+
     plt.figure(figsize=(6, 4))
     for target in list_:
         X = tuned_ML_R_param_df[target]
@@ -1458,9 +1485,11 @@ def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
         plt.tight_layout()
 
         if __save_plot__:
-            plt.savefig('../../outputs/figures/tuned_bohb_batch32_v3_1000epoch_out10_v2_UsedInPAPER_v5/' +
-                        tuned_ML_R_param_df['bd_name'] + '_TunedRadius_' + target
-                        + '_counterplot.pdf',
+            plt.savefig(os.path.join(__reference_data__,'figures',
+                                     literature_info['bd_name']+
+                                     '_TunedRadius_'+
+                                     target+
+                                     '_counterplot.pdf'),
                         format='pdf', bbox_inches='tight')
         plt.show()
 
@@ -1475,7 +1504,9 @@ def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
                                 x_pred,
                                 predicted_targets_dic,
                                 radius,
-                                __print_results__ = False):
+                                __reference_data__ = False,
+                                __print_results__ = False,
+                                __save_plots__ = False):
     """
     Plot observed spectra with error bars and predicted spectra with confidence intervals.
 
@@ -1559,8 +1590,11 @@ def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
 
     plt.tight_layout()
 
-    # export_svg(p, filename=f"../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.svg")
-    # plt.savefig(f'../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.pdf', format='pdf')
+
+    if __save_plots__:
+        plt.savefig(os.path.join(__reference_data__, 'figures', f"{object_name}_obervational_vs_MLpredicted_plt.pdf"),
+                    dpi=500,
+                    bbox_inches='tight')
 
     plt.show()
 
@@ -1570,6 +1604,7 @@ def plot_regression_report(trained_ML_model,
                            Xtrain, Xtest, ytrain, ytest,
                            target_i,
                            xy_top=None, xy_bottom=None,
+                           __reference_data__ = None,
                            __print_results__=False,
                            __save_plots__ = False):
     """
@@ -1693,11 +1728,6 @@ def plot_regression_report(trained_ML_model,
         axs[0].tick_params(axis='both', which='major', labelsize=12)
         axs[1].tick_params(axis='both', which='major', labelsize=12)
 
-        # Add annotations for skewness and R-squared scores
-        #         axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, train}}$= ' + f'{np.round(skew_train, 2)}',
-        #                         fontsize=11, xy=(xy_top[0], xy_top[1] + 0.08), xycoords='axes fraction')
-        #         axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, test}}$ = ' + f'{np.round(skew_test, 2)}',
-        #                         fontsize=11, xy=(xy_top[0], xy_top[1] - 0.08), xycoords='axes fraction')
         axs[1].annotate(r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train}',
                         fontsize=11, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
         axs[1].annotate(r'R$^2_{\rm test}$ =' + f'{"%0.2f" % r2_score_test}',
@@ -1708,5 +1738,6 @@ def plot_regression_report(trained_ML_model,
         plt.tight_layout()
         if __save_plots__:
             target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
-            plt.savefig(f'../../manuscript/2023_ApJ/figures/performance/regression_report_{target_name}_v2.pdf', format='pdf')
+            plt.savefig(os.path.join(__reference_data__, 'figures',  f"regression_report_{target_name}.pdf"), dpi=500,
+                        bbox_inches='tight')
         plt.show()
