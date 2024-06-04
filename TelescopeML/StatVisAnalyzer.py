@@ -654,7 +654,7 @@ def plot_pred_vs_obs_errorbar_stat_bokeh(  stat_df,
 
     # Create ML figure
     p = figure(
-        title=object_name+': Observational vs. ML Predicted Spectra'+' [𝛘2='+str(chi2_stat)+', p-value='+ str(p_value)+']',
+        title=object_name+': Observational vs. ML Predicted Spectra'+' [𝛘2='+str(chi2_stat)+']',
         x_axis_label='Wavelength [μm]',
         y_axis_label='Absolute Flux (F𝜈) [erg/s/cm2/Hz]',
         y_axis_type="log",
@@ -1230,7 +1230,7 @@ def plot_filtered_spectra(dataset,
     plt.show()
 
 
-def plot_ML_model_loss(trained_ML_model_history=None, title=None):
+def plot_ML_model_loss_bokeh(trained_ML_model_history=None, title=None):
     """
     Plot the trained model history for all individual target features
     """
@@ -1464,7 +1464,7 @@ def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
         Rstd = np.round(tuned_ML_R_param_df.describe().loc['std']['radius'], 2)
         Tstd = np.round(tuned_ML_R_param_df.describe().loc['std'][target], 2)
         chistd = np.round(tuned_ML_R_param_df.describe().loc['std']['chi_square'], 2)
-        print(Rstd, Tstd, chistd)
+        # print(Rstd, Tstd, chistd)
         #         plt.suptitle(r'$R_{\mathrm{Jup}}^{\chi^2_\mathrm{min}}$=' + f'{round(min_Y, 2)}$\pm${Rstd}, '
         #                   + target_dict[target] + f'= {round(min_X, 2) }$\pm${Tstd}, $\chi_{{min}}^2$={round(min_Z, 1)}',
         #                                                          y=.95, fontsize=15)
