@@ -461,6 +461,8 @@ class ObserveParameterPredictor:
             __plot_pred_vs_obs_errorbar_stat_bokeh__=False,
             __plot_pred_vs_obs_errorbar_stat_matplotlib__=False,
             __calculate_confidence_intervals_std_df__=False,
+            __reference_data__ = None,
+            __save_plots__=False,
             ):
         """
 
@@ -652,7 +654,9 @@ class ObserveParameterPredictor:
                 training_dataset=self.training_dataset_df,
                 x_pred=self.wl_synthetic,
                 predicted_targets_dic=self.dic_random_pred_mean,
+                __reference_data__=__reference_data__,
                 __print_results__=False,
+                __save_plots__=__save_plots__,
             )
 
         if __calculate_confidence_intervals_std_df__:
@@ -674,7 +678,9 @@ class ObserveParameterPredictor:
                 x_pred=self.wl_synthetic,
                 predicted_targets_dic=self.dic_random_pred_mean,
                 radius = self.bd_literature_dic['bd_radius_Rjup'],
+                # __reference_data__=__reference_data__,
                 __print_results__=False,
+                # __save_plots__=__save_plots__,
             )
 
         if __plot_pred_vs_obs_errorbar_stat_matplotlib__:
@@ -688,7 +694,10 @@ class ObserveParameterPredictor:
                                                       x_pred=self.wl_synthetic,
                                                       predicted_targets_dic=self.dic_random_pred_mean,
                                                       radius=self.bd_literature_dic['bd_radius_Rjup'],
-                                                      __print_results__=False)
+                                                      __reference_data__ = __reference_data__,
+                                                      __print_results__=False,
+                                                      __save_plots__=__save_plots__,
+                                                      )
 
 
 
