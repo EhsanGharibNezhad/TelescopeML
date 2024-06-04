@@ -25,8 +25,10 @@ authors:
   - name: Miguel J. S. Martinho
     orcid: 0000-0002-2188-0807
     affiliation: "3, 4"
-  - name: Gopal Nookula 
+  - name: Mahdi Habibi
     affiliation: "5"
+  - name: Gopal Nookula 
+    affiliation: "6"
 affiliations:
   - name: Space Science and Astrobiology Division, NASA Ames Research Center, Moffett Field, CA, 94035 USA
     index: 1
@@ -36,8 +38,10 @@ affiliations:
     index: 3
   - name: Intelligent Systems Division, NASA Ames Research Center, Moffett Field, CA 94035, USA
     index: 4
-  - name: Department of Computer Science, University of California, Riverside, Riverside, CA 92507 USA
+  - name: Institute for Radiation Physics, Helmholtz-Zentrum Dresden-Rossendorf, Dresden 01328, Germany
     index: 5
+  - name: Department of Computer Science, University of California, Riverside, Riverside, CA 92507 USA
+    index: 6
 
 date: 17 November 2023
 bibliography: paper.bib
@@ -102,7 +106,28 @@ outlined below and visualized in following Figure:
   - Explores and processes the synthetic datasets
   - Performs the chi-square test to evaluate the similarity between two datasets
   - Calculates confidence intervals and standard errors
-  - Functions to visualize the datasets, including scatter plots, histograms, boxplots
+  - Functions t
+
+
+
+# Details on the synthetic dataset
+
+The training dataset (or synthetic spectra) in this study is computed using the open-source atmospheric radiative 
+transfer Python package, [`PICASO`](https://natashabatalha.github.io/picaso/) [e.g., @batalha2019picaso], based on the 
+`Sonora-Bobcat` model grid generated for cloudless brown dwarf atmospheres by [@marley2021sonora]. This set encompasses 
+30,888 synthetic spectra, each including 104 wavelengths (i.e., 0.897, 0.906, ..., 2.512 μm) and their corresponding flux 
+values. Each of these spectra has four output variables attached to it: effective temperature, gravity, carbon-to-oxygen ratio, 
+and metallicity. These synthetic spectra are utilized to interpret observational datasets and derive these four atmospheric parameters.
+An example of the synthetic and observational dataset is shown in the following figure.
+
+# Details on the CNN methodology for Multi-output Regression problem
+
+Each row in the synthetic spectra has 104 input variables. The order of these data points and their magnitude are crucial 
+to interpret the telescope data. For this purpose, we implemented a Convolutional Neural Network (CNN) method with 1-D convolutional 
+layers. CNN is a powerful technique for this study because it extracts the dominant features from these spectra and then passes them 
+to the fully connected hidden layers to learn the patterns. The output layer predicts the four atmospheric parameters.
+An example of the CNN architecture is depicted in the following figure.
+
 
 ![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
 extract the target features from the observational data.](TelescopeML_Modules_Infograph.jpg){height="900pt"}
