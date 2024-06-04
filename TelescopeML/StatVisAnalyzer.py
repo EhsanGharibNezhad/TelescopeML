@@ -509,7 +509,10 @@ def plot_pred_vs_obs_errorbar(object_name,
                                        training_dataset,
                                        x_pred,
                                        predicted_targets_dic,
-                                       __print_results__= False):
+                                      __reference_data__=None,
+                                      __print_results__=False,
+                                      __save_plots__=None,
+                              ):
     """
     Plot predicted spectra along with observed spectra and error bars.
 
@@ -599,7 +602,10 @@ def plot_pred_vs_obs_errorbar_stat_bokeh(  stat_df,
                                 x_pred,
                                 predicted_targets_dic,
                                 radius,
-                                __print_results__ = False):
+                                # __reference_data__=None,
+                                __print_results__=False,
+                                # __save_plots__=None,
+                                ):
     """
     Plot observed spectra with error bars and predicted spectra with confidence intervals.
 
@@ -726,6 +732,8 @@ def plot_pred_vs_obs_errorbar_stat_bokeh(  stat_df,
     if __print_results__:
         print("Printing results:")
         print(stat_df.head(5))
+
+
 
     show(p)
 
@@ -1400,8 +1408,11 @@ def plot_boxplot(data,
 
 
 def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
+                                literature_info,
                                 list_=['temperature', 'gravity', 'metallicity', 'c_o_ratio'],
+                                __reference_data__=None,
                                 __save_plot__=False):
+
     plt.figure(figsize=(6, 4))
     for target in list_:
         X = tuned_ML_R_param_df[target]
@@ -1474,9 +1485,11 @@ def plot_tricontour_chi2_radius(tuned_ML_R_param_df,
         plt.tight_layout()
 
         if __save_plot__:
-            plt.savefig('../../outputs/figures/tuned_bohb_batch32_v3_1000epoch_out10_v2_UsedInPAPER_v5/' +
-                        tuned_ML_R_param_df['bd_name'] + '_TunedRadius_' + target
-                        + '_counterplot.pdf',
+            plt.savefig(os.path.join(__reference_data__,'figures',
+                                     literature_info['bd_name']+
+                                     '_TunedRadius_'+
+                                     target+
+                                     '_counterplot.pdf'),
                         format='pdf', bbox_inches='tight')
         plt.show()
 
@@ -1491,7 +1504,9 @@ def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
                                 x_pred,
                                 predicted_targets_dic,
                                 radius,
-                                __print_results__ = False):
+                                __reference_data__ = False,
+                                __print_results__ = False,
+                                __save_plots__ = False):
     """
     Plot observed spectra with error bars and predicted spectra with confidence intervals.
 
@@ -1575,8 +1590,11 @@ def plot_pred_vs_obs_errorbar_stat_matplotlib(  stat_df,
 
     plt.tight_layout()
 
-    # export_svg(p, filename=f"../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.svg")
-    # plt.savefig(f'../../../outputs/figures/{object_name}_obervational_vs_MLpredicted.pdf', format='pdf')
+
+    if __save_plots__:
+        plt.savefig(os.path.join(__reference_data__, 'figures', f"{object_name}_obervational_vs_MLpredicted_plt.pdf"),
+                    dpi=500,
+                    bbox_inches='tight')
 
     plt.show()
 
@@ -1710,11 +1728,6 @@ def plot_regression_report(trained_ML_model,
         axs[0].tick_params(axis='both', which='major', labelsize=12)
         axs[1].tick_params(axis='both', which='major', labelsize=12)
 
-        # Add annotations for skewness and R-squared scores
-        #         axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, train}}$= ' + f'{np.round(skew_train, 2)}',
-        #                         fontsize=11, xy=(xy_top[0], xy_top[1] + 0.08), xycoords='axes fraction')
-        #         axs[0].annotate(r'$\tilde{\mu}_{{\rm 3, test}}$ = ' + f'{np.round(skew_test, 2)}',
-        #                         fontsize=11, xy=(xy_top[0], xy_top[1] - 0.08), xycoords='axes fraction')
         axs[1].annotate(r'R$^2_{\rm train}$=' + f'{"%0.2f" % r2_score_train}',
                         fontsize=11, xy=(xy_bottom[0], xy_bottom[1] + 0.06), xycoords='axes fraction')
         axs[1].annotate(r'R$^2_{\rm test}$ =' + f'{"%0.2f" % r2_score_test}',
@@ -1727,5 +1740,4 @@ def plot_regression_report(trained_ML_model,
             target_name = ['Gravity', 'C_O_ratio', 'Metallicity', 'Temperature'][i]
             plt.savefig(os.path.join(__reference_data__, 'figures',  f"regression_report_{target_name}.pdf"), dpi=500,
                         bbox_inches='tight')
-            # plt.savefig(f'../../manuscript/2023_ApJ/figures/performance/regression_report_{target_name}_v2.pdf', format='pdf')
         plt.show()
