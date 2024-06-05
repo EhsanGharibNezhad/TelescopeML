@@ -55,11 +55,13 @@
     "\n",
     "We computed a low-resolution spectrum ($R$=200) utilizing atmopshric brown dwarfs grid model, [*Sonora-Bobcat*](https://arxiv.org/pdf/2107.07434.pdf) for spectral range $\\sim$0.9-2.4 $\\mu m$. An open-source atmospheric radiative transfer Python package, [*PICASO*](https://natashabatalha.github.io/picaso/) was employed for generating these datasets. This dataset encompass 30,888 synthetic spectra (or instances or rows). \n",
     "\n",
-    "Each spectrum has 104 wavelengths (i.e., 0.897, 0.906, ..., 2.512~$\\mu$m) and 4 output atmospheric parameters:\n",
-    "- gravity ( log$g$ ) \n",
-    "- temperature ( $T_{\\rm eff}$ )\n",
-    "- carbon-to-oxygen ratio ( C/O )\n",
-    "- metallicity ( [M/H] )"
+    "\n",
+    "Each spectrum has 104 wavelengths (i.e., 0.897, 0.906, ..., 2.512 μm) and 4 output atmospheric parameters:\n",
+    "\n",
+    "- gravity (log *g*)\n",
+    "- temperature (*T*<sub>eff</sub>)\n",
+    "- carbon-to-oxygen ratio (C/O)\n",
+    "- metallicity ([M/H])"
    ]
   },
   {
@@ -325,10 +327,11 @@
    "source": [
     "### 2.1.2 Check atmospheric parameters\n",
     "\n",
-    "- gravity ( log$g$ ) \n",
-    "- temperature ( T$_{eff}$ )\n",
-    "- carbon-to-oxygen ratio ( C/O )\n",
-    "- metallicity ( [M/H] )"
+    "\n",
+    "- gravity (log *g*)\n",
+    "- temperature (*T*<sub>eff</sub>)\n",
+    "- carbon-to-oxygen ratio (C/O)\n",
+    "- metallicity ([M/H])"
    ]
   },
   {
