@@ -167,5 +167,5 @@ and then install ``TelescopeML`` there by the following steps:
     pip install TelescopeML
 
 
-4. Test the package by going into the *reference_data/tutorials/* directory and run all notebooks there using *jupyter-lab*.
+4. Test the package by going into the *TelescopeML/docs/tutorials/* directory and run all notebooks there using *jupyter-lab*.
 
