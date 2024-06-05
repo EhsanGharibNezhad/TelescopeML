@@ -55,6 +55,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#step-3-install-the-package">Step 3: Install the Package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#method-1-install-through-git-recommended">Method 1: Install through Git (Recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#method-2-install-though-pip-straightforward">Method 2: Install though Pip (Straightforward)</a></li>
 </ul>
 </li>
 </ul>
@@ -101,8 +102,8 @@
 </div>
 <section id="step-1-create-your-directory-structure">
 <h2>Step 1: Create your directory structure<a class="headerlink" href="#step-1-create-your-directory-structure" title="Link to this heading">¶</a></h2>
-<p>Let’s start by creating the parent directory, named <em>TelescopeML_project</em>. While you are inside this parent
-<em>TelescopeML_project</em> directory, download and unzip the <em>reference_data</em> folder which include the following sub-directories:
+<p>Let’s start by creating the folder structure as follow, named <em>TelescopeML_project</em>. While you are inside this parent
+<em>TelescopeML_project</em> directory, download the <em>reference_data</em> folder which include the following sub-directories:
 <em>training_datasets</em>, <em>tutorials</em>, <em>observational_datasets</em>,  <em>figures</em>, <em>trained_ML_models</em>.</p>
 <p>Download link for <strong>reference_data</strong> folder is: <a class="reference external" href="https://zenodo.org/doi/10.5281/zenodo.10183098">Link</a></p>
 <div class="line-block">
@@ -118,17 +119,9 @@
 </section>
 <section id="step-2-set-input-file-environment-variables">
 <h2>Step 2: Set input file environment variables<a class="headerlink" href="#step-2-set-input-file-environment-variables" title="Link to this heading">¶</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul class="simple">
-<li><p>Navigate to the <em>reference_data</em> directory in your terminal and use the <cite>pwd</cite> command to find its path.</p></li>
-<li><p>Replace <cite>PATH_TO_YOUR_REFERENCE_DATA</cite> with the actual path to your <em>reference_data</em> folder.</p></li>
-<li><p>To confirm that your variable has been defined properly, use the command <em>echo $TelescopeML_reference_data</em>.</p></li>
-</ul>
-</div>
 <section id="for-mac-os">
 <h3>For Mac OS<a class="headerlink" href="#for-mac-os" title="Link to this heading">¶</a></h3>
-<p>Follow the following steps to set the link to the input data:</p>
+<p>follow the following steps to set the link to the input data:</p>
 <ol class="arabic simple">
 <li><p>Check your default shell in your terminal:</p></li>
 </ol>
@@ -143,7 +136,7 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <div><ul class="simple">
 <li><p>If your shell is <cite>/bin/zsh</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_REFERENCE_DATA/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.zshrc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_reference_data/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.zshrc
 <span class="nb">source</span><span class="w"> </span>~/.zshrc
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
@@ -151,7 +144,7 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <ul class="simple">
 <li><p>if your shell is <cite>/bin/bash</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_REFERENCE_DATA/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.bash_profile
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_reference_data/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.bash_profile
 <span class="nb">source</span><span class="w"> </span>~/.bash_profile
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
@@ -159,7 +152,7 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 <ul class="simple">
 <li><p>if your sell is <cite>/bin/sh</cite>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_REFERENCE_DATA/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.profile
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_reference_data/&quot;&#39;</span><span class="w"> </span>&gt;&gt;~/.profile
 <span class="nb">source</span><span class="w"> </span>~/.profile
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
@@ -167,13 +160,21 @@ like <cite>/bin/bash</cite> or <cite>/bin/zsh</cite>, or <cite>/bin/sh</cite>.</
 </div></blockquote>
 </li>
 </ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Replace <cite>PATH_TO_YOUR_reference_data</cite> with the actual path to your <em>reference_data</em> folder
+that you downloaded in step 1.</p></li>
+<li><p><em>echo</em> command is used to check that your variable has been defined properly.</p></li>
+</ul>
+</div>
 </section>
 <section id="for-linux">
 <h3>For Linux<a class="headerlink" href="#for-linux" title="Link to this heading">¶</a></h3>
 <p>In Linux, the choice between <cite>~/.bashrc</cite> and <cite>~/.bash_profile</cite> depends on your specific use case and how
 you want environment variables to be set, but <cite>~/.bashrc</cite> is a common and practical choice for
 modern Linux system.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_REFERENCE_DATA/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.bashrc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export TelescopeML_reference_data=&quot;/PATH_TO_YOUR_reference_data/&quot; &#39;</span><span class="w"> </span>&gt;&gt;~/.bashrc
 <span class="nb">source</span><span class="w"> </span>~/.bashrc
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TelescopeML_reference_data</span>
 </pre></div>
@@ -220,6 +221,30 @@ conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> <
 <ol class="arabic simple" start="4">
 <li><p>Test the package by going to the <em>docs/tutorials/</em> directory and run all notebooks there using <em>jupyter-lab</em>.</p></li>
 </ol>
+</section>
+<section id="method-2-install-though-pip-straightforward">
+<h3>Method 2: Install though Pip (Straightforward)<a class="headerlink" href="#method-2-install-though-pip-straightforward" title="Link to this heading">¶</a></h3>
+<p>The easiest way to install the most stable version is with <em>pip</em>, the Python package manager,
+but do not forget that you still need to create a virtual environment using the <a class="reference external" href="https://www.anaconda.com/download/">Anaconda distribution</a>
+and then install <code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code> there by the following steps:</p>
+<ol class="arabic simple">
+<li><p>Create a conda virtual environment using <cite>python&gt;=3.9</cite>:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w">  </span>TelescopeML<span class="w">  </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Activate the new environment:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>TelescopeML
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Now install the latest PyPI version of <cite>TelescopeML</cite> via pip:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>TelescopeML
+</pre></div>
+</div>
 <ol class="arabic simple" start="4">
 <li><p>Test the package by going into the <em>reference_data/tutorials/</em> directory and run all notebooks there using <em>jupyter-lab</em>.</p></li>
 </ol>
