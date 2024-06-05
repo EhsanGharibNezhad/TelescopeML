@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Exploring the Brown Dwarf Synthetic Dataset &mdash; TelescopeML 0.0.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/nbsphinx-code-cells.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/documentation_options.js?v=47de8214"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Predict Brown Dwarf Parameters Using Trained ML Models" href="2__Predict_BrownDwarf_Parameters.html" />
+    <link rel="prev" title="Tutorials" href="../tutorials.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            TelescopeML
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../tutorials.html#exploring-the-datasets">Exploring the Datasets</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"> Brown Dwarf Synthetic Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#predict-atmospheric-parameters">Predict Atmospheric Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#data-processing">Data Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials.html#train-a-regression-cnns-model">Train a Regression CNNs Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../code.html">The Code</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/EhsanGharibNezhad/TelescopeML">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TelescopeML</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../tutorials.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">1. Exploring the Brown Dwarf Synthetic Dataset</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/1__BrownDwarf_Data_Exploration.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="../tutorials.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="2__Predict_BrownDwarf_Parameters.html" class="btn btn-neutral float-right" title="2. Predict Brown Dwarf Parameters Using Trained ML Models" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://github.com/EhsanGharibNezhad/TelescopeML/tree/master/docs/tutorials/1__BrownDwarf_Data_Exploration.ipynb">Download full notebook here</a></p>
+</div>
+<section id="1.-Exploring-the-Brown-Dwarf-Synthetic-Dataset">
+<h1>1. Exploring the Brown Dwarf Synthetic Dataset<a class="headerlink" href="#1.-Exploring-the-Brown-Dwarf-Synthetic-Dataset" title="Link to this heading">¶</a></h1>
+<p>In the following steps, you will:</p>
+<ul class="simple">
+<li><p>Load the brown dwarf synthetic spectra used to train the ML models</p></li>
+<li><p>Check the variables and parameters in the dataset</p></li>
+<li><p>Visualize them for few cases</p></li>
+</ul>
+<hr class="docutils" />
+<p>Before going through this tutorial, make sure you have installed <code class="docutils literal notranslate"><span class="pre">TelescopeML</span></code> (Install through Git) successfully as discussed in this <a class="reference external" href="https://ehsangharibnezhad.github.io/TelescopeML/installation.html">installation link</a>.</p>
+<p>Note: The latest version is located on GitHub, so please follow the instructions provided in the “Method 1: Install through Git (Recommended)” section of the link to install the package.</p>
+<hr class="docutils" />
+<p>In a nutshell:</p>
+<p>[1] You have already:</p>
+<ul class="simple">
+<li><p>Created the <em>TelescopeML_project</em> directory.</p></li>
+<li><p>Downloaded the <em>reference_data</em> from <a class="reference external" href="https://zenodo.org/records/11043721">this link</a>.</p></li>
+<li><p>Cloned <em>TelescopeML</em> using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/EhsanGharibNezhad/TelescopeML.git</span></code>.</p></li>
+</ul>
+<p>[2] The trained ML models, datasets, figures, and tutorials (or notebooks) are now all in your <strong>TelescopeML_project/reference_data</strong> directory.</p>
+<p>[3] The path is defined to your <strong>reference_data</strong>. Confirm it by <code class="docutils literal notranslate"><span class="pre">os.getenv(&quot;TelescopeML_reference_data&quot;)</span></code>, but if you encounter an error, simply hard code it by defining the path as <code class="docutils literal notranslate"><span class="pre">__reference_data_path__</span></code>.</p>
+<p>[4] Lastly, you should be able to execute <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">TelescopeML</span></code> without any issues!</p>
+<p>Happy <em>TelescopeML</em>ing! ;)</p>
+<hr class="docutils" />
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s first import libraries we need in this tutorial!</span>
+<span class="kn">from</span> <span class="nn">TelescopeML.StatVisAnalyzer</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+No Bottleneck unit testing available.
+</pre></div></div>
+</div>
+<section id="1.1-Load-the-Synthetic-spectra">
+<h2>1.1 Load the Synthetic spectra<a class="headerlink" href="#1.1-Load-the-Synthetic-spectra" title="Link to this heading">¶</a></h2>
+<p>We computed a low-resolution spectrum (<span class="math notranslate nohighlight">\(R\)</span>=200) utilizing atmopshric brown dwarfs grid model, <a class="reference external" href="https://arxiv.org/pdf/2107.07434.pdf">Sonora-Bobcat</a> for spectral range $:nbsphinx-math:<cite>sim`$0.9-2.4 :math:</cite>mu m`. An open-source atmospheric radiative transfer Python package, <a class="reference external" href="https://natashabatalha.github.io/picaso/">PICASO</a> was employed for generating these datasets. This dataset encompass 30,888 synthetic spectra (or instances or rows).</p>
+<p>Each spectrum has 104 wavelengths (i.e., 0.897, 0.906, …, 2.512 μm) and 4 output atmospheric parameters:</p>
+<ul class="simple">
+<li><p>gravity (log <em>g</em>)</p></li>
+<li><p>temperature (<em>T</em>eff)</p></li>
+<li><p>carbon-to-oxygen ratio (C/O)</p></li>
+<li><p>metallicity ([M/H])</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">__reference_data_path__</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TelescopeML_reference_data&quot;</span><span class="p">)</span>
+<span class="n">__reference_data_path__</span>
+
+
+<span class="c1"># Note: insert the directory of the reference_data if you get an error reading the reference data!!!</span>
+<span class="c1"># __reference_data_path__ = &#39;INSERT_DIRECTORY_OF_reference_data&#39;</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;/Users/egharibn/RESEARCH/ml/projects/TelescopeML_project/reference_data/&#39;
+</pre></div></div>
+</div>
+<section id="Load-the-dataset-and-check-few-instances">
+<h3>Load the dataset and check few instances<a class="headerlink" href="#Load-the-dataset-and-check-few-instances" title="Link to this heading">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_BD</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__reference_data_path__</span><span class="p">,</span>
+                                    <span class="s1">&#39;training_datasets&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;browndwarf_R100_v4_newWL_v3.csv.bz2&#39;</span><span class="p">),</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;bz2&#39;</span><span class="p">)</span>
+<span class="n">train_BD</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>temperature</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+      <th>2.512</th>
+      <th>2.487</th>
+      <th>2.462</th>
+      <th>2.438</th>
+      <th>2.413</th>
+      <th>2.389</th>
+      <th>...</th>
+      <th>0.981</th>
+      <th>0.971</th>
+      <th>0.962</th>
+      <th>0.952</th>
+      <th>0.943</th>
+      <th>0.933</th>
+      <th>0.924</th>
+      <th>0.915</th>
+      <th>0.906</th>
+      <th>0.897</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.00</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>1.257751e-07</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.00</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>1.257751e-07</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.00</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>1.257751e-07</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.00</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>1.257751e-07</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.00</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>0.0</td>
+      <td>9.103045e-08</td>
+      <td>1.181658e-07</td>
+      <td>1.307868e-07</td>
+      <td>1.269229e-07</td>
+      <td>1.159179e-07</td>
+      <td>8.925110e-08</td>
+      <td>...</td>
+      <td>1.257751e-07</td>
+      <td>9.640859e-08</td>
+      <td>7.612550e-08</td>
+      <td>6.901364e-08</td>
+      <td>6.247359e-08</td>
+      <td>4.112384e-08</td>
+      <td>5.127995e-08</td>
+      <td>4.897355e-08</td>
+      <td>4.087795e-08</td>
+      <td>2.791689e-08</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>30883</th>
+      <td>3.25</td>
+      <td>1000</td>
+      <td>2.50</td>
+      <td>0.7</td>
+      <td>1.533414e-08</td>
+      <td>1.244438e-08</td>
+      <td>7.703017e-09</td>
+      <td>5.262130e-09</td>
+      <td>4.671165e-09</td>
+      <td>3.026652e-09</td>
+      <td>...</td>
+      <td>2.064408e-08</td>
+      <td>1.919290e-08</td>
+      <td>1.685050e-08</td>
+      <td>1.772466e-08</td>
+      <td>1.726968e-08</td>
+      <td>1.341722e-08</td>
+      <td>1.365819e-08</td>
+      <td>8.811601e-09</td>
+      <td>4.752807e-09</td>
+      <td>2.206752e-09</td>
+    </tr>
+    <tr>
+      <th>30884</th>
+      <td>3.25</td>
+      <td>1000</td>
+      <td>2.50</td>
+      <td>1.0</td>
+      <td>6.942763e-09</td>
+      <td>5.536744e-09</td>
+      <td>3.501408e-09</td>
+      <td>2.445445e-09</td>
+      <td>2.168689e-09</td>
+      <td>1.477159e-09</td>
+      <td>...</td>
+      <td>4.353813e-09</td>
+      <td>4.401064e-09</td>
+      <td>4.029425e-09</td>
+      <td>4.482797e-09</td>
+      <td>4.647158e-09</td>
+      <td>3.722947e-09</td>
+      <td>3.825720e-09</td>
+      <td>1.921753e-09</td>
+      <td>8.112957e-10</td>
+      <td>3.211086e-10</td>
+    </tr>
+    <tr>
+      <th>30885</th>
+      <td>3.25</td>
+      <td>1000</td>
+      <td>2.50</td>
+      <td>1.3</td>
+      <td>3.758895e-09</td>
+      <td>2.988295e-09</td>
+      <td>1.968653e-09</td>
+      <td>1.417744e-09</td>
+      <td>1.260679e-09</td>
+      <td>9.059680e-10</td>
+      <td>...</td>
+      <td>1.546743e-09</td>
+      <td>1.698977e-09</td>
+      <td>1.577032e-09</td>
+      <td>1.813035e-09</td>
+      <td>1.915084e-09</td>
+      <td>1.497190e-09</td>
+      <td>1.512469e-09</td>
+      <td>5.734859e-10</td>
+      <td>1.823897e-10</td>
+      <td>6.218672e-11</td>
+    </tr>
+    <tr>
+      <th>30886</th>
+      <td>3.25</td>
+      <td>1000</td>
+      <td>2.50</td>
+      <td>1.7</td>
+      <td>3.150169e-09</td>
+      <td>2.503614e-09</td>
+      <td>1.672564e-09</td>
+      <td>1.218379e-09</td>
+      <td>1.085002e-09</td>
+      <td>7.942492e-10</td>
+      <td>...</td>
+      <td>1.332727e-09</td>
+      <td>1.481450e-09</td>
+      <td>1.346700e-09</td>
+      <td>1.538485e-09</td>
+      <td>1.608156e-09</td>
+      <td>1.223594e-09</td>
+      <td>1.254078e-09</td>
+      <td>4.561500e-10</td>
+      <td>1.370389e-10</td>
+      <td>4.616465e-11</td>
+    </tr>
+    <tr>
+      <th>30887</th>
+      <td>3.25</td>
+      <td>1000</td>
+      <td>2.50</td>
+      <td>2.0</td>
+      <td>2.665630e-09</td>
+      <td>2.117952e-09</td>
+      <td>1.434730e-09</td>
+      <td>1.055994e-09</td>
+      <td>9.418247e-10</td>
+      <td>7.020869e-10</td>
+      <td>...</td>
+      <td>1.533098e-09</td>
+      <td>1.647372e-09</td>
+      <td>1.385020e-09</td>
+      <td>1.517044e-09</td>
+      <td>1.524311e-09</td>
+      <td>1.096679e-09</td>
+      <td>1.209663e-09</td>
+      <td>4.837326e-10</td>
+      <td>1.534210e-10</td>
+      <td>5.612844e-11</td>
+    </tr>
+  </tbody>
+</table>
+<p>30888 rows × 108 columns</p>
+</div></div>
+</div>
+</section>
+</section>
+<section id="1.2-Check-atmospheric-parameters">
+<h2>1.2 Check atmospheric parameters<a class="headerlink" href="#1.2-Check-atmospheric-parameters" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>gravity (log <em>g</em>)</p></li>
+<li><p>temperature (<em>T</em>eff)</p></li>
+<li><p>carbon-to-oxygen ratio (C/O)</p></li>
+<li><p>metallicity ([M/H])</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">]</span>
+<span class="n">train_BD</span><span class="p">[</span><span class="n">output_names</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gravity</th>
+      <th>temperature</th>
+      <th>c_o_ratio</th>
+      <th>metallicity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.7</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>-0.3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>1100</td>
+      <td>0.25</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="1.3-Check-the-synthetic-spectra">
+<h2>1.3 Check the synthetic spectra<a class="headerlink" href="#1.3-Check-the-synthetic-spectra" title="Link to this heading">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wavelength_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">train_BD</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_names</span><span class="p">]</span>
+<span class="n">wavelength_names</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;2.512&#39;, &#39;2.487&#39;, &#39;2.462&#39;, &#39;2.438&#39;, &#39;2.413&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wavelength_values</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">wavelength_names</span><span class="p">]</span>
+<span class="n">wavelength_values</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[2.512, 2.487, 2.462, 2.438, 2.413, 2.389, 2.366, 2.342, 2.319, 2.296]
+</pre></div></div>
+</div>
+</section>
+<section id="1.4-Visualize-the-Brown-Dwarf-spectra-for-different-parameters">
+<h2>1.4 Visualize the Brown Dwarf spectra for different parameters<a class="headerlink" href="#1.4-Visualize-the-Brown-Dwarf-spectra-for-different-parameters" title="Link to this heading">¶</a></h2>
+<section id="1.4.1-Effective-Temperature">
+<h3>1.4.1 Effective Temperature<a class="headerlink" href="#1.4.1-Effective-Temperature" title="Link to this heading">¶</a></h3>
+<p>Plot the brown dwarf datasets for <span class="math notranslate nohighlight">\(T_{\rm eff}\)</span>= 400-1800K while other paremeters are constnat (log<em>g</em>=5, C/O=1, [M/H]=0)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the filter bounds</span>
+<span class="n">filter_bounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gravity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">5.</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+                 <span class="s1">&#39;c_o_ratio&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+                 <span class="s1">&#39;metallicity&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span>
+                 <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">1800</span><span class="p">)}</span>
+
+<span class="c1"># Call the function to filter the dataset</span>
+<span class="n">plot_filtered_spectra</span><span class="p">(</span>
+                    <span class="n">dataset</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">,</span>
+                    <span class="n">filter_bounds</span> <span class="o">=</span> <span class="n">filter_bounds</span><span class="p">,</span>
+                    <span class="n">feature_to_plot</span> <span class="o">=</span> <span class="s1">&#39;temperature&#39;</span><span class="p">,</span>
+                    <span class="n">title_label</span> <span class="o">=</span> <span class="s1">&#39;[log$g$=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                  <span class="s1">&#39;, C/O =&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;c_o_ratio&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                  <span class="s1">&#39;, [M/H]=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;metallicity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;]&#39;</span><span class="p">,</span>
+                    <span class="n">wl_synthetic</span> <span class="o">=</span> <span class="n">wavelength_values</span><span class="p">,</span>
+                    <span class="n">output_names</span> <span class="o">=</span> <span class="n">output_names</span><span class="p">,</span>
+                    <span class="n">__reference_data__</span> <span class="o">=</span> <span class="n">__reference_data_path__</span><span class="p">,</span>
+                    <span class="n">__save_plots__</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_1__BrownDwarf_Data_Exploration_17_0.png" src="../_images/tutorials_1__BrownDwarf_Data_Exploration_17_0.png" />
+</div>
+</div>
+</section>
+<section id="1.4.2-Gravity">
+<h3>1.4.2 Gravity<a class="headerlink" href="#1.4.2-Gravity" title="Link to this heading">¶</a></h3>
+<p>Plot the brown dwarf datasets for log<span class="math notranslate nohighlight">\(g\)</span>= 3-5.5 while other paremeters are constnat (<span class="math notranslate nohighlight">\(T_{eff}\)</span>=800, C/O=1, [M/E]=0)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the filter bounds</span>
+<span class="n">filter_bounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gravity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">5.5</span><span class="p">),</span>
+                 <span class="s1">&#39;c_o_ratio&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+                 <span class="s1">&#39;metallicity&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span>
+                 <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">)}</span>
+
+<span class="c1"># Call the function to filter the dataset</span>
+<span class="n">plot_filtered_spectra</span><span class="p">(</span>
+                        <span class="n">dataset</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">,</span>
+                        <span class="n">filter_bounds</span> <span class="o">=</span> <span class="n">filter_bounds</span><span class="p">,</span>
+                        <span class="n">feature_to_plot</span> <span class="o">=</span> <span class="s1">&#39;gravity&#39;</span><span class="p">,</span>
+                        <span class="n">title_label</span> <span class="o">=</span>   <span class="s1">&#39;[T=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                        <span class="s1">&#39;, C/O =&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;c_o_ratio&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                        <span class="s1">&#39;, [M/H]=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;metallicity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;]&#39;</span><span class="p">,</span>
+                        <span class="n">wl_synthetic</span> <span class="o">=</span> <span class="n">wavelength_values</span><span class="p">,</span>
+                        <span class="n">output_names</span> <span class="o">=</span> <span class="n">output_names</span><span class="p">,</span>
+                        <span class="n">__reference_data__</span> <span class="o">=</span> <span class="n">__reference_data_path__</span><span class="p">,</span>
+                        <span class="n">__save_plots__</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_1__BrownDwarf_Data_Exploration_19_0.png" src="../_images/tutorials_1__BrownDwarf_Data_Exploration_19_0.png" />
+</div>
+</div>
+</section>
+<section id="1.4.3-Carbon-to-Oxygen-ratio">
+<h3>1.4.3 Carbon-to-Oxygen ratio<a class="headerlink" href="#1.4.3-Carbon-to-Oxygen-ratio" title="Link to this heading">¶</a></h3>
+<p>Plot the brown dwarf datasets for C/O= 0.25-2.5 while other paremeters are constnat (<em>T</em>eff=800, log <em>g</em>=5.0, [M/H]=0)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the filter bounds</span>
+<span class="n">filter_bounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gravity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">5.</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+                 <span class="s1">&#39;c_o_ratio&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">2.5</span><span class="p">),</span>
+                 <span class="s1">&#39;metallicity&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span>
+                 <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">)}</span>
+
+
+<span class="c1"># Call the function to filter the dataset</span>
+<span class="n">plot_filtered_spectra</span><span class="p">(</span>
+                        <span class="n">dataset</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">,</span>
+                        <span class="n">filter_bounds</span> <span class="o">=</span> <span class="n">filter_bounds</span><span class="p">,</span>
+                        <span class="n">feature_to_plot</span> <span class="o">=</span> <span class="s1">&#39;c_o_ratio&#39;</span><span class="p">,</span>
+                        <span class="n">title_label</span> <span class="o">=</span> <span class="s1">&#39;[T=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, log$g$=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                    <span class="s1">&#39;, [M/H]=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;metallicity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;]&#39;</span><span class="p">,</span>
+                        <span class="n">wl_synthetic</span> <span class="o">=</span> <span class="n">wavelength_values</span><span class="p">,</span>
+                        <span class="n">output_names</span> <span class="o">=</span> <span class="n">output_names</span><span class="p">,</span>
+                        <span class="n">__reference_data__</span> <span class="o">=</span> <span class="n">__reference_data_path__</span><span class="p">,</span>
+                        <span class="n">__save_plots__</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_1__BrownDwarf_Data_Exploration_21_0.png" src="../_images/tutorials_1__BrownDwarf_Data_Exploration_21_0.png" />
+</div>
+</div>
+</section>
+<section id="1.4.4-Metallicity">
+<h3>1.4.4 Metallicity<a class="headerlink" href="#1.4.4-Metallicity" title="Link to this heading">¶</a></h3>
+<p>Plot the brown dwarf datasets for [M/H]= -1.0 - 2.0 while other paremeters are constnat (<em>T</em>eff=800, log <em>g</em>=5.0, C/O=1.0)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the filter bounds</span>
+<span class="n">filter_bounds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;gravity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">5.</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+                 <span class="s1">&#39;c_o_ratio&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span>
+                 <span class="s1">&#39;metallicity&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                 <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">)}</span>
+
+
+<span class="c1"># Call the function to filter the dataset</span>
+<span class="n">plot_filtered_spectra</span><span class="p">(</span>
+                        <span class="n">dataset</span> <span class="o">=</span> <span class="n">train_BD</span><span class="p">,</span>
+                        <span class="n">filter_bounds</span> <span class="o">=</span> <span class="n">filter_bounds</span><span class="p">,</span>
+                        <span class="n">feature_to_plot</span> <span class="o">=</span> <span class="s1">&#39;metallicity&#39;</span><span class="p">,</span>
+                        <span class="n">title_label</span> <span class="o">=</span> <span class="s1">&#39;[T=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                <span class="s1">&#39;, log$g$=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span>
+                                <span class="s1">&#39;, C/O=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_bounds</span><span class="p">[</span><span class="s1">&#39;c_o_ratio&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;]&#39;</span><span class="p">,</span>
+                        <span class="n">wl_synthetic</span> <span class="o">=</span> <span class="n">wavelength_values</span><span class="p">,</span>
+                        <span class="n">output_names</span> <span class="o">=</span> <span class="n">output_names</span><span class="p">,</span>
+                        <span class="n">__reference_data__</span> <span class="o">=</span> <span class="n">__reference_data_path__</span><span class="p">,</span>
+                           <span class="n">__save_plots__</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_1__BrownDwarf_Data_Exploration_23_0.png" src="../_images/tutorials_1__BrownDwarf_Data_Exploration_23_0.png" />
+</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorials.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="2__Predict_BrownDwarf_Parameters.html" class="btn btn-neutral float-right" title="2. Predict Brown Dwarf Parameters Using Trained ML Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Ehsan (Sam) Gharib-Nezhad.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
