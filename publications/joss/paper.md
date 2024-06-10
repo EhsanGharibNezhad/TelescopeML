@@ -13,7 +13,7 @@ tags:
   - Convolutional Neural Network
   - Telescope datasets
 authors:
-  - name: Ehsan~(Sam)~Gharib-Nezhad
+  - name: Ehsan (Sam) Gharib-Nezhad
     orcid: 0000-0002-4088-7262
     affiliation: "1, 2"
   - name: Natasha E. Batalha
