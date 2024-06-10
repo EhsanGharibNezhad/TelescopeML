@@ -13,7 +13,7 @@ tags:
   - Convolutional Neural Network
   - Telescope datasets
 authors:
-  - name: Ehsan (Sam) Gharib-Nezhad
+  - name: Ehsan~(Sam)~Gharib-Nezhad
     orcid: 0000-0002-4088-7262
     affiliation: "1, 2"
   - name: Natasha E. Batalha
@@ -47,7 +47,7 @@ affiliations:
 date: 10 June 2024
 bibliography: paper.bib
 
-Zenodo-doi: 10.5281/zenodo.11553655
+doi: 10.5281/zenodo.11553655
 aas-doi: LINK OF ApJ PAPER - TBD
 aas-journal: The Astrophysical Journal 
 
