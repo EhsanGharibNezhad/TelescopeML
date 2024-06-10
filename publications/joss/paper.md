@@ -26,6 +26,7 @@ authors:
     orcid: 0000-0002-2188-0807
     affiliation: "3, 4"
   - name: Mahdi Habibi
+    orcid: 0000-0001-8530-7746
     affiliation: "5"
   - name: Gopal Nookula 
     affiliation: "6"
@@ -43,10 +44,11 @@ affiliations:
   - name: Department of Computer Science, University of California, Riverside, Riverside, CA 92507 USA
     index: 6
 
-date: 17 November 2023
+date: 10 June 2024
 bibliography: paper.bib
 
-aas-doi: LINK OF ApJ PAPER
+doi: 10.5281/zenodo.11553655
+aas-doi: LINK OF ApJ PAPER - TBD
 aas-journal: The Astrophysical Journal 
 
 ---
@@ -133,13 +135,6 @@ values. Each of these spectra has four output variables attached to it: effectiv
 and metallicity. These synthetic spectra are utilized to interpret observational datasets and derive these four atmospheric parameters.
 An example of the synthetic and observational dataset is shown in the following figure.
 
-# Details on the CNN methodology for Multi-output Regression problem
-
-Each row in the synthetic spectra has 104 input variables. The order of these data points and their magnitude are crucial 
-to interpret the telescope data. For this purpose, we implemented a Convolutional Neural Network (CNN) method with 1-D convolutional 
-layers. CNN is a powerful technique for this study because it extracts the dominant features from these spectra and then passes them 
-to the fully connected hidden layers to learn the patterns. The output layer predicts the four atmospheric parameters.
-An example of the CNN architecture is depicted in the following figure.
 
 
 
@@ -234,6 +229,8 @@ Picaso [@batalha2019picaso] is implemented.
 
 # Acknowledgements
 EGN and GN would like to thank OSTEM internships and funding through the NASA with contract number 80NSSC22DA010.
-EGN acknowledges ChatGPT 3.5 for proofreading some of the functions. 
+EGN acknowledges ChatGPT 3.5 for proofreading some of the functions. EGN is grateful to Olivier Parisot and 
+Mike Walmsley for helpful referee reports, and to the JOSS editorial staff, Paul La Plante and Dan Foreman-Mackey, for
+their tireless efforts to encourage new people to join the open source community in astronomy.
 
 # References
