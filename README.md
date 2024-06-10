@@ -67,7 +67,7 @@ or simply...
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -114,9 +114,19 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
         <a href="" title="mentoring-CNNTuning-BOHB" title="Mentoring">🧑‍🏫</a>
         <a href="#ideas" title="Ideas & Feedback">🤔</a>
       </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="20%">
+        <a href="https://github.com/mdhabibi">
+          <img src="https://avatars.githubusercontent.com/u/19531036?v=4" width="100px;" alt="Mahdi Habibi"/><br />
+          <sub><b>Mahdi Habibi</b></sub>
+        </a><br/>
+        <a href="https://github.com/EhsanGharibNezhad/TelescopeML/blob/xai/TelescopeML/LIMEXplainer.py" title="Code">💻</a> 
+        <a href="#ideas" title="XAI Ideas, Feedback">🤔</a>
+      </td>        
       <td align="center" valign="top" width="20%">
         <a href="https://github.com/letgotopal">
-          <img src="https://avatars.githubusercontent.com/u/89670109?v=4?s=100" width="100px;" alt="Gopal Nookula"/><br />
+          <img src="https://avatars.githubusercontent.com/u/89670109?v=4?s=100" width="80px;" alt="Gopal Nookula"/><br />
           <sub><b>Gopal Nookula</b></sub>
         </a><br/>
         <a href="https://ehsangharibnezhad.github.io/TelescopeML/tutorials.html" title="tutorial">📚</a>
@@ -124,6 +134,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
   </tbody>
 </table>
+
 
 
 

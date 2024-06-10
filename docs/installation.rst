@@ -105,8 +105,7 @@ Step 3: Install the Package
     You need to first have `Anaconda distribution <https://www.anaconda.com/download/>`_ installed on your machine,
     before proceed to the next steps.
 
-Method 1: Install through Git (Recommended)
-+++++++++++++++++++++++++++++++++++++++++++
+
 If you want to access the latest features or modify the code and contribute, we suggest that you clone the source code
 from GitHub by following steps:
 
@@ -130,42 +129,25 @@ from GitHub by following steps:
 
     conda activate TelescopeML
 
-3. Install the library via the `setup.py` file inside *TelescopeML* directory:
+
+3. Install the `TelescopeML` Library
+
+You can install the `TelescopeML` library using one of the following methods:
+
+3.1 For Development Purposes:
+
+If you plan to develop the code, navigate to the *TelescopeML* directory and install it using:
 
 .. code-block:: bash
 
     python3.9 setup.py develop
 
 
-Now, you should have the latest version of the package installed alongside the reference data.
-
-
-4. Test the package by going to the *docs/tutorials/* directory and run all notebooks there using *jupyter-lab*.
-
-Method 2: Install though Pip (Straightforward)
-++++++++++++++++++++++++++++++++++++++++++++++
-The easiest way to install the most stable version is with *pip*, the Python package manager,
-but do not forget that you still need to create a virtual environment using the `Anaconda distribution <https://www.anaconda.com/download/>`_
-and then install ``TelescopeML`` there by the following steps:
-
-1. Create a conda virtual environment using `python>=3.9`:
-
-.. code-block:: bash
-
-    conda create --name  TelescopeML  python=3.9
-
-2. Activate the new environment:
-
-.. code-block:: bash
-
-    conda activate TelescopeML
-
-3. Now install the latest PyPI version of `TelescopeML` via pip:
+3.2 For General Use
+If you intend to use the code without making changes in the future, install the PyPI version:
 
 .. code-block:: bash
 
     pip install TelescopeML
 
-
-4. Test the package by going into the *reference_data/tutorials/* directory and run all notebooks there using *jupyter-lab*.
-
+4. Test the package by going to the **docs/tutorials/** directory and run all notebooks there using *jupyter-lab*.
