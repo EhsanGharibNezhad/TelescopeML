@@ -9,7 +9,6 @@ scipy==1.11.1
 keras==2.14.0
 tensorflow==2.14.0
 jupyterlab
-sphinx
 spectres==2.2.0
 scikit-learn==1.3.0
 
