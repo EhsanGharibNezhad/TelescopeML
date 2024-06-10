@@ -47,7 +47,8 @@ affiliations:
 date: 10 June 2024
 bibliography: paper.bib
 
-aas-doi: LINK OF ApJ PAPER
+Zenodo-doi: 10.5281/zenodo.11553655
+aas-doi: LINK OF ApJ PAPER - TBD
 aas-journal: The Astrophysical Journal 
 
 ---
