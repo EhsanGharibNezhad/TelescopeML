@@ -11,7 +11,7 @@ from scipy.interpolate import interp1d
 # import pickle as pk
 
 from scipy import stats
-from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.metrics import r2_score, mean_squared_error,  mean_absolute_error
 from scipy.interpolate import RegularGridInterpolator
 from scipy.stats import chi2
 import os
@@ -1741,3 +1741,4 @@ def plot_regression_report(trained_ML_model,
             plt.savefig(os.path.join(__reference_data__, 'figures',  f"regression_report_{target_name}.pdf"), dpi=500,
                         bbox_inches='tight')
         plt.show()
+
