@@ -386,9 +386,13 @@ def filter_dataframe(training_datasets, predicted_targets_dic):
     return nearest_value_list, filtered_df
 
 
-def plot_boxplot_hist(data,
+def plot_boxplot_hist(
+                 data,
                  x_label,
-                 xy_loc):
+                 xy_loc,
+                 __save_plots__,
+                 __reference_data__,
+                    ):
 
     fig, (ax_box, ax_hist) = plt.subplots(2, sharex=True, gridspec_kw={"height_ratios": (.15, .85)})
 
@@ -418,8 +422,14 @@ def plot_boxplot_hist(data,
         x_label = 'c_o_ratio'
     if x_label == '[M/H]':
         x_label = 'metallicity'
+    if x_label == '$\log g$':
+        x_label = 'logg'
+    if x_label == '$T_{eff}$':
+        x_label = 'Teff'
     # plt.savefig(f'../outputs/figures/boxplot_hist_{x_label}.pdf', format='pdf')
-
+    if __save_plots__:
+        plt.savefig(os.path.join(__reference_data__, 'figures', 'boxplot_hist_'+ x_label + ".pdf"), dpi=500,
+                    bbox_inches='tight')
     plt.show()
 
 

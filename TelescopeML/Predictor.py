@@ -638,10 +638,20 @@ class ObserveParameterPredictor:
             plt.show()
 
         if __plot_boxplot_hist__:
-            plot_boxplot_hist(self.df_random_pred['logg'], x_label=r'$\log g$', xy_loc=[0.05, 0.98])
-            plot_boxplot_hist(self.df_random_pred['T'], x_label=r'$T_{eff}$', xy_loc=[0.05, 0.98])
-            plot_boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98])
-            plot_boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98])
+            plot_boxplot_hist(self.df_random_pred['logg'],
+                              x_label=r'$\log g$',
+                              xy_loc=[0.05, 0.98],
+                              __save_plots__=__save_plots__,
+                              __reference_data__=__reference_data__)
+            plot_boxplot_hist(self.df_random_pred['T'], x_label=r'$T_{eff}$', xy_loc=[0.05, 0.98],
+                              __save_plots__=__save_plots__,
+                              __reference_data__=__reference_data__)
+            plot_boxplot_hist(self.df_random_pred['c_o'], x_label=r'C/O', xy_loc=[0.05, 0.98],
+                              __save_plots__=__save_plots__,
+                              __reference_data__=__reference_data__)
+            plot_boxplot_hist(self.df_random_pred['met'], x_label=r'[M/H]', xy_loc=[0.05, 0.98],
+                              __save_plots__=__save_plots__,
+                              __reference_data__=__reference_data__)
 
 
 
