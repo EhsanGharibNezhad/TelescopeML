@@ -32,6 +32,7 @@ from bokeh.models import ColumnDataSource
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
+np.random.seed(seed=100)
 
 def print_results_fun(targets, print_title=None):
     """
@@ -929,6 +930,103 @@ def plot_with_errorbars(x_obs, y_obs, err_obs, x_pre, y_pre, err_pre, title="Dat
 
 
 def chi_square_test(x_obs, y_obs, yerr_obs,
+                    x_pre, y_pre, yerr_pre,
+                    radius,
+                    __plot_results__ = False,
+                    __print_results__ = True):
+    """
+    Perform the chi-square test to evaluate the similarity between two datasets with error bars.
+
+    Parameters
+    ----------
+    x_obs : array
+        The x-coordinates of the observed dataset.
+    y_obs : array
+        The y-coordinates of the observed dataset.
+    yerr_obs : array
+        The error bars associated with the observed dataset.
+    x_pre : array
+        The x-coordinates of the predicted dataset.
+    y_pre : array
+        The y-coordinates of the predicted dataset.
+    yerr_pre : array
+        The error bars associated with the predicted dataset.
+    radius : float
+        The radius value for comparison of points between datasets.
+    __plot_results__ : bool, optional
+        If True, plot the results of the chi-square test. Defaults to False.
+    __print_results__ : bool, optional
+        If True, print the results of the chi-square test. Defaults to True.
+
+    Returns
+    -------
+    float
+        The chi-square test statistic.
+    float
+        The p-value.
+
+    Raises
+    ------
+    ValueError
+        If the lengths of the datasets or error bars are not equal.
+    """
+
+    indices_to_remove = np.where(np.isnan(y_obs))[0]
+
+    # Create a boolean mask with True for elements to keep, and False for elements to remove
+    mask = np.ones(len(y_obs), dtype=bool)
+    mask[indices_to_remove] = False
+    y_obs = y_obs[mask]
+    yerr_obs = yerr_obs[mask]
+    x_obs = x_obs[mask]
+
+    # Convert input to NumPy arrays for easier calculations
+    data1 = np.asarray(y_obs)
+    data2 = np.asarray(y_pre)
+    error1 = np.asarray(yerr_obs)
+    error2 = np.asarray(yerr_pre)
+
+    num_points = len(x_pre)
+    # print(y_obs)
+
+    # Interpolate datasets if they have different lengths
+    if len(data1) != len(data2):
+        f1 = interp1d(x_obs, data1, kind='cubic', fill_value='extrapolate') #interp1d(x1, data1, kind='quadratic')
+        f2 = interp1d(x_pre, data2, kind='cubic', fill_value='extrapolate')
+        data1 = f1(x_pre)
+        data2 = f2(x_pre)
+
+        f_error1 = interp1d(x_obs, error1, kind='cubic', fill_value='extrapolate')
+        f_error2 = interp1d(x_pre, error2, kind='cubic', fill_value='extrapolate')
+        error1 = f_error1(x_pre)
+        error2 = f_error2(x_pre)
+
+
+    # Calculate the chi-square test statistic
+    chi2_stat = np.sum(((data1 - data2) / error1) ** 2)
+
+    # chi2_stat = np.round( np.sum(((data1 - data2) / error1**2), 2)
+    # print(data1,data2)
+
+    # Calculate the degrees of freedom
+    degrees_of_freedom = len(data1)
+
+    # Calculate the p-value using the chi-square distribution
+    p_value = "{:.2e}".format( 1.0 - chi2.cdf(chi2_stat, degrees_of_freedom) )
+    # p_value = '{:.2e}'.p_value
+
+    if __plot_results__:
+        plot_with_errorbars(x_pre, data1, error1,
+                            x_pre, data2, error2,
+                            title=f"Radius={'{:.2f}'.format(radius)} R_Jup:  𝛘2={chi2_stat}, p-value={p_value}")
+
+    if __print_results__:
+        print( f"Radius = {'{:.2f}'.format(radius)} R_Jup:  𝛘2 = {chi2_stat}, p-value = {p_value}")
+
+
+    return np.round(chi2_stat/degrees_of_freedom,1), p_value
+
+def chi_square_test_old(x_obs, y_obs, yerr_obs,
                     x_pre, y_pre, yerr_pre,
                     radius,
                     __plot_results__ = False,

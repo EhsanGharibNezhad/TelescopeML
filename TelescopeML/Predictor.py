@@ -464,6 +464,8 @@ class ObserveParameterPredictor:
             __reference_data__ = None,
             __save_plots__=False,
             ):
+
+
         """
 
         Generate random spectra based on the observational data, predict the target features, and plot the spectra
@@ -488,6 +490,8 @@ class ObserveParameterPredictor:
             True or False.
         """
 
+        # np.random.seed(100)  # You can use any integer as the seed value
+
         color = viridis(250).__iter__()
 
         spectra_list_obs = []
@@ -496,6 +500,7 @@ class ObserveParameterPredictor:
 
         # Generate random spectra
         for i in range(random_spectra_num):
+            # np.random.seed(100)  # You can use any integer as the seed value
             spectra = pd.DataFrame(
                 np.random.normal(self.obs_data_df['F_lambda_obs'], self.obs_data_df['F_lambda_obs_err']),
                 columns=['F_lambda_obs']
