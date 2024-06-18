@@ -13,7 +13,8 @@ tags:
   - Convolutional Neural Network
   - Telescope datasets
 authors:
-  - name: Ehsan (Sam) Gharib-Nezhad
+  - given names: Ehsan (Sam)
+    surname: Gharib-Nezhad
     orcid: 0000-0002-4088-7262
     affiliation: "1, 2"
   - name: Natasha E. Batalha
@@ -74,17 +75,17 @@ telescopes, such as the James Webb Space Telescope [e.g., @JWST2023PASP] and CRI
 from extrasolar planets [e.g., @Alderson2023Nature], and brown dwarfs [e.g., @Miles2023ApJ] atmospheres. Without an accurate interpretation of this data, the main objectives 
 of space missions will not be fully accomplished. Different analytical and statistical methods, such as the chi-squared-test, 
 Bayesian statistics as well as radiative-transfer atmospheric modeling packages have been developed 
-[e.g., @batalha2019picaso; @MacDonald2023POSEIDON] to interpret the spectra. They utilize either forward- and/or retrieval-radiative transfer modeling to analyze the spectra and 
+[e.g., @batalha2019picaso; @MacDonald2023] to interpret the spectra. They utilize either forward- and/or retrieval-radiative transfer modeling to analyze the spectra and 
 extract physical information, such as atmospheric temperature, metallicity, carbon-to-oxygen ratio, and surface gravity 
 [@line2014systematic; @Iyer2023Sphinx; @Marley2015]. These atmospheric models rely on generating the physics and chemistry of these atmospheres for a wide range of thermal structures 
 and compositions. In addition to Bayesian-based techniques, machine learning and deep learning methods have been developed in recent years 
 for various astronomical problems, including confirming the classification of light curves for 
 exoplanet validation [e.g., @Valizadegan2021], recognizing molecular features  [@Zingales2018ExoGAN] as well as interpreting brown dwarfs spectra using Random Forest technique 
-[e.g., @Lueber2023RandomForesr_BDs]. Here, we present one of the first applications of deep learning and convolutional neural networks on the interpretation brown dwarf 
+[e.g., @Lueber2023RandomForesr_BDs]. Here, we present one of the first applications of deep learning and convolutional neural networks on the interpretation of brown dwarf 
 atmospheric datasets. The configuration of a CNN and the key concepts can be found in [@Goodfellow_2016DeepLearning; @KIRANYAZ2021].
 
 With the continuous observation of these objects and the increasing amount of data, there is a 
-critical need for a systematic pipeline to quickly explore the datasets and extract important physical from them. In the future we can expand our pipeline to exoplanet atmospheres, and use it to provide insights about the diversity of exoplanets and brown dwarfs' 
+critical need for a systematic pipeline to quickly explore the datasets and extract important physical quantities from them. In the future we can expand our pipeline to exoplanet atmospheres, and use it to provide insights about the diversity of exoplanets and brown dwarfs' 
 atmospheric compositions. Ultimately,  `TelescopeML` will help facilitate the long-term analysis of this data in research. `TelescopeML`
 is an ML Python package with Sphinx-ed user-friendly documentation that provides both trained ML models and ML tools 
 for interpreting observational data captured by telescopes.
@@ -95,7 +96,7 @@ for interpreting observational data captured by telescopes.
 `TelescopeML` is a Python package comprising a series of modules, each equipped with specialized machine learning and 
 statistical capabilities for conducting Convolutional Neural Networks (CNN) or Machine Learning (ML) training on datasets 
 captured from the atmospheres of extrasolar planets and brown dwarfs. The tasks executed by the `TelescopeML` modules are 
-outlined below and visualized in following Figure:
+outlined below and visualized in the following Figure:
 
 - **DataMaster module**: Performs various tasks to process the datasets, including:
     - Load the training dataset (i.e., atmospheric fluxes) in CSV format
@@ -113,15 +114,15 @@ outlined below and visualized in following Figure:
   
 - **Predictor module**: Implements the following tasks to predict atmospheric parameters: 
   - Perform Scale/normalize processes on the observational fluxes
-  - Deploys the trained CNNs model 
+  - Deploy the trained CNNs model 
   - Predict atmospheric parameters, i.e., effective temperature, gravity, carbon-to-oxygen ratio, and metallicity 
-  - Visualizes the processed observational dataset and the uncertainty in the predicted results
+  - Visualize the processed observational dataset and the uncertainty in the predicted results
   
 - **StatVisAnalyzer module**: Provides a set of functions to perform the following tasks: 
-  - Explores and processes the synthetic datasets
-  - Performs the chi-square test to evaluate the similarity between two datasets
-  - Calculates confidence intervals and standard errors
-  - Functions t
+  - Explore and processes the synthetic datasets
+  - Perform the chi-square test to evaluate the similarity between two datasets
+  - Calculate confidence intervals and standard errors
+  - Function t(???)
 
 
 
@@ -139,17 +140,6 @@ An example of the synthetic and observational dataset is shown in the following 
 
 
 
-
-
-# Details on the synthetic dataset
-
-The training dataset (or synthetic spectra) in this study is computed using the open-source atmospheric radiative 
-transfer Python package, [`PICASO`](https://natashabatalha.github.io/picaso/) [e.g., @batalha2019picaso], based on the 
-`Sonora-Bobcat` model grid generated for cloudless brown dwarf atmospheres by [@marley2021sonora]. This set encompasses 
-30,888 synthetic spectra, each including 104 wavelengths (i.e., 0.897, 0.906, ..., 2.512 μm) and their corresponding flux 
-values. Each of these spectra has four output variables attached to it: effective temperature, gravity, carbon-to-oxygen ratio, 
-and metallicity. These synthetic spectra are utilized to interpret observational datasets and derive these four atmospheric parameters.
-An example of the synthetic and observational dataset is shown in the following figure.
 
 
 # Details on the CNN methodology for Multi-output Regression problem
@@ -207,7 +197,7 @@ The following open-source tools are available to either perform forward modeling
 (based on Bayesian statistics and posterior distribution):
 [`Starfish`](https://starfish.readthedocs.io/en/latest/index.html) [@Czekala2015starfish], 
 [`petitRADTRANS`](https://gitlab.com/mauricemolli/petitRADTRANS) [@Molliere2019],
-[`petitRADTRANS`](https://gitlab.com/mauricemolli/petitRADTRANS) [@MacDonald2023],
+[`POSEIDON`](https://github.com/MartianColonist/POSEIDON) [@MacDonald2023],
 [`PLATON`](https://github.com/ideasrule/platon) [@Zhang2019], 
 [`CHIMERA`](https://github.com/mrline/CHIMERA) [@Line2013], 
 [`TauRex`](https://github.com/ucl-exoplanets/TauREx3_public) [Waldmann2015],
