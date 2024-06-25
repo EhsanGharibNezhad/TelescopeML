@@ -49,8 +49,9 @@ date: 10 June 2024
 bibliography: paper.bib
 
 doi: 10.5281/zenodo.11553655
-aas-doi: LINK OF ApJ PAPER - TBD
-aas-journal: The Astrophysical Journal 
+
+[//]: # (aas-doi: "TelescopeML – II. Convolutional Neural Networks for Predicting Brown Dwarf Atmospheric Parameters")
+[//]: # (aas-journal: The Astrophysical Journal )
 
 ---
 
@@ -65,6 +66,9 @@ Python package developed to perform three main tasks:
 (ii) Train a CNN model by implementing the optimal hyperparameters; and 
 (iii) Deploy the trained CNN models on the actual observational data to derive the output spectroscopic parameters.
 
+The implications and scientific outcomes from the trained CNN models and this package are under revision for The 
+Astrophysical Journal under the title *TelescopeML – II: Convolutional Neural Networks for Predicting Brown Dwarf 
+Atmospheric Parameters*.
 
 
 
