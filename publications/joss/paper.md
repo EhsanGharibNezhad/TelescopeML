@@ -13,7 +13,7 @@ tags:
   - Convolutional Neural Network
   - Telescope datasets
 authors:
-  - names: Ehsan (Sam) Gharib-Nezhad
+  - names: Ehsan "Sam" Gharib-Nezhad
     surname: Gharib-Nezhad
     orcid: 0000-0002-4088-7262
     affiliation: "1, 2"
@@ -55,7 +55,7 @@ aas-journal: The Astrophysical Journal
 ---
 
 # Summary
-We are on the verge of a revolutionary era in space exploration, thanks to advancements in telescopes such as the James 
+We are in the verge of a revolutionary era in space exploration, thanks to advancements in telescopes such as the James 
 Webb Space Telescope (*JWST*). High-resolution, high Signal-to-Noise spectra from exoplanet and brown dwarf atmospheres have been 
 collected over the past few decades, requiring the development of accurate and reliable pipelines and tools for their analysis. 
 Accurately and swiftly determining the spectroscopic parameters from the observational spectra of these objects is 
@@ -72,7 +72,7 @@ Python package developed to perform three main tasks:
 
 We are on in a new era of space exploration, thanks to advancements in ground- and space-based 
 telescopes, such as the James Webb Space Telescope [e.g., @JWST2023PASP] and CRIRES. These remarkable instruments collect high-resolution, high-signal-to-noise spectra 
-from extrasolar planets [e.g., @Alderson2023Nature], and brown dwarfs [e.g., @Miles2023ApJ] atmospheres. Without an accurate interpretation of this data, the main objectives 
+from extrasolar planets [e.g., @Alderson2023Nature], and brown dwarfs [e.g., @Miles2023ApJ] atmospheres. Without accurate interpretation of this data, the main objectives 
 of space missions will not be fully accomplished. Different analytical and statistical methods, such as the chi-squared-test, 
 Bayesian statistics as well as radiative-transfer atmospheric modeling packages have been developed 
 [e.g., @batalha2019picaso; @MacDonald2023] to interpret the spectra. They utilize either forward- and/or retrieval-radiative transfer modeling to analyze the spectra and 
@@ -85,7 +85,7 @@ exoplanet validation [e.g., @Valizadegan2021], recognizing molecular features  [
 atmospheric datasets. The configuration of a CNN and the key concepts can be found in [@Goodfellow_2016DeepLearning; @KIRANYAZ2021].
 
 With the continuous observation of these objects and the increasing amount of data, there is a 
-critical need for a systematic pipeline to quickly explore the datasets and extract important physical quantities from them. In the future we can expand our pipeline to exoplanet atmospheres, and use it to provide insights about the diversity of exoplanets and brown dwarfs' 
+critical need for a systematic pipeline to quickly explore the datasets and extract important physical parameters from them. In the future we can expand our pipeline to exoplanet atmospheres, and use it to provide insights about the diversity of exoplanets and brown dwarfs' 
 atmospheric compositions. Ultimately,  `TelescopeML` will help facilitate the long-term analysis of this data in research. `TelescopeML`
 is an ML Python package with Sphinx-ed user-friendly documentation that provides both trained ML models and ML tools 
 for interpreting observational data captured by telescopes.
@@ -102,7 +102,7 @@ outlined below and visualized in the following Figure:
     - Load the training dataset (i.e., atmospheric fluxes) in CSV format
     - Split the dataset into training, validation, and test sets to pass it to the CNN model
     - Scale/normalize the dataset column-wise or row-wise
-    - Visualize the training sets in each of the processing step for more insights 
+    - Visualize the training sets in each of the processing steps for more insights 
     - Perform feature engineering by extracting the Min and Max values from each flux to improve the ML training performance
 
   
@@ -179,7 +179,7 @@ pre-trained ML or CNN models to interpret their observational data. In this scen
 as well as the PyPI package, can be installed and deployed following the online instructions. Tutorials in the 
 Sphinx documentation include examples for testing the code and also serve as a starting point. For this purpose, 
 a basic knowledge of Python programming is required to install the code, run the tutorials, deploy the modules, 
-and extract astronomical features from the datasets. The necessary machine learning background and a detailed 
+and extract astronomical features from their datasets. The necessary machine learning background and a detailed 
 guide for package installation, along with links to further Python details, are provided to help understand 
 the steps and outputs.
 
