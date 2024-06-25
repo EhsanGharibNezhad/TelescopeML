@@ -152,7 +152,7 @@ An example of the CNN architecture is depicted in the following figure.
 
 
 ![TelescopeML main modules to manipulate the training example, build the ML model, train and tune it, and ultimately 
-extract the target features from the observational data.](TelescopeML_Modules_Infograph.jpg){height="900pt"}
+extract the target features from the observational data.](TelescopeML_Modules_Infograph_v2.jpg){height="900pt"}
 
 
 
