@@ -13,7 +13,7 @@ tags:
   - Convolutional Neural Network
   - Telescope datasets
 authors:
-  - names: Ehsan "Sam" Gharib-Nezhad
+  - given-names: Ehsan "Sam"
     surname: Gharib-Nezhad
     orcid: 0000-0002-4088-7262
     affiliation: "1, 2"
