@@ -49,10 +49,6 @@ date: 10 June 2024
 bibliography: paper.bib
 
 doi: 10.5281/zenodo.11553655
-
-[//]: # (aas-doi: "TelescopeML – II. Convolutional Neural Networks for Predicting Brown Dwarf Atmospheric Parameters")
-[//]: # (aas-journal: The Astrophysical Journal )
-
 ---
 
 # Summary
