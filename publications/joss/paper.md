@@ -122,7 +122,6 @@ outlined below and visualized in the following Figure:
   - Explore and processes the synthetic datasets
   - Perform the chi-square test to evaluate the similarity between two datasets
   - Calculate confidence intervals and standard errors
-  - Function t(???)
 
 
 
