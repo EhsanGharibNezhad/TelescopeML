@@ -1,5 +1,5 @@
 ---
-title: '`TelescopeML` -- I. An End-to-End Python Package for Interpreting Telescope Datasets through Training 
+title: 'TelescopeML -- I. An End-to-End Python Package for Interpreting Telescope Datasets through Training 
 Machine Learning Models, Generating Statistical Reports, and Visualizing Results'
 tags:
   - Python
