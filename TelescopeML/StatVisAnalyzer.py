@@ -1227,7 +1227,8 @@ def plot_filtered_spectra(dataset,
         plt.savefig(os.path.join(__reference_data__, 'figures', feature_to_plot + "_training_examples.pdf"), dpi=500,
                     bbox_inches='tight')
 
-    plt.show()
+    #plt.show()
+    return fig, ax
 
 
 def plot_ML_model_loss_bokeh(trained_ML_model_history=None, title=None):
