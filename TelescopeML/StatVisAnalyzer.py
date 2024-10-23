@@ -1742,3 +1742,125 @@ def plot_regression_report(trained_ML_model,
                         bbox_inches='tight')
         plt.show()
 
+
+    from sklearn.metrics import confusion_matrix
+
+
+    def calculate_confusion_matrix(y_train, y_test, trained_model, X_train, X_test, print_results=False):
+        """
+        Calculate and optionally print confusion matrix for both train and test sets.
+
+        Args:
+            y_train: Ground truth labels for the training set.
+            y_test: Ground truth labels for the test set.
+            trained_model: The trained model object.
+            X_train: Features for the training set.
+            X_test: Features for the test set.
+            print_results: Boolean to indicate whether to print the results.
+
+        Returns:
+            cm_train: Confusion matrix for the training set.
+            cm_test: Confusion matrix for the test set.
+        """
+        cm_train = confusion_matrix(y_train, trained_model.predict(X_train), normalize='true')
+        cm_test = confusion_matrix(y_test, trained_model.predict(X_test), normalize='true')
+
+        if print_results:
+            print(' ==============   Confusion Matrix for the test set   ============== ')
+            print(cm_test)
+
+        return cm_train, cm_test
+
+    from sklearn.metrics import classification_report
+
+    def generate_classification_report(y_train, y_test, trained_model, X_train, X_test, target_classes,
+                                       print_results=False):
+        """
+        Generate and optionally print classification report for both train and test sets.
+
+        Args:
+            y_train: Ground truth labels for the training set.
+            y_test: Ground truth labels for the test set.
+            trained_model: The trained model object.
+            X_train: Features for the training set.
+            X_test: Features for the test set.
+            target_classes: List or array of target class names.
+            print_results: Boolean to indicate whether to print the results.
+
+        Returns:
+            cm_report_train: Classification report for the training set.
+            cm_report_test: Classification report for the test set.
+        """
+        cm_report_train = classification_report(y_train, trained_model.predict(X_train),
+                                                target_names=target_classes.astype(str))
+        cm_report_test = classification_report(y_test, trained_model.predict(X_test),
+                                               target_names=target_classes.astype(str))
+
+        if print_results:
+            print('\n\n\n ==============   Classification report for the test set   ============== ')
+            print(cm_report_test)
+
+        return cm_report_train, cm_report_test
+
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import itertools
+
+    def plot_heatmap_confusion_matrix(cm_list, target_classes, train_or_test_list, target_name, ml_model_str):
+        """
+        Plot a heatmap for confusion matrices (for train and test sets).
+
+        Args:
+            cm_list: List of confusion matrices (e.g., [cm_test, cm_train]).
+            target_classes: List of target class names.
+            train_or_test_list: List indicating whether the confusion matrix is for the 'train' or 'test' set.
+            target_name: Name of the target variable.
+            ml_model_str: String representation of the model.
+        """
+        for cm, train_or_test in zip(cm_list, train_or_test_list):
+            plt.figure(figsize=(14, 14))
+            plt.title(f"Confusion Matrix: {target_name}, {ml_model_str}, {train_or_test} set", fontsize=18)
+
+            plt.imshow(cm, interpolation='nearest', cmap='coolwarm')
+            cbar = plt.colorbar(fraction=0.046, pad=0.04)
+            cbar.ax.tick_params(labelsize=12)
+            tick_marks = np.arange(len(target_classes))
+            plt.xticks(tick_marks, target_classes, rotation=0, fontsize=12)
+            plt.yticks(tick_marks, target_classes, fontsize=12)
+            cm = cm * 100
+            for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+                if len(target_classes) > 15:
+                    if i == j:
+                        plt.text(j, i, format(cm[i, j], '.1f') + '%',
+                                 horizontalalignment="center",
+                                 color="white" if i != j else "black",
+                                 weight='normal' if i == j else 'normal',
+                                 fontsize=12)
+                        plt.xticks(tick_marks, target_classes, rotation=45, fontsize=12)
+                else:
+                    plt.text(j, i, format(cm[i, j], '.1f') + '%',
+                             horizontalalignment="center",
+                             color="white" if i != j else "black",
+                             weight='normal' if i == j else 'normal',
+                             fontsize=12)
+
+            plt.ylabel(f'True {target_name} Value', fontsize=18)
+            plt.xlabel(f'Predicted {target_name} Value', fontsize=18)
+            plt.tight_layout()
+            plt.show()
+
+
+    # # Example usage:
+    #
+    # # Assuming you have your trained model and data ready:
+    # # trained_model, X_train, X_test, y_train, y_test, target_classes, ml_model_str, target_name
+    # 
+    # # Calculate confusion matrix
+    # cm_train, cm_test = calculate_confusion_matrix(y_train, y_test, trained_model, X_train, X_test, print_results=True)
+    #
+    # # Generate classification report
+    # cm_report_train, cm_report_test = generate_classification_report(y_train, y_test, trained_model, X_train, X_test, target_classes, print_results=True)
+    #
+    # # Plot heatmap for confusion matrix
+    # plot_heatmap_confusion_matrix([cm_test, cm_train], target_classes, ['test', 'train'], target_name, ml_model_str)
+
